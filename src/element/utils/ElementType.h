@@ -5,7 +5,7 @@ enum class ElementType : int {
 	Unknown = 0,
 	Circle,
 	Ellipse,
-	G,
+	Group,
 	Line,
 	Path,
 	Polygon,

@@ -6,7 +6,7 @@
 
 class Group : public Element{
 public:
-	const ElementType type = ElementType::G;
+	const ElementType type = ElementType::Group;
 	void addShape(Element *shape);
 private:
 	std::vector<Element *> shapes;
