@@ -266,64 +266,62 @@
 //}
 
 #include "raylib.h"
-#include <stdlib.h>  // For rand() and srand()
-#include <time.h>    // For time()
-//
-//// Function to generate random polygon points
-//void GenerateRandomPolygon(Vector2* vertices, int sides, float radius, Vector2 center) {
-//	for (int i = 0; i < sides; i++) {
-//		// Generate random angle and calculate position
-//		float angle = (float)i / (float)sides * 2.0f * PI;  // Dividing full circle by number of sides
-//		vertices[i].x = center.x + radius * cosf(angle + GetRandomValue(-100, 100) / 100.0f); // Slight random offset
-//		vertices[i].y = center.y + radius * sinf(angle + GetRandomValue(-100, 100) / 100.0f);
-//	}
-//}
-//
-//int main() {
-//	// Initialization
-//	const int screenWidth = 1900;
-//	const int screenHeight = 1280;
-//	InitWindow(screenWidth, screenHeight, "Random Filled Polygon with raylib");
-//
-//	// Set up for random number generation
-//	srand(time(nullptr));
-//
-//	// Polygon parameters
-//	int sides = GetRandomValue(3, 8); // Random number of sides (3 to 8)
-//	float radius = 100.0f;            // Radius of polygon
-//	Vector2 center = { screenWidth / 2, screenHeight / 2 };
-//
-//	Vector2 vertices[8];  // Array to store vertices, max 8 sides
-//	GenerateRandomPolygon(vertices, sides, radius, center);  // Generate polygon points
-//
-//	SetTargetFPS(60);
-//
-//	// Main game loop
-//	while (!WindowShouldClose()) {
-//		// Update
-//
-//		// Draw
-//		BeginDrawing();
-//		ClearBackground(RAYWHITE);
-//		int sx = GetScreenWidth() / 10;
-//		int sy = GetScreenHeight() / 10;
-//		for (int i = 0; i < sx; i++) {
-//			for (int j = 0; j < sy; j++) {
-//				if  ((i + j) % 2 == 0) {
-//					DrawRectangle(i * 10, j * 10, 10, 10, GRAY);
-////					DrawPixel(i, j, WHITE);
-//				}
-//			}
-//   		}
-//
-//		// Draw the filled polygon using DrawTriangleFan
-//		DrawTriangleFan(vertices, sides, YELLOW);  // Fill the polygon with color YELLOW
-//
-//		EndDrawing();
-//	}
-//
-//	// De-Initialization
-//	CloseWindow();  // Close window and OpenGL context
-//
-//	return 0;
-//}
+
+// Function to generate random polygon points
+void GenerateRandomPolygon(Vector2* vertices, int sides, float radius, Vector2 center) {
+	for (int i = 0; i < sides; i++) {
+		// Generate random angle and calculate position
+		float angle = (float)i / (float)sides * 2.0f * PI;  // Dividing full circle by number of sides
+		vertices[i].x = center.x + radius * cosf(angle + GetRandomValue(-100, 100) / 100.0f); // Slight random offset
+		vertices[i].y = center.y + radius * sinf(angle + GetRandomValue(-100, 100) / 100.0f);
+	}
+}
+
+int main() {
+	// Initialization
+	const int screenWidth = 1900;
+	const int screenHeight = 1280;
+	InitWindow(screenWidth, screenHeight, "Random Filled Polygon with raylib");
+
+	// Set up for random number generation
+	srand(time(nullptr));
+
+	// Polygon parameters
+	int sides = GetRandomValue(3, 8); // Random number of sides (3 to 8)
+	float radius = 100.0f;            // Radius of polygon
+	Vector2 center = { screenWidth / 2, screenHeight / 2 };
+
+	Vector2 vertices[8];  // Array to store vertices, max 8 sides
+	GenerateRandomPolygon(vertices, sides, radius, center);  // Generate polygon points
+
+	SetTargetFPS(60);
+
+	// Main game loop
+	while (!WindowShouldClose()) {
+		// Update
+
+		// Draw
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+		int sx = GetScreenWidth() / 10;
+		int sy = GetScreenHeight() / 10;
+		for (int i = 0; i < sx; i++) {
+			for (int j = 0; j < sy; j++) {
+				if  ((i + j) % 2 == 0) {
+					DrawRectangle(i * 10, j * 10, 10, 10, GRAY);
+//					DrawPixel(i, j, WHITE);
+				}
+			}
+   		}
+
+		// Draw the filled polygon using DrawTriangleFan
+		DrawTriangleFan(vertices, sides, YELLOW);  // Fill the polygon with color YELLOW
+
+		EndDrawing();
+	}
+
+	// De-Initialization
+	CloseWindow();  // Close window and OpenGL context
+
+	return 0;
+}
