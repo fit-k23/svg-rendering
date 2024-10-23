@@ -6,4 +6,4 @@
 
 ## 2. Dependency
 - RapidXML
-- GDI+
+- Raylib
