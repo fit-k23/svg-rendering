@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 
-class Polyline{
+class Polyline : public Element {
 public:
 	const ElementType type = ElementType::Polyline;
 };

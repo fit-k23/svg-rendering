@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 
-class Text{
+class Text : public Element{
 public:
 	const ElementType type = ElementType::Text;
 };

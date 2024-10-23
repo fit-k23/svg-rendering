@@ -10,4 +10,6 @@
 #include "element/shape/Rectangle.h"
 #include "element/shape/Text.h"
 
+
+
 #endif //SVG_RENDERING_GRAPHIC_H

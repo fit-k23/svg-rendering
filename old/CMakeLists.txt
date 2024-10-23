@@ -5,11 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXE_LINKER_FLAGS "-static")
 #set(OUTPUT_EXECUTABLE_NAME "svg_render")
 
-# DOWNLOAD RAYLIB LIBRARY
-if (WIN32 AND NOT CYGWIN)
-
-endif ()
-
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS "src/*.cpp")
 
 include(FetchContent)
@@ -28,12 +23,22 @@ if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
 	FetchContent_MakeAvailable(raylib)
 endif()
 
-add_executable(${PROJECT_NAME} src/main.cpp
-		src/Renderer.cpp
-		src/Renderer.h)
+#add_executable(${PROJECT_NAME} ${CPP_FILES})
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(rapidxml INTERFACE)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
+#target_link_libraries(${PROJECT_NAME} PUBLIC -lgdipCMakeLists.txtlus)
 
+#target_link_directories(${PROJECT_NAME} PRIVATE raylib)
+#add_library(raylib STATIC IMPORTED GLOBAL)
+#set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
+#set_target_properties(${PROJECT_NAME} PROPERTIES
+#	IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
+#	IMPORTED_LOCATION_DEBUG "${FETCHCONTENT_BASE_DIR}/raylib-src/lib/raylib.lib")
+#
+#MESSAGE("${FETCHCONTENT_BASE_DIR}/raylib-src/lib/raylib.dll")
+
+#set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_EXECUTABLE_NAME})
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})

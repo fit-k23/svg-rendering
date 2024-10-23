@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 
-class Rectangle{
+class Rectangle : public Element {
 public:
 	const ElementType type = ElementType::Rect;
 private:

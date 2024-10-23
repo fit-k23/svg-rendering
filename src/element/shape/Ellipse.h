@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 
-class Ellipse{
+class Ellipse : public Element{
 public:
 	const ElementType type = ElementType::Ellipse;
 };

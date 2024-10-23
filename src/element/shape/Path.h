@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 
-class Path{
+class Path : public Element{
 public:
 	const ElementType type = ElementType::Path;
 };
