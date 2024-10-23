@@ -5,7 +5,8 @@
 
 class Ellipse : public Element{
 public:
-	const ElementType type = ElementType::Ellipse;
+
+	ElementType getTypeName() override;
 };
 
 #endif //SVG_RENDERING_ELLIPSE_H

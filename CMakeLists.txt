@@ -10,8 +10,6 @@ if (WIN32 AND NOT CYGWIN)
 
 endif ()
 
-file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS "src/*.cpp")
-
 include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
@@ -28,9 +26,15 @@ if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
 	FetchContent_MakeAvailable(raylib)
 endif()
 
+
+file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS "src/*.cpp")
+
 add_executable(${PROJECT_NAME} src/main.cpp
 		src/Renderer.cpp
-		src/Renderer.h)
+		src/Renderer.h
+		src/element/Vector2D.h
+		src/element/Element.h ${CPP_FILES}
+		src/element/Gradient.h)
 
 add_library(rapidxml INTERFACE)
 
