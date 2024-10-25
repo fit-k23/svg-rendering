@@ -1,0 +1,76 @@
+-- GLFW_USE_HYBRID_HPG=OFF
+-- GLFW_USE_WAYLAND=
+-- INCLUDE_EVERYTHING=OFF
+-- MACOS_FATLIB=OFF
+-- MINGW=1
+-- OFF=OFF
+-- OPENGL_VERSION=OFF
+-- OPENGL_gl_LIBRARY=opengl32
+-- OPENGL_glu_LIBRARY=glu32
+-- PLATFORM=Desktop
+-- PROJECT_BINARY_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug
+-- PROJECT_DESCRIPTION=
+-- PROJECT_HOMEPAGE_URL=
+-- PROJECT_IS_TOP_LEVEL=ON
+-- PROJECT_NAME=svg_rendering
+-- PROJECT_SOURCE_DIR=D:/CLion/Code_CLion/svg-rendering
+-- RAYLIB_ASSET=raylib-5.0_win64_mingw-w64.zip
+-- RAYLIB_RELEASE_URL=https://github.com/raysan5/raylib/releases/download/5.0/raylib-5.0_win64_mingw-w64.zip
+-- RAYLIB_TAG=5.0
+-- RUN_CONFIGURE=ON
+-- USE_EXTERNAL_GLFW=OFF
+-- WIN32=1
+-- WITH_PIC=OFF
+-- XINPUT_H_FOUND=1
+-- _CMAKE_CXX_IPO_MAY_BE_SUPPORTED_BY_COMPILER=YES
+-- _CMAKE_CXX_IPO_SUPPORTED_BY_CMAKE=YES
+-- _CMAKE_CXX_PIE_MAY_BE_SUPPORTED_BY_LINKER=NO
+-- _CMAKE_C_IPO_MAY_BE_SUPPORTED_BY_COMPILER=YES
+-- _CMAKE_C_IPO_SUPPORTED_BY_CMAKE=YES
+-- _CMAKE_C_PIE_MAY_BE_SUPPORTED_BY_LINKER=NO
+-- _CMAKE_INSTALL_DIR=D:/CLion/CLion 2024.2.2/bin/cmake/win/x64
+-- _CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED=TRUE
+-- _CMAKE_RC_COMPILER_FALLBACK=windres
+-- _CMAKE_RC_COMPILER_LIST=windres;windres
+-- _CMAKE_SYSTEM_PREFIX_PATH_INSTALL_PREFIX_COUNT=1
+-- _CMAKE_SYSTEM_PREFIX_PATH_INSTALL_PREFIX_VALUE=C:/Program Files (x86)/svg_rendering
+-- _CMAKE_SYSTEM_PREFIX_PATH_STAGING_PREFIX_COUNT=0
+-- _CMAKE_SYSTEM_PREFIX_PATH_STAGING_PREFIX_VALUE=
+-- _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX=C:/Program Files (x86)/svg_rendering
+-- _INCLUDED_FILE=D:/CLion/CLion 2024.2.2/bin/cmake/win/x64/share/cmake-3.29/Modules/Platform/Windows-GNU-CXX.cmake
+-- _INCLUDED_SYSTEM_INFO_FILE=D:/CLion/CLion 2024.2.2/bin/cmake/win/x64/share/cmake-3.29/Modules/Platform/Windows.cmake
+-- _IN_TC=0
+-- __COMPILER_CMAKE_COMMON_COMPILER_MACROS=1
+-- __COMPILER_GNU=1
+-- __WINDOWS_GNU=1
+-- __WINDOWS_GNU_LD_RESPONSE=1
+-- __WINDOWS_PATHS_INCLUDED=1
+-- __cmake_arg_UNPARSED_ARGUMENTS=SOURCE_DIR;D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-src;BINARY_DIR;D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-build;DOWNLOAD_EXTRACT_TIMESTAMP;FALSE;EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR;URL;https://github.com/raysan5/raylib/releases/download/5.0/raylib-5.0_win64_mingw-w64.zip
+-- __cmake_fcCurrentVarsStack=
+-- __cmake_haveFpArgs=0
+-- __lto_flags=-flto=auto;-fno-fat-lto-objects
+-- __pch_header_C=c-header
+-- __pch_header_CXX=c++-header
+-- __pch_header_OBJC=objective-c-header
+-- __pch_header_OBJCXX=objective-c++-header
+-- _help=GNU ld (GNU Binutils) 2.40
+
+-- _ver=g++.exe (GCC) 13.1.0
+Copyright (C) 2023 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+
+-- raylib_BINARY_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-build
+-- raylib_BINARY_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-build
+-- raylib_DIR=raylib_DIR-NOTFOUND
+-- raylib_IS_TOP_LEVEL=OFF
+-- raylib_LIB_DEPENDS=general;opengl32;glu32;winmm;glfw;
+-- raylib_POPULATED=True
+-- raylib_SOURCE_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-src
+-- raylib_SOURCE_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug/_deps/raylib-src
+-- svg_rendering_BINARY_DIR=D:/CLion/Code_CLion/svg-rendering/cmake-build-debug
+-- svg_rendering_DESCRIPTION=
+-- svg_rendering_HOMEPAGE_URL=
+-- svg_rendering_IS_TOP_LEVEL=ON
+-- svg_rendering_SOURCE_DIR=D:/CLion/Code_CLion/svg-rendering

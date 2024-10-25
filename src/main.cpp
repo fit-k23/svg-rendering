@@ -1,6 +1,4 @@
 #include <iostream>
-#include <vector>
-// lol
 #include <string>
 #include "time.h"
 #include "../lib/rapidxml/rapidxml.hpp"
@@ -8,8 +6,6 @@
 #include "../lib/raylib/raylib.h"
 #include "../lib/raylib/rlgl.h"
 #include "../lib/raylib/raymath.h"
-
-#include "raylib.h"
 
 // Function to generate random polygon points
 void GenerateRandomPolygon(Vector2 *vertices, int sides, float radius, Vector2 center) {
