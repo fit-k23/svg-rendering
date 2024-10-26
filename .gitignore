@@ -4,6 +4,7 @@ cmake-build-release
 cmake-build-*
 [T]emp
 *.exe
+.vscode
 .vs
 *.vcxproj*
 cmake_install.cmake 
