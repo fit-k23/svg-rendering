@@ -24,7 +24,7 @@ Rect::Rect(Vector2D<double> position, const SVGColor& fillColor, const SVGColor&
 * @return: ElementType::Rect
 */
 ElementType Rect::getTypeName() {
-	return ElementType::Rectangle;
+	return ElementType::Rect;
 }
 
 /*

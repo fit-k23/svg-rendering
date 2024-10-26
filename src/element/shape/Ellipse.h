@@ -2,11 +2,53 @@
 #define SVG_RENDERING_ELLIPSE_H
 
 #include "../Element.h"
+#include "../SVGColor.h"
+#include "../Gradient.h"
+#include "../Vector2D.h"
 
 class Ellipse : public Element{
+private:
+	Vector2D<double> radii;
 public:
+	/**
+	 * @brief Default Constructor
+	 */
+	Ellipse(); 
 
+	/**
+	 * @brief Full-parameterized constructor of ellipse
+	 */
+	Ellipse(Vector2D<double> _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
+			Vector2D<double>radii);
+
+	/**
+	 * @brief get type of object
+	 * @return ElementType::Ellipse
+	 */
 	ElementType getTypeName() override;
+
+	/**
+	 * @brief draw Ellipse
+	 * @note override function
+	 */
+	void draw() override;
+
+	/**
+	 * @brief print all dat a of Ellipse
+	 */
+	void dbg() override;
+
+	/**
+	 * @brief set radii
+	 * @param radii update radii
+	 */
+	void setRadii(const Vector2D<double>& radii);
+
+	/**
+	 * @brief get radii
+	 * @return radii
+	 */
+	Vector2D<double> getRadii();
 };
 
 #endif //SVG_RENDERING_ELLIPSE_H
