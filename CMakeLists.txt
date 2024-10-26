@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
 #set(OUTPUT_EXECUTABLE_NAME "svg_render")
 
-#set(CMAKE_VERBOSE_MAKEFILE ON) #For debug
+set(CMAKE_VERBOSE_MAKEFILE ON) #For debug
 
 # DOWNLOAD RAYLIB LIBRARY
 set(RAYLIB_NAME "raylib")
@@ -84,7 +84,7 @@ add_library(rapidxml INTERFACE)
 # Link Raylib library
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-		find_library(RAYLIB raylib REQUIRED ${RAYLIB_LIBRARY})
+		find_library(RAYLIB raylib HINTS ${RAYLIB_LIBRARY})
 		target_link_libraries(${PROJECT_NAME} PRIVATE ${RAYLIB})
 	else ()
 		find_library(RAYLIB raylib HINTS ${RAYLIB_LIBRARY})

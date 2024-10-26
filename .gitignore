@@ -5,3 +5,11 @@ cmake-build-*
 [T]emp
 *.exe
 .vs
+*.vcxproj*
+cmake_install.cmake 
+*.sln
+CMakeCache.txt
+build 
+Debug 
+_deps
+CMakeFiles
