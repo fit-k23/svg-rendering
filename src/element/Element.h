@@ -2,10 +2,10 @@
 #define SVG_RENDERING_ELEMENT_H
 
 #include <iostream>
-#include "Gradient.h"
-#include "raylib.h"
+#include "../../lib/raylib/raylib.h"
 #include "utils/ElementType.h"
-#include "Vector2D.h"
+#include "utils/Vector2D.h"
+#include "Gradient.h"
 #include "SVGColor.h"
 
 /**
@@ -13,7 +13,7 @@
 * @is_abstract: yes
 * @inherits: no
 * @attributes: contains most of SVG attributes and a pointer to its parent node
-* Since it's abtract, the destructor must be virtual to avoid any undefined behaviors
+* Since it's abstract, the destructor must be virtual to avoid any undefined behaviors
 **/
 class Element{
 private:
@@ -21,8 +21,8 @@ private:
 	SVGColor fillColor;
 	SVGColor strokeColor;
 	double strokeWidth;
-	Gradient* gradient;
-	Element* parent;
+	Gradient* gradient{};
+	Element* parent{};
 protected:
 	/*
 	* @cmt: Default constructor
@@ -35,7 +35,7 @@ protected:
 	* @cmt: Parameterized constructor
 	* @note: easier for subclass to inherit and write its constructor
 	*/
-	Element(Vector2D<double> position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth);
+	Element(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth);
 public:
 	/*
 	* @cmt: Virtual destructor

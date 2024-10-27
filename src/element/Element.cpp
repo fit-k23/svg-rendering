@@ -4,7 +4,7 @@
 * @cmt: Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
-Element::Element(Vector2D<double> position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
+Element::Element(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
 	this->position = position;
 	this->fillColor = fillColor;
 	this->strokeColor = strokeColor;

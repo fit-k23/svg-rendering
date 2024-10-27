@@ -12,7 +12,6 @@ public:
      * @note set all to zero -> black
      */
     SVGColor(); // r,g,b,a = 0 -> black
-    SVGColor();
     SVGColor(std::string param); // -> tên màu luôn, mã hex
 };
 
