@@ -29,7 +29,7 @@ public:
 
 	/**
 	* @cmt: parameterized constructor
-	* @param: _x: passed x coord, _y: passed y coord
+	* @param: _x: passed x cord, _y: passed y coord
 	**/
 	Vector2D(const T& _x, const T& _y);	
 
@@ -69,25 +69,25 @@ public:
 	* @param: a number
 	* @return: new vector
 	*/
-	Vector2D<T> operator * (const T& num);
+	Vector2D<T> operator * (const T& other);
 	/*
 	* @cmt: Arithmetic operator *= for vector2D class
 	* @param: a number
 	* @return: reference to this
 	*/
-	Vector2D<T>& operator *= (const T& num);
+	Vector2D<T>& operator *= (const T& other);
 	/*
 	* @cmt: Arithmetic operator / for vector2D class
 	* @param: a number
 	* @return: new vector
 	*/
-	Vector2D<T> operator / (const T& num);
+	Vector2D<T> operator / (const T& other);
 	/*
 	* @cmt: Arithmetic operator /= for vector2D class
 	* @param: a number
 	* @return: reference to this
 	*/
-	Vector2D& operator /= (const T& num);
+	Vector2D& operator /= (const T& other);
 	// TODO: relational operator: ==, !=
 	/*
 	* @cmt: Relational operator == for vector2D class
@@ -112,7 +112,7 @@ Vector2D<T>::Vector2D() : x(0), y(0) {}
 
 /**
 * @cmt: parameterized constructor
-* @param: _x: passed x coord, _y: passed y coord
+* @param: _x: passed x cord, _y: passed y cord
 **/
 template<typename T>
 Vector2D<T>::Vector2D(const T& _x, const T& _y) : x(_x), y(_y) {}
