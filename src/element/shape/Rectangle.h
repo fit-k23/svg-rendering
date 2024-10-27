@@ -1,7 +1,7 @@
 #ifndef SVG_RENDERING_Rect_H
 #define SVG_RENDERING_Rect_H
 
-#include "../Vector2D.h"
+#include "../utils/Vector2D.h"
 #include "../Element.h"
 #include "../SVGColor.h"
 

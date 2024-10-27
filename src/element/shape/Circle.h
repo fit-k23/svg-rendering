@@ -2,7 +2,7 @@
 #define SVG_RENDERING_CIRCLE_H
 
 #include "Ellipse.h"
-#include "SVGColor.h"
+#include "../SVGColor.h"
 
 class Circle : public Ellipse{
 public:
@@ -15,7 +15,7 @@ public:
 	* @brief Full-parameterized constructor
 	* @param inherits all from Ellipse
 	**/
-	Circle(vector2D position, const SVGColor& fillColor, const SVGColor& strokeColor, double  strokeWidth, double radius); 
+	Circle(Vector2D<double> position, const SVGColor& fillColor, const SVGColor& strokeColor, double  strokeWidth, double radius);
 
 	/**
 	* @brief Get type of Circle

@@ -4,7 +4,7 @@
 #include "../Element.h"
 #include "../SVGColor.h"
 #include "../Gradient.h"
-#include "../Vector2D.h"
+#include "../utils/Vector2D.h"
 
 class Ellipse : public Element{
 private:
