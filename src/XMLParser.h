@@ -1,11 +1,12 @@
-#ifndef _XML_PARSER_H_
-#define _XML_PARSER_H_
+#ifndef XML_PARSER_H_
+#define XML_PARSER_H_
 
 #include <iostream>
 #include <sstream>
 #include <string>
 #include "../lib/rapidxml/rapidxml.hpp"
 #include "../lib/raylib/raylib.h"
+#include "element/utils/Vector2D.h"
 
 /**
 * @brief Parse SVG (XML format) file and handle its nodes, attributes
@@ -23,7 +24,7 @@ public:
 	* @brief Default constructor
 	* @note Nothing much here 
 	**/
-	XMLParser(); 
+	XMLParser() = default;
 
 	/**
 	* @brief Default destructor
@@ -35,12 +36,13 @@ public:
 	* @brief Get viewport information
 	* @return Vector2D type of viewport
 	**/
-	Vector2D getViewPort();
+	template<typename T>
+	Vector2D<T> getViewPort();
 
 	/**
 	* @brief Load the xml file
 	**/
-	void loadXML(std::string fileName);
+	void loadXML(const std::string& fileName);
 
 	/**
 	* @brief Traverse through each nodes and attributes of SVG
@@ -65,4 +67,4 @@ public:
 	double getDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
 };
 
-#endif // _XML_PARSER_H_
+#endif // XML_PARSER_H_

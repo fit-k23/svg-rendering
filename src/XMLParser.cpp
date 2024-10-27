@@ -5,20 +5,21 @@
 * @brief Default constructor
 * @note Nothing much here 
 **/
-XMLParser::XMLParser() {
-	// TODO: Not really necessary to add
-}
+//XMLParser::XMLParser() {
+//	 TODO: Not really necessary to add
+//}
 
 /**
 * @brief Default destructor
 * @note In case there are dynamic allocated memories
 **/
-~XMLParser() = default;
+//XMLParser::~XMLParser() {}
+//= default; //= default ?
 
 /**
 * @brief Load the xml file
 **/
-void XMLParser::loadXML(std::string fileName) {
+void XMLParser::loadXML(const std::string& fileName) {
 	std::ifstream fin(fileName.c_str()); 
 	std::stringstream buffer; 
 	buffer << fin.rdbuf(); // <-- push file data to buffer 
@@ -37,7 +38,7 @@ void XMLParser::traverseXML() {
 	viewPort.x = getDoubleAttr(pRoot, "width"); 
 	viewPort.y = getDoubleAttr(pRoot, "height");
 
-	// TODO: add viewBox info (viewbox.h not finished .-.)
+	// TODO: add viewBox info (ViewBox.h not finished .-.)
 }
 
 /**
@@ -47,7 +48,7 @@ void XMLParser::traverseXML() {
 * @return a string type
 **/
 std::string XMLParser::getStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	return std::string();	
+	return {};
 }
 
 /**
@@ -58,15 +59,26 @@ std::string XMLParser::getStringAttr(rapidxml::xml_node<>* pNode, std::string at
 **/
 double XMLParser::getDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
 	double ret = 0.0;
-	xml_attribute<> *pAttr = pNode->first_attribute(attrName);
+	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) {
 		// TODO: process something here if no attribute with attrName
 		return ret;
 	}
 	std::stringstream buffer(pAttr->value()); // <-- pass attribute value to buffer
 	buffer >> ret; // <-- convert and pass value to double
-	buffer(std::string()); // <-- clear buffer
+	buffer.clear(); //	buffer(std::string()); // <-- clear buffer
+
+	std::stringstream().swap(buffer); // <-- clear buffer by swapping
+
+// or alternatively use
+	buffer.str("");
+	buffer.clear();
 	return ret;
+}
+
+template<typename T>
+Vector2D<T> XMLParser::getViewPort() {
+	return Vector2D<T>(); //TODO: Implement XMLParser::getViewPort();
 }
 
 

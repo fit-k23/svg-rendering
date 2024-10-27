@@ -73,9 +73,9 @@ endif()
 #endforeach()
 
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS "src/*.cpp")
-#add_executable(${PROJECT_NAME} src/main.cpp ${CPP_FILES})
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} ${CPP_FILES})
+#add_executable(${PROJECT_NAME} src/main.cpp)
 
 add_library(rapidxml INTERFACE)
 
