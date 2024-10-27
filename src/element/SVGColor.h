@@ -1,4 +1,4 @@
-#ifndef SVG_RENDERING_COLOR_H
+	#ifndef SVG_RENDERING_COLOR_H
 #define SVG_RENDERING_COLOR_H
 
 #include <iostream>
@@ -12,7 +12,14 @@ public:
      * @note set all to zero -> black
      */
     SVGColor(); // r,g,b,a = 0 -> black
-    SVGColor(std::string param); // -> tên màu luôn, mã hex
+    SVGColor(const std::string &param); // -> tên màu luôn, mã hex
+
+	//
+	// Parameterized constructor
+	// @param: fill the string format
+	// @note: fill can be hex code, color name, rgb(..), rgba(...),
+	// @note: hsl(...), hsla(...)
+
 };
 
 #endif //SVG_RENDERING_COLOR_H
