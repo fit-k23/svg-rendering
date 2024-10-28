@@ -18,8 +18,7 @@ public:
 	/**
 	 * @brief Full-parameterized constructor of ellipse
 	 */
-	Ellipse(Vector2D<double> _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
-			Vector2D<double>radii);
+	Ellipse(const Vector2D<double>& _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, const Vector2D<double>&radii);
 
 	/**
 	 * @brief get type of object
@@ -42,7 +41,7 @@ public:
 	 * @brief set radii
 	 * @param radii update radii
 	 */
-	void setRadii(const Vector2D<double>& radii);
+	void setRadii(const Vector2D<double> &radii);
 
 	/**
 	 * @brief get radii
