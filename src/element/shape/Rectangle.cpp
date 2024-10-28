@@ -41,7 +41,7 @@ void Rect::dbg() {
 	std::cout << "Position: " << (this->getPosition()).x << " " << (this->getPosition()).y << '\n';
 	std::cout << "Width = " << width << " Height = " << height << '\n';
 	// TODO: print fillColor, strokeColor
-	std::cout << "strokeWidth = " << this->getstrokeWidth() << '\n';
+	std::cout << "strokeWidth = " << this->getStrokeWidth() << '\n';
 }
 
 /*
