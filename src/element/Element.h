@@ -18,7 +18,7 @@
 * Since it's abstract, the destructor must be virtual to avoid any undefined behaviors
 **/
 class Element{
-private:
+protected:
 	Vector2D<double> position;
 	SVGColor fillColor;
 	SVGColor strokeColor;
@@ -26,7 +26,6 @@ private:
 	std::vector<std::string> transformation;
 	Gradient *gradient{};
 	Element *parent{};
-protected:
 	/**
 	* @brief: Default constructor
 	* TODO: change to not default
