@@ -43,3 +43,7 @@ SVGColor::SVGColor(std::string param) {
 	a = 255;
 }
 
+Color SVGColor::getRaylibColor() const {
+	return {this->r, this->g, this->b, this->a};
+}
+

@@ -1,9 +1,10 @@
-	#ifndef SVG_RENDERING_COLOR_H
+#ifndef SVG_RENDERING_COLOR_H
 #define SVG_RENDERING_COLOR_H
 
 #include <iostream>
 #include <map>
 #include <string>
+#include "../../lib/raylib/raylib.h"
 
 class SVGColor {
 public:
@@ -18,7 +19,8 @@ public:
 
     SVGColor(std::string param); // -> tên màu luôn, mã hex
 
-	//
+	Color getRaylibColor() const;
+
 	// Parameterized constructor
 	// @param: fill the string format
 	// @note: fill can be hex code, color name, rgb(..), rgba(...),
