@@ -5,7 +5,7 @@
 #include "Graphic.h"
 
 class Renderer {
-    Element* element;
+    Element *element;
 
     void draw() {
         element->draw();
