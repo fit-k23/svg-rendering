@@ -24,8 +24,8 @@ private:
 	SVGColor strokeColor;
 	double strokeWidth;
 	std::vector<std::string> transformation;
-	Gradient* gradient{};
-	Element* parent{};
+	Gradient *gradient{};
+	Element *parent{};
 protected:
 	/**
 	* @brief: Default constructor
@@ -38,7 +38,7 @@ protected:
 	* @brief: Parameterized constructor
 	* @note: easier for subclass to inherit and write its constructor
 	*/
-	Element(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth);
+	Element(const Vector2D<double> &position, const SVGColor &fillColor, const SVGColor &strokeColor, double strokeWidth);
 public:
 	/**
 	* @brief: Virtual destructor
@@ -54,7 +54,7 @@ public:
 	virtual ElementType getTypeName() = 0;
 	
 	/**
-	* @brief: draw or proecss an svg element
+	* @brief: draw or process an svg element
 	* @brief: This function is abstract and must be implemented by subclasses (derived classes)
 	* @param: no
 	*/
@@ -76,7 +76,7 @@ public:
 	* @brief: set position of an svg element
 	* @param: a passed-by-referenced vector2D object
 	*/
-	void setPosition(const Vector2D<double>& position);
+	void setPosition(const Vector2D<double> &position);
 	
 	/**
 	* @brief: get position of an svg element
@@ -88,7 +88,7 @@ public:
 	* @brief: set fill color of an svg element
 	* @param: a passed-by-referenced SVGColor object
 	*/
-	void setFillFolor(const SVGColor &color);
+	void setFillColor(const SVGColor &color);
 
 	/**
 	* @brief: get fill color of an svg element
@@ -112,13 +112,13 @@ public:
 	* @brief: set stroke width of an svg element
 	* @param: a double variable
 	*/
-	void setstrokeWidth(double width);
+	void setStrokeWidth(double width);
 
 	/**
 	* @brief: get stroke width of an svg element
 	* @return: double
 	*/
-	double getstrokeWidth();
+	double getStrokeWidth() const;
 
 	/**
 	 * @brief add a transformation  
@@ -136,25 +136,25 @@ public:
 	* @brief: set gradient of an svg element
 	* @param: a pointer to an abstract Gradient object
 	*/
-	void setGradient(Gradient* grad);
+	void setGradient(Gradient *grad);
 
 	/**
 	* @brief: get gradient of an svg element
 	* @param: a pointer to a Gradient object
 	*/
-	Gradient* getGradient();
+	Gradient *getGradient();
 
 	/**
 	* @brief: set parent node of an svg element
 	* @param: a pointer to a same-class object (parent)
 	*/
-	void setParent(Element* parent);
+	void setParent(Element *parent);
 
 	/**
 	* @brief: get parent node of an svg element
 	* @return: a pointer to a same-class object (parent)
 	*/
-	Element* getParent();
+	Element *getParent();
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

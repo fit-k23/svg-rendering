@@ -35,14 +35,14 @@ public:
 	/**
 	 * @brief Add an element (shape, g, ...) to current group class
 	 */
-	void addElement(Element* element);
+	void addElement(Element *element);
 
 	/**
 	 * @brief Get all elements of current group class
 	 * @return elements vector
 	 * @note This function does not change the class attributes
 	 */
-	std::vector<Element*> getElements() const;
+	std::vector<Element *> getElements() const;
 };
 
 #endif //SVG_RENDERING_GROUP_H

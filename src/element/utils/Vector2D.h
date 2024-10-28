@@ -29,15 +29,15 @@ public:
 
 	/**
 	* @cmt: parameterized constructor
-	* @param: _x: passed x cord, _y: passed y coord
+	* @param: _x: passed x cord, _y: passed y cord
 	**/
-	Vector2D(const T& _x, const T& _y);	
+	Vector2D(const T &_x, const T &_y);
 
 	/**
 	* @cmt: copy constructor to copy content (deep copy)
 	* @param: other: same-class object
 	**/
-	Vector2D(const Vector2D<T>& other);
+	Vector2D(const Vector2D<T> &other);
 	
 	// TODO: arithmetic operator: +, +=, -, -=, *(number), *= (number), /(number), /=(number)
 	/*
@@ -197,7 +197,7 @@ Vector2D<T>& Vector2D<T>::operator *= (const T& other) {
 */
 template<typename T>
 Vector2D<T> Vector2D<T>::operator / (const T& other) {
-	assert(other != 0); /// <- avoid divide by zero
+	assert(other != 0); //W/ <- avoid divide by zero
 	return Vector2D<T>(this->x / other, this->y / other);
 }
 

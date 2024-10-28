@@ -4,7 +4,7 @@
 * @cmt: Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
-Element::Element(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
+Element::Element(const Vector2D<double> &position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
 	this->position = position;
 	this->fillColor = fillColor;
 	this->strokeColor = strokeColor;
@@ -21,16 +21,16 @@ void Element::setPosition(double x, double y) {
 }
 
 /*
-* @cmt: set position of an svg element
+* @cmt: set position of a svg element
 * @param: a passed-by-referenced vector2D object
 */
-void Element::setPosition(const Vector2D<double>& position) {
-	this->position.x = position.x;
-	this->position.y = position.y;
+void Element::setPosition(const Vector2D<double> &_position) {
+	this->position.x = _position.x;
+	this->position.y = _position.y;
 }
 
 /*
-* @cmt: get position of an svg element
+* @cmt: get position of a svg element
 * @return: a vector2D
 */
 Vector2D<double> Element::getPosition() {
@@ -38,15 +38,15 @@ Vector2D<double> Element::getPosition() {
 }
 
 /*
-* @cmt: set fill color of an svg element
+* @cmt: set fill color of a svg element
 * @param: a passed-by-referenced SVGColor object
 */
-void Element::setFillFolor(const SVGColor& color) {
+void Element::setFillColor(const SVGColor &color) {
 	this->fillColor = color;
 }
 
 /*
-* @cmt: get fill color of an svg element
+* @cmt: get fill color of a svg element
 * @return: an SVGColor object
 */
 SVGColor Element::getFillColor() {
@@ -54,7 +54,7 @@ SVGColor Element::getFillColor() {
 }
 
 /*
-* @cmt: set stroke color of an svg element
+* @cmt: set stroke color of a svg element
 * @param: a passed-by-referenced SVGColor object
 */
 void Element::setStrokeColor(const SVGColor& color) {
@@ -73,7 +73,7 @@ SVGColor Element::getStrokeColor() {
 * @cmt: set stroke width of an svg element
 * @param: a double variable
 */
-void Element::setstrokeWidth(double width) {
+void Element::setStrokeWidth(double width) {
 	this->strokeWidth = width;
 }
 
@@ -81,7 +81,7 @@ void Element::setstrokeWidth(double width) {
 * @cmt: get stroke width of an svg element
 * @return: double
 */
-double Element::getstrokeWidth() {
+double Element::getStrokeWidth() const {
 	return this->strokeWidth;
 }
 
@@ -113,8 +113,8 @@ Gradient* Element::getGradient() {
 * @cmt: set parent node of an svg element
 * @param: a pointer to a same-class object (parent)
 */
-void Element::setParent(Element* parent) {
-	this->parent = parent;
+void Element::setParent(Element *_parent) {
+	this->parent = _parent;
 }
 
 /*

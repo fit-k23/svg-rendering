@@ -10,8 +10,8 @@ Group::Group() : elements({}) {}
  * @brief Destructor 
  */
 Group::~Group() {
-    for (int i = 0; i < (int)elements.size(); ++i) 
-        delete elements[i];
+    for (auto &element : elements)
+        delete element;
 }
 
 /**
@@ -33,7 +33,7 @@ void Group::dbg() {
 /**
  * @brief Add an element (shape, g, ...) to current group class
  */
-void Group::addElement(Element* element) {
+void Group::addElement(Element *element) {
     elements.push_back(element);
 }
 
@@ -42,6 +42,6 @@ void Group::addElement(Element* element) {
  * @return elements vector
  * @note This function does not change the class attributes
  */
-std::vector<Element*> Group::getElements() const {
+std::vector<Element *> Group::getElements() const {
     return elements;
 }

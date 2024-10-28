@@ -47,29 +47,22 @@ void XMLParser::traverseXML() {
 		if (nodeName == "defs") { // <-- contains gradient information
 			// TODO: Parse and get all gradients (linear + radial)
 			// TODO: Save gradients id
-		}
-		else if (nodeName == "g") {
+		} else if (nodeName == "g") {
 			// TODO: Parse and get group attributes
 			// TODO: Process to each element of group
 			// TODO: May perform recursively when <g> contains other <g>
-		}
-		else { // <-- Shape type, if not then pass ?
+		} else { // <-- Shape type, if not then pass ?
 			if (nodeName == "rect") {
 				parseRect(pNode);
-			}
-			else if (nodeName == "ellipse") {
+			} else if (nodeName == "ellipse") {
 
-			}
-			else if (nodeName == "circle") {
+			} else if (nodeName == "circle") {
 
-			}
-			else if (nodeName == "line") {
+			} else if (nodeName == "line") {
 
-			}
-			else if (nodeName == "polyline") {
+			} else if (nodeName == "polyline") {
 
-			}
-			else if (nodeName == "polygon") {
+			} else if (nodeName == "polygon") {
 
 			}
 		}
@@ -83,7 +76,7 @@ void XMLParser::traverseXML() {
 * @return a string type
 **/
 std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	return {};
+	return "";
 }
 
 /**
@@ -148,10 +141,9 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
 		// TODO: process the case fill or stroke value is a gradient
-	}
-	else {
+	} else {
 		// get opacity
-		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity");
+		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); // TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;
 }
