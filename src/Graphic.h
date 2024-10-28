@@ -9,5 +9,10 @@
 #include "element/shape/Polyline.h"
 #include "element/shape/Rectangle.h"
 #include "element/shape/Text.h"
+#include "element/Gradient.h" 
+#include "element/Group.h"
+#include "element/SVGColor.h"
+#include "element/ViewBox.h"
+#include "element/utils/Vector2D.h"
 
 #endif //SVG_RENDERING_GRAPHIC_H

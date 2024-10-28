@@ -25,7 +25,7 @@ void XMLParser::loadXML(const std::string& fileName) {
 	buffer << fin.rdbuf(); // <-- push file data to buffer 
 	fin.close(); 
 	std::string svgData(buffer.str()); // <-- save in svgData string
-	doc.parse<0>(&svgData[0]); // <-- save in xml_document type 
+	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
 }
 
 /**
@@ -35,10 +35,45 @@ void XMLParser::loadXML(const std::string& fileName) {
 **/
 void XMLParser::traverseXML() {
 	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>	
-	viewPort.x = getDoubleAttr(pRoot, "width"); 
-	viewPort.y = getDoubleAttr(pRoot, "height");
+	viewPort.x = parseDoubleAttr(pRoot, "width"); 
+	viewPort.y = parseDoubleAttr(pRoot, "height");
 
-	// TODO: add viewBox info (ViewBox.h not finished .-.)
+	// TODO: Add viewBox info from pRoot attribute (ViewBox.h not finished .-.)
+
+  	// TODO: Traverse all elements
+	rapidxml::xml_node<> *pNode = pRoot->first_node(); 
+	while (pNode != nullptr) {
+		std::string nodeName = pNode->name(); // <-- get node's name
+		if (nodeName == "defs") { // <-- contains gradient information
+			// TODO: Parse and get all gradients (linear + radial)
+			// TODO: Save gradients id
+		}
+		else if (nodeName == "g") {
+			// TODO: Parse and get group attributes
+			// TODO: Process to each element of group
+			// TODO: May perform recursively when <g> contains other <g>
+		}
+		else { // <-- Shape type, if not then pass ?
+			if (nodeName == "rect") {
+				parseRect(pNode);
+			}
+			else if (nodeName == "ellipse") {
+
+			}
+			else if (nodeName == "circle") {
+
+			}
+			else if (nodeName == "line") {
+
+			}
+			else if (nodeName == "polyline") {
+
+			}
+			else if (nodeName == "polygon") {
+
+			}
+		}
+	}
 }
 
 /**
@@ -47,7 +82,7 @@ void XMLParser::traverseXML() {
 * @param attrName: name of attribute
 * @return a string type
 **/
-std::string XMLParser::getStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
 	return {};
 }
 
@@ -57,22 +92,19 @@ std::string XMLParser::getStringAttr(rapidxml::xml_node<>* pNode, std::string at
 * @param attrName: name of attribute
 * @return a double
 **/
-double XMLParser::getDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
 	double ret = 0.0;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
-	if (pAttr == nullptr) {
-		// TODO: process something here if no attribute with attrName
+	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
+		// stroke, fill, opacity default must be 1
+		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos || 
+			attrName.find("opacity") != std::string::npos)
+				ret = 1;
 		return ret;
 	}
-	std::stringstream buffer(pAttr->value()); // <-- pass attribute value to buffer
-	buffer >> ret; // <-- convert and pass value to double
-	buffer.clear(); //	buffer(std::string()); // <-- clear buffer
-
-	std::stringstream().swap(buffer); // <-- clear buffer by swapping
-
-// or alternatively use
-	buffer.str("");
-	buffer.clear();
+	std::string value = pAttr->value();
+	// TODO: value is a real number
+	// TODO: value is percentage (%)
 	return ret;
 }
 
@@ -81,5 +113,46 @@ Vector2D<T> XMLParser::getViewPort() {
 	return Vector2D<T>(); //TODO: Implement XMLParser::getViewPort();
 }
 
+Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
+	double x = parseDoubleAttr(pNode, "x");
+	double y = parseDoubleAttr(pNode, "y");
+	double rx = parseDoubleAttr(pNode, "rx");
+	double ry = parseDoubleAttr(pNode, "ry");
+	double width = parseDoubleAttr(pNode, "width"); 
+	double height = parseDoubleAttr(pNode, "height");
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	Rect ret;
+	return ret;
+}
 
+/**
+ * @brief Parse color attributes
+ * @param pNode current xml node
+ * @param attrName the attribute name to find value
+ * @return SVGColor type
+ */
+SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName) {
+	SVGColor color;
+	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
+	if (pAttr == nullptr) {
+		// If no attribute with attrName specified, default color is black
+		// Default constructor of SVGColor is black
+		return color;
+	}
+	std::string value = pAttr->value();
+	if (value == "none" || value == "transparent") {
+		// If value is none or transparent -> opacity = 0 so return default color
+		return color;
+	}
+	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
+		// TODO: process the case fill or stroke value is a gradient
+	}
+	else {
+		// get opacity
+		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity");
+	}
+	return color;
+}
 

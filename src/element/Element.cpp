@@ -85,6 +85,14 @@ double Element::getstrokeWidth() {
 	return this->strokeWidth;
 }
 
+void Element::addTransformation(const std::string &s) {
+	this->transformation.push_back(s);
+}
+
+std::vector<std::string> Element::getTransformation() const {
+    return this->transformation;
+}
+
 /*
 * @cmt: set gradient of an svg element
 * @param: a pointer to an abstract Gradient object

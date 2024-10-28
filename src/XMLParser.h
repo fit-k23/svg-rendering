@@ -4,9 +4,9 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
 #include "../lib/rapidxml/rapidxml.hpp"
-#include "../lib/raylib/raylib.h"
-#include "element/utils/Vector2D.h"
+#include "Graphic.h"
 
 /**
 * @brief Parse SVG (XML format) file and handle its nodes, attributes
@@ -19,6 +19,8 @@ class XMLParser {
 private:
 	rapidxml::xml_document<> doc;
 	Vector2D<double> viewPort;
+  // TODO: add viewBox
+  std::map<std::string, Gradient*> gradients; // <-- store all gradients with its id
 public:
 	/**
 	* @brief Default constructor
@@ -49,14 +51,14 @@ public:
 	* @note Handling and drawing in here
 	**/
 	void traverseXML();
-
-	/**
+	
+  /**
 	* @brief Get the insight value of specific attribute
 	* @param node: current xml node
 	* @param attrName: name of attribute
 	* @return a string type
 	**/
-	std::string getStringAttr(rapidxml::xml_node<>* pNode, std::string attrName); 
+	std::string parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName); 
 
 	/**
 	* @brief Get the double value of specific attribute
@@ -64,7 +66,22 @@ public:
 	* @param attrName: name of attribute
 	* @return a double
 	**/
-	double getDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+	double parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+
+	/**
+	 * @brief Parse color attributes
+	 * @param pNode current xml node
+	 * @param attrName the attribute name to find value
+	 * @return SVGColor type
+	 */
+	SVGColor parseColor(rapidxml::xml_node<>* pNode, std::string attrName);
+
+	/**
+	 * @brief Parse rectangle attributes
+	 * @return Rectangle object
+	 * @note x, y, rx, ry is 0 by default
+	 */
+	Rect parseRect(rapidxml::xml_node<> *pNode);
 };
 
 #endif // XML_PARSER_H_
