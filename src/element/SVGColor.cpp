@@ -43,6 +43,7 @@ SVGColor::SVGColor(std::string param) {
 	a = 255;
 }
 
+
 SVGColor::SVGColor(int h, int s, int l) {
 	float r, g, b;
 	float s_f = s / 100.0f;
