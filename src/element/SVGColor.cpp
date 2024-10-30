@@ -5,7 +5,12 @@ SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 
 SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) : r(r), g(g), b(b), a(a) {}
 
-SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b) : SVGColor(r, g, b, 255) {}
+SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b)  {
+	this->r=r;
+	this->g=g;
+	this->b=b;
+	this->a=255;
+}
 
 std::map<std::string, int> m;
 
@@ -43,7 +48,7 @@ SVGColor::SVGColor(std::string param) {
 	a = 255;
 }
 
-
+//hsl
 SVGColor::SVGColor(int h, int s, int l) {
 	float r, g, b;
 	float s_f = s / 100.0f;
@@ -74,7 +79,10 @@ SVGColor::SVGColor(int h, int s, int l) {
 
 	this->a = 255;
 }
-
+//hsla
+SVGColor::SVGColor(int h, int s, int l, int a) : SVGColor(h, s, l) {
+	this->a = static_cast<unsigned char>(a);
+}
 Color SVGColor::getRaylibColor() const {
 	return {this->r, this->g, this->b, this->a};
 }
