@@ -18,7 +18,7 @@ public:
     SVGColor(unsigned char r, unsigned char g, unsigned char b);
 
     SVGColor(std::string param); // -> tên màu luôn, mã hex
-
+	SVGColor(int h, int s, int l);
 	Color getRaylibColor() const;
 
 	// Parameterized constructor
