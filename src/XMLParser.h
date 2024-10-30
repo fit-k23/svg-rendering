@@ -42,15 +42,10 @@ public:
 	Vector2D<T> getViewPort();
 
 	/**
-	* @brief Load the xml file
-	**/
-	void loadXML(const std::string& fileName);
-
-	/**
 	* @brief Traverse through each nodes and attributes of SVG
 	* @note Handling and drawing in here
 	**/
-	void traverseXML();
+	void traverseXML(const std::string& fileName, std::vector<Element*>& v);
 	
   /**
 	* @brief Get the insight value of specific attribute

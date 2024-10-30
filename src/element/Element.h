@@ -63,7 +63,7 @@ public:
 	* @brief: print all data of an svg element
 	* @brief: For debugging
 	*/
-	virtual void dbg() = 0;
+	virtual void dbg();
 	
 	/**
 	* @brief: set position of an svg element

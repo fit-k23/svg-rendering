@@ -15,3 +15,5 @@ Debug
 _deps
 CMakeFiles
 *.swp
+*.ilk
+*.pdb

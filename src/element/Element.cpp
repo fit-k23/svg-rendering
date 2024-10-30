@@ -124,3 +124,7 @@ void Element::setParent(Element *_parent) {
 Element* Element::getParent() {
 	return this->parent;
 }
+
+void Element::dbg() {
+	{}
+}

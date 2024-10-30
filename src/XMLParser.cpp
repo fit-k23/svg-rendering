@@ -17,26 +17,28 @@
 //= default; //= default ?
 
 /**
-* @brief Load the xml file
-**/
-void XMLParser::loadXML(const std::string& fileName) {
-	std::ifstream fin(fileName.c_str()); 
-	std::stringstream buffer; 
-	buffer << fin.rdbuf(); // <-- push file data to buffer 
-	fin.close(); 
-	std::string svgData(buffer.str()); // <-- save in svgData string
-	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
-}
-
-/**
 * @brief Traverse through each nodes and attributes of SVG
 * @note Initialize viewport and viewbox
 * @note Handling and drawing in here
 **/
-void XMLParser::traverseXML() {
-	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>	
+void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& v) {
+	std::ifstream fin(fileName.c_str());
+	if (!fin.is_open()) {
+		std::cout << "Cannot open file\n";
+		return;
+	}
+	std::stringstream buffer;
+	buffer << fin.rdbuf(); // <-- push file data to buffer 
+	fin.close();
+	std::string svgData = buffer.str(); // <-- save in svgData string
+	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
+
+	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg> 
 	viewPort.x = parseDoubleAttr(pRoot, "width"); 
 	viewPort.y = parseDoubleAttr(pRoot, "height");
+
+	std::cout << "Viewport x = " << viewPort.x << '\n';
+	std::cout << "Viewport y = " << viewPort.y << '\n';
 
 	// TODO: Add viewBox info from pRoot attribute (ViewBox.h not finished .-.)
 
@@ -53,7 +55,11 @@ void XMLParser::traverseXML() {
 			// TODO: May perform recursively when <g> contains other <g>
 		} else { // <-- Shape type, if not then pass ?
 			if (nodeName == "rect") {
-				parseRect(pNode);
+				//Rect rect = parseRect(pNode);
+				//Element* e = new Rect(rect);
+				/*std::cout << "Hmm: " << rect.getWidth() << " " << rect.getHeight() << '\n';
+				std::cout << "Please: " << static_cast<Rect*>(e)->getWidth() << '\n';*/
+				v.push_back(new Rect(parseRect(pNode)));
 			} else if (nodeName == "ellipse") {
 
 			} else if (nodeName == "circle") {
@@ -66,6 +72,9 @@ void XMLParser::traverseXML() {
 
 			}
 		}
+		// TODO: break just for testing
+		//break;
+		pNode = pNode->next_sibling();
 	}
 }
 
@@ -79,28 +88,6 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string 
 	return "";
 }
 
-/**
-* @brief Get the double value of specific attribute
-* @param node: current xml node
-* @param attrName: name of attribute
-* @return a double
-**/
-double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	double ret = 0.0;
-	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
-	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
-		// stroke, fill, opacity default must be 1
-		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos || 
-			attrName.find("opacity") != std::string::npos)
-				ret = 1;
-		return ret;
-	}
-	std::string value = pAttr->value();
-	// TODO: value is a real number
-	// TODO: value is percentage (%)
-	return ret;
-}
-
 template<typename T>
 Vector2D<T> XMLParser::getViewPort() {
 	return Vector2D<T>(); //TODO: Implement XMLParser::getViewPort();
@@ -111,12 +98,37 @@ Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
 	double y = parseDoubleAttr(pNode, "y");
 	double rx = parseDoubleAttr(pNode, "rx");
 	double ry = parseDoubleAttr(pNode, "ry");
-	double width = parseDoubleAttr(pNode, "width"); 
+	double width = parseDoubleAttr(pNode, "width");
 	double height = parseDoubleAttr(pNode, "height");
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
-	Rect ret;
+	Rect rect = Rect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
+	return rect;
+}
+
+/**
+* @brief Get the double value of specific attribute
+* @param node: current xml node
+* @param attrName: name of attribute
+* @return a double
+**/
+double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+	double ret = 0.0;
+	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
+	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
+		// stroke, fill, opacity default must be 1
+		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos ||
+			attrName.find("opacity") != std::string::npos)
+			ret = 1;
+		return ret;
+	}
+	std::string value = pAttr->value();
+	std::stringstream buffer(value);
+	buffer >> ret;
+	buffer.str("");
+	// TODO: value is a real number
+	// TODO: value is percentage (%)
 	return ret;
 }
 
@@ -132,11 +144,13 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	if (pAttr == nullptr) {
 		// If no attribute with attrName specified, default color is black
 		// Default constructor of SVGColor is black
+		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); 
 		return color;
 	}
 	std::string value = pAttr->value();
 	if (value == "none" || value == "transparent") {
 		// If value is none or transparent -> opacity = 0 so return default color
+		color = SVGColor(0, 0, 0, 0);
 		return color;
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient

@@ -4,6 +4,7 @@
 #include "../utils/Vector2D.h"
 #include "../Element.h"
 #include "../SVGColor.h"
+#include "../../../lib/raylib/rlgl.h"
 
 class Rect : public Element {
 private:
@@ -28,6 +29,11 @@ public:
 	*/
 	Rect(Vector2D<double> _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
 			  double width, double height, Vector2D<double>radii);
+
+	/*
+	* @brief Copy constructor
+	*/
+	Rect(const Rect& other);
 	
 	/*
 	* @cmt: get type of Rect 

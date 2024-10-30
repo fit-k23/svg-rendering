@@ -11,6 +11,7 @@
 #include "element/shape/Text.h"
 #include "element/Gradient.h" 
 #include "element/Group.h"
+#include "element/Element.h"
 #include "element/SVGColor.h"
 #include "element/ViewBox.h"
 #include "element/utils/Vector2D.h"
