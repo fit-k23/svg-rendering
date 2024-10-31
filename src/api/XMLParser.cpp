@@ -1,4 +1,4 @@
-#include "XMLParser.h" 
+#include "XMLParser.h"
 #include <fstream>
 
 /**
