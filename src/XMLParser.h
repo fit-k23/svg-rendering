@@ -82,6 +82,12 @@ public:
 	* @return a Circle object
 	*/
 	Circle parseCircle(rapidxml::xml_node<>* pNode);
+
+	/*
+	* @brief Parse Line attributes
+	* @return a Line object
+	*/
+	Line parseLine(rapidxml::xml_node<>* pNode);
 };
 
 #endif // XML_PARSER_H_

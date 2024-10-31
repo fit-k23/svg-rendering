@@ -71,7 +71,7 @@ void Rect::setHeight(double _height) {
 * @brief get width of the Rect
 * @return width of current Rect
 */
-double Rect::getWidth() {
+double Rect::getWidth() const {
 	return this->width;
 }
 
@@ -79,7 +79,7 @@ double Rect::getWidth() {
 * @brief get height of the Rect
 * @return height of current Rect
 */
-double Rect::getHeight() {
+double Rect::getHeight() const {
 	return this->height;
 }
 
@@ -95,6 +95,6 @@ void Rect::setRadii(const Vector2D<double>& radii) {
 * @brief get radii of the Rect
 * @return radii of current Rect
 */
-Vector2D<double> Rect::getRadii() {
+Vector2D<double> Rect::getRadii() const {
 	return this->radii;
 }

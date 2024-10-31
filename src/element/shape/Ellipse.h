@@ -27,7 +27,7 @@ public:
 	ElementType getTypeName() override;
 
 	/**
-	 * @brief print all dat a of Ellipse
+	 * @brief print all data of Ellipse
 	 */
 	void dbg() override;
 

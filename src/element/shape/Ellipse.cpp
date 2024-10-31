@@ -5,7 +5,7 @@
  * @note Only use class Element and Vector2D so 
  * reuse the default constructor of those 2 classes
  */
-Ellipse::Ellipse() : Element(), radii() {}
+Ellipse::Ellipse() : Element(), radii(Vector2D<double>(0, 0)) {}
 
 /**
  * @brief Full-parameterized constructor of ellipse
@@ -19,6 +19,17 @@ Ellipse::Ellipse(const Vector2D<double> &_position, const SVGColor& fillColor, c
  */
 ElementType Ellipse::getTypeName() {
     return ElementType::Ellipse;
+}
+
+/**
+ * @brief Print all data of Ellipse
+ * @note This function is override
+ */
+void Ellipse::dbg() {
+    std::cout << "[DEBUG ELLIPSE]\n";
+    std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
+    std::cout << "Radiix = " << radii.x << ", Radiiy = " << radii.y << '\n';
+    std::cout << "Stroke width = " << strokeWidth << '\n';
 }
 
 //#include "../../../lib/raylib/rlgl.h"
@@ -48,13 +59,6 @@ ElementType Ellipse::getTypeName() {
 //		DrawEllipseHQ(this->position.x, this->position.y, this->radii.x, this->radii.y, this->fillColor.getRaylibColor());
 //	}
 //}
-
-/**
- * @brief print all data of Ellipse
- */
-void Ellipse::dbg() {
-    std::cout << "[DEBUG ELLIPSE]\n";
-}
 
 /**
  * @brief set radii

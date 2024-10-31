@@ -1,10 +1,22 @@
 #include "SVGColor.h"
 #include <map>
 #include <string>
+
+/*
+* @brief Default constructor
+* @note If nothing is defined => no color
+* transparent <=> a = 0
+*/
 SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 
+/*
+* @brief Parameterized constructor with alpha
+*/
 SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) : r(r), g(g), b(b), a(a) {}
 
+/*
+* @brief Parameterized constructor without alpha
+*/
 SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b)  {
 	this->r=r;
 	this->g=g;
@@ -12,38 +24,44 @@ SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b)  {
 	this->a=255;
 }
 
+/*
+* @brief Parameterized constructor (string-type)
+* @param string format
+*/
 std::map<std::string, int> m;
-
 SVGColor::SVGColor(std::string param) {
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 255;
 	if (param[0] == '#') {
+		/*
 		for (int i = 1; i < 7; i++) {
-			if (((param[i] >= '0' && param[i] <= '9') || (param[i] >= 'a' && param[i] <= 'f')) || (
-					param[i] >= 'A' && param[i] <= 'F')) {
+			if ((param[i] >= '0' && param[i] <= '9') || (param[i] >= 'a' && param[i] <= 'f') || 
+				(param[i] >= 'A' && param[i] <= 'F')) 
 				continue;
-					}
 			SVGColor();
 			std::cout << "Wrong string input to SVG Color \n";
 			return;
 		}
-		// Assuming the format is #RRGGBB
+		*/
+		/// TODO: Format is #RRGGBB
 		if (param.length() == 7) {
-			if (!param.substr(1, 2).empty())
-				r = std::stoi(param.substr(1, 2), nullptr, 16);
-			if (!param.substr(3, 2).empty())
-				g = std::stoi(param.substr(3, 2), nullptr, 16);
-			if (!param.substr(5, 2).empty())
-				b = std::stoi(param.substr(5, 2), nullptr, 16);
+			if (!param.substr(1, 2).empty()) r = std::stoi(param.substr(1, 2), nullptr, 16);
+			if (!param.substr(3, 2).empty()) g = std::stoi(param.substr(3, 2), nullptr, 16);
+			if (!param.substr(5, 2).empty()) b = std::stoi(param.substr(5, 2), nullptr, 16);
 		}
 	} else {
 		for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
 		auto it = LABELED_COLOR.find(param);
+		/// Format is rgb(r, g, b, (a))
 		if (it!=LABELED_COLOR.end()) {
 			SVGColor lc = it->second;
 			r = lc.r;
 			g = lc.g;
 			b = lc.b;
 		}
-		std::cout<<"String input does not start with '#' nor supported\n";
+		else std::cout<<"String input does not start with '#' nor supported\n";
 	}
 	a = 255;
 }

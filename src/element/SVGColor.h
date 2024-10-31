@@ -13,13 +13,37 @@ public:
      * @brief Default constructor
      * @note set all to zero -> black
      */
-    SVGColor(); // r,g,b,a = 0 -> black
+    SVGColor(); 
+    
+    /*
+    * @brief Parameterized constructor with alpha
+    */
     SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+    /*
+    * @brief Parameterized constructor without alpha
+    */
     SVGColor(unsigned char r, unsigned char g, unsigned char b);
 
-    SVGColor(std::string param); // -> tên màu luôn, mã hex
+    /*
+    * @brief Parameterized constructor (string-type)
+    * @param string format
+    */
+    SVGColor(std::string param);
+
+    /*
+    * @brief Parameterized constructor for HSL color value without alpha
+    */
 	SVGColor(int h, int s, int l);// hsl
-	SVGColor(int h, int s, int l, int a); //hsla
+	
+    /*
+    * @brief Parameterized constructor for HSL color value 
+    */
+    SVGColor(int h, int s, int l, int a); //hsla
+
+    /*
+    * @brief Get raylib color
+    */
 	Color getRaylibColor() const;
 
 	// Parameterized constructor

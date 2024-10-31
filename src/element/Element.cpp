@@ -46,7 +46,7 @@ void Element::setPosition(const Vector2D<double> &_position) {
 * @brief get position of a svg element
 * @return a vector2D
 */
-Vector2D<double> Element::getPosition() {
+Vector2D<double> Element::getPosition() const {
 	return position;
 }
 
@@ -62,7 +62,7 @@ void Element::setFillColor(const SVGColor &color) {
 * @brief get fill color of a svg element
 * @return an SVGColor object
 */
-SVGColor Element::getFillColor() {
+SVGColor Element::getFillColor() const {
 	return this->fillColor;
 }
 
@@ -78,7 +78,7 @@ void Element::setStrokeColor(const SVGColor& color) {
 * @brief get stroke color of an svg element
 * @return a SVGColor object
 */
-SVGColor Element::getStrokeColor() {
+SVGColor Element::getStrokeColor() const {
 	return this->strokeColor;
 }
 
@@ -118,7 +118,7 @@ void Element::setGradient(Gradient* grad) {
 * @brief get gradient of an svg element
 * @param a pointer to a Gradient object
 */
-Gradient* Element::getGradient() {
+Gradient* Element::getGradient() const {
 	return this->gradient;
 }
 
@@ -134,7 +134,7 @@ void Element::setParent(Element *_parent) {
 * @brief get parent node of an svg element
 * @return a pointer to a same-class object (parent)
 */
-Element* Element::getParent() {
+Element* Element::getParent() const {
 	return this->parent;
 }
 
