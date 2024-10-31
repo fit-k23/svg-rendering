@@ -2,7 +2,7 @@
 #define SVG_RENDERING_CIRCLE_H
 
 #include "Ellipse.h"
-#include "../SVGColor.h"
+#include "../utils/SVGColor.h"
 
 class Circle : public Ellipse{
 public:

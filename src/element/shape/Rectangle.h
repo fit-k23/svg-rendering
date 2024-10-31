@@ -3,7 +3,7 @@
 
 #include "../utils/Vector2D.h"
 #include "../Element.h"
-#include "../SVGColor.h"
+#include "../utils/SVGColor.h"
 
 class Rect : public Element {
 private:

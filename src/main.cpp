@@ -3,110 +3,131 @@
 #include "../lib/raylib/raylib.h"
 #include "../lib/raylib/rlgl.h"
 #include "../lib/raylib/raymath.h"
-#include "Graphic.h"
-#include "XMLParser.h"
+#include "utils/Raylibex.h"
+#include "utils/Icon.h"
 
-int main() {
-	// Initialization
-	const int screenWidth = 900;
-	const int screenHeight = 600;
+#define APPLICATION_NAME "SVG RENDERING"
+
+void app() {
+	Vector2 screenSize = {800, 600};
+
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	//Enable MSAA 4X anti-aliasing
+	SetConfigFlags(FLAG_MSAA_4X_HINT);
 
-	// Enable MSAA 4X anti-aliasing
-//	SetConfigFlags(FLAG_MSAA_4X_HINT);
+	//Better image but blurry text...
+	//SetConfigFlags(FLAG_WINDOW_HIGHDPI);
 
-	InitWindow(screenWidth, screenHeight, "Random Filled Polygon with raylib");
-//	int display = GetCurrentMonitor();
-//	SetWindowSize(GetMonitorWidth(display), GetMonitorHeight(display));
+	InitWindow(screenSize.x, screenSize.y, APPLICATION_NAME);
 
-	// Set up for random number generation
-	SetTargetFPS(60);
+	Image icon = LoadImageFromMemory(".png", ICON_DATA, ICON_LEN);
 
-	Camera2D camera = {0};
-	camera.offset = Vector2Zero();
-	camera.zoom = 1.0f;
-
-	std::vector<Element*> v;
-	XMLParser parser;
-	parser.traverseXML("sample.svg", v);
-
-	std::cout << (int)v.size() << '\n';
-
-	for (int i = 0; i < (int)v.size(); ++i) {
-		//std::cout << "[Rectangle " << i << "]\n";
-		v[i]->dbg();
-		//static_cast<Rect*>(v[i])->draw(); // <-- cast Element* to Rect*
+	if (icon.data != nullptr) {
+		// Set the window icon
+		SetWindowIcon(icon);
+		// We no longer need the image in memory once the icon is set
+		UnloadImage(icon);
+	} else {
+		printf("Failed to load icon.\n");
 	}
 
-	for (int i = 0; i < (int)v.size(); ++i) delete v[i];
+	Camera2D camera;
+	camera.target = Vector2Scale(screenSize, 0.5f);
+	camera.offset = camera.target;
+	camera.rotation = 0.0f;
+	camera.zoom = 1.0f;
 
-	/***** TEMPORARY COMMENT FOR TESTING *****/
-	//Ellipse e({50, 50}, {200, 200, 100, 255}, {0, 0, 0, 133}, 2.0, {300.2, 100.2});
+	SetTargetFPS(60);
 
-	//// Main game loop
-	//while (!WindowShouldClose()) {
-	//	float wheel = GetMouseWheelMove();
-	//	if (wheel != 0) {
-	//		// Get the world point that is under the mouse
-	//		Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
+	Rectangle scissorArea = { 100, 100, 300, 300 };
+	bool maximumWindow = false;
+	Vector2 previousScreenSize = screenSize;
 
-	//		// Set the offset to where the mouse is
-	//		camera.offset = GetMousePosition();
+	while (!WindowShouldClose()) {
+		float wheel = GetMouseWheelMove();
+		if (wheel != 0) {
+//			camera.offset = GetMousePosition();
+//			camera.target = GetScreenToWorld2D(GetMousePosition(), camera);
+//
+//			float scaleFactor = 1.0f + (0.25f * fabsf(wheel));
+//			if (wheel < 0) scaleFactor = 1.0f / scaleFactor;
+//			camera.zoom = Clamp(camera.zoom * scaleFactor, 0.125f, 64.0f);
 
-	//		// Set the target to match, so that the camera maps the world space point
-	//		// under the cursor to the screen space point under the cursor at any zoom
-	//		camera.target = mouseWorldPos;
+			camera.zoom += (GetMouseWheelMove() * 0.05f);
+			if (camera.zoom > 3.0f) camera.zoom = 3.0f;
+			else if (camera.zoom < 0.1f) camera.zoom = 0.1f;
+		}
 
-	//		// Zoom increment
-	//		float scaleFactor = 1.0f + (0.25f * fabsf(wheel));
-	//		if (wheel < 0) scaleFactor = 1.0f / scaleFactor;
-	//		camera.zoom = Clamp(camera.zoom * scaleFactor, 0.125f, 64.0f);
-	//	}
-	//	if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)) {
-	//		printf("Left is down\n");
-	//		camera.rotation++;
-	//		if (360 - camera.rotation < 0.5) {
-	//			camera.rotation = 0;
-	//		}
-	//	}
+		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+			Vector2 delta = Vector2Scale(GetMouseDelta(), -1.0f / camera.zoom);
+			camera.target = Vector2Add(camera.target, delta);
+		}
 
-	//	if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-	//		Vector2 delta = GetMouseDelta();
-	//		delta = Vector2Scale(delta, -1.0f / camera.zoom);
-	//		camera.target = Vector2Add(camera.target, delta);
-	//	}
+		if (IsKeyPressed(KEY_F)) {
+			if (maximumWindow) {
+				previousScreenSize = screenSize;
+				MaximizeWindow();
+			} else {
+				SetWindowSize(previousScreenSize.x, previousScreenSize.y);
+			}
+			maximumWindow = !maximumWindow;
+		}
 
-	//	// Draw
-	//	BeginDrawing();
-	//	ClearBackground(BLACK);
-	//	int sx = GetScreenWidth() / 10;
-	//	int sy = GetScreenHeight() / 10;
+		Vector2 currentScreenSize = {static_cast<float>(GetScreenWidth()), static_cast<float>(GetScreenHeight())};
 
-	//	for (int i = 0; i < sx; i++) {
-	//		for (int j = 0; j < sy; j++) {
-	//			if ((i + j) % 2 == 0) {
-	//				DrawRectangle(i * 10, j * 10, 10, 10, GRAY);
-	//			}
-	//		}
-	//	}
+		if (screenSize.x != currentScreenSize.x || screenSize.y != currentScreenSize.y) {
+			previousScreenSize = screenSize;
+			screenSize = currentScreenSize;
+		}
 
-	//	DrawRectangle(0, 0, 350, 75, ColorAlpha({20, 20, 20}, 0.75));
-	//	DrawText("Hold left click to move camera", 0, 0, 20, YELLOW);
-	//	DrawText("Scroll mouse wheel to zoom in/out", 0, 25, 20, YELLOW);
-	//	DrawText("Hold right click to rotate camera", 0, 50, 20, YELLOW);
+		if (IsKeyPressed(KEY_R)) {
+			camera.target = Vector2Scale(screenSize, 0.5f);
+			camera.offset = camera.target;
+			camera.rotation = 0.0f;
+			camera.zoom = 1.0f;
+		}
 
-	//	BeginMode2D(camera);
+		if (IsKeyDown(KEY_RIGHT)) camera.target.x -= 5;
+		if (IsKeyDown(KEY_LEFT)) camera.target.x += 5;
+		if (IsKeyDown(KEY_UP)) camera.target.y += 5;
+		if (IsKeyDown(KEY_DOWN)) camera.target.y -= 5;
+//		if (IsKeyDown(KEY_EQUAL)) camera.zoom *= 0.05f;
+//		if (IsKeyDown(KEY_MINUS)) camera.zoom /= 0.05f;
 
-	//	DrawRectangle(GetScreenWidth() / 2 - 250, GetScreenHeight() / 2 - 250, 500, 500, ColorAlpha(BLUE,0.5));
+		int screenWidth = screenSize.x;
+		int screenHeight = screenSize.y;
 
-	//	e.draw();
+		BeginDrawing();
+		ClearBackground(BLACK);
+		int sx = GetScreenWidth() / 10;
+		int sy = GetScreenHeight() / 10;
 
-	//	DrawCircle(GetScreenWidth() / 2, GetScreenHeight() / 2, 50, MAROON);
-	//	EndMode2D();
+		for (int i = 0; i < sx; i++) {
+			for (int j = 0; j < sy; j++) {
+				if ((i + j) % 2 == 0) {
+					DrawRectangle(i * 10, j * 10, 10, 10, GRAY);
+				}
+			}
+		}
 
-	//	EndDrawing();
-	//}
+		DrawRectangle(0, 0, 350, 75, ColorAlpha({20, 20, 20}, 0.75));
+		DrawText("Hold left click to move camera", 0, 0, 20, YELLOW);
+		DrawText("Scroll mouse wheel to zoom in/out", 0, 25, 20, YELLOW);
+		DrawText("Hold right click to rotate camera", 0, 50, 20, YELLOW);
+
+		BeginMode2D(camera);
+		DrawRectangleLines(0, 0, screenWidth, screenHeight, RED);
+		DrawRectangleLines(-1, -1, screenWidth + 1, screenHeight + 1, RED);
+		DrawCircle(400, 300, 100, ColorAlpha(RED, 0.9));
+		DrawCircle(screenWidth / 2, screenHeight / 2, 10, YELLOW);
+		EndMode2D();
+		EndDrawing();
+	}
 
 	CloseWindow();
+}
+
+int main() {
+	app();
 	return 0;
 }

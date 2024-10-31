@@ -6,8 +6,8 @@
 #include <vector>
 #include "utils/ElementType.h"
 #include "utils/Vector2D.h"
-#include "Gradient.h"
-#include "SVGColor.h"
+#include "utils/Gradient.h"
+#include "utils/SVGColor.h"
 
 /**
 * @brief Element is an abstract class for all svg elements (nodes)

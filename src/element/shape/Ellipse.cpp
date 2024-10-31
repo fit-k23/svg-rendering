@@ -1,5 +1,5 @@
 #include "Ellipse.h"
-
+#include "../../utils/Raylibex.h"
 /**
  * @brief Default Constructor
  * @note Only use class Element and Vector2D so 
@@ -10,7 +10,7 @@ Ellipse::Ellipse() : Element(), radii() {}
 /**
  * @brief Full-parameterized constructor of ellipse
  */
-Ellipse::Ellipse(const Vector2D<double> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
+Ellipse::Ellipse(const Vector2D<double> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
                  const Vector2D<double> &radii) : Element(_position, fillColor, strokeColor, strokeWidth), radii(radii) {}
 
 /**
@@ -20,21 +20,6 @@ Ellipse::Ellipse(const Vector2D<double> &_position, const SVGColor& fillColor, c
 ElementType Ellipse::getTypeName() {
     return ElementType::Ellipse;
 }
-
-//#include "../../../lib/raylib/rlgl.h"
-//#include "../../../lib/raylib/raymath.h"
-//
-//void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color color) {
-//	rlBegin(RL_TRIANGLES);
-//	int step = 1;
-//	for (int i = 0; i < 360; i += step) {
-//		rlColor4ub(color.r, (color.g + i) % 256, color.b, color.a);
-//		rlVertex2f((float)centerX, (float)centerY);
-//		rlVertex2f((float)centerX + cosf(DEG2RAD * (i + step)) *radiusH, (float)centerY + sinf(DEG2RAD * (i + step)) * radiusV);
-//		rlVertex2f((float)centerX + cosf(DEG2RAD * i) * radiusH, (float)centerY + sinf(DEG2RAD*i) * radiusV);
-//	}
-//	rlEnd();
-//}
 
 /**
  * @brief draw Ellipse

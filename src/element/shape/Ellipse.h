@@ -2,8 +2,8 @@
 #define SVG_RENDERING_ELLIPSE_H
 
 #include "../Element.h"
-#include "../SVGColor.h"
-#include "../Gradient.h"
+#include "../utils/SVGColor.h"
+#include "../utils/Gradient.h"
 #include "../utils/Vector2D.h"
 
 class Ellipse : public Element{
