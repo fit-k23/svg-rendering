@@ -38,37 +38,38 @@ SVGColor::SVGColor(std::string param) {
 	}
 }
 
-
 //hsl
 SVGColor::SVGColor(int h, int s, int l) {
-	float _r, _g, _b;
-	float s_f = static_cast<float> (s) / 100.0f;
-	float l_f = static_cast<float> (l) / 100.0f;
+	float _r{}, _g{}, _b{};
 
-	auto hueToRgb = [](float p, float q, float t) {
-		if (t < 0.0f) t += 1.0f;
-		if (t > 1.0f) t -= 1.0f;
-		if (t < 1.0f / 6.0f) return p + (q - p) * 6.0f * t;
-		if (t < 1.0f / 2.0f) return q;
-		if (t < 2.0f / 3.0f) return p + (q - p) * (2.0f / 3.0f - t) * 6.0f;
-		return p;
-	};
+	float c = (1.0f - fabsf(2.0f * l - 1.0f)) * s; // Chroma
+	float x = c * (1.0f - fabsf(fmodf(static_cast<float> (h) / 60.0f, 2) - 1.0f));
+	float m = l - c / 2.0f;
 
-	if (s == 0) {
-		_r = _g = _b = l_f; // achromatic
+	if(h >= 0 && h < 60) {
+		_r = c;
+		_g = x;
+	} else if(h >= 60 && h < 120) {
+		_r = x;
+		_g = c;
+	} else if(h >= 120 && h < 180) {
+		_g = c;
+		_b = x;
+	} else if(h >= 180 && h < 240) {
+		_g = x;
+		_b = c;
+	} else if(h >= 240 && h < 300) {
+		_r = x;
+		_b = c;
 	} else {
-		float q = l_f < 0.5 ? l_f * (1.0f + s_f) : l_f + s_f - l_f * s_f;
-		float p = 2.0f * l_f - q;
-		float hf = static_cast<float> (h) / 360.f;
-		_r = hueToRgb(p, q, hf + 1.0f / 3.0f);
-		_g = hueToRgb(p, q, hf);
-		_b = hueToRgb(p, q, hf - 1.0f / 3.0f);
+		_r = c;
+		_b = x;
 	}
 
-	this->r = static_cast<unsigned char>(_r * 255);
-	this->g = static_cast<unsigned char>(_g * 255);
-	this->b = static_cast<unsigned char>(_b * 255);
-	this->a = 255;
+	r = static_cast<unsigned char>((_r + m) * 255);
+	g = static_cast<unsigned char>((_g + m) * 255);
+	b = static_cast<unsigned char>((_b + m) * 255);
+	a = 255;
 }
 
 
@@ -80,42 +81,6 @@ SVGColor::SVGColor(int h, int s, int l, int a) : SVGColor(h, s, l) {
 
 SVGColor::operator Color() const {
 	return Color{r, g, b, a};
-}
-
-#import <cmath>
-SVGColor HSLToRGB(int h, float s, float l) {
-	float r{}, g{}, b{};
-
-	float c = (1.0f - fabsf(2.0f * l - 1.0f)) * s; // Chroma
-	float x = c * (1.0f - fabsf(fmodf(static_cast<float> (h) / 60.0f, 2) - 1.0f));
-	float m = l - c / 2.0f;
-
-	if(h >= 0 && h < 60) {
-		r = c;
-		g = x;
-	} else if(h >= 60 && h < 120) {
-		r = x;
-		g = c;
-	} else if(h >= 120 && h < 180) {
-		g = c;
-		b = x;
-	} else if(h >= 180 && h < 240) {
-		g = x;
-		b = c;
-	} else if(h >= 240 && h < 300) {
-		r = x;
-		b = c;
-	} else {
-		r = c;
-		b = x;
-	}
-
-	SVGColor rgb;
-	rgb.r = static_cast<unsigned char>((r + m) * 255);
-	rgb.g = static_cast<unsigned char>((g + m) * 255);
-	rgb.b = static_cast<unsigned char>((b + m) * 255);
-
-	return rgb;
 }
 
 SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.b) {}
