@@ -71,7 +71,7 @@ public:
 	* @brief: get position of an svg element
 	* @return: a vector2D
 	*/
-	Vector2D<double> getPosition();
+	Vector2D<double> getPosition() const;
 	
 	/**
 	* @brief: set fill color of an svg element
@@ -83,7 +83,7 @@ public:
 	* @brief: get fill color of an svg element
 	* @return: an SVGColor object
 	*/
-	SVGColor getFillColor();
+	SVGColor getFillColor() const;
 
 	/**
 	* @brief: set stroke color of an svg element
@@ -95,7 +95,7 @@ public:
 	* @brief: get stroke color of an svg element
 	* @return: a SVGColor object
 	*/
-	SVGColor getStrokeColor();
+	SVGColor getStrokeColor() const;
 
 	/**
 	* @brief: set stroke width of an svg element
@@ -131,7 +131,7 @@ public:
 	* @brief: get gradient of an svg element
 	* @param: a pointer to a Gradient object
 	*/
-	Gradient *getGradient();
+	Gradient* getGradient() const;
 
 	/**
 	* @brief: set parent node of an svg element
@@ -143,7 +143,7 @@ public:
 	* @brief: get parent node of an svg element
 	* @return: a pointer to a same-class object (parent)
 	*/
-	Element *getParent();
+	Element* getParent() const;
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

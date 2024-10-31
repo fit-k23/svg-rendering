@@ -61,13 +61,13 @@ public:
 	* @brief get width of the Rect
 	* @return width of current Rect
 	*/
-	double getWidth();
+	double getWidth() const;
 
 	/*
 	* @brief get height of the Rect
 	* @return height of current Rect
 	*/
-	double getHeight();
+	double getHeight() const;
 
 	/*
 	* @brief set radii of the Rect
@@ -79,7 +79,7 @@ public:
 	* @brief get radii of the Rect
 	* @return radii of current Rect
 	*/
-	Vector2D<double> getRadii();
+	Vector2D<double> getRadii() const;
 };
 
 #endif //SVG_RENDERING_Rect_H

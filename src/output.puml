@@ -1,0 +1,44 @@
+@startuml XMLParser
+
+
+
+
+
+/' Objects '/
+
+class XMLParser {
+	+XMLParser()
+	+~XMLParser()
+	+parseCircle(rapidxml::xml_node<>* pNode) : Circle
+	+parseLine(rapidxml::xml_node<>* pNode) : Line
+	+parseRect(rapidxml::xml_node<>* pNode) : Rect
+	+parseColor(rapidxml::xml_node<>* pNode, std::string attrName) : SVGColor
+	+getViewPort() : Vector2D<double>
+	-viewPort : Vector2D<double>
+	+parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) : double
+	-doc : rapidxml::xml_document<>
+	-gradients : std::map<std::string, Gradient*>
+	+parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) : std::string
+	+traverseXML(const std::string& fileName, std::vector<Element*>& v) : void
+}
+
+
+
+
+
+/' Inheritance relationships '/
+
+
+
+
+/' Aggregation relationships '/
+
+
+
+
+
+/' Nested objects '/
+
+
+
+@enduml

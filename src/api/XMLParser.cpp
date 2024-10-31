@@ -62,7 +62,7 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 			} else if (nodeName == "circle") {
 				v.push_back(new Circle(parseCircle(pNode)));
 			} else if (nodeName == "line") {
-
+				v.push_back(new Line(parseLine(pNode)));
 			} else if (nodeName == "polyline") {
 
 			} else if (nodeName == "polygon") {
@@ -127,6 +127,18 @@ Circle XMLParser::parseCircle(rapidxml::xml_node<>* pNode) {
 	return circle;
 }
 
+Line XMLParser::parseLine(rapidxml::xml_node<>* pNode) {
+	double x1 = parseDoubleAttr(pNode, "x1");
+	double y1 = parseDoubleAttr(pNode, "y1");
+	double x2 = parseDoubleAttr(pNode, "x2");
+	double y2 = parseDoubleAttr(pNode, "y2");
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	Line line = Line(Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2));
+	return line;
+}
+
 /**
 * @brief Get the double value of specific attribute
 * @param node: current xml node
@@ -161,23 +173,26 @@ double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrN
 SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
-	if (pAttr == nullptr) {
+	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
 		// If no attribute with attrName specified, default color is black
 		// Default constructor of SVGColor is black
+		color = SVGColor(0, 0, 0);
 		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); 
 		return color;
 	}
 	std::string value = pAttr->value();
 	if (value == "none" || value == "transparent") {
-		// If value is none or transparent -> opacity = 0 so return default color
+		// If value is none or transparent -> opacity = 0 so return default color with alpha = 0
 		color = SVGColor(0, 0, 0, 0);
 		return color;
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
 		// TODO: process the case fill or stroke value is a gradient
 	} else {
+		color = SVGColor(value); // <-- get Color in SVGColor class
 		// get opacity
-		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); // TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
+		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); 
+		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;
 }
