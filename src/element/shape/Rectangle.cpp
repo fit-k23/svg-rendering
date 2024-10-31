@@ -40,17 +40,10 @@ ElementType Rect::getTypeName() {
 }
 
 /*
-* @brief draw Rect
-*/
-void Rect::draw() {
-	// TODO: use raylib to draw stuff here
-	// DrawRectangle((int)position.x, (int)position.y, width, height, BLACK);
-}
-
-/*
 * @brief print data of Rect for debugging
 */
 void Rect::dbg() {
+	std::cout << "[DEBUG RECT]\n";
 	std::cout << "Position: " << (this->getPosition()).x << " " << (this->getPosition()).y << '\n';
 	std::cout << "Width = " << this->getWidth() << " Height = " << this->getHeight() << '\n';
 	std::cout << "Radiix = " << radii.x << " Radiiy = " << radii.y << '\n';

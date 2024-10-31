@@ -8,8 +8,9 @@ class Circle : public Ellipse{
 public:
 	/**
 	* @brief Default constructor 
+	* @note TODO: change to not default
 	**/
-	Circle(); 
+	Circle() = default;
 
 	/**
 	* @brief Full-parameterized constructor
@@ -21,6 +22,11 @@ public:
 	* @brief Get type of Circle
 	**/
 	ElementType getTypeName() override;
+		
+	/*
+	* @brief print information of Circle
+	*/
+	void dbg() override;
 };
 
 

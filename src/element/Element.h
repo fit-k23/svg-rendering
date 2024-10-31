@@ -4,17 +4,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../../lib/raylib/raylib.h"
 #include "utils/ElementType.h"
 #include "utils/Vector2D.h"
 #include "Gradient.h"
 #include "SVGColor.h"
 
 /**
-* @brief: Element is an abstract class for all svg elements (nodes)
-* @is_abstract: yes
-* @inherits: no
-* @attributes: contains most of SVG attributes and a pointer to its parent node
+* @brief Element is an abstract class for all svg elements (nodes)
+* @attributes contains most of SVG attributes and a pointer to its parent node
 * Since it's abstract, the destructor must be virtual to avoid any undefined behaviors
 **/
 class Element{
@@ -27,15 +24,15 @@ protected:
 	Gradient *gradient{};
 	Element *parent{};
 	/**
-	* @brief: Default constructor
+	* @brief Default constructor
 	* TODO: change to not default
 	* Because now I haven't finished other classes yet .-.
 	*/
-	Element() = default;
+	Element();
 	
 	/**
-	* @brief: Parameterized constructor
-	* @note: easier for subclass to inherit and write its constructor
+	* @brief Parameterized constructor
+	* @note easier for subclass to inherit and write its constructor
 	*/
 	Element(const Vector2D<double> &position, const SVGColor &fillColor, const SVGColor &strokeColor, double strokeWidth);
 public:
@@ -51,14 +48,7 @@ public:
 	* @return: the type (ElementType type)
 	*/
 	virtual ElementType getTypeName() = 0;
-	
-	/**
-	* @brief: draw or process an svg element
-	* @brief: This function is abstract and must be implemented by subclasses (derived classes)
-	* @param: no
-	*/
-	virtual void draw() = 0;
-	
+		
 	/**
 	* @brief: print all data of an svg element
 	* @brief: For debugging

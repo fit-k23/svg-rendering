@@ -27,12 +27,6 @@ public:
 	ElementType getTypeName() override;
 
 	/**
-	 * @brief draw Ellipse
-	 * @note override function
-	 */
-	void draw() override;
-
-	/**
 	 * @brief print all dat a of Ellipse
 	 */
 	void dbg() override;

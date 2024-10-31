@@ -1,7 +1,20 @@
 #include "Element.h"
 
 /*
-* @cmt: Parameterized constructor
+* @brief Default constructor
+*/
+Element::Element() {
+	position = Vector2D<double>(0, 0);
+	fillColor = SVGColor(0, 0, 0, 0);
+	strokeColor = SVGColor(0, 0, 0, 0);
+	strokeWidth = 0.0;
+	transformation = {};
+	gradient = nullptr;
+	parent = nullptr;
+}
+
+/*
+* @brief Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
 Element::Element(const Vector2D<double> &position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
@@ -12,8 +25,8 @@ Element::Element(const Vector2D<double> &position, const SVGColor& fillColor, co
 }
 
 /*
-* @cmt: set position of an svg element
-* @param: x and y coordinates (double)
+* @brief set position of an svg element
+* @param x and y coordinates (double)
 */
 void Element::setPosition(double x, double y) {
 	this->position.x = x;
@@ -21,8 +34,8 @@ void Element::setPosition(double x, double y) {
 }
 
 /*
-* @cmt: set position of a svg element
-* @param: a passed-by-referenced vector2D object
+* @brief set position of a svg element
+* @param a passed-by-referenced vector2D object
 */
 void Element::setPosition(const Vector2D<double> &_position) {
 	this->position.x = _position.x;
@@ -30,56 +43,56 @@ void Element::setPosition(const Vector2D<double> &_position) {
 }
 
 /*
-* @cmt: get position of a svg element
-* @return: a vector2D
+* @brief get position of a svg element
+* @return a vector2D
 */
 Vector2D<double> Element::getPosition() {
 	return position;
 }
 
 /*
-* @cmt: set fill color of a svg element
-* @param: a passed-by-referenced SVGColor object
+* @brief set fill color of a svg element
+* @param a passed-by-referenced SVGColor object
 */
 void Element::setFillColor(const SVGColor &color) {
 	this->fillColor = color;
 }
 
 /*
-* @cmt: get fill color of a svg element
-* @return: an SVGColor object
+* @brief get fill color of a svg element
+* @return an SVGColor object
 */
 SVGColor Element::getFillColor() {
 	return this->fillColor;
 }
 
 /*
-* @cmt: set stroke color of a svg element
-* @param: a passed-by-referenced SVGColor object
+* @brief set stroke color of a svg element
+* @param a passed-by-referenced SVGColor object
 */
 void Element::setStrokeColor(const SVGColor& color) {
 	this->strokeColor = color;
 }
 
 /*
-* @cmt: get stroke color of an svg element
-* @return: a SVGColor object
+* @brief get stroke color of an svg element
+* @return a SVGColor object
 */
 SVGColor Element::getStrokeColor() {
 	return this->strokeColor;
 }
 
 /*
-* @cmt: set stroke width of an svg element
-* @param: a double variable
+* @brief set stroke width of an svg element
+* @param a double variable
 */
 void Element::setStrokeWidth(double width) {
 	this->strokeWidth = width;
 }
 
 /*
-* @cmt: get stroke width of an svg element
-* @return: double
+* @brief get stroke width of an svg element
+* @return double
 */
 double Element::getStrokeWidth() const {
 	return this->strokeWidth;
@@ -94,32 +107,32 @@ std::vector<std::string> Element::getTransformation() const {
 }
 
 /*
-* @cmt: set gradient of an svg element
-* @param: a pointer to an abstract Gradient object
+* @brief set gradient of an svg element
+* @param a pointer to an abstract Gradient object
 */
 void Element::setGradient(Gradient* grad) {
 	this->gradient = grad;
 }
 
 /*
-* @cmt: get gradient of an svg element
-* @param: a pointer to a Gradient object
+* @brief get gradient of an svg element
+* @param a pointer to a Gradient object
 */
 Gradient* Element::getGradient() {
 	return this->gradient;
 }
 
 /*
-* @cmt: set parent node of an svg element
-* @param: a pointer to a same-class object (parent)
+* @brief set parent node of an svg element
+* @param a pointer to a same-class object (parent)
 */
 void Element::setParent(Element *_parent) {
 	this->parent = _parent;
 }
 
 /*
-* @cmt: get parent node of an svg element
-* @return: a pointer to a same-class object (parent)
+* @brief get parent node of an svg element
+* @return a pointer to a same-class object (parent)
 */
 Element* Element::getParent() {
 	return this->parent;

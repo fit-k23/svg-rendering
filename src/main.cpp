@@ -33,9 +33,9 @@ int main() {
 	std::cout << (int)v.size() << '\n';
 
 	for (int i = 0; i < (int)v.size(); ++i) {
-		std::cout << "[Rectangle " << i << "]\n";
+		//std::cout << "[Rectangle " << i << "]\n";
 		v[i]->dbg();
-		static_cast<Rect*>(v[i])->draw(); // <-- cast Element* to Rect*
+		//static_cast<Rect*>(v[i])->draw(); // <-- cast Element* to Rect*
 	}
 
 	for (int i = 0; i < (int)v.size(); ++i) delete v[i];

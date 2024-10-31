@@ -4,7 +4,6 @@
 #include "../utils/Vector2D.h"
 #include "../Element.h"
 #include "../SVGColor.h"
-#include "../../../lib/raylib/rlgl.h"
 
 class Rect : public Element {
 private:
@@ -13,12 +12,12 @@ private:
 	Vector2D<double> radii;
 public:
 	/*
-	* @cmt: Default constructor
+	* @brief Default constructor
 	*/
 	Rect();
 
 	/*
-	* @cmt: Parameterized constructor
+	* @brief Parameterized constructor
 	* @param: position: vector2D position of Rect
 	* @param: width: width of Rect
 	* @param: height: height of Rect
@@ -36,54 +35,49 @@ public:
 	Rect(const Rect& other);
 	
 	/*
-	* @cmt: get type of Rect 
-	* @return: ElementType::Rect
+	* @brief get type of Rect 
+	* @return ElementType::Rect
 	*/
 	ElementType getTypeName() override;
 
 	/*
-	* @cmt: draw Rect
-	*/
-	void draw() override;
-
-	/*
-	* @cmt: print data of Rect for debugging
+	* @brief print data of Rect for debugging
 	*/
 	void dbg() override;
 
 	/*
-	* @cmt: set width of the Rect
+	* @brief set width of the Rect
 	* @param: _width: passed width 
 	*/
 	void setWidth(double _width);
 
 	/*
-	* @cmt: set height of the Rect
+	* @brief set height of the Rect
 	* @param: _height: passed height
 	*/
 	void setHeight(double _height);
 
 	/*
-	* @cmt: get width of the Rect
-	* @return: width of current Rect
+	* @brief get width of the Rect
+	* @return width of current Rect
 	*/
 	double getWidth();
 
 	/*
-	* @cmt: get height of the Rect
-	* @return: height of current Rect
+	* @brief get height of the Rect
+	* @return height of current Rect
 	*/
 	double getHeight();
 
 	/*
-	* @cmt: set radii of the Rect
+	* @brief set radii of the Rect
 	* @param: radii: passed-by-reference radii
 	*/
 	void setRadii(const Vector2D<double>& radii);
 
 	/*
-	* @cmt: get radii of the Rect
-	* @return: radii of current Rect
+	* @brief get radii of the Rect
+	* @return radii of current Rect
 	*/
 	Vector2D<double> getRadii();
 };

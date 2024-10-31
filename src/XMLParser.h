@@ -26,7 +26,7 @@ public:
 	* @brief Default constructor
 	* @note Nothing much here 
 	**/
-	XMLParser() = default;
+	XMLParser();
 
 	/**
 	* @brief Default destructor
@@ -38,8 +38,7 @@ public:
 	* @brief Get viewport information
 	* @return Vector2D type of viewport
 	**/
-	template<typename T>
-	Vector2D<T> getViewPort();
+	Vector2D<double> getViewPort();
 
 	/**
 	* @brief Traverse through each nodes and attributes of SVG
@@ -77,6 +76,12 @@ public:
 	 * @note x, y, rx, ry is 0 by default
 	 */
 	Rect parseRect(rapidxml::xml_node<> *pNode);
+
+	/*
+	* @brief Parse Circle attributes
+	* @return a Circle object
+	*/
+	Circle parseCircle(rapidxml::xml_node<>* pNode);
 };
 
 #endif // XML_PARSER_H_

@@ -8,7 +8,7 @@ class Renderer {
     Element *element;
 
     void draw() {
-        element->draw();
+        //element->draw();
     }
 };
 
