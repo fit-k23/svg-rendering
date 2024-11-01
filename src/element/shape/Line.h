@@ -20,6 +20,11 @@ public:
 		const Vector2D<double>& endPosition);
 
 	/*
+	* @brief Copy constructor
+	*/
+	Line(const Line& other);
+
+	/*
 	* @brief get type Line
 	* @return ElementType::Line
 	* @note This function is override

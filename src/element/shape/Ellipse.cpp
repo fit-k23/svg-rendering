@@ -39,20 +39,20 @@ ElementType Ellipse::getTypeName() {
  */
 void Ellipse::dbg() {
     std::cout << "[DEBUG ELLIPSE]\n";
+    std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
+    std::cout << "Radiix = " << radii.x << ", Radiiy = " << radii.y << '\n';
+    std::cout << "Stroke width = " << strokeWidth << '\n';
 }
 
 /**
  * @brief set radii
  * @param radii update radii
  */
-void Ellipse::setRadii(const Vector2D<double> &_radii) {
-    this->radii = _radii;
-}
+void Ellipse::setRadii(const Vector2D<double> &_radii) { this->radii = _radii; }
 
 /**
  * @brief get radii
  * @return radii
+* @note This function doesn't change any attributes
  */
-Vector2D<double> Ellipse::getRadii() {
-    return this->radii;
-}
+Vector2D<double> Ellipse::getRadii() const { return radii; }

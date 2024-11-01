@@ -19,12 +19,10 @@ class XMLParser {
 private:
 	rapidxml::xml_document<> doc;
 	Vector2D<double> viewPort;
-  // TODO: add viewBox
-  std::map<std::string, Gradient*> gradients; // <-- store all gradients with its id
+	// TODO: add viewBox
 public:
 	/**
 	* @brief Default constructor
-	* @note Nothing much here 
 	**/
 	XMLParser();
 
@@ -45,30 +43,6 @@ public:
 	* @note Handling and drawing in here
 	**/
 	void traverseXML(const std::string& fileName, std::vector<Element*>& v);
-	
-  /**
-	* @brief Get the insight value of specific attribute
-	* @param node: current xml node
-	* @param attrName: name of attribute
-	* @return a string type
-	**/
-	std::string parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName); 
-
-	/**
-	* @brief Get the double value of specific attribute
-	* @param node: current xml node
-	* @param attrName: name of attribute
-	* @return a double
-	**/
-	double parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
-
-	/**
-	 * @brief Parse color attributes
-	 * @param pNode current xml node
-	 * @param attrName the attribute name to find value
-	 * @return SVGColor type
-	 */
-	SVGColor parseColor(rapidxml::xml_node<>* pNode, std::string attrName);
 
 	/**
 	 * @brief Parse rectangle attributes
@@ -76,6 +50,12 @@ public:
 	 * @note x, y, rx, ry is 0 by default
 	 */
 	Rect parseRect(rapidxml::xml_node<> *pNode);
+
+	/*
+	* @brief Parse Ellipse attributes
+	* @return a Ellipse object
+	*/
+	Ellipse parseEllipse(rapidxml::xml_node<>* pNode);
 
 	/*
 	* @brief Parse Circle attributes
@@ -88,6 +68,44 @@ public:
 	* @return a Line object
 	*/
 	Line parseLine(rapidxml::xml_node<>* pNode);
+
+	/*
+	* @brief Parse Polyline attributes
+	* @return a Polyline object
+	*/
+	Polyline parsePolyline(rapidxml::xml_node<>* pNode);
+
+	/**
+	* @brief Get the double value of specific attribute
+	* @param node current xml node
+	* @param attrName attribute's name
+	* @return a double
+	**/
+	double parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+
+	/**
+	* @brief Get the insight value of specific attribute
+	* @param pNode current xml node
+	* @param attrName attribute's name
+	* @return a string type
+	**/
+	std::string parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+
+	/**
+	 * @brief Parse color attributes
+	 * @param pNode current xml node
+	 * @param attrName attribute's name
+	 * @return SVGColor type
+	 */
+	SVGColor parseColor(rapidxml::xml_node<>* pNode, std::string attrName);
+
+	/*
+	* @brief Parse set of points attributes
+	* @param pNode current xml node
+	* @param attrName attribute's name
+	* @return a vector of Vector2D<double> set of points
+	*/
+	std::vector<Vector2D<double>> parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName);
 };
 
 #endif // XML_PARSER_H_

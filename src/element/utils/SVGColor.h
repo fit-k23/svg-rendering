@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <cmath>
 #include "../../../lib/raylib/raylib.h"
 
 class SVGColor {

@@ -40,8 +40,9 @@ public:
 	/**
 	 * @brief get radii
 	 * @return radii
+	 * @note This function doesn't change any attributes
 	 */
-	Vector2D<double> getRadii();
+	Vector2D<double> getRadii() const;
 };
 
 #endif //SVG_RENDERING_ELLIPSE_H
