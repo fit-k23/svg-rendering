@@ -1,5 +1,8 @@
 #include <iostream>
+#include "api/XMLParser.h"
+#include "api/Graphic.h"
 
+/// Raylib
 #include "../lib/raylib/raylib.h"
 #include "../lib/raylib/rlgl.h"
 #include "../lib/raylib/raymath.h"
@@ -128,6 +131,16 @@ void app() {
 }
 
 int main() {
-	app();
+	//app();
+	std::cout << "\n\n";
+	XMLParser parser;
+	std::vector<Element*> v;
+	parser.traverseXML("sample.svg", v);
+	std::cout << (int)v.size() << '\n';
+
+	for (int i = 0; i < (int)v.size(); ++i)
+		v[i]->dbg();
+
+	for (int i = 0; i < (int)v.size(); ++i) delete v[i];
 	return 0;
 }

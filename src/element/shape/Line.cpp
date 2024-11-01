@@ -12,6 +12,18 @@ Line::Line(const Vector2D<double>& position, const SVGColor& fillColor, const SV
 	const Vector2D<double>& endPosition) : Element(position, fillColor, strokeColor, strokeWidth), endPosition(endPosition) {}
 
 /*
+* @brief Copy constructor
+*/
+Line::Line(const Line& other) {
+	this->position = other.position;
+	this->fillColor = other.fillColor;
+	this->strokeColor = other.strokeColor;
+	this->strokeWidth = other.strokeWidth;
+	this->endPosition = other.endPosition;
+}
+
+
+/*
 * @brief get type Line
 * @return ElementType::Line
 * @note This function is override
