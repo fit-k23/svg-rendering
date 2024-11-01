@@ -3,14 +3,6 @@
 #include "Raylibex.h"
 
 void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
-//	rlBegin(RL_TRIANGLES);
-//	for (int i = 0; i < 360; i += step) {
-//		rlColor4ub(color.r, color.g, color.b, color.a);
-//		rlVertex2f((float)centerX, (float)centerY);
-//		rlVertex2f((float)centerX + cosf(DEG2RAD * (i + step)) * radiusH, (float)centerY + sinf(DEG2RAD * (i + step)) * radiusV);
-//		rlVertex2f((float)centerX + cosf(DEG2RAD * i) * radiusH, (float)centerY + sinf(DEG2RAD*i) * radiusV);
-//	}
-//	rlEnd();
 	rlBegin(RL_TRIANGLES);
 	rlColor4ub(color.r, color.g, color.b, color.a);
 	for (int i = 0; i < 360; i += step) {
