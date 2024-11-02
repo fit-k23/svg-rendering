@@ -37,7 +37,7 @@ SVGColor::SVGColor(std::string param) {
 				a = std::stoi(param.substr(7, 2), nullptr, 16);
 		}
 	} else {
-		//Assuming the form of string input is rgb(r,g,b)
+		 //Assuming the form of string input is rgb(r,g,b)
 		if (param[0]==r && (param[1]==g && param[2]==b)) {
 			std::stringstream buffer(param);
 			char temp;
