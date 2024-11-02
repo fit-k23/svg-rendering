@@ -11,7 +11,7 @@ class Renderer {
 private:
 	Vector2D<float> viewPort;
 	std::vector<Element*> shapes;
-public: 
+public:
 	/*
 	* @brief Default constructor
 	*/
@@ -30,7 +30,7 @@ public:
 	~Renderer();
 
 	/*
-	* @brief Traverse and draw all elements 
+	* @brief Traverse and draw all elements
 	*/
 	void draw();
 

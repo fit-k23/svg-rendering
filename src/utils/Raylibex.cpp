@@ -2,6 +2,70 @@
 #pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 #include "Raylibex.h"
 
+void draw_rect_roundedRLEX(float posX, float posY, float width, float height, float radiusx, float radiusy, Color color) {
+	color.a = 255; // solidify
+
+	// Draw the main rectangle
+	DrawRectangle(posX + radiusx, posY + radiusy, width - 2 * radiusx, height - 2 * radiusy, color);
+	// Draw the side rectangles (top, bottom, left, right)
+	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, color); // Top
+	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, color); // Bottom
+	DrawRectangle(posX, posY + radiusy, radiusx, height - 2 * radiusy, color); // Left
+	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, color); // Right
+
+	// Draw an ellipse, which get split into 4 parts placed at main rectangle's vertices
+	rlBegin(RL_TRIANGLES);
+	int cX = posX;
+	int cY = posY;
+	for (int i = 0; i < 360; i++) {
+		if (i == 0 || i == 270) {
+			cX = posX + width - radiusx;
+		}
+		if (i == 90 || i == 180) {
+			cX = posX + radiusx;
+		}
+		if (i == 0 || i == 90) {
+			cY = posY + height - radiusy;
+		}
+		if (i == 180 || i == 270) {
+			cY = posY + radiusy;
+		}
+		rlColor4ub(color.r, color.g, color.b, 255);
+
+		rlVertex2f((float) cX, (float) cY);
+		rlVertex2f((float) cX + cosf(DEG2RAD * (i + 1)) * radiusx, (float) cY + sinf(DEG2RAD * (i + 1)) * radiusy);
+		rlVertex2f((float) cX + cosf(DEG2RAD * i) * radiusx, (float) cY + sinf(DEG2RAD * i) * radiusy);
+	}
+	rlEnd();
+}
+
+void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, RenderTexture2D rt) {
+	BeginTextureMode(rt);
+	ClearBackground(BLANK);
+	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, color);
+	EndTextureMode();
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, color.a / 255.5f));
+}
+
+void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke, Color fillColor, Color strokeColor, RenderTexture2D rt) {
+	BeginTextureMode(rt);
+	ClearBackground(BLANK);
+	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
+	draw_rect_roundedRLEX(rect.x - stroke, rect.y - stroke, rect.width + 2 * stroke, rect.height + 2 * stroke, radius.x + stroke, radius.y + stroke, strokeColor);
+	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, strokeColor);
+	EndBlendMode();
+	EndTextureMode();
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+
+	BeginTextureMode(rt);
+	ClearBackground(BLANK);
+	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
+	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
+	EndBlendMode();
+	EndTextureMode();
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
+}
+
 void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
 	rlBegin(RL_TRIANGLES);
 	rlColor4ub(color.r, color.g, color.b, color.a);

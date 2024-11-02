@@ -1,6 +1,6 @@
 #include "Circle.h"
 
-Circle::Circle(Vector2D<float> position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, 
+Circle::Circle(Vector2D<float> position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
 	           float radius) : Ellipse(position, fillColor, strokeColor, strokeWidth, Vector2D<float>(radius, radius)) {};
 
 ElementType Circle::getTypeName() {

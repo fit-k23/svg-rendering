@@ -71,6 +71,14 @@ int main() {
 
 		BeginTextureMode(rt);
 		ClearBackground(BLANK);
+		BeginMode2D(camera);
+		DrawEllipseHQ(50, 50, 200, 50, ColorAlpha(BLUE, 0.9));
+		DrawText("Hello world! This is raylib in C++!!!!", -10, 10, 20, BLACK);
+		EndMode2D();
+//		DrawText("Bye world!", -10, 40, 20, BLACK);
+		EndTextureMode();
+
+		ClearBackground(BLACK);
 		int sx = GetScreenWidth() / 10;
 		int sy = GetScreenHeight() / 10;
 
@@ -81,18 +89,10 @@ int main() {
 				}
 			}
 		}
-		BeginMode2D(camera);
-		DrawEllipseHQ(50, 50, 200, 50, ColorAlpha(BLUE, 0.9));
-//		DrawText("Hello world! This is raylib in C++!!!!", -10, 10, 20, BLACK);
-//		EndMode2D();
-//		DrawText("Bye world!", -10, 40, 20, BLACK);
-		EndTextureMode();
-
-		BeginDrawing();
 
 		DrawText("I am inside your wall.", 0, 0, 20, BLACK);
-		DrawTexture(rt.texture, 100, 0, WHITE);
-//		DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, WHITE);
+//		DrawTexture(rt.texture, 0, 0, WHITE);
+		DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, WHITE);
 		DrawEllipseHQ(50, 300, 200, 50, ColorAlpha(BLUE, 0.9));
 		BeginMode2D(camera);
 
