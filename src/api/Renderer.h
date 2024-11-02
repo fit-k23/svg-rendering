@@ -39,7 +39,7 @@ public:
 	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Rectangle *element, RenderTexture2D &renderTexture);
+	void drawRect(Rect *element, RenderTexture2D &renderTexture);
 
 	/*
 	* @brief Draw an ellipse
