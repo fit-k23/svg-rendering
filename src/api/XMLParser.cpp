@@ -3,11 +3,9 @@
 
 /**
 * @brief Default constructor
-* @note Nothing much here 
 **/
 XMLParser::XMLParser() {
 	viewPort = Vector2D<double>(0, 0);
-	gradients.clear();
 }
 
 /**
@@ -58,13 +56,13 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 			if (nodeName == "rect") {
 				v.push_back(new Rect(parseRect(pNode)));
 			} else if (nodeName == "ellipse") {
-
+				v.push_back(new Ellipse(parseEllipse(pNode)));
 			} else if (nodeName == "circle") {
 				v.push_back(new Circle(parseCircle(pNode)));
 			} else if (nodeName == "line") {
 				v.push_back(new Line(parseLine(pNode)));
 			} else if (nodeName == "polyline") {
-
+				v.push_back(new Polyline(parsePolyline(pNode)));
 			} else if (nodeName == "polygon") {
 
 			}
@@ -73,16 +71,6 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 		//break;
 		pNode = pNode->next_sibling();
 	}
-}
-
-/**
-* @brief Get the insight value of specific attribute
-* @param node: current xml node
-* @param attrName: name of attribute
-* @return a string type
-**/
-std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	return "";
 }
 
 /*
@@ -112,6 +100,22 @@ Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
 	return rect;
 }
 
+/**
+* @brief Parse Ellipse attributes
+* @return Ellipse object
+*/
+Ellipse XMLParser::parseEllipse(rapidxml::xml_node<>* pNode) {
+	double cx = parseDoubleAttr(pNode, "cx");
+	double cy = parseDoubleAttr(pNode, "cy");
+	double rx = parseDoubleAttr(pNode, "rx");
+	double ry = parseDoubleAttr(pNode, "ry");
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	Ellipse ellipse = Ellipse(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry));
+	return ellipse;
+}
+
 /*
 * @brief Parse Circle attributes
 * @return a Circle object
@@ -127,6 +131,10 @@ Circle XMLParser::parseCircle(rapidxml::xml_node<>* pNode) {
 	return circle;
 }
 
+/*
+* @brief Parse Line attributes
+* @return a Line object
+*/
 Line XMLParser::parseLine(rapidxml::xml_node<>* pNode) {
 	double x1 = parseDoubleAttr(pNode, "x1");
 	double y1 = parseDoubleAttr(pNode, "y1");
@@ -137,6 +145,24 @@ Line XMLParser::parseLine(rapidxml::xml_node<>* pNode) {
 	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
 	Line line = Line(Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2));
 	return line;
+}
+
+/*
+* @brief Parse Polyline attributes
+* @return a Polyline object
+*/
+Polyline XMLParser::parsePolyline(rapidxml::xml_node<>* pNode) {
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	std::vector<Vector2D<double>> points = parsePointsAttr(pNode, "points");
+	Polyline polyline;
+	for (int i = 0; i + 1 < (int)points.size(); ++i) {
+		Vector2D<double> position = points[i];
+		Vector2D<double> endPosition = points[i + 1];
+		polyline.addLines(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
+	}
+	return polyline;
 }
 
 /**
@@ -162,6 +188,23 @@ double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrN
 	// TODO: value is a real number
 	// TODO: value is percentage (%)
 	return ret;
+}
+
+/**
+* @brief Get the insight value of specific attribute
+* @param node: current xml node
+* @param attrName: name of attribute
+* @return a string type
+**/
+std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+	std::string value("");
+	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
+	if (pAttr == nullptr) {
+		/// TODO: handle if no attribute name = attrName
+		return value;
+	}
+	value = pAttr->value();
+	return value;
 }
 
 /**
@@ -195,5 +238,25 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;
+}
+
+std::vector<Vector2D<double>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
+	if (pAttr == nullptr) return {};
+	std::vector<Vector2D<double>> ret = {};
+	
+	std::string value = pAttr->value();
+	for (int i = 0; i < (int)value.size(); ++i) if (value[i] == ',') value[i] = ' ';
+	std::stringstream buffer(value);
+	
+	double x = 0;
+	while (buffer >> x) {
+		double y = 0;
+		buffer >> y;
+		ret.push_back(Vector2D<double>(x, y));
+	}
+
+	buffer.str(""); // <-- clear buffer
+	return ret;
 }
 

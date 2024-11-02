@@ -7,7 +7,7 @@ int main() {
 	const int screenHeight = 600;
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	//Enable MSAA 4X anti-aliasing
-	SetConfigFlags(FLAG_MSAA_4X_HINT);
+//	SetConfigFlags(FLAG_MSAA_4X_HINT);
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - scissor with camera");
 
 
@@ -38,22 +38,6 @@ int main() {
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
-		// Convert world scissor area back to screen coordinates
-		BeginMode2D(camera); // Begin 2D mode with camera again
-		DrawRectangleLines(0, 0, screenWidth, screenHeight, RED);
-		Rectangle sMR{
-			(scissorArea.x - camera.target.x) * camera.zoom + camera.offset.x,
-			(scissorArea.y - camera.target.y) * camera.zoom + camera.offset.y,
-			(scissorArea.width) * camera.zoom,
-			(scissorArea.height) * camera.zoom
-		};
-
-		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-			DrawCircle(0, 0, 100, ColorAlpha(YELLOW, 0.5));
-			DrawCircle(150, 100, 100, ColorAlpha(BLUE, 0.5));
-			DrawEllipse(250, 250, 300, 50, ColorAlpha(GREEN, 0.5));
-		}
-
 		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
 			Vector2 delta = Vector2Scale(GetMouseDelta(), -1.0f / camera.zoom);
 			camera.target = Vector2Add(camera.target, delta);
@@ -64,6 +48,22 @@ int main() {
 			camera.offset = {screenWidth / 2.0f, screenHeight / 2.0f};
 			camera.rotation = 0.0f;
 			camera.zoom = 1.0f;
+		}
+
+
+		BeginMode2D(camera); // Begin 2D mode with camera again
+		DrawRectangleLines(0, 0, screenWidth, screenHeight, RED);
+		Rectangle sMR{
+				(scissorArea.x - camera.target.x) * camera.zoom + camera.offset.x,
+				(scissorArea.y - camera.target.y) * camera.zoom + camera.offset.y,
+				(scissorArea.width) * camera.zoom,
+				(scissorArea.height) * camera.zoom
+		};
+
+		if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+			DrawCircle(0, 0, 100, ColorAlpha(YELLOW, 0.5));
+			DrawCircle(150, 100, 100, ColorAlpha(BLUE, 0.5));
+			DrawEllipse(250, 250, 300, 50, ColorAlpha(GREEN, 0.5));
 		}
 
 		BeginScissorMode(

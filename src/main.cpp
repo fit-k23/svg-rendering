@@ -1,5 +1,9 @@
 #include <iostream>
+#include "conio.h"
+#include "api/XMLParser.h"
+#include "api/Graphic.h"
 
+/// Raylib
 #include "../lib/raylib/raylib.h"
 #include "../lib/raylib/rlgl.h"
 #include "../lib/raylib/raymath.h"
@@ -127,7 +131,42 @@ void app() {
 	CloseWindow();
 }
 
+void test() {
+	Vector2 screenSize = { 800, 600 };
+
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	//Enable MSAA 4X anti-aliasing
+	//SetConfigFlags(FLAG_MSAA_4X_HINT);
+
+	//Better image but blurry text...
+	//SetConfigFlags(FLAG_WINDOW_HIGHDPI);
+
+	InitWindow(screenSize.x, screenSize.y, APPLICATION_NAME);
+	
+	while (!WindowShouldClose()) {
+		BeginDrawing();
+		ClearBackground(BLACK);
+		Vector2 points[] = {{0, 40}, {40, 40}, {40, 80}, {80, 80}, {80, 120}, {120, 120}, {120, 140}};
+		DrawTriangleFan(points, 7, WHITE);
+		EndDrawing();
+	}
+
+	CloseWindow();
+}
+
 int main() {
-	app();
+	//app();
+	test();
+	//std::cout << "\n\n";
+	//XMLParser parser;
+	//std::vector<Element*> v;
+	//parser.traverseXML("sample.svg", v);
+	//std::cout << (int)v.size() << '\n';
+
+	//for (int i = 0; i < (int)v.size(); ++i)
+	//	v[i]->dbg();
+
+	//for (int i = 0; i < (int)v.size(); ++i) delete v[i];
+
 	return 0;
 }
