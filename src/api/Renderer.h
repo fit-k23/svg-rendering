@@ -2,7 +2,24 @@
 #define RENDERER_H
 
 #include <vector>
-#include "Graphic.h"
+
+#include "../element/shape/Circle.h"
+#include "../element/shape/Ellipse.h"
+#include "../element/shape/Line.h"
+#include "../element/shape/Path.h"
+#include "../element/shape/Polygon.h"
+#include "../element/shape/Polyline.h"
+#include "../element/shape/Rectangle.h"
+#include "../element/shape/Text.h"
+#include "../element/utils/Gradient.h"
+#include "../element/Group.h"
+#include "../element/Element.h"
+#include "../element/utils/SVGColor.h"
+#include "../element/utils/ViewBox.h"
+#include "../element/utils/Vector2D.h"
+
+#include "../utils/Raylibex.h"
+
 #include "../../lib/raylib/raylib.h"
 #include "../../lib/raylib/raymath.h"
 #include "../../lib/raylib/rlgl.h"
@@ -21,7 +38,7 @@ public:
 	* @brief Parameterized constructor
 	* @param vector of pointers to Element abstract type
 	*/
-	Renderer(const Vector2D<float>& viewPort, const std::vector<Element*>& shapes);
+	Renderer(const Vector2D<float> &viewPort, const std::vector<Element*> &shapes);
 
 	/*
 	* @brief Destructor
@@ -35,50 +52,44 @@ public:
 	void draw();
 
 	/*
-	* @brief Draw a rounded rectangle
-	* @note Draw 5 rectangle and 4 ellipse .-.
-	*/
-	void drawRoundedRect(float posX, float posY, float width, float height, float radiusx, float radiusy, SVGColor color, RenderTexture2D renderTexture);
-
-	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Element* element, RenderTexture2D& renderTexture);
+	void drawRect(Rectangle *element, RenderTexture2D &renderTexture);
 
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(Element* element);
+	void drawEllipse(Ellipse *element);
 
 	/*
 	* @brief Draw a circle
 	*/
-	void drawCircle(Element* element);
+	void drawCircle(Circle *element);
 
 	/*
 	* @brief Draw a line
 	*/
-	void drawLine(Element* element);
+	void drawLine(Line *element);
 
 	/*
 	* @brief Draw polyline
 	*/
-	void drawPolyline(Element* element);
+	void drawPolyline(Polyline *element);
 
 	/*
 	* @brief Draw a polygon
 	*/
-	void drawPolygon(Element* element);
+	void drawPolygon(Polygon *element);
 
 	/*
 	* @brief Draw text
 	*/
-	void drawText(Element* element);
+	void drawText(Text *element);
 
 	/*
 	* @brief Draw path
 	*/
-	void drawPath(Element* element);
+	void drawPath(Path *element);
 };
 
 #endif //RENDERER_H
