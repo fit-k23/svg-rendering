@@ -6,7 +6,7 @@
 
 class Line : public Element{
 private:
-	Vector2D<double> endPosition;
+	Vector2D<float> endPosition;
 public:
 	/*
 	* @brief Default constructor
@@ -16,8 +16,8 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Line(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
-		const Vector2D<double>& endPosition);
+	Line(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, 
+		const Vector2D<float>& endPosition);
 
 	/*
 	* @brief Copy constructor
@@ -39,19 +39,19 @@ public:
 	/*
 	* @brief set end position of line
 	*/
-	void setEndPosition(const Vector2D<double>& endPosition);
+	void setEndPosition(const Vector2D<float>& endPosition);
 
 	/*
 	* @brief get end position of a line
 	* @note This function does not change any attributes
 	*/
-	Vector2D<double> getEndPosition() const;
+	Vector2D<float> getEndPosition() const;
 		
 	/*
 	* @brief Get slope coefficient of the line
 	* @return slope
 	*/
-	double getSlope() const;
+	float getSlope() const;
 
 	/*
 	* @brief Check if two lines intersect each other
@@ -63,7 +63,7 @@ public:
 	* @brief Get intersected point
 	* @return intersected point
 	*/
-	Vector2D<double> getIntersected(const Line& other) const;
+	Vector2D<float> getIntersected(const Line& other) const;
 };
 
 #endif //SVG_RENDERING_LINE_H

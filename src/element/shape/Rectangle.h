@@ -7,9 +7,9 @@
 
 class Rect : public Element {
 private:
-	double width;
-	double height;
-	Vector2D<double> radii;
+	float width;
+	float height;
+	Vector2D<float> radii;
 public:
 	/*
 	* @brief Default constructor
@@ -26,8 +26,8 @@ public:
 	* @param: strokeColor: stroke color of Rect
 	* @param: strokeWidth: stroke width of Rect
 	*/
-	Rect(Vector2D<double> _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
-			  double width, double height, Vector2D<double>radii);
+	Rect(Vector2D<float> _position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, 
+			  float width, float height, Vector2D<float>radii);
 
 	/*
 	* @brief Copy constructor
@@ -49,37 +49,37 @@ public:
 	* @brief set width of the Rect
 	* @param: _width: passed width 
 	*/
-	void setWidth(double _width);
+	void setWidth(float _width);
 
 	/*
 	* @brief set height of the Rect
 	* @param: _height: passed height
 	*/
-	void setHeight(double _height);
+	void setHeight(float _height);
 
 	/*
 	* @brief get width of the Rect
 	* @return width of current Rect
 	*/
-	double getWidth() const;
+	float getWidth() const;
 
 	/*
 	* @brief get height of the Rect
 	* @return height of current Rect
 	*/
-	double getHeight() const;
+	float getHeight() const;
 
 	/*
 	* @brief set radii of the Rect
 	* @param: radii: passed-by-reference radii
 	*/
-	void setRadii(const Vector2D<double>& radii);
+	void setRadii(const Vector2D<float>& radii);
 
 	/*
 	* @brief get radii of the Rect
 	* @return radii of current Rect
 	*/
-	Vector2D<double> getRadii() const;
+	Vector2D<float> getRadii() const;
 };
 
 #endif //SVG_RENDERING_Rect_H

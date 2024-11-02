@@ -18,7 +18,7 @@
 class XMLParser {
 private:
 	rapidxml::xml_document<> doc;
-	Vector2D<double> viewPort;
+	Vector2D<float> viewPort;
 	// TODO: add viewBox
 public:
 	/**
@@ -36,7 +36,7 @@ public:
 	* @brief Get viewport information
 	* @return Vector2D type of viewport
 	**/
-	Vector2D<double> getViewPort();
+	Vector2D<float> getViewPort();
 
 	/**
 	* @brief Traverse through each nodes and attributes of SVG
@@ -76,12 +76,12 @@ public:
 	Polyline parsePolyline(rapidxml::xml_node<>* pNode);
 
 	/**
-	* @brief Get the double value of specific attribute
+	* @brief Get the float value of specific attribute
 	* @param node current xml node
 	* @param attrName attribute's name
-	* @return a double
+	* @return a float
 	**/
-	double parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+	float parseFloatAttr(rapidxml::xml_node<>* pNode, std::string attrName);
 
 	/**
 	* @brief Get the insight value of specific attribute
@@ -103,9 +103,9 @@ public:
 	* @brief Parse set of points attributes
 	* @param pNode current xml node
 	* @param attrName attribute's name
-	* @return a vector of Vector2D<double> set of points
+	* @return a vector of Vector2D<float> set of points
 	*/
-	std::vector<Vector2D<double>> parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName);
+	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName);
 };
 
 #endif // XML_PARSER_H_

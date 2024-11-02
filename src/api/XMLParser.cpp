@@ -5,7 +5,7 @@
 * @brief Default constructor
 **/
 XMLParser::XMLParser() {
-	viewPort = Vector2D<double>(0, 0);
+	viewPort = Vector2D<float>(0, 0);
 }
 
 /**
@@ -33,8 +33,8 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
 
 	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg> 
-	viewPort.x = parseDoubleAttr(pRoot, "width"); 
-	viewPort.y = parseDoubleAttr(pRoot, "height");
+	viewPort.x = parseFloatAttr(pRoot, "width"); 
+	viewPort.y = parseFloatAttr(pRoot, "height");
 
 	std::cout << "Viewport x = " << viewPort.x << '\n';
 	std::cout << "Viewport y = " << viewPort.y << '\n';
@@ -77,7 +77,7 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 * @brief get view port information
 * @return viewport
 */
-Vector2D<double> XMLParser::getViewPort() {
+Vector2D<float> XMLParser::getViewPort() {
 	return this->viewPort; 
 }
 
@@ -87,15 +87,15 @@ Vector2D<double> XMLParser::getViewPort() {
 * @note x, y, rx, ry is 0 by default
 */
 Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
-	double x = parseDoubleAttr(pNode, "x");
-	double y = parseDoubleAttr(pNode, "y");
-	double rx = parseDoubleAttr(pNode, "rx");
-	double ry = parseDoubleAttr(pNode, "ry");
-	double width = parseDoubleAttr(pNode, "width");
-	double height = parseDoubleAttr(pNode, "height");
+	float x = parseFloatAttr(pNode, "x");
+	float y = parseFloatAttr(pNode, "y");
+	float rx = parseFloatAttr(pNode, "rx");
+	float ry = parseFloatAttr(pNode, "ry");
+	float width = parseFloatAttr(pNode, "width");
+	float height = parseFloatAttr(pNode, "height");
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	Rect rect = Rect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
 	return rect;
 }
@@ -105,13 +105,13 @@ Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
 * @return Ellipse object
 */
 Ellipse XMLParser::parseEllipse(rapidxml::xml_node<>* pNode) {
-	double cx = parseDoubleAttr(pNode, "cx");
-	double cy = parseDoubleAttr(pNode, "cy");
-	double rx = parseDoubleAttr(pNode, "rx");
-	double ry = parseDoubleAttr(pNode, "ry");
+	float cx = parseFloatAttr(pNode, "cx");
+	float cy = parseFloatAttr(pNode, "cy");
+	float rx = parseFloatAttr(pNode, "rx");
+	float ry = parseFloatAttr(pNode, "ry");
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	Ellipse ellipse = Ellipse(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry));
 	return ellipse;
 }
@@ -121,12 +121,12 @@ Ellipse XMLParser::parseEllipse(rapidxml::xml_node<>* pNode) {
 * @return a Circle object
 */
 Circle XMLParser::parseCircle(rapidxml::xml_node<>* pNode) {
-	double cx = parseDoubleAttr(pNode, "cx");
-	double cy = parseDoubleAttr(pNode, "cy");
-	double radius = parseDoubleAttr(pNode, "r");
+	float cx = parseFloatAttr(pNode, "cx");
+	float cy = parseFloatAttr(pNode, "cy");
+	float radius = parseFloatAttr(pNode, "r");
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	Circle circle = Circle(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, radius);
 	return circle;
 }
@@ -136,13 +136,13 @@ Circle XMLParser::parseCircle(rapidxml::xml_node<>* pNode) {
 * @return a Line object
 */
 Line XMLParser::parseLine(rapidxml::xml_node<>* pNode) {
-	double x1 = parseDoubleAttr(pNode, "x1");
-	double y1 = parseDoubleAttr(pNode, "y1");
-	double x2 = parseDoubleAttr(pNode, "x2");
-	double y2 = parseDoubleAttr(pNode, "y2");
+	float x1 = parseFloatAttr(pNode, "x1");
+	float y1 = parseFloatAttr(pNode, "y1");
+	float x2 = parseFloatAttr(pNode, "x2");
+	float y2 = parseFloatAttr(pNode, "y2");
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	Line line = Line(Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2));
 	return line;
 }
@@ -154,25 +154,25 @@ Line XMLParser::parseLine(rapidxml::xml_node<>* pNode) {
 Polyline XMLParser::parsePolyline(rapidxml::xml_node<>* pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	double strokeWidth = parseDoubleAttr(pNode, "stroke-width");
-	std::vector<Vector2D<double>> points = parsePointsAttr(pNode, "points");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
 	Polyline polyline;
 	for (int i = 0; i + 1 < (int)points.size(); ++i) {
-		Vector2D<double> position = points[i];
-		Vector2D<double> endPosition = points[i + 1];
+		Vector2D<float> position = points[i];
+		Vector2D<float> endPosition = points[i + 1];
 		polyline.addLines(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
 	}
 	return polyline;
 }
 
 /**
-* @brief Get the double value of specific attribute
+* @brief Get the float value of specific attribute
 * @param node: current xml node
 * @param attrName: name of attribute
-* @return a double
+* @return a float
 **/
-double XMLParser::parseDoubleAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	double ret = 0.0;
+float XMLParser::parseFloatAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+	float ret = 0.0;
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
 		// stroke, fill, opacity default must be 1
@@ -220,7 +220,7 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 		// If no attribute with attrName specified, default color is black
 		// Default constructor of SVGColor is black
 		color = SVGColor(0, 0, 0);
-		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); 
+		color.a = color.a * parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity"); 
 		return color;
 	}
 	std::string value = pAttr->value();
@@ -234,26 +234,26 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	} else {
 		color = SVGColor(value); // <-- get Color in SVGColor class
 		// get opacity
-		color.a = color.a * parseDoubleAttr(pNode, attrName + "-opacity") * parseDoubleAttr(pNode, "opacity"); 
+		color.a = color.a * parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity"); 
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;
 }
 
-std::vector<Vector2D<double>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) return {};
-	std::vector<Vector2D<double>> ret = {};
+	std::vector<Vector2D<float>> ret = {};
 	
 	std::string value = pAttr->value();
 	for (int i = 0; i < (int)value.size(); ++i) if (value[i] == ',') value[i] = ' ';
 	std::stringstream buffer(value);
 	
-	double x = 0;
+	float x = 0;
 	while (buffer >> x) {
-		double y = 0;
+		float y = 0;
 		buffer >> y;
-		ret.push_back(Vector2D<double>(x, y));
+		ret.push_back(Vector2D<float>(x, y));
 	}
 
 	buffer.str(""); // <-- clear buffer

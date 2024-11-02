@@ -7,7 +7,7 @@ Polyline::Polyline() : Element(), lines({}) {}
 /*
 * @brief Parameterized constructor
 */
-Polyline::Polyline(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
+Polyline::Polyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
 	const std::vector<Line>& lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines) {}
 
 /*

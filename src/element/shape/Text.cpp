@@ -9,8 +9,8 @@ Text::Text() : data(""), textAnchor("start"), fontStyle(""), fontSize(1.0) {}
 * @brief Parameterized constructor
 * @note TODO change font style. What is raylib default font style ???
 */
-Text::Text(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
-	double strokeWidth, const std::string& data, double fontSize) : Element(position, fillColor, strokeColor, strokeWidth),
+Text::Text(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
+	float strokeWidth, const std::string& data, float fontSize) : Element(position, fillColor, strokeColor, strokeWidth),
 																	data(data), textAnchor("start"), fontStyle(""), fontSize(fontSize) {}
 
 /*
@@ -71,10 +71,10 @@ std::string Text::getFontStyle() const { return fontStyle; }
 * @brief Set font size
 * @param fontSize new font size for text
 */
-void Text::setFontSize(double fontSize) { this->fontSize = fontSize; }
+void Text::setFontSize(float fontSize) { this->fontSize = fontSize; }
 
 /*
 * @brief Get font size of text
 * @note This function doesn't change any attributes
 */
-double Text::getFontSize() const { return fontSize; }
+float Text::getFontSize() const { return fontSize; }

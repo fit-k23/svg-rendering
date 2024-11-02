@@ -8,7 +8,7 @@ Polygon::Polygon() : Element(), lines({}) {}
 /*
 * @brief Parameterized constructor
 */
-Polygon::Polygon(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, 
+Polygon::Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, 
 				const std::vector<Line>& _lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(_lines) {}
 
 /*

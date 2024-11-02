@@ -25,6 +25,10 @@ public:
 	
 	explicit operator Color() const;
 
+	Color pureColor() const {
+		return Color{ r, g, b, 255 };
+	}
+
 	// Parameterized constructor
 	// @param: fill the string format
 	// @note: fill can be hex code, color name, rgb(..), rgba(...),

@@ -19,7 +19,7 @@ private:
 	std::string data;
 	std::string textAnchor;
 	std::string fontStyle;
-	double fontSize;
+	float fontSize;
 public:
 	/*
 	* @brief Default constructor
@@ -29,8 +29,8 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Text(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
-		double strokeWidth, const std::string& data, double fontSize);
+	Text(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
+		float strokeWidth, const std::string& data, float fontSize);
 
 	/*
 	* @brief Get type Text
@@ -82,13 +82,13 @@ public:
 	* @brief Set font size
 	* @param fontSize new font size for text
 	*/
-	void setFontSize(double fontSize);
+	void setFontSize(float fontSize);
 
 	/*
 	* @brief Get font size of text
 	* @note This function doesn't change any attributes
 	*/
-	double getFontSize() const;
+	float getFontSize() const;
 };
 
 #endif //SVG_RENDERING_TEXT_H

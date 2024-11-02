@@ -10,8 +10,8 @@ Ellipse::Ellipse() : Element(), radii() {}
 /**
  * @brief Full-parameterized constructor of ellipse
  */
-Ellipse::Ellipse(const Vector2D<double> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
-                 const Vector2D<double> &radii) : Element(_position, fillColor, strokeColor, strokeWidth), radii(radii) {}
+Ellipse::Ellipse(const Vector2D<float> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+                 const Vector2D<float> &radii) : Element(_position, fillColor, strokeColor, strokeWidth), radii(radii) {}
 
 /**
  * @brief get type of object
@@ -48,11 +48,11 @@ void Ellipse::dbg() {
  * @brief set radii
  * @param radii update radii
  */
-void Ellipse::setRadii(const Vector2D<double> &_radii) { this->radii = _radii; }
+void Ellipse::setRadii(const Vector2D<float> &_radii) { this->radii = _radii; }
 
 /**
  * @brief get radii
  * @return radii
 * @note This function doesn't change any attributes
  */
-Vector2D<double> Ellipse::getRadii() const { return radii; }
+Vector2D<float> Ellipse::getRadii() const { return radii; }

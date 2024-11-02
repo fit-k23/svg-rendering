@@ -8,7 +8,7 @@
 
 class Ellipse : public Element{
 private:
-	Vector2D<double> radii;
+	Vector2D<float> radii;
 public:
 	/**
 	 * @brief Default Constructor
@@ -18,7 +18,7 @@ public:
 	/**
 	 * @brief Full-parameterized constructor of ellipse
 	 */
-	Ellipse(const Vector2D<double>& _position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth, const Vector2D<double>&radii);
+	Ellipse(const Vector2D<float>& _position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const Vector2D<float>&radii);
 
 	/**
 	 * @brief get type of object
@@ -35,14 +35,14 @@ public:
 	 * @brief set radii
 	 * @param radii update radii
 	 */
-	void setRadii(const Vector2D<double> &radii);
+	void setRadii(const Vector2D<float> &radii);
 
 	/**
 	 * @brief get radii
 	 * @return radii
 	 * @note This function doesn't change any attributes
 	 */
-	Vector2D<double> getRadii() const;
+	Vector2D<float> getRadii() const;
 };
 
 #endif //SVG_RENDERING_ELLIPSE_H

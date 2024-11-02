@@ -16,8 +16,8 @@ Rect::Rect() : Element(), width(0.0), height(0.0), radii() {}
 * @param strokeColor: stroke color of Rect
 * @param strokeWidth: stroke width of Rect
 */
-Rect::Rect(Vector2D<double> position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
-	double width, double height, Vector2D<double>radii) : Element(position, fillColor, strokeColor, strokeWidth), width(width),
+Rect::Rect(Vector2D<float> position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+	float width, float height, Vector2D<float>radii) : Element(position, fillColor, strokeColor, strokeWidth), width(width),
 	height(height), radii(radii) {}
 
 /*
@@ -55,7 +55,7 @@ void Rect::dbg() {
 * @brief set width of the Rect
 * @param _width: passed width
 */
-void Rect::setWidth(double _width) {
+void Rect::setWidth(float _width) {
 	this->width = _width;
 }
 
@@ -63,7 +63,7 @@ void Rect::setWidth(double _width) {
 * @brief set height of the Rect
 * @param _height: passed height
 */
-void Rect::setHeight(double _height) {
+void Rect::setHeight(float _height) {
 	this->height = _height;
 }
 
@@ -71,7 +71,7 @@ void Rect::setHeight(double _height) {
 * @brief get width of the Rect
 * @return width of current Rect
 */
-double Rect::getWidth() const {
+float Rect::getWidth() const {
 	return this->width;
 }
 
@@ -79,7 +79,7 @@ double Rect::getWidth() const {
 * @brief get height of the Rect
 * @return height of current Rect
 */
-double Rect::getHeight() const {
+float Rect::getHeight() const {
 	return this->height;
 }
 
@@ -87,7 +87,7 @@ double Rect::getHeight() const {
 * @brief set radii of the Rect
 * @param radii: passed-by-reference radii
 */
-void Rect::setRadii(const Vector2D<double>& radii) {
+void Rect::setRadii(const Vector2D<float>& radii) {
 	this->radii = radii;
 }
 
@@ -95,6 +95,6 @@ void Rect::setRadii(const Vector2D<double>& radii) {
 * @brief get radii of the Rect
 * @return radii of current Rect
 */
-Vector2D<double> Rect::getRadii() const {
+Vector2D<float> Rect::getRadii() const {
 	return this->radii;
 }

@@ -16,10 +16,10 @@
 **/
 class Element{
 protected:
-	Vector2D<double> position;
+	Vector2D<float> position;
 	SVGColor fillColor;
 	SVGColor strokeColor;
-	double strokeWidth;
+	float strokeWidth;
 	std::vector<std::string> transformation;
 	Gradient *gradient{};
 	Element *parent{};
@@ -34,7 +34,7 @@ protected:
 	* @brief Parameterized constructor
 	* @note easier for subclass to inherit and write its constructor
 	*/
-	Element(const Vector2D<double> &position, const SVGColor &fillColor, const SVGColor &strokeColor, double strokeWidth);
+	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
 public:
 	/**
 	* @brief: Virtual destructor
@@ -57,21 +57,21 @@ public:
 	
 	/**
 	* @brief: set position of an svg element
-	* @param: x and y coordinates (double)
+	* @param: x and y coordinates (float)
 	*/
-	void setPosition(double x, double y);
+	void setPosition(float x, float y);
 
 	/**
 	* @brief: set position of an svg element
 	* @param: a passed-by-referenced vector2D object
 	*/
-	void setPosition(const Vector2D<double> &position);
+	void setPosition(const Vector2D<float> &position);
 	
 	/**
 	* @brief: get position of an svg element
 	* @return: a vector2D
 	*/
-	Vector2D<double> getPosition() const;
+	Vector2D<float> getPosition() const;
 	
 	/**
 	* @brief: set fill color of an svg element
@@ -99,15 +99,15 @@ public:
 
 	/**
 	* @brief: set stroke width of an svg element
-	* @param: a double variable
+	* @param: a float variable
 	*/
-	void setStrokeWidth(double width);
+	void setStrokeWidth(float width);
 
 	/**
 	* @brief: get stroke width of an svg element
-	* @return: double
+	* @return: float
 	*/
-	double getStrokeWidth() const;
+	float getStrokeWidth() const;
 
 	/**
 	 * @brief add a transformation  

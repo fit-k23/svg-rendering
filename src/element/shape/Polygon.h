@@ -23,7 +23,7 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Polygon(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
+	Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
 		const std::vector<Line>& lines);
 
 	/*

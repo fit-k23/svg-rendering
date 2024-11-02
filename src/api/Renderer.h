@@ -9,7 +9,7 @@
 
 class Renderer {
 private:
-	Vector2D<double> viewPort;
+	Vector2D<float> viewPort;
 	std::vector<Element*> shapes;
 public: 
 	/*
@@ -21,7 +21,7 @@ public:
 	* @brief Parameterized constructor
 	* @param vector of pointers to Element abstract type
 	*/
-	Renderer(const Vector2D<double>& viewPort, const std::vector<Element*>& shapes);
+	Renderer(const Vector2D<float>& viewPort, const std::vector<Element*>& shapes);
 
 	/*
 	* @brief Destructor
@@ -35,9 +35,15 @@ public:
 	void draw();
 
 	/*
+	* @brief Draw a rounded rectangle
+	* @note Draw 5 rectangle and 4 ellipse .-.
+	*/
+	void drawRoundedRect(float posX, float posY, float width, float height, float radiusx, float radiusy, SVGColor color, RenderTexture2D renderTexture);
+
+	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Element* element);
+	void drawRect(Element* element, RenderTexture2D& renderTexture);
 
 	/*
 	* @brief Draw an ellipse

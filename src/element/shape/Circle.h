@@ -16,7 +16,7 @@ public:
 	* @brief Full-parameterized constructor
 	* @param inherits all from Ellipse
 	**/
-	Circle(Vector2D<double> position, const SVGColor& fillColor, const SVGColor& strokeColor, double  strokeWidth, double radius);
+	Circle(Vector2D<float> position, const SVGColor& fillColor, const SVGColor& strokeColor, float  strokeWidth, float radius);
 
 	/**
 	* @brief Get type of Circle

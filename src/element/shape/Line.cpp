@@ -3,13 +3,13 @@
 /*
 * @brief Default constructor
 */
-Line::Line() : Element(), endPosition(Vector2D<double>()) {}
+Line::Line() : Element(), endPosition(Vector2D<float>()) {}
 
 /*
 * @brief Parameterized constructor
 */
-Line::Line(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
-	const Vector2D<double>& endPosition) : Element(position, fillColor, strokeColor, strokeWidth), endPosition(endPosition) {}
+Line::Line(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+	const Vector2D<float>& endPosition) : Element(position, fillColor, strokeColor, strokeWidth), endPosition(endPosition) {}
 
 /*
 * @brief Copy constructor
@@ -45,20 +45,20 @@ void Line::dbg() {
 /*
 * @brief set end position of line
 */
-void Line::setEndPosition(const Vector2D<double>& endPosition) { this->endPosition = endPosition;  }
+void Line::setEndPosition(const Vector2D<float>& endPosition) { this->endPosition = endPosition;  }
 
 /*
 * @brief get end position of a line
 * @note This function does not change any attributes
 */
-Vector2D<double> Line::getEndPosition() const { return this->endPosition;  }
+Vector2D<float> Line::getEndPosition() const { return this->endPosition;  }
 
 /*
 * @brief Get slope coefficient of the line
 * @return slope 
 */
-double Line::getSlope() const {
-	return (double)fabs(endPosition.y - position.y) / (double)fabs(endPosition.x - position.x);
+float Line::getSlope() const {
+	return (float)fabs(endPosition.y - position.y) / (float)fabs(endPosition.x - position.x);
 }
 
 /*
@@ -74,12 +74,12 @@ bool Line::isIntersect(const Line& other) const {
 * @brief Get intersected point
 * @return intersected point
 */
-Vector2D<double> Line::getIntersected(const Line& other) const {
-	double a1 = getSlope(), a2 = other.getSlope();
-	double b1 = position.y - a1 * position.x;
-	double b2 = other.position.y - a2 * other.position.x;
-	double intersectX = (double)(b2 - b1) / (double)(a1 - a2);
-	double intersectY = a1 * intersectX + b1;
+Vector2D<float> Line::getIntersected(const Line& other) const {
+	float a1 = getSlope(), a2 = other.getSlope();
+	float b1 = position.y - a1 * position.x;
+	float b2 = other.position.y - a2 * other.position.x;
+	float intersectX = (float)(b2 - b1) / (float)(a1 - a2);
+	float intersectY = a1 * intersectX + b1;
 	return Vector2D(intersectX, intersectY);
 }
 

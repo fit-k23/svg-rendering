@@ -102,7 +102,7 @@ void app() {
 		int screenHeight = screenSize.y;
 
 		BeginDrawing();
-		ClearBackground(BLACK);
+		ClearBackground(BLANK);
 		int sx = GetScreenWidth() / 10;
 		int sy = GetScreenHeight() / 10;
 
@@ -131,6 +131,46 @@ void app() {
 	CloseWindow();
 }
 
+//void testRoundRect(float posX, float posY, float width, float height, float radiusx, float radiusy, Color color) {
+//	// Draw the central part of the rectangle
+//	DrawRectangle(posX + radiusx, posY + radiusy, width - 2 * radiusx, height - 2 * radiusy, color);
+//
+//	// Draw the side rectangles (top, bottom, left, right)
+//	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, color);                   // Top
+//	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, color); // Bottom
+//	DrawRectangle(posX, posY + radiusx, radiusx, height - 2 * radiusy, color);                  // Left
+//	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, color); // Right
+//
+//	// Draw circles at each corner
+//	DrawEllipse(posX + radiusx, posY + radiusy, radiusx, radiusy, color);                      // Top-left corner
+//	DrawEllipse(posX + width - radiusx, posY + radiusy, radiusx, radiusy, color);              // Top-right corner
+//	DrawEllipse(posX + radiusx, posY + height - radiusy, radiusx, radiusy, color);             // Bottom-left corner
+//	DrawEllipse(posX + width - radiusx, posY + height - radiusy, radiusx, radiusy, color);     // Bottom-right corner
+//}
+
+void drawRoundedRect(float posX, float posY, float width, float height, float radiusx, float radiusy, Color color,
+	RenderTexture2D renderTexture) {
+	BeginTextureMode(renderTexture);
+	ClearBackground(BLANK);
+
+	// Draw the central part of the rectangle
+	DrawRectangle(posX + radiusx, posY + radiusy, width - 2 * radiusx, height - 2 * radiusy, color);
+	// Draw the side rectangles (top, bottom, left, right)
+	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, color);                   // Top
+	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, color); // Bottom
+	DrawRectangle(posX, posY + radiusx, radiusx, height - 2 * radiusy, color);                  // Left
+	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, color); // Right
+
+	DrawEllipse(posX + radiusx, posY + radiusy, radiusx, radiusy, color);                      // Top-left corner
+	DrawEllipse(posX + width - radiusx, posY + radiusy, radiusx, radiusy, color);              // Top-right corner
+	DrawEllipse(posX + radiusx, posY + height - radiusy, radiusx, radiusy, color);             // Bottom-left corner
+	DrawEllipse(posX + width - radiusx, posY + height - radiusy, radiusx, radiusy, color);     // Bottom-right corner
+
+	EndTextureMode();
+
+	DrawTextureV(renderTexture.texture, { 0, 0 }, ColorAlpha(color, 0.6));
+}
+
 void test() {
 	Vector2 screenSize = { 800, 600 };
 
@@ -142,12 +182,20 @@ void test() {
 	//SetConfigFlags(FLAG_WINDOW_HIGHDPI);
 
 	InitWindow(screenSize.x, screenSize.y, APPLICATION_NAME);
-	
+	RenderTexture2D renderTexture = LoadRenderTexture(screenSize.x, screenSize.y);
 	while (!WindowShouldClose()) {
 		BeginDrawing();
-		ClearBackground(BLACK);
-		Vector2 points[] = {{0, 40}, {40, 40}, {40, 80}, {80, 80}, {80, 120}, {120, 120}, {120, 140}};
-		DrawTriangleFan(points, 7, WHITE);
+		//Vector2 points[] = {{0, 40}, {40, 40}, {40, 80}, {80, 80}, {80, 120}, {120, 120}, {120, 140}};
+		//DrawTriangleFan(points, 7, WHITE);
+		//DrawRectangleLinesEx(Rectangle{ 100, 100, 30, 30 }, 3, Color{ 255, 255, 255, 255 });
+		//testRoundRect(60 - 5, 100 - 5, 70 + 2 * 5, 40 + 2 * 5, 15, 15, Color{255, 255, 255, (unsigned char)(255 * 0.6)});
+		//testRoundRect(60, 100, 70, 40, 10, 10, ColorAlpha(BLUE, 0.7));
+		Color color = BLUE;
+		Color color2 = WHITE;
+		float posX = 60, posY = 100, width = 70, height = 40, radiusx = 5, radiusy = 5;
+		float strokeWidth = 5;
+		drawRoundedRect(posX - strokeWidth, posY - strokeWidth, width + 2 * strokeWidth, height + 2 * strokeWidth, radiusx + strokeWidth, radiusy + strokeWidth, color2, renderTexture);
+		drawRoundedRect(posX, posY, width, height, radiusx, radiusy, color, renderTexture);
 		EndDrawing();
 	}
 

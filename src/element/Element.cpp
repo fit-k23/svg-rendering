@@ -4,7 +4,7 @@
 * @brief Default constructor
 */
 Element::Element() {
-	position = Vector2D<double>(0, 0);
+	position = Vector2D<float>(0, 0);
 	fillColor = SVGColor(0, 0, 0, 0);
 	strokeColor = SVGColor(0, 0, 0, 0);
 	strokeWidth = 0.0;
@@ -17,7 +17,7 @@ Element::Element() {
 * @brief Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
-Element::Element(const Vector2D<double> &position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth) {
+Element::Element(const Vector2D<float> &position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
 	this->position = position;
 	this->fillColor = fillColor;
 	this->strokeColor = strokeColor;
@@ -26,9 +26,9 @@ Element::Element(const Vector2D<double> &position, const SVGColor& fillColor, co
 
 /*
 * @brief set position of an svg element
-* @param x and y coordinates (double)
+* @param x and y coordinates (float)
 */
-void Element::setPosition(double x, double y) {
+void Element::setPosition(float x, float y) {
 	this->position.x = x;
 	this->position.y = y;
 }
@@ -37,7 +37,7 @@ void Element::setPosition(double x, double y) {
 * @brief set position of a svg element
 * @param a passed-by-referenced vector2D object
 */
-void Element::setPosition(const Vector2D<double> &_position) {
+void Element::setPosition(const Vector2D<float> &_position) {
 	this->position.x = _position.x;
 	this->position.y = _position.y;
 }
@@ -46,7 +46,7 @@ void Element::setPosition(const Vector2D<double> &_position) {
 * @brief get position of a svg element
 * @return a vector2D
 */
-Vector2D<double> Element::getPosition() const {
+Vector2D<float> Element::getPosition() const {
 	return position;
 }
 
@@ -84,17 +84,17 @@ SVGColor Element::getStrokeColor() const {
 
 /*
 * @brief set stroke width of an svg element
-* @param a double variable
+* @param a float variable
 */
-void Element::setStrokeWidth(double width) {
+void Element::setStrokeWidth(float width) {
 	this->strokeWidth = width;
 }
 
 /*
 * @brief get stroke width of an svg element
-* @return double
+* @return float
 */
-double Element::getStrokeWidth() const {
+float Element::getStrokeWidth() const {
 	return this->strokeWidth;
 }
 
