@@ -25,9 +25,7 @@ public:
 	
 	explicit operator Color() const;
 
-	Color pureColor() const {
-		return Color{ r, g, b, 255 };
-	}
+	Color pureColor() const;
 
 	// Parameterized constructor
 	// @param: fill the string format

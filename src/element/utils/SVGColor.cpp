@@ -109,3 +109,7 @@ SVGColor::operator Color() const {
 
 SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.b) {}
 
+Color SVGColor::pureColor() const {
+	return Color{ r, g, b, 255 };
+}
+
