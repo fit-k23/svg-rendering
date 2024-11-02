@@ -431,7 +431,7 @@ int main() {
 		BeginTextureMode(rt);
 		ClearBackground(BLANK);
 //		DrawRectangleRounded2({100, 100, 300, 200}, 3.2, 180, BLUE);
-		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {1, 1}, 180, 5.0, BLUE);
+		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {0.9, 0.8}, 180, 5.0, BLUE);
 		EndTextureMode();
 
 		BeginDrawing();
