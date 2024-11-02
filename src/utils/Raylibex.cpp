@@ -2,6 +2,9 @@
 #pragma ide diagnostic ignored "cppcoreguidelines-narrowing-conversions"
 #include "Raylibex.h"
 
+/**
+ * @brief Draw rounded rectangle [SHOULD NOT BE USED DIRECTLY]
+ */
 void draw_rect_roundedRLEX(float posX, float posY, float width, float height, float radiusx, float radiusy, Color color) {
 	color.a = 255; // solidify
 
@@ -54,29 +57,24 @@ void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke
 	draw_rect_roundedRLEX(rect.x - stroke, rect.y - stroke, rect.width + 2 * stroke, rect.height + 2 * stroke, radius.x + stroke, radius.y + stroke, strokeColor);
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, strokeColor);
 	EndBlendMode();
+	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
 	EndTextureMode();
 	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
-
-	BeginTextureMode(rt);
-	ClearBackground(BLANK);
-	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
-	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
-	EndBlendMode();
-	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
 }
 
-void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
+void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
 	rlBegin(RL_TRIANGLES);
 	rlColor4ub(color.r, color.g, color.b, color.a);
 	for (int i = 0; i < 360; i += step) {
 		rlVertex2f((float) centerX, (float) centerY);
-		rlVertex2f(
-				(float) centerX + cosf(DEG2RAD * (i + step)) * radiusH,
-				(float) centerY + sinf(DEG2RAD * (i + step)) * radiusV);
+		rlVertex2f((float) centerX + cosf(DEG2RAD * (i + step)) * radiusH, (float) centerY + sinf(DEG2RAD * (i + step)) * radiusV);
 		rlVertex2f((float) centerX + cosf(DEG2RAD * i) * radiusH, (float) centerY + sinf(DEG2RAD * i) * radiusV);
 	}
 	rlEnd();
+}
+
+void DrawEllipseVRLEX(Vector2 position, Vector2 radius, Color color, int step) {
+	DrawEllipseRLEX(position.x, position.y, radius.x, radius.y, color, step);
 }
 
 void DrawRectangleGradientHQ(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight) {

@@ -11,7 +11,8 @@ void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, Rende
 
 void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke, Color fillColor, Color strokeColor, RenderTexture2D rt);
 
-void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color color, int step = 10);
+void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step = 10);
+void DrawEllipseVRLEX(Vector2 position, Vector2 radius, Color color, int step = 10);
 
 void DrawRectangleGradientHQ(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight);
 
