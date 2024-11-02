@@ -21,18 +21,6 @@ ElementType Ellipse::getTypeName() {
     return ElementType::Ellipse;
 }
 
-/**
- * @brief draw Ellipse
- * @note override function
- */
-//void Ellipse::draw() {
-//	if (this->strokeWidth != 0) {
-//		DrawEllipseHQ(this->position.x, this->position.y, this->radii.x, this->radii.y, this->getStrokeColor().getRaylibColor());
-//		DrawEllipseHQ(this->position.x, this->position.y, this->radii.x - this->strokeWidth, this->radii.y - strokeWidth, this->fillColor.getRaylibColor());
-//	} else {
-//		DrawEllipseHQ(this->position.x, this->position.y, this->radii.x, this->radii.y, this->fillColor.getRaylibColor());
-//	}
-//}
 
 /**
  * @brief print all data of Ellipse
