@@ -8,7 +8,7 @@
 
 /*
 * @brief Polygon class
-* @note position vector2D in Polygon is the center of polygon
+* @note position vector2D in Polygon is the first point of polygon
 * @note lines describe all edges of Polygon
 */
 class Polygon : public Element{
@@ -23,7 +23,7 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Polygon(const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
+	Polygon(const Vector2D<double>& position, const SVGColor& fillColor, const SVGColor& strokeColor, double strokeWidth,
 		const std::vector<Line>& lines);
 
 	/*
@@ -51,22 +51,6 @@ public:
 	* @note This function doesn't change any attributes
 	*/
 	std::vector<Line> getLines() const;
-
-	/*
-	* @brief Set center of polygon
-	* @param center new center of polygon
-	*/
-	void setCenter(const Vector2D<double>& center); 
-
-	/*
-	* @brief Get center point
-	*/
-	Vector2D<double> getCenter() const;
-
-	/*
-	* @brief Get center point with set of lines
-	*/
-	Vector2D<double> getCenter(const std::vector<Line>& lines) const;
 };
 
 #endif //SVG_RENDERING_POLYGON_H

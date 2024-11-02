@@ -6,6 +6,11 @@
 #include <vector>
 #include <string>
 
+/*
+* @brief Polyline class
+* @note position is the first point of the polygon (first point of the first line)
+*/
+
 class Polyline : public Element {
 private:
 	std::vector<Line> lines;
