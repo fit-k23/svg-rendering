@@ -1,4 +1,5 @@
 #include "SVGColor.h"
+#include <sstream>
 SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 
 SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) : r(r), g(g), b(b), a(a) {}
@@ -24,17 +25,40 @@ SVGColor::SVGColor(std::string param) {
 			if (!param.substr(5, 2).empty())
 				b = std::stoi(param.substr(5, 2), nullptr, 16);
 		}
-	} else {
-		for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
-		auto it = LABELED_COLOR.find(param);
-		if (it != LABELED_COLOR.end()) {
-			SVGColor lc = it->second;
-			r = lc.r;
-			g = lc.g;
-			b = lc.b;
-			a = 255;
+		// Assuming the format is #RRGGBBAA
+		else if (param.length() == 9) {
+			if (!param.substr(1, 2).empty())
+				r = std::stoi(param.substr(1, 2), nullptr, 16);
+			if (!param.substr(3, 2).empty())
+				g = std::stoi(param.substr(3, 2), nullptr, 16);
+			if (!param.substr(5, 2).empty())
+				b = std::stoi(param.substr(5, 2), nullptr, 16);
+			if (!param.substr(7, 2).empty())
+				a = std::stoi(param.substr(7, 2), nullptr, 16);
 		}
-		std::cout << "String input does not start with '#' nor supported\n";
+	} else {
+		//Assuming the form of string input is rgb(r,g,b)
+		if (param[0]==r && (param[1]==g && param[2]==b)) {
+			std::stringstream buffer(param);
+			char temp;
+			for (int i=0;i<4;i++) {
+				buffer >> temp;
+			}
+			buffer>>r>>temp>>g>>temp>>b;
+		}
+		else {
+			//Assuming the string input is color name
+			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
+			auto it = LABELED_COLOR.find(param);
+			if (it != LABELED_COLOR.end()) {
+				SVGColor lc = it->second;
+				r = lc.r;
+				g = lc.g;
+				b = lc.b;
+				a = 255;
+			}
+			std::cout << "String input does not start with '#' nor supported\n";
+		}
 	}
 }
 
