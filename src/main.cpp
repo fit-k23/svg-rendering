@@ -172,7 +172,7 @@ void test() {
 		posX = GetMousePosition().x;
 		posY = GetMousePosition().y;
 		DrawRectangleRoundedStrokeRLEX({posX, posY, 300, 200}, {130, 100}, 4, ColorAlpha(RED, 0.8), ColorAlpha(BLUE, 0.9), renderTexture);
-		DrawEllipseHQ(300, 200, 130, 100, BLACK);
+		DrawEllipseRLEX(300, 200, 130, 100, BLACK);
 		EndDrawing();
 	}
 

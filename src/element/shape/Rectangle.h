@@ -26,7 +26,7 @@ public:
 	* @param: strokeColor: stroke color of Rect
 	* @param: strokeWidth: stroke width of Rect
 	*/
-	Rect(Vector2D<float> _position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, float width, float height, Vector2D<float>radii);
+	Rect(const Vector2D<float> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, float width, float height, Vector2D<float>radii);
 
 	/**
 	* @brief Copy constructor

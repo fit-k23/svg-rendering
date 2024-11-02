@@ -25,7 +25,7 @@ Element::Element(const Vector2D<float> &position, const SVGColor& fillColor, con
 }
 
 /*
-* @brief set position of an svg element
+* @brief set position of a svg element
 * @param x and y coordinates (float)
 */
 void Element::setPosition(float x, float y) {
@@ -83,7 +83,7 @@ SVGColor Element::getStrokeColor() const {
 }
 
 /*
-* @brief set stroke width of an svg element
+* @brief set stroke width of a svg element
 * @param a float variable
 */
 void Element::setStrokeWidth(float width) {
@@ -107,7 +107,7 @@ std::vector<std::string> Element::getTransformation() const {
 }
 
 /*
-* @brief set gradient of an svg element
+* @brief set gradient of a svg element
 * @param a pointer to an abstract Gradient object
 */
 void Element::setGradient(Gradient* grad) {

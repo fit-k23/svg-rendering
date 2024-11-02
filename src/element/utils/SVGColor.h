@@ -23,7 +23,7 @@ public:
 	SVGColor(int h, int s, int l);// hsl
 	SVGColor(int h, int s, int l, int a); //hsla
 	
-	explicit operator Color() const;
+	operator Color() const;
 
 	Color pureColor() const;
 

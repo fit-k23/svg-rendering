@@ -1,5 +1,4 @@
 #include "Rectangle.h"
-#include "conio.h"
 
 /*
 * @brief Default constructor
@@ -16,8 +15,8 @@ Rect::Rect() : Element(), width(0.0), height(0.0), radii() {}
 * @param strokeColor: stroke color of Rect
 * @param strokeWidth: stroke width of Rect
 */
-Rect::Rect(Vector2D<float> position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-	float width, float height, Vector2D<float>radii) : Element(position, fillColor, strokeColor, strokeWidth), width(width),
+Rect::Rect(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor& strokeColor, float strokeWidth,
+	float width, float height, Vector2D<float>radii) : Element(_position, fillColor, strokeColor, strokeWidth), width(width),
 	height(height), radii(radii) {}
 
 /*

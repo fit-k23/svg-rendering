@@ -18,7 +18,7 @@ public:
 	/**
 	 * @brief Full-parameterized constructor of ellipse
 	 */
-	Ellipse(const Vector2D<float>& _position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const Vector2D<float>&radii);
+	Ellipse(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const Vector2D<float> &radii);
 
 	/**
 	 * @brief get type of object

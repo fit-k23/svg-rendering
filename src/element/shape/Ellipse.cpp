@@ -10,8 +10,8 @@ Ellipse::Ellipse() : Element(), radii() {}
 /**
  * @brief Full-parameterized constructor of ellipse
  */
-Ellipse::Ellipse(const Vector2D<float> &_position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-                 const Vector2D<float> &radii) : Element(_position, fillColor, strokeColor, strokeWidth), radii(radii) {}
+Ellipse::Ellipse(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float strokeWidth,
+                 const Vector2D<float> &_radii) : Element(_position, _fillColor, _strokeColor, strokeWidth), radii(_radii) {}
 
 /**
  * @brief get type of object
@@ -28,8 +28,8 @@ ElementType Ellipse::getTypeName() {
 void Ellipse::dbg() {
     std::cout << "[DEBUG ELLIPSE]\n";
     std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
-    std::cout << "Radiix = " << radii.x << ", Radiiy = " << radii.y << '\n';
-    std::cout << "Stroke width = " << strokeWidth << '\n';
+    std::cout << "Radii: (" << radii.x << ", " << radii.y << ")\n";
+    std::cout << "Stroke Width: " << strokeWidth << '\n';
 }
 
 /**
