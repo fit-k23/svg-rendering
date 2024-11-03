@@ -19,13 +19,27 @@ public:
 	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 	SVGColor(const SVGColor &other);
 
+	SVGColor& operator = (const SVGColor& other);
+
     explicit SVGColor(std::string param); // -> tên màu luôn, mã hex
 	SVGColor(int h, int s, int l);// hsl
 	SVGColor(int h, int s, int l, int a); //hsla
 	
 	operator Color() const;
 
+<<<<<<< Updated upstream
 	Color pureColor() const;
+=======
+<<<<<<< HEAD
+	Color pureColor() const {
+		return Color{ r, g, b, 255 };
+	}
+	
+	void output() const;
+=======
+	Color pureColor() const;
+>>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
+>>>>>>> Stashed changes
 
 	// Parameterized constructor
 	// @param: fill the string format

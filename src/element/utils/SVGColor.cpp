@@ -7,6 +7,10 @@ SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned c
 SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b) : r(r), g(g), b(b), a(255) {}
 
 SVGColor::SVGColor(std::string param) {
+	r = 0;
+	g = 0;
+	b = 0;
+	a = 0;
 	if (param[0] == '#') {
 		for (int i = 1; i < 7; i++) {
 			if (((param[i] >= '0' && param[i] <= '9') || (param[i] >= 'a' && param[i] <= 'f')) || (param[i] >= 'A' && param[i] <= 'F')) {
@@ -38,13 +42,19 @@ SVGColor::SVGColor(std::string param) {
 		}
 	} else {
 		 //Assuming the form of string input is rgb(r,g,b)
-		if (param[0]==r && (param[1]==g && param[2]==b)) {
-			std::stringstream buffer(param);
-			char temp;
-			for (int i=0;i<4;i++) {
-				buffer >> temp;
+		if (param[0] == 'r' && (param[1] == 'g' && param[2] == 'b')) {
+			for (int i = 0; i < (int)param.size(); ++i) {
+				if (!(param[i] >= '0' && param[i] <= '9') && param[i] != '.')
+					param[i] = ' ';
 			}
-			buffer>>r>>temp>>g>>temp>>b;
+			//std::cout << "Param after preprocess = " << param << '\n';
+			std::stringstream buffer(param);
+			float R, G, B;
+			buffer >> R >> G >> B;
+			//std::cout << "R G B = " << R << " " << G << " " << B << '\n';
+			r = (unsigned char)R;
+			g = (unsigned char)G;
+			b = (unsigned char)B;
 		}
 		else {
 			//Assuming the string input is color name
@@ -107,9 +117,30 @@ SVGColor::operator Color() const {
 	return Color{r, g, b, a};
 }
 
-SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.b) {}
+SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+void SVGColor::output() const {
+	std::cout << "{" << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << "}";
+}
+
+SVGColor& SVGColor::operator = (const SVGColor& other) {
+	if (this == &other) return *this;
+	r = other.r;
+	g = other.g;
+	b = other.b;
+	a = other.a;
+	return *this;
+}
+=======
+>>>>>>> Stashed changes
 Color SVGColor::pureColor() const {
 	return Color{ r, g, b, 255 };
 }
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
+>>>>>>> Stashed changes

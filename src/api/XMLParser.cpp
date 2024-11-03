@@ -94,9 +94,16 @@ Rect XMLParser::parseRect(rapidxml::xml_node<>* pNode) {
 	float width = parseFloatAttr(pNode, "width");
 	float height = parseFloatAttr(pNode, "height");
 	SVGColor fillColor = parseColor(pNode, "fill");
+	//std::cout << "Parsing rect... fillColor is ";  fillColor.output(); std::cout << '\n';
 	SVGColor strokeColor = parseColor(pNode, "stroke");
+	//std::cout << "Parsing rect... strokeColor is "; strokeColor.output(); std::cout << '\n';
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	Rect rect = Rect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
+	//SVGColor testFill = rect.getFillColor();
+	//SVGColor testStroke = rect.getStrokeColor();
+	//std::cout << "test fill: "; testFill.output(); std::cout << '\n';
+	//std::cout << "test stroke: "; testStroke.output(); std::cout << '\n';
+	//rect.dbg();
 	return rect;
 }
 
@@ -219,8 +226,13 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
 		// If no attribute with attrName specified, default color is black
 		// Default constructor of SVGColor is black
-		color = SVGColor(0, 0, 0);
-		color.a = color.a * parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity"); 
+		//std::cout << "Cannot find attribute " << attrName << '\n';
+		color = SVGColor(0, 0, 0, 255);	
+		color.output(); std::cout << '\n';
+		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
+		//std::cout << "Opacity = " << opaque << '\n';
+		color.a = (unsigned char)((double)color.a * opaque);
+		//std::cout << "So return color is "; color.output(); std::cout << '\n';
 		return color;
 	}
 	std::string value = pAttr->value();
@@ -232,9 +244,14 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
 		// TODO: process the case fill or stroke value is a gradient
 	} else {
+		//std::cout << "Can find attribute " << attrName << '\n';
 		color = SVGColor(value); // <-- get Color in SVGColor class
 		// get opacity
-		color.a = color.a * parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity"); 
+		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
+		//std::cout << "Opacity = " << opaque << '\n';
+		color.a = (unsigned char)((double)255.0f * opaque);
+		//std::cout << "So return color is "; color.output(); std::cout << '\n';
+
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;

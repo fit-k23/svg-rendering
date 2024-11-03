@@ -24,9 +24,11 @@ Rect::Rect(const Vector2D<float> &_position, const SVGColor &fillColor, const SV
 */
 Rect::Rect(const Rect& other) {
 	this->position = other.position;
+	this->fillColor = other.fillColor;
+	this->strokeColor = other.strokeColor;
+	this->strokeWidth = other.strokeWidth;
 	this->width = other.width;
 	this->height = other.height;
-	this->strokeWidth = other.strokeWidth;
 	this->radii = other.radii;
 }
 
@@ -47,6 +49,8 @@ void Rect::dbg() {
 	std::cout << "Width = " << this->getWidth() << " Height = " << this->getHeight() << '\n';
 	std::cout << "Radiix = " << radii.x << " Radiiy = " << radii.y << '\n';
 	// TODO: print fillColor, strokeColor
+	std::cout << "Fill color: "; fillColor.output(); 
+	std::cout << "Stroke color: "; strokeColor.output();
 	std::cout << "strokeWidth = " << this->getStrokeWidth() << '\n';
 }
 

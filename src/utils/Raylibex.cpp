@@ -47,19 +47,36 @@ void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, Rende
 	ClearBackground(BLANK);
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, color);
 	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, color.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)color.a / 255.5f));
 }
 
-void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke, Color fillColor, Color strokeColor, RenderTexture2D rt) {
+void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float strokeWidth, Color fillColor, Color strokeColor, RenderTexture2D rt) {
 	BeginTextureMode(rt);
 	ClearBackground(BLANK);
 	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
-	draw_rect_roundedRLEX(rect.x - stroke, rect.y - stroke, rect.width + 2 * stroke, rect.height + 2 * stroke, radius.x + stroke, radius.y + stroke, strokeColor);
+	draw_rect_roundedRLEX(rect.x - strokeWidth, rect.y - strokeWidth, rect.width + 2 * strokeWidth, rect.height + 2 * strokeWidth, radius.x + strokeWidth, 
+		radius.y + strokeWidth, strokeColor);
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, strokeColor);
 	EndBlendMode();
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
 	EndTextureMode();
+<<<<<<< Updated upstream
 	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+=======
+<<<<<<< HEAD
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float) - rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+
+	BeginTextureMode(rt);
+	ClearBackground(BLANK);
+	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
+	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
+	EndBlendMode();
+	EndTextureMode();
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float) - rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
+=======
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+>>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
+>>>>>>> Stashed changes
 }
 
 void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
