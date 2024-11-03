@@ -112,7 +112,7 @@ void Renderer::draw() {
 		if (IsKeyDown(KEY_S)) camera.rotation -= 0.5f;*/
 
 		BeginDrawing();
-		ClearBackground(BLANK);
+		ClearBackground(RAYWHITE);
 
 		/*if (!IsKeyDown(KEY_B)) {
 			int sx = GetScreenWidth() / 10;
@@ -141,36 +141,37 @@ void Renderer::draw() {
 		for (auto &shape : shapes) {
 			switch (shape->getTypeName()) {
 				case ElementType::Rect: {
-					drawRect(dynamic_cast<Rect *>(shape), renderTexture);
+					drawRect(static_cast<Rect *>(shape), renderTexture);
 					break;
 				}
 				case ElementType::Ellipse: {
-					drawEllipse(dynamic_cast<Ellipse *>(shape), renderTexture);
-					shape->dbg();
+					drawEllipse(static_cast<Ellipse *>(shape), renderTexture);
+					//shape->dbg();
 					break;
 				}
 				case ElementType::Circle: {
-					drawCircle(dynamic_cast<Circle *>(shape));
+					drawCircle(static_cast<Circle *>(shape), renderTexture);
 					break;
 				}
 				case ElementType::Line: {
-					drawLine(dynamic_cast<Line *>(shape));
+					drawLine(static_cast<Line *>(shape), renderTexture);
+					//shape->dbg();
 					break;
 				}
 				case ElementType::Polyline: {
-					drawPolyline(dynamic_cast<Polyline *>(shape));
+					drawPolyline(static_cast<Polyline *>(shape));
 					break;
 				}
 				case ElementType::Polygon: {
-					drawPolygon(dynamic_cast<Polygon *>(shape));
+					drawPolygon(static_cast<Polygon *>(shape));
 					break;
 				}
 				case ElementType::Text: {
-					drawText(dynamic_cast<Text *>(shape));
+					drawText(static_cast<Text *>(shape));
 					break;
 				}
 				case ElementType::Path: {
-					drawPath(dynamic_cast<Path *>(shape));
+					drawPath(static_cast<Path *>(shape));
 					break;
 				}
 				default:
@@ -179,13 +180,11 @@ void Renderer::draw() {
 		}
 
 		//EndMode2D();
-		//DrawEllipse(500, 100, 100, 50, 3, {0, 255, 0, 127});
-		//DrawEllipse(500, 100, 100, 50, { 0, 255, 0, 255 });
 		EndDrawing();
-		break;
+		//break;
 	}
 	for (auto &rt : RenderTexturePool::getPools()) UnloadRenderTexture(rt);
-	char c = _getch();
+	//char c = _getch();
 	CloseWindow();
 }
 
@@ -224,35 +223,38 @@ void Renderer::drawEllipse(Ellipse *element, RenderTexture2D renderTexture) {
 	BeginTextureMode(renderTexture);
 	ClearBackground(BLANK);
 	BeginBlendMode(BLEND_SUBTRACT_COLORS);
-	//DrawEllipse(100, 100, 50, 50, BLUE);
-	DrawEllipse(position.x, position.y, radii.x + strokeWidth / 2.0f, radii.y + strokeWidth / 2.0f, BLUE);
-	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, BLUE);*/
+	DrawEllipse(position.x, position.y, radii.x + strokeWidth / 2.0f, radii.y + strokeWidth / 2.0f, strokeColor.pureColor());
+	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, strokeColor.pureColor());
 	EndBlendMode();
 	EndTextureMode();
-	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)renderTexture.texture.height }, { 0, 0 }, 
-		ColorAlpha(WHITE, 1));
+	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, { 0, 0 }, 
+		ColorAlpha(WHITE, (float)strokeColor.a / 255.0f));
 	/** Draw inner ellipse **/ 
 	BeginTextureMode(renderTexture);
 	ClearBackground(BLANK);
-	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, fillColor.operator Color());
-	//EndBlendMode();
+	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, fillColor.pureColor());
 	EndTextureMode();
 	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, { 0, 0 },
-		ColorAlpha(WHITE, fillColor.a / 255.0f));
+		ColorAlpha(WHITE, (float)fillColor.a / 255.0f));
 }
 
 /*
 * @brief Draw a circle
 */
-void Renderer::drawCircle(Circle *element) {
-
+void Renderer::drawCircle(Circle *element, RenderTexture2D renderTexture) {
+	drawEllipse(static_cast<Ellipse*>(element), renderTexture);
 }
 
 /*
 * @brief Draw a line
 */
-void Renderer::drawLine(Line *element) {
+void Renderer::drawLine(Line *element, RenderTexture2D renderTexture) {
+	Vector2D<float> position = element->getPosition();
+	Vector2D<float> endPosition = element->getEndPosition();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
 
+	DrawLineEx({ position.x, position.y }, { endPosition.x, endPosition.y }, strokeWidth, strokeColor.operator Color());
 }
 
 /*
@@ -273,7 +275,12 @@ void Renderer::drawPolygon(Polygon *element) {
 * @brief Draw text
 */
 void Renderer::drawText(Text *element) {
+	std::string data = element->getData();
+	Vector2D<float> position = element->getPosition();
+	float fontSize = element->getFontSize();
+	SVGColor fillColor = element->getFillColor();
 
+	DrawText(&data[0], position.x, position.y, fontSize, fillColor.operator Color());
 }
 
 /*

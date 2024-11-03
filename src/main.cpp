@@ -12,26 +12,6 @@
 
 #include "api/Renderer.h"
 
-//void test() {
-//	InitWindow(900, 900);
-//	Vector2D<float> position = { 500, 100 };
-//	Vector2D<float> radii = { 100, 50 };
-//	SVGColor fillColor = {};
-//	SVGColor strokeColor = element->getStrokeColor();
-//	float strokeWidth = element->getStrokeWidth();
-//	// Draw outer outline and inner outline
-//	RenderTexture2D renderTexture2 = RenderTexturePool::getRenderTexture(screenSize.x, screenSize.y);
-//	BeginTextureMode(renderTexture2);
-//	ClearBackground(BLANK);
-//	BeginBlendMode(BLEND_SUBTRACT_COLORS);
-//	DrawEllipse(position.x, position.y, radii.x + strokeWidth / 2.0f, radii.y + strokeWidth / 2.0f, BLUE);
-//	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, BLUE);
-//	EndBlendMode();
-//	EndTextureMode();
-//	DrawTextureRec(renderTexture2.texture, { 0, 0, (float)renderTexture2.texture.width, (float)renderTexture2.texture.height }, { 0, 0 },
-//		ColorAlpha(WHITE, 1));
-//}
-
 int main() {
 	XMLParser parser;
 	std::vector<Element*> v;
@@ -41,7 +21,7 @@ int main() {
 	for (auto & i : v)
 		i->dbg();
 
-	Renderer render(parser.getViewPort(), v);
+	Renderer render(parser.getViewPort(), v, {900, 700});
 	render.draw();
 
 //	Renderer render({900, 700}, {}, {900, 700});

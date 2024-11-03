@@ -40,6 +40,8 @@ void Line::dbg() {
 	std::cout << "Start position: (" << position.x << ", " << position.y << ")\n";
 	std::cout << "End position: (" << endPosition.x << ", " << endPosition.y << ")\n";
 	std::cout << "Stroke width: " << strokeWidth << '\n';
+	std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
+	std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
 }
 
 /*

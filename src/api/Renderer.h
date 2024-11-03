@@ -58,12 +58,12 @@ public:
 	/*
 	* @brief Draw a circle
 	*/
-	void drawCircle(Circle *element);
+	void drawCircle(Circle *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw a line
 	*/
-	void drawLine(Line *element);
+	void drawLine(Line *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw polyline

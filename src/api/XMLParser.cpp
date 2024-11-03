@@ -66,6 +66,9 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 			} else if (nodeName == "polygon") {
 
 			}
+			else if (nodeName == "text") {
+				v.push_back(new Text(parseText(pNode)));
+			}
 		}
 		// TODO: break just for testing
 		//break;
@@ -172,6 +175,28 @@ Polyline XMLParser::parsePolyline(rapidxml::xml_node<>* pNode) {
 	return polyline;
 }
 
+/*
+* @brief Parse Text attributes
+* @return a Text object
+*/
+Text XMLParser::parseText(rapidxml::xml_node<>* pNode) {
+	float x = parseFloatAttr(pNode, "x");
+	float y = parseFloatAttr(pNode, "y");
+	float dx = parseFloatAttr(pNode, "dx");
+	float dy = parseFloatAttr(pNode, "dy");
+	x += dx;
+	y += dy;
+	std::string textAnchor = parseStringAttr(pNode, "text-anchor");
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	float fontSize = parseFloatAttr(pNode, "font-size");
+	std::string data = pNode->value();
+	Text text = Text(Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, data, fontSize);
+	return text;
+}
+
+
 /**
 * @brief Get the float value of specific attribute
 * @param node: current xml node
@@ -224,15 +249,15 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 	SVGColor color;
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
+		//std::cout << pNode->name() << " " << attrName << '\n';
 		// If no attribute with attrName specified, default color is black
-		// Default constructor of SVGColor is black
-		//std::cout << "Cannot find attribute " << attrName << '\n';
-		color = SVGColor(0, 0, 0, 0);	
-		//color.output(); std::cout << '\n';
+		color = SVGColor(0, 0, 0, 0);
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
-		//std::cout << "Opacity = " << opaque << '\n';
 		color.a = (unsigned char)(255.0f * opaque);
-		//std::cout << "So return color is "; color.output(); std::cout << '\n';
+		if (strcmp(pNode->name(), "line") == 0 && attrName == "stroke") {
+			color.a = 0; /// <-- In line, if not specify stroke then not visible
+			std::cout << "Stroke not found in line\n";
+		}
 		return color;
 	}
 	std::string value = pAttr->value();

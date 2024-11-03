@@ -15,4 +15,6 @@ void Circle::dbg() {
 	std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
 	std::cout << "Radius = " << getRadii().x << '\n';
 	std::cout << "Stroke width = " << strokeWidth << '\n';
+	std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
+	std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
 }

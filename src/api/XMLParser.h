@@ -74,6 +74,12 @@ public:
 	* @return a Polyline object
 	*/
 	Polyline parsePolyline(rapidxml::xml_node<>* pNode);
+	
+	/*
+	* @brief Parse Text attributes
+	* @return a Text object
+	*/
+	Text parseText(rapidxml::xml_node<>* pNode);
 
 	/**
 	* @brief Get the float value of specific attribute
