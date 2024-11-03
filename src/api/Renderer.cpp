@@ -42,6 +42,7 @@ void Renderer::draw() {
 	SetTargetFPS(60);
 
 	RenderTexture2D renderTexture = RenderTexturePool::getRenderTexture(screenSize.x, screenSize.y);
+	Font font = LoadFont("asset/font/arial.ttf");
 
 	//Camera2D camera;
 	//camera.target = Vector2Scale(screenSize, 0.5f);
@@ -167,7 +168,8 @@ void Renderer::draw() {
 					break;
 				}
 				case ElementType::Text: {
-					drawText(static_cast<Text *>(shape));
+					drawText(static_cast<Text *>(shape), font, 10);
+					//shape->dbg();
 					break;
 				}
 				case ElementType::Path: {
@@ -274,13 +276,22 @@ void Renderer::drawPolygon(Polygon *element) {
 /*
 * @brief Draw text
 */
-void Renderer::drawText(Text *element) {
+void Renderer::drawText(Text *element, Font font, float offset) {
 	std::string data = element->getData();
 	Vector2D<float> position = element->getPosition();
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
+	std::string textAnchor = element->getTextAnchor();
 
-	DrawText(&data[0], position.x, position.y, fontSize, fillColor.operator Color());
+
+	float actualY = position.y - fontSize + offset;
+	float actualX = position.x;
+	if (textAnchor == "middle" || textAnchor == "end") {
+		Vector2 dataSize = MeasureTextEx(font, &data[0], fontSize, 1.0);
+		if (textAnchor == "middle") dataSize.x /= 2.0f;
+		actualX -= dataSize.x;
+	}
+	DrawTextEx(font, &data[0], { position.x, actualY }, fontSize, 1, fillColor.operator Color());
 }
 
 /*

@@ -78,7 +78,7 @@ public:
 	/*
 	* @brief Draw text
 	*/
-	void drawText(Text *element);
+	void drawText(Text *element, Font font, float offset);
 
 	/*
 	* @brief Draw path
