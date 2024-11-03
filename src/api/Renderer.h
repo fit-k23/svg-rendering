@@ -3,14 +3,18 @@
 
 #include <vector>
 #include "Graphic.h"
-#include "../utils/Raylibex.h"
 
 #include "../../lib/raylib/raylib.h"
 #include "../../lib/raylib/raymath.h"
 #include "../../lib/raylib/rlgl.h"
 
+#include "RenderTexturePool.h"
+#include "../utils/Raylibex.h"
+
+
 class Renderer {
 private:
+	Vector2 screenSize;
 	Vector2D<float> viewPort;
 	std::vector<Element*> shapes;
 public:
@@ -23,13 +27,18 @@ public:
 	* @brief Parameterized constructor
 	* @param vector of pointers to Element abstract type
 	*/
-	Renderer(const Vector2D<float> &viewPort, const std::vector<Element*> &shapes);
+	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
+	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, Vector2 screenSize);
 
 	/*
 	* @brief Destructor
 	* @note Delete all pointers in shapes vector
 	*/
 	~Renderer();
+
+	void addShape(Element *shape) {
+		shapes.push_back(shape);
+	}
 
 	/*
 	* @brief Traverse and draw all elements
@@ -44,7 +53,7 @@ public:
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(Ellipse *element);
+	void drawEllipse(Ellipse *element, RenderTexture2D renderTexture, Camera2D camera);
 
 	/*
 	* @brief Draw a circle
