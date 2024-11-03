@@ -27,7 +27,7 @@ void DrawRectangleRoundedLinesEx2(Rectangle rec, Vector2 roundness, int segments
 	if (segments < 4) {
 		// Calculate the maximum angle between segments based on the error rate (usually 0.5f)
 		float th = acosf(2 * powf(1 - SMOOTH_CIRCLE_ERROR_RATE / fminf(radiusX, radiusY), 2) - 1);
-		segments = (int)(ceilf(2 * PI / th) / 2.0f);
+		segments = (int) (ceilf(2 * PI / th) / 2.0f);
 		if (segments <= 0) segments = 4;
 	}
 
@@ -37,19 +37,29 @@ void DrawRectangleRoundedLinesEx2(Rectangle rec, Vector2 roundness, int segments
 
 	// Define the points and centers for the rounded corners
 	const Vector2 point[16] = {
-			{rec.x + innerRadiusX, rec.y - lineThick}, {rec.x + rec.width - innerRadiusX, rec.y - lineThick},
-			{rec.x + rec.width + lineThick, rec.y + innerRadiusY}, {rec.x + rec.width + lineThick, rec.y + rec.height - innerRadiusY},
-			{rec.x + rec.width - innerRadiusX, rec.y + rec.height + lineThick}, {rec.x + innerRadiusX, rec.y + rec.height + lineThick},
-			{rec.x - lineThick, rec.y + rec.height - innerRadiusY}, {rec.x - lineThick, rec.y + innerRadiusY},
-			{rec.x + innerRadiusX, rec.y}, {rec.x + rec.width - innerRadiusX, rec.y},
-			{rec.x + rec.width, rec.y + innerRadiusY}, {rec.x + rec.width, rec.y + rec.height - innerRadiusY},
-			{rec.x + rec.width - innerRadiusX, rec.y + rec.height}, {rec.x + innerRadiusX, rec.y + rec.height},
-			{rec.x, rec.y + rec.height - innerRadiusY}, {rec.x, rec.y + innerRadiusY}
+		{rec.x + innerRadiusX, rec.y - lineThick},
+		{rec.x + rec.width - innerRadiusX, rec.y - lineThick},
+		{rec.x + rec.width + lineThick, rec.y + innerRadiusY},
+		{rec.x + rec.width + lineThick, rec.y + rec.height - innerRadiusY},
+		{rec.x + rec.width - innerRadiusX, rec.y + rec.height + lineThick},
+		{rec.x + innerRadiusX, rec.y + rec.height + lineThick},
+		{rec.x - lineThick, rec.y + rec.height - innerRadiusY},
+		{rec.x - lineThick, rec.y + innerRadiusY},
+		{rec.x + innerRadiusX, rec.y},
+		{rec.x + rec.width - innerRadiusX, rec.y},
+		{rec.x + rec.width, rec.y + innerRadiusY},
+		{rec.x + rec.width, rec.y + rec.height - innerRadiusY},
+		{rec.x + rec.width - innerRadiusX, rec.y + rec.height},
+		{rec.x + innerRadiusX, rec.y + rec.height},
+		{rec.x, rec.y + rec.height - innerRadiusY},
+		{rec.x, rec.y + innerRadiusY}
 	};
 
 	const Vector2 centers[4] = {
-			{rec.x + innerRadiusX, rec.y + innerRadiusY}, {rec.x + rec.width - innerRadiusX, rec.y + innerRadiusY},
-			{rec.x + rec.width - innerRadiusX, rec.y + rec.height - innerRadiusY}, {rec.x + innerRadiusX, rec.y + rec.height - innerRadiusY}
+		{rec.x + innerRadiusX, rec.y + innerRadiusY},
+		{rec.x + rec.width - innerRadiusX, rec.y + innerRadiusY},
+		{rec.x + rec.width - innerRadiusX, rec.y + rec.height - innerRadiusY},
+		{rec.x + innerRadiusX, rec.y + rec.height - innerRadiusY}
 	};
 
 	const float angles[4] = {180.0f, 270.0f, 0.0f, 90.0f};
@@ -60,12 +70,10 @@ void DrawRectangleRoundedLinesEx2(Rectangle rec, Vector2 roundness, int segments
         Rectangle shapeRect = GetShapesTextureRectangle();
         rlBegin(RL_QUADS);
 
-        for (int k = 0; k < 4; ++k)
-        {
+        for (int k = 0; k < 4; ++k) {
             float angle = angles[k];
             const Vector2 center = centers[k];
-            for (int i = 0; i < segments; i++)
-            {
+            for (int i = 0; i < segments; i++) {
                 rlColor4ub(color.r, color.g, color.b, color.a);
 
                 rlTexCoord2f(shapeRect.x / texShapes.width, shapeRect.y / texShapes.height);
@@ -88,83 +96,75 @@ void DrawRectangleRoundedLinesEx2(Rectangle rec, Vector2 roundness, int segments
 #else
 		rlBegin(RL_TRIANGLES);
 
-		// Draw all of the 4 corners first: Upper Left Corner, Upper Right Corner, Lower Right Corner, Lower Left Corner
-		for (int k = 0; k < 4; ++k) // Hope the compiler is smart enough to unroll this loop
-		{
-			float angle = angles[k];
-			const Vector2 center = centers[k];
+		// Draw all the 4 corners first: Upper Left Corner, Upper Right Corner, Lower Right Corner, Lower Left Corner
+		for (float angle : angles) { // Hope the compiler is smart enough to unroll this loop
+//			const Vector2 center = centers[k];
+			const Vector2 center = {rec.x, rec.y};
 
 			for (int i = 0; i < segments; i++) {
 				rlColor4ub(color.r, color.g, color.b, color.a);
 
-				rlVertex2f(center.x + cosf(DEG2RAD*angle)*innerRadiusX, center.y + sinf(DEG2RAD*angle)*innerRadiusY);
-				rlVertex2f(center.x + cosf(DEG2RAD*(angle + stepLength))*innerRadiusX, center.y + sinf(DEG2RAD*(angle + stepLength))*innerRadiusY);
-				rlVertex2f(center.x + cosf(DEG2RAD*angle)*outerRadiusX, center.y + sinf(DEG2RAD*angle)*outerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * angle) * innerRadiusX, center.y + sinf(DEG2RAD * angle) * innerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * (angle + stepLength)) * innerRadiusX, center.y + sinf(DEG2RAD * (angle + stepLength)) * innerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * angle) * outerRadiusX, center.y + sinf(DEG2RAD * angle) * outerRadiusY);
 
-				rlVertex2f(center.x + cosf(DEG2RAD*(angle + stepLength))*innerRadiusX, center.y + sinf(DEG2RAD*(angle + stepLength))*innerRadiusY);
-				rlVertex2f(center.x + cosf(DEG2RAD*(angle + stepLength))*outerRadiusX, center.y + sinf(DEG2RAD*(angle + stepLength))*outerRadiusY);
-				rlVertex2f(center.x + cosf(DEG2RAD*angle)*outerRadiusX, center.y + sinf(DEG2RAD*angle)*outerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * (angle + stepLength)) * innerRadiusX, center.y + sinf(DEG2RAD * (angle + stepLength)) * innerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * (angle + stepLength)) * outerRadiusX, center.y + sinf(DEG2RAD * (angle + stepLength)) * outerRadiusY);
+				rlVertex2f(center.x + cosf(DEG2RAD * angle) * outerRadiusX, center.y + sinf(DEG2RAD * angle) * outerRadiusY);
 
 				angle += stepLength;
 			}
 		}
 
-		// Upper rectangle
-		rlColor4ub(color.r, color.g, color.b, color.a);
-		rlVertex2f(point[0].x, point[0].y);
-		rlVertex2f(point[8].x, point[8].y);
-		rlVertex2f(point[9].x, point[9].y);
-		rlVertex2f(point[1].x, point[1].y);
-		rlVertex2f(point[0].x, point[0].y);
-		rlVertex2f(point[9].x, point[9].y);
-
-		// Right rectangle
-		rlColor4ub(color.r, color.g, color.b, color.a);
-		rlVertex2f(point[10].x, point[10].y);
-		rlVertex2f(point[11].x, point[11].y);
-		rlVertex2f(point[3].x, point[3].y);
-		rlVertex2f(point[2].x, point[2].y);
-		rlVertex2f(point[10].x, point[10].y);
-		rlVertex2f(point[3].x, point[3].y);
-
-		// Lower rectangle
-		rlColor4ub(color.r, color.g, color.b, color.a);
-		rlVertex2f(point[13].x, point[13].y);
-		rlVertex2f(point[5].x, point[5].y);
-		rlVertex2f(point[4].x, point[4].y);
-		rlVertex2f(point[12].x, point[12].y);
-		rlVertex2f(point[13].x, point[13].y);
-		rlVertex2f(point[4].x, point[4].y);
-
-		// Left rectangle
-		rlColor4ub(color.r, color.g, color.b, color.a);
-		rlVertex2f(point[7].x, point[7].y);
-		rlVertex2f(point[6].x, point[6].y);
-		rlVertex2f(point[14].x, point[14].y);
-		rlVertex2f(point[15].x, point[15].y);
-		rlVertex2f(point[7].x, point[7].y);
-		rlVertex2f(point[14].x, point[14].y);
+//		// Upper rectangle
+//		rlColor4ub(color.r, color.g, color.b, color.a);
+//		rlVertex2f(point[0].x, point[0].y);
+//		rlVertex2f(point[8].x, point[8].y);
+//		rlVertex2f(point[9].x, point[9].y);
+//		rlVertex2Dnt[9].x, point[9].y);
+//
+//		// Right rectangle
+//		rlColor4ub(color.r, color.g, color.b, color.a);
+//		rlVertex2f(point[10].x, point[10].y);
+//		rlVertex2f(point[11].x, point[11].y);
+//		rlVertex2f(point[3].x, point[3].y);
+//		rlVertex2f(point[2].x, point[2].y);
+//		rlVertex2f(point[10].x, point[10].y);
+//		rlVertex2f(point[3].x, point[3].y);
+//
+//		// Lower rectangle
+//		rlColor4ub(color.r, color.g, color.b, color.a);
+//		rlVertex2f(point[13].x, point[13].y);
+//		rlVertex2f(point[5].x, point[5].y);
+//		rlVertex2f(point[4].x, point[4].y);
+//		rlVertex2f(point[12].x, point[12].y);
+//		rlVertex2f(point[13].x, point[13].y);
+//		rlVertex2f(point[4].x, point[4].y);
+//
+//		// Left rectangle
+//		rlColor4ub(color.r, color.g, color.b, color.a);
+//		rlVertex2f(point[7].x, point[7].y);
+//		rlVertex2f(point[6].x, point[6].y);
+//		rlVertex2f(point[14].x, point[14].y);
+//		rlVertex2f(point[15].x, point[15].y);
+//		rlVertex2f(point[7].x, point[7].y);
+//		rlVertex2f(point[14].x, point[14].y);
 		rlEnd();
 #endif
-	}
-	else
-	{
+	} else {
 		// Use LINES to draw the outline
 		rlBegin(RL_LINES);
-		for (int k = 0; k < 4; ++k)
-		{
+		for (int k = 0; k < 4; ++k) {
 			float angle = angles[k];
 			const Vector2 center = centers[k];
-			for (int i = 0; i < segments; i++)
-			{
+			for (int i = 0; i < segments; i++) {
 				rlColor4ub(color.r, color.g, color.b, color.a);
 				rlVertex2f(center.x + cosf(DEG2RAD * angle) * outerRadiusX, center.y + sinf(DEG2RAD * angle) * outerRadiusY);
 				rlVertex2f(center.x + cosf(DEG2RAD * (angle + stepLength)) * outerRadiusX, center.y + sinf(DEG2RAD * (angle + stepLength)) * outerRadiusY);
 				angle += stepLength;
 			}
 		}
-		for (int i = 0; i < 8; i += 2)
-		{
+		for (int i = 0; i < 8; i += 2) {
 			rlColor4ub(color.r, color.g, color.b, color.a);
 			rlVertex2f(point[i].x, point[i].y);
 			rlVertex2f(point[i + 1].x, point[i + 1].y);
@@ -414,24 +414,23 @@ void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color
 	rlEnd();
 }
 
+#include "../../src/utils/Raylibex.cpp"
+
 int main() {
-	// Initialization
-	//--------------------------------------------------------------------------------------
 	const int screenWidth = 800;
 	const int screenHeight = 450;
 
 	InitWindow(screenWidth, screenHeight, "raylib [shapes] example - DrawTriangleFan()");
 
-	SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-	//--------------------------------------------------------------------------------------
+	SetTargetFPS(60);
 
 	RenderTexture2D rt = LoadRenderTexture(screenWidth, screenHeight);
-	// Main game loop
+
 	while (!WindowShouldClose()) {
 		BeginTextureMode(rt);
 		ClearBackground(BLANK);
 //		DrawRectangleRounded2({100, 100, 300, 200}, 3.2, 180, BLUE);
-		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {0.9, 0.8}, 180, 5.0, BLUE);
+		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {0.9, 0.8}, 180, 15.0, BLUE);
 		EndTextureMode();
 
 		BeginDrawing();
@@ -441,10 +440,6 @@ int main() {
 		EndDrawing();
 	}
 
-	// De-Initialization
-	//--------------------------------------------------------------------------------------
-	CloseWindow();        // Close window and OpenGL context
-	//--------------------------------------------------------------------------------------
-
+	CloseWindow();
 	return 0;
 }

@@ -17,7 +17,7 @@ Element::Element() {
 * @brief Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
-Element::Element(const Vector2D<float> &position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
+Element::Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor& strokeColor, float strokeWidth) {
 	this->position = position;
 	this->fillColor = fillColor;
 	this->strokeColor = strokeColor;

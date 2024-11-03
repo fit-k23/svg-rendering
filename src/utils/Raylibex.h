@@ -13,6 +13,7 @@ void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke
 
 void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step = 10);
 void DrawEllipseVRLEX(Vector2 position, Vector2 radius, Color color, int step = 10);
+void DrawEllipseStrokeRLEX(Vector2 position, Vector2 radius, float stroke, Color fillColor, Color strokeColor, int step, RenderTexture2D rt, Camera2D camera);
 
 void DrawRectangleGradientHQ(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight);
 

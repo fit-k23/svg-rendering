@@ -8,14 +8,6 @@
 void draw_rect_roundedRLEX(float posX, float posY, float width, float height, float radiusx, float radiusy, Color color) {
 	color.a = 255; // solidify
 
-	// Draw the main rectangle
-	DrawRectangle(posX + radiusx, posY + radiusy, width - 2 * radiusx, height - 2 * radiusy, color);
-	// Draw the side rectangles (top, bottom, left, right)
-	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, color); // Top
-	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, color); // Bottom
-	DrawRectangle(posX, posY + radiusy, radiusx, height - 2 * radiusy, color); // Left
-	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, color); // Right
-
 	// Draw an ellipse, which get split into 4 parts placed at main rectangle's vertices
 	rlBegin(RL_TRIANGLES);
 	int cX = posX;
@@ -33,13 +25,27 @@ void draw_rect_roundedRLEX(float posX, float posY, float width, float height, fl
 		if (i == 180 || i == 270) {
 			cY = posY + radiusy;
 		}
-		rlColor4ub(color.r, color.g, color.b, 255);
+		rlColor4ub(color.r, color.g, color.b, color.a);
 
 		rlVertex2f((float) cX, (float) cY);
 		rlVertex2f((float) cX + cosf(DEG2RAD * (i + 1)) * radiusx, (float) cY + sinf(DEG2RAD * (i + 1)) * radiusy);
 		rlVertex2f((float) cX + cosf(DEG2RAD * i) * radiusx, (float) cY + sinf(DEG2RAD * i) * radiusy);
 	}
 	rlEnd();
+
+	// Draw the main rectangle
+	DrawRectangle(posX + radiusx, posY + radiusy, width - 2 * radiusx, height - 2 * radiusy, color);
+	// Draw the side rectangles (top, bottom, left, right)
+
+	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, color); // Top
+	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, color); // Bottom
+	DrawRectangle(posX, posY + radiusy, radiusx, height - 2 * radiusy, color); // Left
+	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, color); // Right
+
+//	DrawRectangle(posX + radiusx, posY, width - 2 * radiusx, radiusy, ColorAlphaBlend(color, RED, WHITE)); // Top
+//	DrawRectangle(posX + radiusx, posY + height - radiusy, width - 2 * radiusx, radiusy, ColorAlphaBlend(color, BLUE, WHITE)); // Bottom
+//	DrawRectangle(posX, posY + radiusy, radiusx, height - 2 * radiusy, ColorAlphaBlend(color, YELLOW, WHITE)); // Left
+//	DrawRectangle(posX + width - radiusx, posY + radiusy, radiusx, height - 2 * radiusy, ColorAlphaBlend(color, VIOLET, WHITE)); // Right
 }
 
 void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, RenderTexture2D rt) {
@@ -50,33 +56,21 @@ void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, Rende
 	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)color.a / 255.5f));
 }
 
-void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float strokeWidth, Color fillColor, Color strokeColor, RenderTexture2D rt) {
+void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke, Color fillColor, Color strokeColor, RenderTexture2D rt) {
 	BeginTextureMode(rt);
 	ClearBackground(BLANK);
-	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
-	draw_rect_roundedRLEX(rect.x - strokeWidth, rect.y - strokeWidth, rect.width + 2 * strokeWidth, rect.height + 2 * strokeWidth, radius.x + strokeWidth, 
-		radius.y + strokeWidth, strokeColor);
-	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, strokeColor);
-	EndBlendMode();
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
 	EndTextureMode();
-<<<<<<< Updated upstream
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
-=======
-<<<<<<< HEAD
-	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float) - rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
 
 	BeginTextureMode(rt);
 	ClearBackground(BLANK);
 	BeginBlendMode(BLEND_SUBTRACT_COLORS); // Remove the inner part of the shape
-	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
+	draw_rect_roundedRLEX(rect.x - stroke / 2, rect.y - stroke / 2, rect.width + stroke, rect.height + stroke, radius.x + stroke / 2, radius.y + stroke / 2, strokeColor);
+	draw_rect_roundedRLEX(rect.x + stroke / 2, rect.y + stroke / 2, rect.width - stroke, rect.height - stroke, radius.x - stroke / 4, radius.y - stroke / 4, strokeColor);
 	EndBlendMode();
 	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float) - rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
-=======
 	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
->>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
->>>>>>> Stashed changes
 }
 
 void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
@@ -92,6 +86,33 @@ void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Col
 
 void DrawEllipseVRLEX(Vector2 position, Vector2 radius, Color color, int step) {
 	DrawEllipseRLEX(position.x, position.y, radius.x, radius.y, color, step);
+}
+
+void DrawEllipseStrokeRLEX(Vector2 position, Vector2 radius, float stroke, Color fillColor, Color strokeColor, int step, RenderTexture2D rt, Camera2D camera) {
+	BeginTextureMode(rt);
+	ClearBackground(BLANK);
+	Color pColor = strokeColor;
+	pColor.a = 255; // solidify
+	BeginBlendMode(BLEND_SUBTRACT_COLORS);
+	BeginMode2D(camera);
+	DrawEllipseVRLEX(position, Vector2Add(radius, {stroke, stroke}), pColor, step);
+	DrawEllipseVRLEX(position, radius, pColor, step);
+	EndBlendMode();
+	EndMode2D();
+	EndTextureMode();
+
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+
+	BeginTextureMode(rt);
+		ClearBackground(BLANK);
+		pColor = fillColor;
+		pColor.a = 255; // solidify
+		BeginMode2D(camera);
+		DrawEllipseVRLEX(position, radius, pColor, step);
+		EndMode2D();
+	EndTextureMode();
+
+	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
 }
 
 void DrawRectangleGradientHQ(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight) {

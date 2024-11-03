@@ -15,9 +15,9 @@ Rect::Rect() : Element(), width(0.0), height(0.0), radii() {}
 * @param strokeColor: stroke color of Rect
 * @param strokeWidth: stroke width of Rect
 */
-Rect::Rect(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor& strokeColor, float strokeWidth,
-	float width, float height, Vector2D<float>radii) : Element(_position, fillColor, strokeColor, strokeWidth), width(width),
-	height(height), radii(radii) {}
+Rect::Rect(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth,
+	float _width, float _height, const Vector2D<float> &_radii) : Element(_position, _fillColor, _strokeColor, _strokeWidth), width(_width),
+	height(_height), radii(_radii) {}
 
 /*
 * @brief Copy constructor

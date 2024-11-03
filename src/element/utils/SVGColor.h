@@ -14,32 +14,23 @@ public:
      * @brief Default constructor
      * @note set all to zero -> black
      */
-    SVGColor(); // r,g,b,a = 0 -> black
-	SVGColor(unsigned char r, unsigned char g, unsigned char b);
-	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+    SVGColor(); // r,g,b = 0 -> black, a = 0 -> none
+	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
+	SVGColor(int r, int g, int b, int a = 255);
 	SVGColor(const SVGColor &other);
 
-	SVGColor& operator = (const SVGColor& other);
+	SVGColor &operator = (const SVGColor &other);
 
     explicit SVGColor(std::string param); // -> tên màu luôn, mã hex
-	SVGColor(int h, int s, int l);// hsl
-	SVGColor(int h, int s, int l, int a); //hsla
+	SVGColor fromHSL(int h, int s, int l, int a = 255);
 	
 	operator Color() const;
 
-<<<<<<< Updated upstream
 	Color pureColor() const;
-=======
-<<<<<<< HEAD
-	Color pureColor() const {
-		return Color{ r, g, b, 255 };
-	}
-	
+
 	void output() const;
-=======
-	Color pureColor() const;
->>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
->>>>>>> Stashed changes
+
+	SVGColor alpha(unsigned char a);
 
 	// Parameterized constructor
 	// @param: fill the string format

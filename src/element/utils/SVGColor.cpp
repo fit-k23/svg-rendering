@@ -2,9 +2,8 @@
 #include <sstream>
 SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 
-SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a) : r(r), g(g), b(b), a(a) {}
-
-SVGColor::SVGColor(unsigned char r, unsigned char g, unsigned char b) : r(r), g(g), b(b), a(255) {}
+SVGColor::SVGColor(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a) : r(_r), g(_g), b(_b), a(_a) {}
+SVGColor::SVGColor(int _r, int _g, int _b, int _a) : r(_r), g(_g), b(_b), a(_a) {}
 
 SVGColor::SVGColor(std::string param) {
 	r = 0;
@@ -72,8 +71,21 @@ SVGColor::SVGColor(std::string param) {
 	}
 }
 
-//hsl
-SVGColor::SVGColor(int h, int s, int l) {
+SVGColor::operator Color() const {
+	return Color{r, g, b, a};
+}
+
+SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
+
+Color SVGColor::pureColor() const {
+	return Color{ r, g, b, 255 };
+}
+
+SVGColor SVGColor::alpha(unsigned char _a) {
+	return SVGColor(r, g, b, _a);
+}
+
+SVGColor SVGColor::fromHSL(int h, int s, int l, int a) {
 	float _r{}, _g{}, _b{};
 
 	float c = (1.0f - fabsf(2.0f * l - 1.0f)) * s; // Chroma
@@ -100,33 +112,19 @@ SVGColor::SVGColor(int h, int s, int l) {
 		_b = x;
 	}
 
-	r = static_cast<unsigned char>((_r + m) * 255);
-	g = static_cast<unsigned char>((_g + m) * 255);
-	b = static_cast<unsigned char>((_b + m) * 255);
-	a = 255;
+	return {
+		static_cast<unsigned char>((_r + m) * 255),
+		static_cast<unsigned char>((_g + m) * 255),
+		static_cast<unsigned char>((_b + m) * 255),
+		static_cast<unsigned char>(a),
+	};
 }
 
-
-
-//hsla
-SVGColor::SVGColor(int h, int s, int l, int a) : SVGColor(h, s, l) {
-	this->a = static_cast<unsigned char>(a);
-}
-
-SVGColor::operator Color() const {
-	return Color{r, g, b, a};
-}
-
-SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
-
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 void SVGColor::output() const {
-	std::cout << "{" << (int)r << " " << (int)g << " " << (int)b << " " << (int)a << "}";
+	std::cout << "{" << (int) r << " " << (int) g << " " << (int) b << " " << (int) a << "}";
 }
 
-SVGColor& SVGColor::operator = (const SVGColor& other) {
+SVGColor &SVGColor::operator=(const SVGColor &other) {
 	if (this == &other) return *this;
 	r = other.r;
 	g = other.g;
@@ -134,13 +132,3 @@ SVGColor& SVGColor::operator = (const SVGColor& other) {
 	a = other.a;
 	return *this;
 }
-=======
->>>>>>> Stashed changes
-Color SVGColor::pureColor() const {
-	return Color{ r, g, b, 255 };
-}
-
-<<<<<<< Updated upstream
-=======
->>>>>>> c5827fd72586cae62913d9e34108d16fd4aba27a
->>>>>>> Stashed changes
