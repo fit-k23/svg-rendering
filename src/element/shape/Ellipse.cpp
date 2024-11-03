@@ -30,6 +30,8 @@ void Ellipse::dbg() {
     std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
     std::cout << "Radii: (" << radii.x << ", " << radii.y << ")\n";
     std::cout << "Stroke Width: " << strokeWidth << '\n';
+    std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
+    std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
 }
 
 /**

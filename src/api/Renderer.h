@@ -48,12 +48,12 @@ public:
 	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Rect *element, RenderTexture2D &renderTexture);
+	void drawRect(Rect *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(Ellipse *element, RenderTexture2D renderTexture, Camera2D camera);
+	void drawEllipse(Ellipse *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw a circle

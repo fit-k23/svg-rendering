@@ -53,7 +53,7 @@ void DrawRectangleRoundedRLEX(Rectangle rect, Vector2 radius, Color color, Rende
 	ClearBackground(BLANK);
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, color);
 	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)color.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)color.a / 255.0f));
 }
 
 void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke, Color fillColor, Color strokeColor, RenderTexture2D rt) {
@@ -61,7 +61,7 @@ void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke
 	ClearBackground(BLANK);
 	draw_rect_roundedRLEX(rect.x, rect.y, rect.width, rect.height, radius.x, radius.y, fillColor);
 	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)fillColor.a / 255.0f));
 
 	BeginTextureMode(rt);
 	ClearBackground(BLANK);
@@ -70,7 +70,7 @@ void DrawRectangleRoundedStrokeRLEX(Rectangle rect, Vector2 radius, float stroke
 	draw_rect_roundedRLEX(rect.x + stroke / 2, rect.y + stroke / 2, rect.width - stroke, rect.height - stroke, radius.x - stroke / 4, radius.y - stroke / 4, strokeColor);
 	EndBlendMode();
 	EndTextureMode();
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, (float)strokeColor.a / 255.0f));
 }
 
 void DrawEllipseRLEX(int centerX, int centerY, float radiusH, float radiusV, Color color, int step) {
@@ -94,25 +94,25 @@ void DrawEllipseStrokeRLEX(Vector2 position, Vector2 radius, float stroke, Color
 	Color pColor = strokeColor;
 	pColor.a = 255; // solidify
 	BeginBlendMode(BLEND_SUBTRACT_COLORS);
-	BeginMode2D(camera);
+	//BeginMode2D(camera);
 	DrawEllipseVRLEX(position, Vector2Add(radius, {stroke, stroke}), pColor, step);
 	DrawEllipseVRLEX(position, radius, pColor, step);
 	EndBlendMode();
-	EndMode2D();
+	//EndMode2D();
 	EndTextureMode();
 
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, strokeColor.a / 255.0f));
 
 	BeginTextureMode(rt);
 		ClearBackground(BLANK);
 		pColor = fillColor;
 		pColor.a = 255; // solidify
-		BeginMode2D(camera);
+		//BeginMode2D(camera);
 		DrawEllipseVRLEX(position, radius, pColor, step);
-		EndMode2D();
+		//EndMode2D();
 	EndTextureMode();
 
-	DrawTextureRec(rt.texture, {0, 0, rt.texture.width, -rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.5f));
+	DrawTextureRec(rt.texture, {0, 0, (float)rt.texture.width, (float)-rt.texture.height}, {0, 0}, ColorAlpha(WHITE, fillColor.a / 255.0f));
 }
 
 void DrawRectangleGradientHQ(Rectangle rec, Color topLeft, Color bottomLeft, Color topRight, Color bottomRight) {

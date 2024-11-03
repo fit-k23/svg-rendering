@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "conio.h"
 /*
 * @brief Default constructor
 */
@@ -42,28 +43,28 @@ void Renderer::draw() {
 
 	RenderTexture2D renderTexture = RenderTexturePool::getRenderTexture(screenSize.x, screenSize.y);
 
-	Camera2D camera;
-	camera.target = Vector2Scale(screenSize, 0.5f);
-	camera.offset = camera.target;
-	camera.rotation = 0.0f;
-	camera.zoom = 1.0f;
+	//Camera2D camera;
+	//camera.target = Vector2Scale(screenSize, 0.5f);
+	//camera.offset = camera.target;
+	//camera.rotation = 0.0f;
+	//camera.zoom = 1.0f;
 
-	Image icon = LoadImageFromMemory(".png", ICON_DATA, ICON_LEN);
+	//Image icon = LoadImageFromMemory(".png", ICON_DATA, ICON_LEN);
 
-	if (icon.data != nullptr) {
-		// Set the window icon
-		SetWindowIcon(icon);
-		// We no longer need the image in memory once the icon is set
-		UnloadImage(icon);
-	} else {
-		printf("Failed to load icon.\n");
-	}
+	//if (icon.data != nullptr) {
+	//	// Set the window icon
+	//	SetWindowIcon(icon);
+	//	// We no longer need the image in memory once the icon is set
+	//	UnloadImage(icon);
+	//} else {
+	//	printf("Failed to load icon.\n");
+	//}
 
-	bool maximumWindow = false;
-	Vector2 previousScreenSize = screenSize;
-	bool rotateMode = false;
+	//bool maximumWindow = false;
+	//Vector2 previousScreenSize = screenSize;
+	//bool rotateMode = false;
 	while (!WindowShouldClose()) {
-		float wheel = GetMouseWheelMove();
+		/*float wheel = GetMouseWheelMove();
 		if (wheel != 0) {
 			camera.zoom += (GetMouseWheelMove() * 0.05f);
 			if (camera.zoom > 3.0f) camera.zoom = 3.0f;
@@ -108,12 +109,12 @@ void Renderer::draw() {
 		if (IsKeyPressed(KEY_EQUAL)) camera.zoom += 0.05f;
 		if (IsKeyPressed(KEY_MINUS)) camera.zoom -= 0.05f;
 		if (IsKeyDown(KEY_W)) camera.rotation += 0.5f;
-		if (IsKeyDown(KEY_S)) camera.rotation -= 0.5f;
+		if (IsKeyDown(KEY_S)) camera.rotation -= 0.5f;*/
 
 		BeginDrawing();
 		ClearBackground(BLANK);
 
-		if (!IsKeyDown(KEY_B)) {
+		/*if (!IsKeyDown(KEY_B)) {
 			int sx = GetScreenWidth() / 10;
 			int sy = GetScreenHeight() / 10;
 
@@ -135,7 +136,7 @@ void Renderer::draw() {
 
 		BeginMode2D(camera);
 
-		DrawText("Hold right click to rotate camera", 0, 50, 20, YELLOW);
+		DrawText("Hold right click to rotate camera", 0, 50, 20, YELLOW);*/
 
 		for (auto &shape : shapes) {
 			switch (shape->getTypeName()) {
@@ -144,7 +145,8 @@ void Renderer::draw() {
 					break;
 				}
 				case ElementType::Ellipse: {
-					drawEllipse(dynamic_cast<Ellipse *>(shape), renderTexture, camera);
+					drawEllipse(dynamic_cast<Ellipse *>(shape), renderTexture);
+					shape->dbg();
 					break;
 				}
 				case ElementType::Circle: {
@@ -176,18 +178,21 @@ void Renderer::draw() {
 			}
 		}
 
-		EndMode2D();
+		//EndMode2D();
+		//DrawEllipse(500, 100, 100, 50, 3, {0, 255, 0, 127});
+		//DrawEllipse(500, 100, 100, 50, { 0, 255, 0, 255 });
 		EndDrawing();
+		break;
 	}
 	for (auto &rt : RenderTexturePool::getPools()) UnloadRenderTexture(rt);
-
+	char c = _getch();
 	CloseWindow();
 }
 
 /*
 * @brief Draw a rectangle
 */
-void Renderer::drawRect(Rect *element, RenderTexture2D &renderTexture) {
+void Renderer::drawRect(Rect *element, RenderTexture2D renderTexture) {
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -209,12 +214,31 @@ void Renderer::drawRect(Rect *element, RenderTexture2D &renderTexture) {
 /*
 * @brief Draw an ellipse
 */
-void Renderer::drawEllipse(Ellipse *element, RenderTexture2D renderTexture, Camera2D camera) {
-	if (element->getStrokeWidth() != 0) {
-		DrawEllipseStrokeRLEX(element->getPosition(), element->getRadii(), element->getStrokeWidth(), element->getFillColor(), element->getStrokeColor(), 1, renderTexture, camera);
-	} else {
-		DrawEllipseVRLEX(element->getPosition(), element->getRadii(), element->getFillColor(), 1);
-	}
+void Renderer::drawEllipse(Ellipse *element, RenderTexture2D renderTexture) {
+	Vector2D<float> position = element->getPosition();
+	Vector2D<float> radii = element->getRadii(); 
+	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
+	// Draw outer outline and inner outline
+	BeginTextureMode(renderTexture);
+	ClearBackground(BLANK);
+	BeginBlendMode(BLEND_SUBTRACT_COLORS);
+	//DrawEllipse(100, 100, 50, 50, BLUE);
+	DrawEllipse(position.x, position.y, radii.x + strokeWidth / 2.0f, radii.y + strokeWidth / 2.0f, BLUE);
+	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, BLUE);*/
+	EndBlendMode();
+	EndTextureMode();
+	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)renderTexture.texture.height }, { 0, 0 }, 
+		ColorAlpha(WHITE, 1));
+	/** Draw inner ellipse **/ 
+	BeginTextureMode(renderTexture);
+	ClearBackground(BLANK);
+	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, fillColor.operator Color());
+	//EndBlendMode();
+	EndTextureMode();
+	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, { 0, 0 },
+		ColorAlpha(WHITE, fillColor.a / 255.0f));
 }
 
 /*

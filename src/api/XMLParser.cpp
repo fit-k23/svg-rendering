@@ -227,11 +227,11 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 		// If no attribute with attrName specified, default color is black
 		// Default constructor of SVGColor is black
 		//std::cout << "Cannot find attribute " << attrName << '\n';
-		color = SVGColor(0, 0, 0, 255);	
-		color.output(); std::cout << '\n';
+		color = SVGColor(0, 0, 0, 0);	
+		//color.output(); std::cout << '\n';
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 		//std::cout << "Opacity = " << opaque << '\n';
-		color.a = (unsigned char)((double)color.a * opaque);
+		color.a = (unsigned char)(255.0f * opaque);
 		//std::cout << "So return color is "; color.output(); std::cout << '\n';
 		return color;
 	}
