@@ -44,6 +44,14 @@ public:
 	*/
 	void dbg() override;
 
+	/*
+	* @brief Get bounding box of rect
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+
 	/**
 	* @brief set width of the Rect
 	* @param: _width: passed width 

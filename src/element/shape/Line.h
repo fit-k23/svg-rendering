@@ -37,6 +37,14 @@ public:
 	void dbg() override;
 
 	/*
+	* @brief Get bounding box of line
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+
+	/*
 	* @brief set end position of line
 	*/
 	void setEndPosition(const Vector2D<float>& endPosition);

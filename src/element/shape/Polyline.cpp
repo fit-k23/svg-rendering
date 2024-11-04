@@ -30,13 +30,22 @@ ElementType Polyline::getTypeName() { return ElementType::Polyline; }
 * @brief Print all information of Line
 */
 void Polyline::dbg() {
-	std::cout << "[DEBUG POLYLINE]\n";
+	Element::dbg();
 	std::cout << "Set of lines are ";
 	for (int i = 0; i < (int)lines.size(); ++i) {
 		std::cout << "(" << lines[i].getPosition().x << ", " << lines[i].getPosition().y << ") -> ";
 		std::cout << "(" << lines[i].getEndPosition().x << ", " << lines[i].getEndPosition().y << ") ";
 	}
-	std::cout << "Stroke width = " << strokeWidth << '\n';
+}
+
+/*
+* @brief Get bounding box of polyline
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Polyline::getBoundingBox() const
+{
+	return std::pair<Vector2D<float>, Vector2D<float>>();
 }
 
 /*

@@ -3,7 +3,7 @@
 /*
 * @brief Default constructor
 */
-Text::Text() : data(""), textAnchor("start"), fontStyle(""), fontSize(1.0) {}
+Text::Text() : data(""), textAnchor("start"), fontStyle(""), fontSize(1.0), offset(10.0) {}
 
 /*
 * @brief Parameterized constructor
@@ -11,7 +11,7 @@ Text::Text() : data(""), textAnchor("start"), fontStyle(""), fontSize(1.0) {}
 */
 Text::Text(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
 	float strokeWidth, const std::string& data, float fontSize) : Element(position, fillColor, strokeColor, strokeWidth),
-																	data(data), textAnchor("start"), fontStyle(""), fontSize(fontSize) {}
+																	data(data), textAnchor("start"), fontStyle(""), fontSize(fontSize) , offset(10.0) {}
 
 /*
 * @brief Get type Text
@@ -22,16 +22,48 @@ ElementType Text::getTypeName() { return ElementType::Text; }
 * @brief Print information of Text
 */
 void Text::dbg() {
-	std::cout << "[DEBUG TEXT]\n";
-	std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
+	Element::dbg();
 	std::cout << "Data: " << data << '\n';
 	std::cout << "Anchor: " << textAnchor << '\n';
 	std::cout << "Font style: " << (fontStyle.empty() ? "default" : fontStyle) << '\n';
 	std::cout << "Font size: " << fontSize << '\n';
-	std::cout << "Stroke width: " << strokeWidth << '\n';
-	std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
-	std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
 }
+
+/*
+* @brief Get bounding box of text
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Text::getBoundingBox() const {
+	float actualY = position.y - fontSize + offset;
+	float actualX = position.x;
+	if (textAnchor == "middle" || textAnchor == "end") {
+		if (textAnchor == "middle") actualX -= dataSize.x / 2.0f;
+		actualX -= dataSize.x;
+	}
+	return {Vector2D<float>(actualX, actualY), Vector2D<float>(actualX + dataSize.x, actualY + dataSize.y)};
+}
+
+/*
+* @brief Set data size
+* @param dataSize new data size including width and height of text based on font
+*/
+void Text::setDataSize(const Vector2& dataSize) { this->dataSize = dataSize; }
+
+/*
+* @brief Set default data size with no font
+*/
+void Text::setDataSize() {
+	Vector2 dataSize = { (float)MeasureText(&data[0], fontSize), fontSize };
+	this->dataSize = dataSize;
+}
+
+/*
+* @brief Get data size based on font
+* @param font font family
+* @note This function doesn't change any attributes
+*/
+Vector2 Text::getDataSize() const { return dataSize; }
 
 /*
 * @brief Set data of text

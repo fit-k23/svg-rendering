@@ -143,20 +143,22 @@ void Renderer::draw() {
 			switch (shape->getTypeName()) {
 				case ElementType::Rect: {
 					drawRect(static_cast<Rect *>(shape), renderTexture);
+					shape->dbg();
 					break;
 				}
 				case ElementType::Ellipse: {
 					drawEllipse(static_cast<Ellipse *>(shape), renderTexture);
-					//shape->dbg();
+					shape->dbg();
 					break;
 				}
 				case ElementType::Circle: {
 					drawCircle(static_cast<Circle *>(shape), renderTexture);
+					shape->dbg();
 					break;
 				}
 				case ElementType::Line: {
 					drawLine(static_cast<Line *>(shape), renderTexture);
-					//shape->dbg();
+					shape->dbg();
 					break;
 				}
 				case ElementType::Polyline: {
@@ -169,7 +171,7 @@ void Renderer::draw() {
 				}
 				case ElementType::Text: {
 					drawText(static_cast<Text *>(shape), font, 10);
-					//shape->dbg();
+					shape->dbg();
 					break;
 				}
 				case ElementType::Path: {
@@ -183,10 +185,11 @@ void Renderer::draw() {
 
 		//EndMode2D();
 		EndDrawing();
-		//break;
+		break;
 	}
 	for (auto &rt : RenderTexturePool::getPools()) UnloadRenderTexture(rt);
-	//char c = _getch();
+	UnloadFont(font);
+	char c = _getch();
 	CloseWindow();
 }
 
@@ -286,8 +289,10 @@ void Renderer::drawText(Text *element, Font font, float offset) {
 
 	float actualY = position.y - fontSize + offset;
 	float actualX = position.x;
+	Vector2 dataSize = MeasureTextEx(font, &data[0], fontSize, 1.0);
+	element->setDataSize(dataSize);
+
 	if (textAnchor == "middle" || textAnchor == "end") {
-		Vector2 dataSize = MeasureTextEx(font, &data[0], fontSize, 1.0);
 		if (textAnchor == "middle") dataSize.x /= 2.0f;
 		actualX -= dataSize.x;
 	}

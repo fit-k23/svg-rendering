@@ -36,12 +36,20 @@ ElementType Line::getTypeName() {
 * @brief print information of line
 */
 void Line::dbg() {
-	std::cout << "[DEBUG LINE]\n";
-	std::cout << "Start position: (" << position.x << ", " << position.y << ")\n";
+	Element::dbg();
 	std::cout << "End position: (" << endPosition.x << ", " << endPosition.y << ")\n";
-	std::cout << "Stroke width: " << strokeWidth << '\n';
-	std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
-	std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
+}
+
+/*
+* @brief Get bounding box of line
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Line::getBoundingBox() const {
+	Vector2D<float> topLeft = Vector2D<float>(std::min(position.x, endPosition.x) - strokeWidth / 2.0f, std::min(position.y, endPosition.y) - strokeWidth / 2.0f);
+	Vector2D<float> bottomRight = Vector2D<float>(std::max(position.x, endPosition.x) - strokeWidth / 2.0f, std::max(position.y, endPosition.y) 
+																											+ strokeWidth / 2.0f);
+	return { topLeft, bottomRight };
 }
 
 /*

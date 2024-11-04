@@ -16,10 +16,12 @@
 
 class Text : public Element{
 private:
-	std::string data;
-	std::string textAnchor;
-	std::string fontStyle;
-	float fontSize;
+	std::string data; // <-- content of the text
+	std::string textAnchor; // <-- position based on "cursor"
+	std::string fontStyle; // <-- font style of text
+	float fontSize; // <-- font size of text
+	float offset; // <-- some offset so that raylib draws text more like svg
+	Vector2 dataSize; // <-- width and height of whole text
 public:
 	/*
 	* @brief Default constructor
@@ -41,6 +43,31 @@ public:
 	* @brief Print information of Text
 	*/
 	void dbg() override;
+
+	/*
+	* @brief Get bounding box of text
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+	/*
+	* @brief Set data size 
+	* @param dataSize new data size including width and height of text based on font
+	*/
+	void setDataSize(const Vector2& dataSize);
+
+	/*
+	* @brief Set default data size with no font
+	*/
+	void setDataSize();
+
+	/*
+	* @brief Get data size based on font
+	* @param font font family
+	* @note This function doesn't change any attributes
+	*/
+	Vector2 getDataSize() const;
 
 	/*
 	* @brief Set data of text

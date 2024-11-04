@@ -27,6 +27,13 @@ public:
 	* @brief print information of Circle
 	*/
 	void dbg() override;
+
+	/*
+	* @brief Get bounding box of circle
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 };
 
 

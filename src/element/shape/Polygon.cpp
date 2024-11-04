@@ -20,14 +20,22 @@ ElementType Polygon::getTypeName() { return ElementType::Polygon; }
 * @brief Print all information of Polygon
 */
 void Polygon::dbg() {
-	std::cout << "[DEBUG POLYGON]\n";
-	std::cout << "Center: (" << position.x << ", " << position.y << ")\n";
+	Element::dbg();
 	std::cout << "Set of lines are ";
 	for (int i = 0; i < (int)lines.size(); ++i) {
 		std::cout << "(" << lines[i].getPosition().x << ", " << lines[i].getPosition().y << ") -> ";
 		std::cout << "(" << lines[i].getEndPosition().x << ", " << lines[i].getEndPosition().y << ") ";
 	}
-	std::cout << "Stroke width = " << strokeWidth << '\n';
+}
+
+/*
+* @brief Get bounding box of polygon
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Polygon::getBoundingBox() const
+{
+	return std::pair<Vector2D<float>, Vector2D<float>>();
 }
 
 /*

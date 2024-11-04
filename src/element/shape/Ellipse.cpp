@@ -26,12 +26,19 @@ ElementType Ellipse::getTypeName() {
  * @brief print all data of Ellipse
  */
 void Ellipse::dbg() {
-    std::cout << "[DEBUG ELLIPSE]\n";
-    std::cout << "Position: (" << position.x << ", " << position.y << ")\n";
-    std::cout << "Radii: (" << radii.x << ", " << radii.y << ")\n";
+    Element::dbg();
     std::cout << "Stroke Width: " << strokeWidth << '\n';
-    std::cout << "Fill color: "; fillColor.output(); std::cout << '\n';
-    std::cout << "Stroke color: "; strokeColor.output(); std::cout << '\n';
+}
+
+/*
+* @brief Get bounding box of ellipse
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Ellipse::getBoundingBox() const {
+    Vector2D<float> topLeft = Vector2D<float>(position.x - radii.x - strokeWidth / 2.0f, position.y - radii.y - strokeWidth / 2.0f);
+    Vector2D<float> bottomRight = Vector2D<float>(position.x + radii.x + strokeWidth / 2.0f, position.y + radii.y + strokeWidth / 2.0f);
+    return {topLeft, bottomRight};
 }
 
 /**

@@ -44,14 +44,21 @@ ElementType Rect::getTypeName() {
 * @brief print data of Rect for debugging
 */
 void Rect::dbg() {
-	std::cout << "[DEBUG RECT]\n";
-	std::cout << "Position: " << (this->getPosition()).x << " " << (this->getPosition()).y << '\n';
+	Element::dbg();
 	std::cout << "Width = " << this->getWidth() << " Height = " << this->getHeight() << '\n';
 	std::cout << "Radiix = " << radii.x << " Radiiy = " << radii.y << '\n';
-	// TODO: print fillColor, strokeColor
-	std::cout << "Fill color: "; fillColor.output(); 
-	std::cout << "Stroke color: "; strokeColor.output();
-	std::cout << "strokeWidth = " << this->getStrokeWidth() << '\n';
+}
+
+/*
+* @brief Get bounding box of rect
+* @return pair of top-left and bottom-right coordinate
+* @note This function doesn't change any attributes
+*/
+std::pair<Vector2D<float>, Vector2D<float>> Rect::getBoundingBox() const {
+	Vector2D<float> topLeft = Vector2D<float>(position.x - strokeWidth / 2.0f, position.y - strokeWidth / 2.0f);
+	Vector2D<float> bottomRight = Vector2D<float>(position.x + width + strokeWidth / 2.0f, position.y + height + strokeWidth / 2.0f);
+
+	return {topLeft, bottomRight};
 }
 
 /*

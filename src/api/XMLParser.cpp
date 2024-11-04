@@ -15,6 +15,8 @@ XMLParser::XMLParser() {
 //XMLParser::~XMLParser() {}
 //= default; //= default ?
 
+
+
 /**
 * @brief Traverse through each nodes and attributes of SVG
 * @note Initialize viewport and viewbox
@@ -75,6 +77,12 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 		pNode = pNode->next_sibling();
 	}
 }
+
+/*
+* @brief Set view port
+* @param new view port
+*/
+void XMLParser::setViewPort(const Vector2D<float>& viewPort) { this->viewPort = viewPort; }
 
 /*
 * @brief get view port information
@@ -256,7 +264,7 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<>* pNode, std::string attrName
 		color.a = (unsigned char)(255.0f * opaque);
 		if (strcmp(pNode->name(), "line") == 0 && attrName == "stroke") {
 			color.a = 0; /// <-- In line, if not specify stroke then not visible
-			std::cout << "Stroke not found in line\n";
+			//std::cout << "Stroke not found in line\n";
 		}
 		return color;
 	}

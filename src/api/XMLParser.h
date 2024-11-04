@@ -32,6 +32,12 @@ public:
 	**/
 	~XMLParser() = default;
 
+	/*
+	* @brief Set view port 
+	* @param new view port
+	*/
+	void setViewPort(const Vector2D<float>& viewPort);
+
 	/**
 	* @brief Get viewport information
 	* @return Vector2D type of viewport

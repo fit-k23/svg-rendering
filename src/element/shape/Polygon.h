@@ -37,6 +37,14 @@ public:
 	void dbg() override;
 
 	/*
+	* @brief Get bounding box of polygon
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+
+	/*
 	* @brief Set the vector of lines
 	*/
 	void setLines(const std::vector<Line>& lines);

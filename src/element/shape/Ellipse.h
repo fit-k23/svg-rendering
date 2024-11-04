@@ -31,6 +31,14 @@ public:
 	 */
 	void dbg() override;
 
+
+	/*
+	* @brief Get bounding box of ellipse
+	* @return pair of top-left and bottom-right coordinate
+	* @note This function doesn't change any attributes
+	*/
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
 	/**
 	 * @brief set radii
 	 * @param radii update radii

@@ -139,5 +139,45 @@ Element* Element::getParent() const {
 }
 
 void Element::dbg() {
-	{}
+	std::cout << "[DEBUG ";
+	switch (getTypeName()) {
+		case ElementType::Rect:
+			std::cout << "RECT]\n";
+			break;
+		case ElementType::Ellipse:
+			std::cout << "ELLIPSE]\n";
+			break;
+		case ElementType::Circle:
+			std::cout << "CIRCLE]\n";
+			break;
+		case ElementType::Line:
+			std::cout << "LINE]\n";
+			break;
+		case ElementType::Text:
+			std::cout << "TEXT]\n";
+			break;
+		case ElementType::Polyline:
+			std::cout << "Polyline]\n";
+			break;
+		case ElementType::Polygon:
+			std::cout << "POLYGON]\n";
+			break;
+		case ElementType::Path:
+			std::cout << "PATH]\n";
+			break;
+		default:
+			break;
+	}
+	std::cout << "Position: (" << getPosition().x << ", " << getPosition().y << ")\n";
+	std::cout << "Fill color: "; getFillColor().output(); std::cout << '\n';
+	std::cout << "Stroke color: "; getStrokeColor().output(); std::cout << '\n';
+	std::cout << "Stroke width: " << getStrokeWidth() << '\n';
+	std::cout << "Bounding box: "; 
+	std::pair<Vector2D<float>, Vector2D<float>> boundingBox = getBoundingBox();
+	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
+	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
+}
+
+std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {
+	return { Vector2D<float>(),Vector2D<float>() };
 }

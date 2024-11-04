@@ -16,12 +16,32 @@ int main() {
 	XMLParser parser;
 	std::vector<Element*> v;
 	parser.traverseXML("sample.svg", v);
-	std::cout << (int)v.size() << '\n';
+	
+	/// Temporary comment. Only for debugging
+	//std::cout << (int)v.size() << '\n';
+	//for (auto & i : v)
+	//	i->dbg();
 
-	for (auto & i : v)
-		i->dbg();
+	/// TODO: If no viewport specifed, gain information from bounding box of all
+	/// shapes to get default viewport that display all elements
+	if (parser.getViewPort().x == 0 && parser.getViewPort().y == 0) {
+		Vector2D<float> newViewPort = Vector2D<float>();
+		std::cout << "New viewport\n";
+		for (int i = 0; i < (int)v.size(); ++i) {
+			if (v[i]->getTypeName() == ElementType::Text) {
+				static_cast<Text*>(v[i])->setDataSize();
+			}
+			std::pair<Vector2D<float>, Vector2D<float>> boundingBox = v[i]->getBoundingBox(); 
+			newViewPort.x = std::max(newViewPort.x, boundingBox.second.x);
+			newViewPort.y = std::max(newViewPort.y, boundingBox.second.y);
+			std::cout << boundingBox.first.x << " " << boundingBox.first.y << " " << boundingBox.second.x << " " << boundingBox.second.y << '\n';
+		}
+		parser.setViewPort(newViewPort);
+	}
 
-	Renderer render(parser.getViewPort(), v, {900, 700});
+	Vector2D<float> screenSize = parser.getViewPort();
+	std::cout << "screenx screeny = " << screenSize.x << " " << screenSize.y << '\n';
+	Renderer render(parser.getViewPort(), v, screenSize);
 	render.draw();
 
 //	Renderer render({900, 700}, {}, {900, 700});
