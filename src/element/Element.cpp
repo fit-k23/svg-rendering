@@ -17,7 +17,7 @@ Element::Element() {
 * @brief Parameterized constructor
 * @note: easier for subclass to inherit and write its constructor
 */
-Element::Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor& strokeColor, float strokeWidth) {
+Element::Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth) {
 	this->position = position;
 	this->fillColor = fillColor;
 	this->strokeColor = strokeColor;
@@ -70,7 +70,7 @@ SVGColor Element::getFillColor() const {
 * @brief set stroke color of a svg element
 * @param a passed-by-referenced SVGColor object
 */
-void Element::setStrokeColor(const SVGColor& color) {
+void Element::setStrokeColor(const SVGColor &color) {
 	this->strokeColor = color;
 }
 
@@ -103,14 +103,14 @@ void Element::addTransformation(const std::string &s) {
 }
 
 std::vector<std::string> Element::getTransformation() const {
-    return this->transformation;
+	return this->transformation;
 }
 
 /*
 * @brief set gradient of a svg element
 * @param a pointer to an abstract Gradient object
 */
-void Element::setGradient(Gradient* grad) {
+void Element::setGradient(Gradient *grad) {
 	this->gradient = grad;
 }
 
@@ -118,7 +118,7 @@ void Element::setGradient(Gradient* grad) {
 * @brief get gradient of an svg element
 * @param a pointer to a Gradient object
 */
-Gradient* Element::getGradient() const {
+Gradient *Element::getGradient() const {
 	return this->gradient;
 }
 
@@ -134,14 +134,14 @@ void Element::setParent(Element *_parent) {
 * @brief get parent node of an svg element
 * @return a pointer to a same-class object (parent)
 */
-Element* Element::getParent() const {
+Element *Element::getParent() const {
 	return this->parent;
 }
 
 void Element::dbg() {
 	std::cout << "[DEBUG ";
 	switch (getTypeName()) {
-		case ElementType::Rect:
+		case ElementType::Rectangle:
 			std::cout << "RECT]\n";
 			break;
 		case ElementType::Ellipse:
@@ -169,15 +169,21 @@ void Element::dbg() {
 			break;
 	}
 	std::cout << "Position: (" << getPosition().x << ", " << getPosition().y << ")\n";
-	std::cout << "Fill color: "; getFillColor().output(); std::cout << '\n';
-	std::cout << "Stroke color: "; getStrokeColor().output(); std::cout << '\n';
+	std::cout << "Fill color: ";
+	getFillColor().output();
+	std::cout << '\n';
+	std::cout << "Stroke color: ";
+	getStrokeColor().output();
+	std::cout << '\n';
 	std::cout << "Stroke width: " << getStrokeWidth() << '\n';
-	std::cout << "Bounding box: "; 
-	std::pair<Vector2D<float>, Vector2D<float>> boundingBox = getBoundingBox();
+	std::cout << "Bounding box: ";
+	std::pair<Vector2D < float>, Vector2D < float >> boundingBox = getBoundingBox();
 	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
 	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
 }
 
-std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {
-	return { Vector2D<float>(),Vector2D<float>() };
+std::pair<Vector2D < float>, Vector2D<float>>
+
+Element::getBoundingBox() const {
+	return {Vector2D<float>(), Vector2D<float>()};
 }

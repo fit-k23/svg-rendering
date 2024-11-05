@@ -3,20 +3,13 @@
 
 #include <vector>
 #include "Graphic.h"
+#include <gdiplus.h>
 
-#include "../../lib/raylib/raylib.h"
-#include "../../lib/raylib/raymath.h"
-#include "../../lib/raylib/rlgl.h"
-
-#include "RenderTexturePool.h"
-#include "../utils/Raylibex.h"
-
-
-class Renderer {
+class Renderer{
 private:
 	Vector2 screenSize;
 	Vector2D<float> viewPort;
-	std::vector<Element*> shapes;
+	std::vector<Element *> shapes;
 public:
 	/*
 	* @brief Default constructor
@@ -28,6 +21,7 @@ public:
 	* @param vector of pointers to Element abstract type
 	*/
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
+
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, Vector2 screenSize);
 
 	/*

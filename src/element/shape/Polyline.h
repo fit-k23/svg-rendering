@@ -3,6 +3,8 @@
 
 #include "../Element.h"
 #include "../../api/Graphic.h"
+#include "../utils/FillRule.h"
+#include "Line.h"
 #include <vector>
 #include <string>
 
@@ -11,33 +13,31 @@
 * @note position is the first point of the polygon (first point of the first line)
 */
 
-class Polyline : public Element {
+class Polyline : public Element{
 private:
-	std::vector<Line> lines;
-	std::string fillRule;
+	std::vector<Vector2D<float>> points;
+	FillRule fillRule;
 public:
 	/*
 	* @brief Default constructor
 	*/
-	Polyline(); 
+	Polyline();
 
 	/*
 	* @brief Parameterized constructor
 	*/
-	Polyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-		const std::vector<Line>& lines);
+	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines);
 
 	/*
 	* @brief Parameterized constructor with fill rule parameter
 	*/
-	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth,
-		const std::vector<Line> &lines, const std::string &fillRule);
+	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines, const std::string &fillRule);
 
 
 	/*
 	* @brief Copy constructor
 	*/
-	Polyline(const Polyline& other);
+	Polyline(const Polyline &other);
 
 	/*
 	* @brief Get type Line
@@ -60,30 +60,30 @@ public:
 	/*
 	* @brief Set the vector of lines
 	*/
-	void setLines(const std::vector<Line>& lines);
-	
+	void setLines(const std::vector<elements::Line> &lines);
+
 	/*
 	* @brief Add a line to vector
 	*/
-	void addLines(const Line& line);
+	void addLines(const elements::Line &line);
 
 	/*
 	* @brief Get vector of lines
 	* @note This function doesn't change any attributes
 	*/
-	std::vector<Line> getLines() const;
+	std::vector<elements::Line> getLines() const;
 
 	/*
 	* @brief Set fill rule
 	* @param fillRule new fill rule
 	*/
-	void setFillRule(const std::string& fillRule);
+	void setFillRule(const FillRule &fillRule);
 
 	/*
 	* @brief Get fill rule
 	* @return fill rule
 	*/
-	std::string getFillRule() const;
+	FillRule getFillRule() const;
 
 };
 

@@ -13,7 +13,7 @@ public:
 	 * @brief Default constructor for Group class
 	 * @note Initially has no shapes
 	 */
-	Group(); 
+	Group();
 
 	/**
 	 * @brief Destructor 

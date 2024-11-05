@@ -1,7 +1,7 @@
 #ifndef SVG_RENDERING_ELEMENT_ID_H
 #define SVG_RENDERING_ELEMENT_ID_H
 
-enum class ElementType : int {
+enum class ElementType : int{
 	Unknown = 0,
 	Circle,
 	Ellipse,
@@ -10,7 +10,7 @@ enum class ElementType : int {
 	Path,
 	Polygon,
 	Polyline,
-	Rect,
+	Rectangle,
 	Text
 };
 

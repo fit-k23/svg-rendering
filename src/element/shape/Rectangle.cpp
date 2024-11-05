@@ -3,26 +3,24 @@
 /*
 * @brief Default constructor
 */
-Rect::Rect() : Element(), width(0.0), height(0.0), radii() {}
+Rectangle::Rectangle() : Element(), width(0.0), height(0.0), radii() {}
 
 /*
 * @brief Parameterized constructor
-* @param position: vector2D position of Rect
-* @param width: width of Rect
-* @param height: height of Rect
-* @param radii: radii of Rect
-* @param fillColor: fill color of Rect
-* @param strokeColor: stroke color of Rect
-* @param strokeWidth: stroke width of Rect
+* @param position: vector2D position of Rectangle
+* @param width: width of Rectangle
+* @param height: height of Rectangle
+* @param radii: radii of Rectangle
+* @param fillColor: fill color of Rectangle
+* @param strokeColor: stroke color of Rectangle
+* @param strokeWidth: stroke width of Rectangle
 */
-Rect::Rect(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth,
-	float _width, float _height, const Vector2D<float> &_radii) : Element(_position, _fillColor, _strokeColor, _strokeWidth), width(_width),
-	height(_height), radii(_radii) {}
+Rectangle::Rectangle(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, float _width, float _height, const Vector2D<float> &_radii) : Element(_position, _fillColor, _strokeColor, _strokeWidth), width(_width), height(_height), radii(_radii) {}
 
 /*
 * @brief Copy constructor
 */
-Rect::Rect(const Rect& other) {
+Rectangle::Rectangle(const Rectangle &other)  : Element(other) {
 	this->position = other.position;
 	this->fillColor = other.fillColor;
 	this->strokeColor = other.strokeColor;
@@ -33,17 +31,17 @@ Rect::Rect(const Rect& other) {
 }
 
 /*
-* @brief get type of Rect
-* @return ElementType::Rect
+* @brief get type of Rectangle
+* @return ElementType::Rectangle
 */
-ElementType Rect::getTypeName() {
-	return ElementType::Rect;
+ElementType Rectangle::getTypeName() {
+	return ElementType::Rectangle;
 }
 
 /*
-* @brief print data of Rect for debugging
+* @brief print data of Rectangle for debugging
 */
-void Rect::dbg() {
+void Rectangle::dbg() {
 	Element::dbg();
 	std::cout << "Width = " << this->getWidth() << " Height = " << this->getHeight() << '\n';
 	std::cout << "Radiix = " << radii.x << " Radiiy = " << radii.y << '\n';
@@ -54,7 +52,9 @@ void Rect::dbg() {
 * @return pair of top-left and bottom-right coordinate
 * @note This function doesn't change any attributes
 */
-std::pair<Vector2D<float>, Vector2D<float>> Rect::getBoundingBox() const {
+std::pair<Vector2D < float>, Vector2D<float>>
+
+Rectangle::getBoundingBox() const {
 	Vector2D<float> topLeft = Vector2D<float>(position.x - strokeWidth / 2.0f, position.y - strokeWidth / 2.0f);
 	Vector2D<float> bottomRight = Vector2D<float>(position.x + width + strokeWidth / 2.0f, position.y + height + strokeWidth / 2.0f);
 
@@ -62,49 +62,49 @@ std::pair<Vector2D<float>, Vector2D<float>> Rect::getBoundingBox() const {
 }
 
 /*
-* @brief set width of the Rect
+* @brief set width of the Rectangle
 * @param _width: passed width
 */
-void Rect::setWidth(float _width) {
+void Rectangle::setWidth(float _width) {
 	this->width = _width;
 }
 
 /*
-* @brief set height of the Rect
+* @brief set height of the Rectangle
 * @param _height: passed height
 */
-void Rect::setHeight(float _height) {
+void Rectangle::setHeight(float _height) {
 	this->height = _height;
 }
 
 /*
-* @brief get width of the Rect
-* @return width of current Rect
+* @brief get width of the Rectangle
+* @return width of current Rectangle
 */
-float Rect::getWidth() const {
+float Rectangle::getWidth() const {
 	return this->width;
 }
 
 /*
-* @brief get height of the Rect
-* @return height of current Rect
+* @brief get height of the Rectangle
+* @return height of current Rectangle
 */
-float Rect::getHeight() const {
+float Rectangle::getHeight() const {
 	return this->height;
 }
 
 /*
-* @brief set radii of the Rect
+* @brief set radii of the Rectangle
 * @param radii: passed-by-reference radii
 */
-void Rect::setRadii(const Vector2D<float>& radii) {
-	this->radii = radii;
+void Rectangle::setRadii(const Vector2D<float> &_radii) {
+	this->radii = _radii;
 }
 
 /*
-* @brief get radii of the Rect
-* @return radii of current Rect
+* @brief get radii of the Rectangle
+* @return radii of current Rectangle
 */
-Vector2D<float> Rect::getRadii() const {
+Vector2D<float> Rectangle::getRadii() const {
 	return this->radii;
 }

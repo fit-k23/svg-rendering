@@ -11,9 +11,9 @@
 * @note position vector2D in Polygon is the first point of polygon
 * @note lines describe all edges of Polygon
 */
-class Polygon : public Polyline{
+class Polygon : public Element{
 private:
-	std::vector<Line> lines;
+	std::vector<Vector2D<float>> points;
 	std::string fillRule;
 public:
 	/*
@@ -24,14 +24,12 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-		const std::vector<Line>& lines);
+	Polygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Line> &lines);
 
 	/*
 	* @brief Parameterized constructor with fill rule parameter
 	*/
-	Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-		const std::vector<Line>& lines, const std::string &fillRule);
+	Polygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Line> &lines, const std::string &fillRule);
 
 
 	/*
@@ -55,12 +53,12 @@ public:
 	/*
 	* @brief Set the vector of lines
 	*/
-	void setLines(const std::vector<Line>& lines);
+	void setLines(const std::vector<Line> &lines);
 
 	/*
 	* @brief Add a line to vector
 	*/
-	void addLines(const Line& line);
+	void addLines(const Line &line);
 
 	/*
 	* @brief Get vector of lines
@@ -72,7 +70,7 @@ public:
 	* @brief Set fill rule
 	* @param fillRule new fill rule
 	*/
-	void setFillRule(const std::string& fillRule);
+	void setFillRule(const std::string &fillRule);
 
 	/*
 	* @brief Get fill rule

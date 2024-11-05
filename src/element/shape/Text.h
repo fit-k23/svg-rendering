@@ -21,7 +21,7 @@ private:
 	std::string fontStyle; // <-- font style of text
 	float fontSize; // <-- font size of text
 	float offset; // <-- some offset so that raylib draws text more like svg
-	Vector2 dataSize; // <-- width and height of whole text
+	Vector2D<float> dataSize; // <-- width and height of whole text
 public:
 	/*
 	* @brief Default constructor
@@ -31,8 +31,7 @@ public:
 	/*
 	* @brief Parameterized constructor
 	*/
-	Text(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor,
-		float strokeWidth, const std::string& data, float fontSize);
+	Text(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize);
 
 	/*
 	* @brief Get type Text
@@ -55,7 +54,7 @@ public:
 	* @brief Set data size 
 	* @param dataSize new data size including width and height of text based on font
 	*/
-	void setDataSize(const Vector2& dataSize);
+	void setDataSize(const Vector2D<float> &dataSize);
 
 	/*
 	* @brief Set default data size with no font
@@ -67,14 +66,14 @@ public:
 	* @param font font family
 	* @note This function doesn't change any attributes
 	*/
-	Vector2 getDataSize() const;
+	Vector2D<float> getDataSize() const;
 
 	/*
 	* @brief Set data of text
 	* @param data new data for text
 	*/
-	void setData(const std::string& data);
-	
+	void setData(const std::string &data);
+
 	/*
 	* @brief Get data of text
 	* @note This function doesn't change any attributes
@@ -85,7 +84,7 @@ public:
 	* @brief Set text anchor
 	* @param textAnchor new anchor for text
 	*/
-	void setTextAnchor(const std::string& textAnchor);
+	void setTextAnchor(const std::string &textAnchor);
 
 	/*
 	* @brief Get anchor of text
@@ -97,7 +96,7 @@ public:
 	* @brief Set font style
 	* @param fontStyle new font style for text
 	*/
-	void setFontStyle(const std::string& fontStyle);
+	void setFontStyle(const std::string &fontStyle);
 
 	/*
 	* @brief Get font style of text

@@ -1,7 +1,7 @@
 #ifndef GRADIENT_H
 #define GRADIENT_H
 
-class Gradient {
+class Gradient{
 };
 
 #endif //GRADIENT_H

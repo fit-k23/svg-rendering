@@ -5,7 +5,7 @@
 using namespace Gdiplus;
 #pragma comment (lib, "Gdiplus.lib")
 
-VOID OnPaint(HDC hdc) {
+void OnPaint(HDC hdc) {
 	Graphics graphics(hdc);
 	Pen pen(Color(255, 0, 0, 255));
 	graphics.DrawLine(&pen, 0, 0, 200, 100);
@@ -13,7 +13,7 @@ VOID OnPaint(HDC hdc) {
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	HWND hWnd;
 	MSG msg;
 	WNDCLASS wndClass;
@@ -36,18 +36,17 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 
 	RegisterClass(&wndClass);
 
-	hWnd = CreateWindow(
-			TEXT("GettingStarted"),   // window class name
-			TEXT("Getting Started"),  // window caption
-			WS_OVERLAPPEDWINDOW,      // window style
-			CW_USEDEFAULT,            // initial x position
-			CW_USEDEFAULT,            // initial y position
-			CW_USEDEFAULT,            // initial x size
-			CW_USEDEFAULT,            // initial y size
-			nullptr,                     // parent window handle
-			nullptr,                     // window menu handle
-			hInstance,                // program instance handle
-			nullptr);                    // creation parameters
+	hWnd = CreateWindow(TEXT("GettingStarted"),   // window class name
+						TEXT("Getting Started"),  // window caption
+						WS_OVERLAPPEDWINDOW,      // window style
+						CW_USEDEFAULT,            // initial x position
+						CW_USEDEFAULT,            // initial y position
+						CW_USEDEFAULT,            // initial x size
+						CW_USEDEFAULT,            // initial y size
+						nullptr,                     // parent window handle
+						nullptr,                     // window menu handle
+						hInstance,                // program instance handle
+						nullptr);                    // creation parameters
 
 	ShowWindow(hWnd, iCmdShow);
 	UpdateWindow(hWnd);
@@ -58,11 +57,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	}
 
 	GdiplusShutdown(gdiplusToken);
-	return msg.wParam;
-}  // WinMain
+	return msg.wParam; // NOLINT(*-narrowing-conversions)
+}
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
-						 WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	HDC hdc;
 	PAINTSTRUCT ps;
 
@@ -78,4 +76,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
-} // WndProc
+}

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <objidl.h>
+#include <gdiplus.h>
 #include "utils/ElementType.h"
 #include "utils/Vector2D.h"
 #include "utils/Gradient.h"
@@ -23,24 +25,26 @@ protected:
 	std::vector<std::string> transformation;
 	Gradient *gradient{};
 	Element *parent{};
+
 	/**
 	* @brief Default constructor
 	* TODO: change to not default
 	* Because now I haven't finished other classes yet .-.
 	*/
 	Element();
-	
+
 	/**
 	* @brief Parameterized constructor
 	* @note easier for subclass to inherit and write its constructor
 	*/
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
+
 public:
 	/**
 	* @brief Virtual destructor
 	*/
 	virtual ~Element() = default;
-	
+
 	/**
 	* @brief Get TypeName of an svg element
 	* @brief This function is abstract and must be implemented by subclasses (derived classes)
@@ -48,7 +52,7 @@ public:
 	* @return the type (ElementType type)
 	*/
 	virtual ElementType getTypeName() = 0;
-		
+
 	/**
 	* @brief Print all data of an svg element
 	* @note For debugging
@@ -60,7 +64,7 @@ public:
 	* @note This function doesn't change any attributes
 	*/
 	virtual std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const;
-	
+
 	/**
 	* @brief Set position of an svg element
 	* @param x and y coordinates (float)
@@ -72,14 +76,14 @@ public:
 	* @param position new vector2D position
 	*/
 	void setPosition(const Vector2D<float> &position);
-	
+
 	/**
 	* @brief get position of an svg element
 	* @return a vector2D
 	* @note This function doesn't change any attributes
 	*/
 	Vector2D<float> getPosition() const;
-	
+
 	/**
 	* @brief set fill color of an svg element
 	* @param a passed-by-referenced SVGColor object
@@ -98,7 +102,7 @@ public:
 	* @param a passed-by-referenced SVGColor object
 	*/
 	void setStrokeColor(const SVGColor &color);
-	
+
 	/**
 	* @brief get stroke color of an svg element
 	* @return a SVGColor object
@@ -123,7 +127,7 @@ public:
 	 * @brief add a transformation  
 	 * @param s a transformation string
 	 */
-	void addTransformation(const std::string& s);
+	void addTransformation(const std::string &s);
 
 	/**
 	 * @brief get all current transformations
@@ -143,7 +147,7 @@ public:
 	* @param a pointer to a Gradient object
 	* @note This function doesn't change any attributes
 	*/
-	Gradient* getGradient() const;
+	Gradient *getGradient() const;
 
 	/**
 	* @brief set parent node of an svg element
@@ -156,7 +160,7 @@ public:
 	* @return a pointer to a same-class object (parent)
 	* @note This function doesn't change any attributes
 	*/
-	Element* getParent() const;
+	Element *getParent() const;
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

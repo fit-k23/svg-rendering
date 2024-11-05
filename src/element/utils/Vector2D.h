@@ -4,10 +4,8 @@
 #include <iostream>
 #include <algorithm>
 
-#ifndef RAYLIB_H
-#include "../../../lib/raylib/raylib.h"
-#endif
-#include "../../../lib/raylib/raymath.h"
+#include <objidl.h>
+#include <gdiplus.h>
 
 /**
 * @brief Vector2D is a class explicitly presenting a 2d vector 
@@ -15,7 +13,7 @@
 **/
 
 template<typename T>
-class Vector2D {
+class Vector2D{
 public:
 	/**
 	* @brief Attributes of vector2D class
@@ -23,7 +21,7 @@ public:
 	**/
 	T x;
 	T y;
-	
+
 	/**
 	* @brief default constructor
 	* x and y default is 0
@@ -41,78 +39,86 @@ public:
 	* @param other: same-class object
 	**/
 	Vector2D(const Vector2D<T> &other);
-	
+
 	/// TODO: Arithmetic (assignment) operators: +, +=, -, -=, * (number), *= (number), / (number), /= (number)
 	/*
 	* @brief Arithmetic operator + for vector2D class
 	* @param other same-class vector2D
 	* @return new vector2D
 	*/
-	Vector2D<T> operator + (const Vector2D<T>& other);
+	Vector2D<T> operator+(const Vector2D<T> &other);
+
 	/*
 	* @brief Arithmetic operator += for vector2D class
 	* @param other same-class vector2D
 	* @return reference to this
 	*/
-	Vector2D<T>& operator += (const Vector2D<T>& other);
+	Vector2D<T> &operator+=(const Vector2D<T> &other);
+
 	/*
 	* @brief Arithmetic operator - for vector2D class
 	* @param other same-class vector2D
 	* @return new vector2D
 	*/
-	Vector2D<T> operator - (const Vector2D<T>& other);
+	Vector2D<T> operator-(const Vector2D<T> &other);
+
 	/*
 	* @brief Arithmetic operator -= for vector2D class
 	* @param other same-class vector2D
 	* @return reference to this
 	*/
-	Vector2D<T>& operator -= (const Vector2D<T>& other);
+	Vector2D<T> &operator-=(const Vector2D<T> &other);
+
 	/*
 	* @brief Arithmetic operator * for vector2D class
 	* @param a number
 	* @return new vector
 	*/
-	Vector2D<T> operator * (const T& other);
+	Vector2D<T> operator*(const T &other);
+
 	/*
 	* @brief Arithmetic operator *= for vector2D class
 	* @param a number
 	* @return reference to this
 	*/
-	Vector2D<T>& operator *= (const T& other);
+	Vector2D<T> &operator*=(const T &other);
+
 	/*
 	* @brief Arithmetic operator / for vector2D class
 	* @param a number
 	* @return new vector
 	*/
-	Vector2D<T> operator / (const T& other);
+	Vector2D<T> operator/(const T &other);
+
 	/*
 	* @brief Arithmetic operator /= for vector2D class
 	* @param a number
 	* @return reference to this
 	*/
-	Vector2D& operator /= (const T& other);
-	
+	Vector2D &operator/=(const T &other);
+
 	/// TODO: relational operator: ==, !=
 	/*
 	* @brief Relational operator == for vector2D class
 	* @param other a same-class object
 	* @return boolean
 	*/
-	bool operator == (const Vector2D<T>& other) const;
+	bool operator==(const Vector2D<T> &other) const;
+
 	/*
 	* @brief Relational operator != for vector2D class
 	* @param other a same-class object
 	* @return boolean
 	*/
-	bool operator != (const Vector2D<T>& other) const;
+	bool operator!=(const Vector2D<T> &other) const;
 
 	/*
 	* @brief Assignment (equal) operator
 	* @note Remember to check self-assignment case
 	*/
-	Vector2D<T>& operator = (const Vector2D<T>& other);
+	Vector2D<T> &operator=(const Vector2D<T> &other);
 
-	operator Vector2();
+	operator POINT();
 };
 
 
@@ -128,14 +134,14 @@ Vector2D<T>::Vector2D() : x(0), y(0) {}
 * @param _x: passed x cord, _y: passed y cord
 **/
 template<typename T>
-Vector2D<T>::Vector2D(const T& _x, const T& _y) : x(_x), y(_y) {}
+Vector2D<T>::Vector2D(const T &_x, const T &_y) : x(_x), y(_y) {}
 
 /**
 * @brief copy constructor to copy content (deep copy)
 * @param other: same-class object
 **/
 template<typename T>
-Vector2D<T>::Vector2D(const Vector2D<T>& other) : x(other.x), y(other.y) {}
+Vector2D<T>::Vector2D(const Vector2D<T> &other) : x(other.x), y(other.y) {}
 
 /*
 * @brief Arithmetic operator + for vector2D class
@@ -143,7 +149,7 @@ Vector2D<T>::Vector2D(const Vector2D<T>& other) : x(other.x), y(other.y) {}
 * @return new vector2D
 */
 template<typename T>
-Vector2D<T> Vector2D<T>::operator + (const Vector2D<T>& other) {
+Vector2D<T> Vector2D<T>::operator+(const Vector2D<T> &other) {
 	return Vector2D<T>(this->x + other.x, this->y + other.y);
 }
 
@@ -153,7 +159,7 @@ Vector2D<T> Vector2D<T>::operator + (const Vector2D<T>& other) {
 * @return reference to this
 */
 template<typename T>
-Vector2D<T>& Vector2D<T>::operator += (const Vector2D<T>& other) {
+Vector2D<T> &Vector2D<T>::operator+=(const Vector2D<T> &other) {
 	this->x += other.x;
 	this->y += other.y;
 	return *this;
@@ -165,7 +171,7 @@ Vector2D<T>& Vector2D<T>::operator += (const Vector2D<T>& other) {
 * @return new vector2D
 */
 template<typename T>
-Vector2D<T> Vector2D<T>::operator - (const Vector2D<T>& other) {
+Vector2D<T> Vector2D<T>::operator-(const Vector2D<T> &other) {
 	return Vector2D<T>(this->x - other.x, this->y - other.y);
 }
 
@@ -175,7 +181,7 @@ Vector2D<T> Vector2D<T>::operator - (const Vector2D<T>& other) {
 * @return reference to this
 */
 template<typename T>
-Vector2D<T>& Vector2D<T>::operator -= (const Vector2D<T>& other) {
+Vector2D<T> &Vector2D<T>::operator-=(const Vector2D<T> &other) {
 	this->x -= other.x;
 	this->y -= other.y;
 	return *this;
@@ -187,7 +193,7 @@ Vector2D<T>& Vector2D<T>::operator -= (const Vector2D<T>& other) {
 * @return new vector2D
 */
 template<typename T>
-Vector2D<T> Vector2D<T>::operator * (const T& other) {
+Vector2D<T> Vector2D<T>::operator*(const T &other) {
 	return Vector2D<T>(this->x * other, this->y * other);
 }
 
@@ -197,7 +203,7 @@ Vector2D<T> Vector2D<T>::operator * (const T& other) {
 * @return reference to this
 */
 template<typename T>
-Vector2D<T>& Vector2D<T>::operator *= (const T& other) {
+Vector2D<T> &Vector2D<T>::operator*=(const T &other) {
 	this->x *= other;
 	this->y *= other;
 	return *this;
@@ -209,7 +215,7 @@ Vector2D<T>& Vector2D<T>::operator *= (const T& other) {
 * @return new vector2D
 */
 template<typename T>
-Vector2D<T> Vector2D<T>::operator / (const T& other) {
+Vector2D<T> Vector2D<T>::operator/(const T &other) {
 	assert(other != 0); //W/ <- avoid divide by zero
 	return Vector2D<T>(this->x / other, this->y / other);
 }
@@ -220,7 +226,7 @@ Vector2D<T> Vector2D<T>::operator / (const T& other) {
 * @return reference to this
 */
 template<typename T>
-Vector2D<T>& Vector2D<T>::operator /= (const T& other) {
+Vector2D<T> &Vector2D<T>::operator/=(const T &other) {
 	assert(other != 0); /// <- avoid divide by zero
 	this->x /= other;
 	this->y /= other;
@@ -233,18 +239,18 @@ Vector2D<T>& Vector2D<T>::operator /= (const T& other) {
 * @return boolean
 */
 template<typename T>
-bool Vector2D<T>::operator == (const Vector2D<T>& other) const {
+bool Vector2D<T>::operator==(const Vector2D<T> &other) const {
 	return this->x == other.x && this->y == other.y;
 }
 
 template<typename T>
-bool Vector2D<T>::operator != (const Vector2D<T>& other) const {
+bool Vector2D<T>::operator!=(const Vector2D<T> &other) const {
 	return !(this->x == other.x && this->y == other.y);
 }
 
 template<typename T>
-Vector2D<T>::operator Vector2() {
-	return Vector2{static_cast<float>(this->x), static_cast<float>(this->y)};
+Vector2D<T>::operator POINT() {
+	return POINT{static_cast<LONG>(this->x), static_cast<LONG>(this->y)};
 }
 
 /*
@@ -252,7 +258,7 @@ Vector2D<T>::operator Vector2() {
 * @note Remember to check self-assignment case
 */
 template<typename T>
-Vector2D<T>& Vector2D<T>::operator = (const Vector2D<T>& other) {
+Vector2D<T> &Vector2D<T>::operator=(const Vector2D<T> &other) {
 	if (this == &other) { // <-- self-assignment case
 		return *this;
 	}
