@@ -1,9 +1,7 @@
 #include "Polygon.h"
 #include "../utils/FillRule.h"
 
-/*
-* @brief Default constructor
-*/
+/** @brief Default constructor */
 Polygon::Polygon() : Element(), points{}, fillRule(elements::FillRule::NON_ZERO) {}
 
 /** @brief Parameterized constructor */
@@ -13,14 +11,10 @@ Polygon::Polygon(const Vector2D<float> &position, const SVGColor &fillColor, con
 Polygon::Polygon(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &_points, const elements::FillRule &fillRule) : Element(_position, fillColor, strokeColor, strokeWidth), points(_points), fillRule(fillRule) {}
 
 
-/*
-* @brief Get type Polygon
-*/
+/** @brief Get type Polygon */
 ElementType Polygon::getTypeName() { return ElementType::Polygon; }
 
-/*
-* @brief Print all information of Polygon
-*/
+/** @brief Print all information of Polygon */
 void Polygon::dbg() {
 	Element::dbg();
 	std::cout << "Fill rule: " << (fillRule == elements::FillRule::NON_ZERO ? "nonzero" : "evenodd") << '\n';
@@ -55,31 +49,26 @@ std::pair<Vector2D<float>, Vector2D<float>> Polygon::getBoundingBox() const {
 	return {topLeft, bottomRight};
 }
 
-/*
-* @brief Set the vector of lines
-*/
+/** @brief Set the vector of lines */
 void Polygon::setPoints(const std::vector<Vector2D<float>> &_points) { this->points = _points; }
 
-/*
-* @brief Add a line to vector
-*/
+/** @brief Add a line to vector */
 void Polygon::addPoints(const Vector2D<float> &point) { points.push_back(point); }
 
-/*
-* @brief Get vector of lines
-* @note This function doesn't change any attributes
+/**
+ * @brief Get vector of lines
+ * @note This function doesn't change any attributes
 */
-std::vector<Line> Polygon::getLines() const { return lines; }
+std::vector<Vector2D<float>> Polygon::getPoints() const { return points; }
 
-/*
-* @brief Set fill rule
-* @param fillRule new fill rule
+/**
+ * @brief Set fill rule
+ * @param fillRule new fill rule
 */
-void Polygon::setFillRule(const std::string &fillRule) { this->fillRule = fillRule; }
+void Polygon::setFillRule(const elements::FillRule &_fillRule) { this->fillRule = _fillRule; }
 
-/*
-* @brief Get fill rule
-* @return fill rule
+/**
+ * @brief Get fill rule
+ * @return fill rule
 */
-std::string Polygon::getFillRule() const { return fillRule; }
-
+elements::FillRule Polygon::getFillRule() const { return fillRule; }
