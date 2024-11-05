@@ -2,13 +2,20 @@
 /*
 * @brief Default constructor
 */
-Polyline::Polyline() : Element(), lines({}) {}
+Polyline::Polyline() : Element(), lines({}), fillRule("nonzero") {}
 
 /*
 * @brief Parameterized constructor
 */
 Polyline::Polyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
-	const std::vector<Line>& lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines) {}
+	const std::vector<Line>& lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule("nonzero") {}
+
+/*
+* @brief Parameterized constructor with fill rule parameter
+*/
+Polyline::Polyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+	const std::vector<Line>& lines, const std::string& fillRule) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines),
+																   fillRule(fillRule) {}
 
 /*
 * @brief Copy constructor
@@ -31,6 +38,7 @@ ElementType Polyline::getTypeName() { return ElementType::Polyline; }
 */
 void Polyline::dbg() {
 	Element::dbg();
+	std::cout << "Fill rule: " << fillRule << '\n';
 	std::cout << "Set of lines are ";
 	for (int i = 0; i < (int)lines.size(); ++i) {
 		std::cout << "(" << lines[i].getPosition().x << ", " << lines[i].getPosition().y << ") -> ";
@@ -45,7 +53,21 @@ void Polyline::dbg() {
 */
 std::pair<Vector2D<float>, Vector2D<float>> Polyline::getBoundingBox() const
 {
-	return std::pair<Vector2D<float>, Vector2D<float>>();
+	Vector2D<float> topLeft = { 99999.0f, 99999.0f };
+	Vector2D<float> bottomRight = { -99999.0f, -99999.0f };
+	for (int i = 0; i < (int)lines.size(); ++i) {
+		Vector2D<float> sta = lines[i].getPosition();
+		Vector2D<float> fin = lines[i].getEndPosition();
+		topLeft.x = std::min(topLeft.x, std::min(sta.x, fin.x));
+		bottomRight.x = std::max(bottomRight.x, std::max(sta.x, fin.x));
+		topLeft.y = std::min(topLeft.y, std::min(sta.y, fin.y));
+		bottomRight.y = std::max(bottomRight.y, std::max(sta.y, fin.y));
+	}
+	topLeft.x += strokeWidth / 2.0f;
+	topLeft.y += strokeWidth / 2.0f;
+	bottomRight.x += strokeWidth / 2.0f;
+	bottomRight.y += strokeWidth / 2.0f;
+	return { topLeft, bottomRight };
 }
 
 /*
@@ -64,3 +86,14 @@ void Polyline::addLines(const Line& line) { lines.push_back(line); }
 */
 std::vector<Line> Polyline::getLines() const { return lines; }
 
+/*
+* @brief Set fill rule
+* @param fillRule new fill rule
+*/
+void Polyline::setFillRule(const std::string& fillRule) { this->fillRule = fillRule; }
+
+/*
+* @brief Get fill rule
+* @return fill rule
+*/
+std::string Polyline::getFillRule() const { return fillRule; }

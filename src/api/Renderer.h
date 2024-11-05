@@ -68,12 +68,12 @@ public:
 	/*
 	* @brief Draw polyline
 	*/
-	void drawPolyline(Polyline *element);
+	void drawPolyline(Polyline *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw a polygon
 	*/
-	void drawPolygon(Polygon *element);
+	void drawPolygon(Polygon *element, RenderTexture2D renderTexture);
 
 	/*
 	* @brief Draw text

@@ -66,7 +66,7 @@ void XMLParser::traverseXML(const std::string& fileName, std::vector<Element*>& 
 			} else if (nodeName == "polyline") {
 				v.push_back(new Polyline(parsePolyline(pNode)));
 			} else if (nodeName == "polygon") {
-
+				v.push_back(new Polygon(parsePolygon(pNode)));
 			}
 			else if (nodeName == "text") {
 				v.push_back(new Text(parseText(pNode)));
@@ -174,14 +174,40 @@ Polyline XMLParser::parsePolyline(rapidxml::xml_node<>* pNode) {
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
-	Polyline polyline;
+	std::string fillRule = parseStringAttr(pNode, "fill-rule");
+	std::vector<Line> lines;
 	for (int i = 0; i + 1 < (int)points.size(); ++i) {
 		Vector2D<float> position = points[i];
 		Vector2D<float> endPosition = points[i + 1];
-		polyline.addLines(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
+		lines.push_back(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
 	}
+	lines.push_back(Line(points.back(), fillColor, strokeColor, strokeWidth, points[0]));
+	Polyline polyline = Polyline(points[0], fillColor, strokeColor, strokeWidth, lines, fillRule);
 	return polyline;
 }
+
+/*
+* @brief Parse Polygon attributes
+* @return a Polygon object
+*/
+Polygon XMLParser::parsePolygon(rapidxml::xml_node<>* pNode) {
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
+	std::string fillRule = parseStringAttr(pNode, "fill-rule");
+	std::vector<Line> lines;
+	for (int i = 0; i + 1 < (int)points.size(); ++i) {
+		Vector2D<float> position = points[i];
+		Vector2D<float> endPosition = points[i + 1];
+		lines.push_back(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
+	}
+	lines.push_back(Line(points.back(), fillColor, strokeColor, strokeWidth, points[0]));
+	Polygon polygon = Polygon(points[0], fillColor, strokeColor, strokeWidth, lines, fillRule);
+	return polygon;
+
+}
+
 
 /*
 * @brief Parse Text attributes
@@ -237,14 +263,15 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<>* pNode, std::string attrNam
 * @return a string type
 **/
 std::string XMLParser::parseStringAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
-	std::string value("");
+	std::string data("");
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) {
 		/// TODO: handle if no attribute name = attrName
-		return value;
+		if (attrName == "fill-rule") data = "nonzero";
+		return data;
 	}
-	value = pAttr->value();
-	return value;
+	data = pAttr->value();
+	return data;
 }
 
 /**

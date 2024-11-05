@@ -14,6 +14,7 @@
 class Polyline : public Element {
 private:
 	std::vector<Line> lines;
+	std::string fillRule;
 public:
 	/*
 	* @brief Default constructor
@@ -25,6 +26,13 @@ public:
 	*/
 	Polyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
 		const std::vector<Line>& lines);
+
+	/*
+	* @brief Parameterized constructor with fill rule parameter
+	*/
+	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth,
+		const std::vector<Line> &lines, const std::string &fillRule);
+
 
 	/*
 	* @brief Copy constructor
@@ -64,6 +72,19 @@ public:
 	* @note This function doesn't change any attributes
 	*/
 	std::vector<Line> getLines() const;
+
+	/*
+	* @brief Set fill rule
+	* @param fillRule new fill rule
+	*/
+	void setFillRule(const std::string& fillRule);
+
+	/*
+	* @brief Get fill rule
+	* @return fill rule
+	*/
+	std::string getFillRule() const;
+
 };
 
 #endif //SVG_RENDERING_POLYLINE_H

@@ -80,7 +80,14 @@ public:
 	* @return a Polyline object
 	*/
 	Polyline parsePolyline(rapidxml::xml_node<>* pNode);
-	
+
+	/*
+	* @brief Parse Polygon attributes
+	* @return a Polygon object
+	*/
+	Polygon parsePolygon(rapidxml::xml_node<>* pNode);
+
+
 	/*
 	* @brief Parse Text attributes
 	* @return a Text object
