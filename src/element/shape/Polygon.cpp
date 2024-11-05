@@ -14,8 +14,8 @@ Polygon::Polygon(const Vector2D<float>& position, const SVGColor& fillColor, con
 /*
 * @brief Parameterized constructor with fill rule parameter
 */
-Polygon::Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, 
-				 const std::vector<Line>& lines, const std::string& fillRule) : Element(position, fillColor, strokeColor, strokeWidth), 
+Polygon::Polygon(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+				 const std::vector<Line>& lines, const std::string& fillRule) : Element(position, fillColor, strokeColor, strokeWidth),
 				 lines(lines), fillRule(fillRule) {}
 
 

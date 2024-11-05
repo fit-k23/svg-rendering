@@ -50,6 +50,7 @@ int main() {
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
+	int mode = 1;
 	while (!WindowShouldClose()) {
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
@@ -64,16 +65,22 @@ int main() {
 		};
 		int vertexCount = sizeof(vertices) / sizeof(vertices[0]);
 
-		Vector2 center = GetMousePosition();
-		if (IsKeyDown(KEY_W)) {
-			DrawPolyW(vertices, vertexCount, PINK);
-		} else {
-			DrawPolyPro(vertices[0], vertices, vertexCount, BLUE);
+		if (IsKeyPressed(KEY_W)) {
+			++mode %= 5;
 		}
-		if (IsKeyDown(KEY_A)) {
-			DrawTriangleStrip(vertices, vertexCount, ColorAlpha(RED, 0.9));
-		} else {
-			DrawTriangleFan(vertices, vertexCount, ColorAlpha(RED, 0.9));
+		Vector2 center = GetMousePosition();
+		switch (mode) {
+			case 0:
+				DrawPolyW(vertices, vertexCount, PINK);
+				break;
+			case 1:
+				DrawPolyPro(vertices[0], vertices, vertexCount, BLUE);
+				break;
+			case 3:
+				break;
+				DrawTriangleStrip(vertices, vertexCount, ColorAlpha(RED, 0.9));
+			default:
+				DrawTriangleFan(vertices, vertexCount, ColorAlpha(RED, 0.9));
 		}
 
 		for (int i = 0; i < vertexCount; ++i) DrawLineEx(vertices[i], vertices[(i + 1) % vertexCount], 3, BLACK);

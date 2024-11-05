@@ -11,7 +11,7 @@
 * @note position vector2D in Polygon is the first point of polygon
 * @note lines describe all edges of Polygon
 */
-class Polygon : public Element{
+class Polygon : public Polyline{
 private:
 	std::vector<Line> lines;
 	std::string fillRule;

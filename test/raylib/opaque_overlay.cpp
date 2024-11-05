@@ -414,8 +414,6 @@ void DrawEllipseHQ(int centerX, int centerY, float radiusH, float radiusV, Color
 	rlEnd();
 }
 
-#include "../../src/utils/Raylibex.cpp"
-
 int main() {
 	const int screenWidth = 800;
 	const int screenHeight = 450;
@@ -427,16 +425,25 @@ int main() {
 	RenderTexture2D rt = LoadRenderTexture(screenWidth, screenHeight);
 
 	while (!WindowShouldClose()) {
-		BeginTextureMode(rt);
-		ClearBackground(BLANK);
+//		BeginTextureMode(rt);
+//		ClearBackground(BLANK);
 //		DrawRectangleRounded2({100, 100, 300, 200}, 3.2, 180, BLUE);
-		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {0.9, 0.8}, 180, 15.0, BLUE);
-		EndTextureMode();
+//		DrawRectangleRoundedLinesEx2({100, 100, 300, 200}, {0.9, 0.8}, 180, 15.0, BLUE);
+//		EndTextureMode();
 
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
-		DrawText("HEllO WORLD", 150, 150, 20, BLUE);
-		DrawTextureV(rt.texture, {0, 0}, ColorAlpha(WHITE, 0.7));
+		DrawText("HEllO WORLD", 200, 200, 40, BLACK);
+		Vector2 mPos = GetMousePosition();
+//		DrawTextureV(rt.texture, {0, 0}, ColorAlpha(WHITE, 0.7));
+		DrawEllipse(mPos.x, mPos.y, 300 + 10, 150 + 10, ColorAlpha(BLUE, 0.9));
+		BeginBlendMode(BLEND_ALPHA_PREMULTIPLY);
+		DrawEllipse(mPos.x, mPos.y, 300 - 5, 150 - 5, ColorAlpha(BLUE, 0.5));
+		DrawEllipse(mPos.x, mPos.y, 300 - 5, 150 - 5, ColorAlpha(BLUE, 0.5));
+		DrawEllipse(mPos.x, mPos.y, 300 - 5, 150 - 5, ColorAlpha(BLUE, 0.5));
+		DrawEllipse(mPos.x, mPos.y, 300 - 5, 150 - 5, ColorAlpha(BLUE, 0.5));
+		EndBlendMode();
+//		DrawEllipse(mPos.x, mPos.y, 300 + 5, 150 + 5, ColorAlpha(RED, 0.6));
 		EndDrawing();
 	}
 

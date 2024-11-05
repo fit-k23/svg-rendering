@@ -148,7 +148,7 @@ int main() {
 	XMLParser parser;
 	std::vector<Element*> v;
 	parser.traverseXML("sample.svg", v);
-	
+
 	/// Temporary comment. Only for debugging
 	//std::cout << (int)v.size() << '\n';
 	//for (auto & i : v)
@@ -163,7 +163,7 @@ int main() {
 			if (v[i]->getTypeName() == ElementType::Text) {
 				static_cast<Text*>(v[i])->setDataSize();
 			}
-			std::pair<Vector2D<float>, Vector2D<float>> boundingBox = v[i]->getBoundingBox(); 
+			std::pair<Vector2D<float>, Vector2D<float>> boundingBox = v[i]->getBoundingBox();
 			newViewPort.x = std::max(newViewPort.x, boundingBox.second.x);
 			newViewPort.y = std::max(newViewPort.y, boundingBox.second.y);
 			//std::cout << boundingBox.first.x << " " << boundingBox.first.y << " " << boundingBox.second.x << " " << boundingBox.second.y << '\n';

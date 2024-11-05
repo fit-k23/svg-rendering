@@ -234,7 +234,7 @@ void Renderer::drawEllipse(Ellipse *element, RenderTexture2D renderTexture) {
 	DrawEllipse(position.x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, strokeColor.pureColor());
 	EndBlendMode();
 	EndTextureMode();
-	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, { 0, 0 }, 
+	DrawTextureRec(renderTexture.texture, { 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, { 0, 0 },
 		ColorAlpha(WHITE, (float)strokeColor.a / 255.0f));
 	/// TODO: Draw inner ellipse
 	BeginTextureMode(renderTexture);
@@ -421,7 +421,6 @@ void Renderer::drawText(Text *element, Font font, float offset) {
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
 	std::string textAnchor = element->getTextAnchor();
-
 
 	float actualY = position.y - fontSize + offset;
 	float actualX = position.x;
