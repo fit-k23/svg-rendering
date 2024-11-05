@@ -8,5 +8,4 @@ public:
 	const ElementType type = ElementType::Path;
 };
 
-
 #endif //SVG_RENDERING_PATH_H

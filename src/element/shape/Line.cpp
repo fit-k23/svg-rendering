@@ -7,14 +7,9 @@ Line::Line() : Element(), endPosition(Vector2D<float>()) {}
 Line::Line(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const Vector2D<float> &_endPosition) : Element(_position, _fillColor, _strokeColor, _strokeWidth), endPosition(_endPosition) {}
 
 /** @brief Copy constructor */
-Line::Line(const Line &other)  : Element(other) {
-	this->position = other.position;
-	this->fillColor = other.fillColor;
-	this->strokeColor = other.strokeColor;
-	this->strokeWidth = other.strokeWidth;
-	this->endPosition = other.endPosition;
+Line::Line(const Line &other) : Element(other) {
+	endPosition = other.endPosition;
 }
-
 
 /**
  * @brief get type Line
