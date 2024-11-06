@@ -42,9 +42,7 @@ void SVGRect::dbg() {
  * @return pair of top-left and bottom-right coordinate
  * @note This function doesn't change any attributes
 */
-std::pair<Vector2D < float>, Vector2D<float>>
-
-SVGRect::getBoundingBox() const {
+std::pair<Vector2D < float>, Vector2D<float>> SVGRect::getBoundingBox() const {
 	Vector2D<float> topLeft = Vector2D<float>(position.x - strokeWidth / 2.0f, position.y - strokeWidth / 2.0f);
 	Vector2D<float> bottomRight = Vector2D<float>(position.x + width + strokeWidth / 2.0f, position.y + height + strokeWidth / 2.0f);
 

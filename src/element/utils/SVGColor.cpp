@@ -70,7 +70,7 @@ SVGColor::SVGColor(std::string param) {
 }
 
 SVGColor::operator Gdiplus::Color() const {
-	return Gdiplus::Color{r, g, b, a};
+	return Gdiplus::Color{a, r, g, b};
 }
 
 SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.a) {}

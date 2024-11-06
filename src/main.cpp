@@ -1,28 +1,39 @@
+#include <iostream>
+#include <fstream>
 #include <windows.h>
 #include <objidl.h>
 #include <gdiplus.h>
 
 #include "element/utils/SVGColor.h"
+#include "api/XMLParser.h"
+#include "api/Renderer.h"
+#include "api/Graphic.h"
 
-using namespace Gdiplus;
 #pragma comment (lib, "Gdiplus.lib")
 
-void OnPaint(HDC hdc) {
-	Graphics graphics(hdc);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-	graphics.SetTextContrast(100);
+void draw(HDC hdc, std::string fileName) {
+	Gdiplus::Graphics graphics(hdc);
+	std::vector<Element*> v;
+	XMLParser parser;
+	parser.traverseXML(fileName, v);
+
+	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
+	render.draw(graphics);
+
+	//graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	/*graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);*/
 
-	Pen pen(Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
+	//Gdiplus::Pen pen(Gdiplus::Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
 
-	// Set up the ellipse parameters
-	REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
-	graphics.DrawEllipse(&pen, x, y, width, height);
-	graphics.DrawEllipse(&pen, x + 200, y, width, width);
-	SolidBrush whiteBrush(SVG_YELLOW);
-	graphics.FillEllipse(&whiteBrush, 200, 100, 150, 50);
+	//// Set up the ellipse parameters
+	//Gdiplus::REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
+	//graphics.DrawEllipse(&pen, x, y, width, height);
+	//graphics.DrawEllipse(&pen, x + 200, y, width, width);
+	//Gdiplus::SolidBrush whiteBrush(SVG_YELLOW);
+	//graphics.FillEllipse(&whiteBrush, 200, 100, 150, 50);
 
 }
 
@@ -32,7 +43,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	HWND hWnd;
 	MSG msg;
 	WNDCLASS wndClass;
-	GdiplusStartupInput gdiplusStartupInput;
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
 
 	// Initialize GDI+.
@@ -47,12 +58,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndClass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
 	wndClass.lpszMenuName = nullptr;
-	wndClass.lpszClassName = TEXT("GettingStarted");
+	wndClass.lpszClassName = TEXT("SVG-Renderer");
 
 	RegisterClass(&wndClass);
 
-	hWnd = CreateWindow(TEXT("GettingStarted"),   // window class name
-						TEXT("Getting Started"),  // window caption
+	hWnd = CreateWindow(TEXT("SVG-Renderer"),   // window class name
+						TEXT("SVG-Renderer"),  // window caption
 						WS_OVERLAPPEDWINDOW,      // window style
 						CW_USEDEFAULT,            // initial x position
 						CW_USEDEFAULT,            // initial y position
@@ -71,7 +82,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 		DispatchMessage(&msg);
 	}
 
-	GdiplusShutdown(gdiplusToken);
+	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return msg.wParam; // NOLINT(*-narrowing-conversions)
 }
 
@@ -82,7 +93,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	switch (message) {
 		case WM_PAINT:
 			hdc = BeginPaint(hWnd, &ps);
-			OnPaint(hdc);
+			draw(hdc, "sample.svg");
 			EndPaint(hWnd, &ps);
 			return 0;
 		case WM_DESTROY:

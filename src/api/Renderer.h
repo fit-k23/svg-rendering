@@ -37,12 +37,12 @@ public:
 	/*
 	* @brief Traverse and draw all elements
 	*/
-	void draw();
+	void draw(Gdiplus::Graphics& graphics);
 
 	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(SVGRect *element);
+	void drawRect(Gdiplus::Graphics &graphics, SVGRect *element);
 
 	/*
 	* @brief Draw an ellipse
@@ -62,7 +62,7 @@ public:
 	/*
 	* @brief Draw polyline
 	*/
-	void drawPolyline(SVGPolyline *element);
+	void drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element);
 
 	/*
 	* @brief Draw a polygon

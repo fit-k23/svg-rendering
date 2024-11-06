@@ -32,7 +32,7 @@ public:
 	 * @brief parameterized constructor
 	 * @param _x: passed x cord, _y: passed y cord
 	*/
-	Vector2D(const T &_x, const T &_y);
+	Vector2D(T x, T y);
 
 	/**
 	 * @brief copy constructor to copy content (deep copy)
@@ -134,7 +134,7 @@ Vector2D<T>::Vector2D() : x(0), y(0) {}
 * @param _x: passed x cord, _y: passed y cord
 **/
 template<typename T>
-Vector2D<T>::Vector2D(const T &_x, const T &_y) : x(_x), y(_y) {}
+Vector2D<T>::Vector2D(T x, T y) : x(x), y(y) {}
 
 /**
 * @brief copy constructor to copy content (deep copy)

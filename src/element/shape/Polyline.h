@@ -18,7 +18,7 @@ public:
 	SVGPolyline();
 
 	/** @brief Parameterized constructor */
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
+	SVGPolyline(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const std::vector<Vector2D<float>> &_points);
 	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule);
 
 	/** @brief Copy constructor */

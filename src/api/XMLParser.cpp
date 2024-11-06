@@ -104,17 +104,10 @@ SVGRect XMLParser::parseRect(rapidxml::xml_node<> *pNode) {
 	float width = parseFloatAttr(pNode, "width");
 	float height = parseFloatAttr(pNode, "height");
 	SVGColor fillColor = parseColor(pNode, "fill");
-	//std::cout << "Parsing rect... fillColor is ";  fillColor.output(); std::cout << '\n';
 	SVGColor strokeColor = parseColor(pNode, "stroke");
-	//std::cout << "Parsing rect... strokeColor is "; strokeColor.output(); std::cout << '\n';
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	// SVGRect rect = SVGRect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
-	//SVGColor testFill = rect.getFillColor();
-	//SVGColor testStroke = rect.getStrokeColor();
-	//std::cout << "test fill: "; testFill.output(); std::cout << '\n';
-	//std::cout << "test stroke: "; testStroke.output(); std::cout << '\n';
-	//rect.dbg();
-	return {};
+	SVGRect rect = SVGRect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
+	return rect;
 }
 
 /**
@@ -169,21 +162,13 @@ SVGLine XMLParser::parseLine(rapidxml::xml_node<> *pNode) {
 * @return a Polyline object
 */
 SVGPolyline XMLParser::parsePolyline(rapidxml::xml_node<> *pNode) {
-	// SVGColor fillColor = parseColor(pNode, "fill");
-	// SVGColor strokeColor = parseColor(pNode, "stroke");
-	// float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	// std::vector<Vector2D < float>>
-	// points = parsePointsAttr(pNode, "points");
-	// std::string fillRule = parseStringAttr(pNode, "fill-rule");
-	// std::vector<Line> lines;
-	// for (int i = 0; i + 1 < (int) points.size(); ++i) {
-	// 	Vector2D<float> position = points[i];
-	// 	Vector2D<float> endPosition = points[i + 1];
-	// 	lines.push_back(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
-	// }
-	// lines.push_back(Line(points.back(), fillColor, strokeColor, strokeWidth, points[0]));
-	// Polyline polyline = Polyline(points[0], fillColor, strokeColor, strokeWidth, lines, fillRule);
-	return {};
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
+	std::string fillRule = parseStringAttr(pNode, "fill-rule");
+	Vector2D<float> position = points[0];
+	return SVGPolyline(position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
 }
 
 /*
@@ -317,42 +302,23 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	return color;
 }
 
-std::vector<Vector2D < float>>
-XMLParser::parsePointsAttr(rapidxml::xml_node<>
-* pNode,
-std::string attrName
-) {
-rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
-if (pAttr == nullptr) return {
-};
-std::vector<Vector2D < float>>
-ret = {};
+std::vector<Vector2D < float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
+	if (pAttr == nullptr) return {};
+	std::vector<Vector2D<float>> ret = {};
 
-std::string value = pAttr->value();
-for (
-int i = 0;
+	std::string value = pAttr->value();
+	for (int i = 0; i < (int)value.size(); ++i) if (value[i] == ',') value[i] = ' ';
+	std::stringstream buffer(value);
 
-i<(int)
+	float x = 0;
+	while (buffer >> x) {
+		float y = 0;
+		buffer >> y;
+		ret.push_back(Vector2D<float>(x, y));
+	}
 
-value.
-
-size();
-
-++i) if (value[i] == ',') value[i] = ' ';
-std::stringstream buffer(value);
-
-float x = 0;
-while (buffer >> x) {
-float y = 0;
-buffer >>
-y;
-ret.
-push_back(Vector2D<float>(x, y)
-);
-}
-
-buffer.str(""); // <-- clear buffer
-return
-ret;
+	buffer.str(""); // <-- clear buffer
+	return ret;
 }
 

@@ -31,46 +31,48 @@ Renderer::~Renderer() {
 /*
 * @brief Traverse and draw all elements
 */
-void Renderer::draw() {
+void Renderer::draw(Gdiplus::Graphics& graphics) {
 	for (auto &shape: shapes) {
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
-				drawRect(static_cast<SVGRect*>(shape));
+				drawRect(graphics, static_cast<SVGRect*>(shape));
 				//shape->dbg();
+				//Gdiplus::REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
+				//Gdiplus::Pen pen(Gdiplus::Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
+				//graphics.DrawRectangle(&pen, x, y, width, height);
 				break;
 			}
 			case ElementType::Ellipse: {
-				drawEllipse(static_cast<SVGEllipse*>(shape));
+				//drawEllipse(static_cast<SVGEllipse*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Circle: {
-				drawCircle(static_cast<SVGCircle*>(shape));
+				//drawCircle(static_cast<SVGCircle*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Line: {
-				drawLine(static_cast<SVGLine*>(shape));
+				//drawLine(static_cast<SVGLine*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Polyline: {
-				drawPolyline(static_cast<SVGPolyline*>(shape));
+				drawPolyline(graphics, static_cast<SVGPolyline*>(shape));
 				break;
 			}
 			case ElementType::Polygon: {
-				//std::cout << "hey\n";
-				drawPolygon(static_cast<SVGPolygon*>(shape));
+				//drawPolygon(static_cast<SVGPolygon*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Text: {
-				drawText(static_cast<SVGText*>(shape), 10);
+				//drawText(static_cast<SVGText*>(shape), 10);
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Path: {
-				drawPath(static_cast<SVGPath*>(shape));
+				//drawPath(static_cast<SVGPath*>(shape));
 				break;
 			}
 			default:
@@ -82,7 +84,7 @@ void Renderer::draw() {
 /*
 * @brief Draw a rectangle
 */
-void Renderer::drawRect(SVGRect *element) {
+void Renderer::drawRect(Gdiplus::Graphics& graphics, SVGRect *element) {
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -90,15 +92,31 @@ void Renderer::drawRect(SVGRect *element) {
 	float width = element->getWidth();
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
-	/// Draw a color-filled Rectangle with normal corner (Vector version)
-	// if (radii.x == 0 && radii.y == 0) {
-	// 	DrawRectangleV(POINT{position.x, position.y}, POINT{width, height}, fillColor.operator Color());
-	// 	if (strokeWidth > 0) /// <-- Draw outline if strokeWidth > 0
-	// 		DrawRectangleLinesEx(Rectangle{position.x, position.y, width, height}, strokeWidth, strokeColor.operator Color());
-	// } else { /// <--- Rounded corner
-	// 	float posX = position.x, posY = position.y, radiusx = radii.x, radiusy = radii.y;
-	// 	DrawRectangleRoundedStrokeRLEX({posX, posY, width, height}, radii, strokeWidth, fillColor, strokeColor, renderTexture);
-	// }
+	/// Draw a color-filled Rectangle with normal corners 
+	 if (radii.x == 0 && radii.y == 0) {
+		 // Draw stroke of rectangle
+		 Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+		 graphics.DrawRectangle(&pen, position.x, position.y, width, height);
+		 Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+		 graphics.FillRectangle(&brush, position.x, position.y, width, height);
+		 //graphics.DrawArc(&pen, 100.0f, 100.0f, 50.0f, 50.0f, 0, 9)
+	 } else { /// <--- Rounded corner
+		 Gdiplus::Pen strokePen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+		 Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+		 Gdiplus::GraphicsPath path; // path for rounded rectangle
+		 // Top-left corner
+		 path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
+		 // Top-right corner
+		 path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
+		 // Bottom-left corner
+		 path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
+		 // Bottom-right corner
+		 path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
+		 // Close to form the final shape
+		 path.CloseFigure();
+		 graphics.FillPath(&brush, &path);
+		 graphics.DrawPath(&strokePen, &path);
+	 }
 }
 
 /** @brief Draw an ellipse */
@@ -179,7 +197,9 @@ void Renderer::drawLine(SVGLine *element) {
 /*
 * @brief Draw polyline
 */
-void Renderer::drawPolyline(SVGPolyline *element) {}
+void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
+	
+}
 
 /*
 * @brief Draw a polygon
