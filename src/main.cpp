@@ -20,7 +20,7 @@ void draw(HDC hdc, const std::string &fileName) {
 	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
 	render.draw(graphics);
 
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);

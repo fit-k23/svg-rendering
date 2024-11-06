@@ -2,16 +2,15 @@
 #define SVG_RENDERING_VIEW_BOX_H
 
 class ViewBox{
-	float getMinX() const;
-	float getMinY() const;
-	float getWidth() const;
-	float getHeight() const;
-
-private:
 	float min_x;
 	float min_y;
 	float width;
 	float height;
+public:
+	float getMinX() const;
+	float getMinY() const;
+	float getWidth() const;
+	float getHeight() const;
 };
 
 #endif //SVG_RENDERING_VIEW_BOX_H
