@@ -1,57 +1,11 @@
 #include "Polygon.h"
 
 /** @brief Default constructor */
-Polygon::Polygon() : Polyline() {}
+SVGPolygon::SVGPolygon() : SVGPolyline() {}
 
 /** @brief Parameterized constructor with fill rule parameter */
-Polygon::Polygon(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &_points, FillRule fillRule) : Polyline(_position, fillColor, &strokeColor, strokeWidth, _points, fillRule) {}
+SVGPolygon::SVGPolygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points) : SVGPolyline(position, fillColor, strokeColor, strokeWidth, points, FillRule::NON_ZERO) {}
+SVGPolygon::SVGPolygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule) : SVGPolyline(position, fillColor, strokeColor, strokeWidth, points, fillRule) {}
 
 /** @brief Get type Polygon */
-ElementType Polygon::getTypeName() { return ElementType::Polygon; }
-
-/**
- * @brief Get bounding box of polygon
- * @return pair of top-left and bottom-right coordinate
- * @note This function doesn't change any attributes
-*/
-std::pair<Vector2D<float>, Vector2D<float>> Polygon::getBoundingBox() const {
-	Vector2D<float> topLeft = {99999.0f, 99999.0f};
-	Vector2D<float> bottomRight = {-99999.0f, -99999.0f};
-	for (int i = 0; i < (int) points.size(); ++i) {
-		Vector2D<float> sta = points[i];
-		Vector2D<float> fin = points[(i + 1) % points.size()];
-		topLeft.x = std::min(topLeft.x, std::min(sta.x, fin.x));
-		bottomRight.x = std::max(bottomRight.x, std::max(sta.x, fin.x));
-		topLeft.y = std::min(topLeft.y, std::min(sta.y, fin.y));
-		bottomRight.y = std::max(bottomRight.y, std::max(sta.y, fin.y));
-	}
-	topLeft.x += strokeWidth / 2.0f;
-	topLeft.y += strokeWidth / 2.0f;
-	bottomRight.x += strokeWidth / 2.0f;
-	bottomRight.y += strokeWidth / 2.0f;
-	return {topLeft, bottomRight};
-}
-
-/** @brief Set the vector of lines */
-void Polygon::setPoints(const std::vector<Vector2D<float>> &_points) { this->points = _points; }
-
-/** @brief Add a line to vector */
-void Polygon::addPoints(const Vector2D<float> &point) { points.push_back(point); }
-
-/**
- * @brief Get vector of lines
- * @note This function doesn't change any attributes
-*/
-std::vector<Vector2D<float>> Polygon::getPoints() const { return points; }
-
-/**
- * @brief Set fill rule
- * @param fillRule new fill rule
-*/
-void Polygon::setFillRule(FillRule _fillRule) { this->fillRule = _fillRule; }
-
-/**
- * @brief Get fill rule
- * @return fill rule
-*/
-FillRule Polygon::getFillRule() const { return fillRule; }
+ElementType SVGPolygon::getTypeName() { return ElementType::Polygon; }

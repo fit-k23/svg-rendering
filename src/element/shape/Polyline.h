@@ -4,7 +4,6 @@
 #include "../Element.h"
 #include "../../api/Graphic.h"
 #include "../utils/FillRule.h"
-#include "Line.h"
 #include <vector>
 #include <string>
 
@@ -13,7 +12,7 @@
  * @note position is the first point of the polygon (first point of the first line)
 */
 class SVGPolyline : public Element{
-private:
+protected:
 	std::vector<Vector2D<float>> points;
 	FillRule fillRule;
 public:
@@ -21,7 +20,8 @@ public:
 	SVGPolyline();
 
 	/** @brief Parameterized constructor */
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule = FillRule::NON_ZERO);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule);
 
 	/** @brief Copy constructor */
 	SVGPolyline(const SVGPolyline &other);
