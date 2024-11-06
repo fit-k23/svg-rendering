@@ -9,7 +9,7 @@
 #include <string>
 
 /**
- * @brief SVGPolyline class
+ * @brief Polyline class
  * @note position is the first point of the polygon (first point of the first line)
 */
 class SVGPolyline : public Element{
@@ -21,16 +21,10 @@ public:
 	SVGPolyline();
 
 	/** @brief Parameterized constructor */
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, 
-		const std::vector<Vector2D<float>> &points);
-
-	/** @brief Parameterized constructor with fill rule parameter */
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, 
-		const std::vector<SVGLine> &lines, const std::string &fillRule);
-
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule = FillRule::NON_ZERO);
 
 	/** @brief Copy constructor */
-	SVGPolyline(const SVGPolyline&other);
+	SVGPolyline(const SVGPolyline &other);
 
 	/** @brief Get type Line */
 	ElementType getTypeName() override;
@@ -39,7 +33,7 @@ public:
 	void dbg() override;
 
 	/**
-	 * @brief Get bounding box of svgpolyline
+	 * @brief Get bounding box of polyline
 	 * @return pair of top-left and bottom-right coordinate
 	 * @note This function doesn't change any attributes
 	*/
@@ -47,16 +41,16 @@ public:
 
 
 	/** @brief Set the vector of lines */
-	void setLines(const std::vector<SVGLine> &lines);
+	void setPoints(const std::vector<Vector2D<float>> &points);
 
 	/** @brief Add a line to vector */
-	void addLines(const SVGLine &line);
+	void addPoints(const Vector2D<float> &point);
 
 	/**
 	 * @brief Get vector of lines
 	 * @note This function doesn't change any attributes
 	*/
-	std::vector<SVGLine> getLines() const;
+	std::vector<Vector2D<float>> getPoints() const;
 
 	/**
 	 * @brief Set fill rule
@@ -69,7 +63,6 @@ public:
 	 * @return fill rule
 	*/
 	FillRule getFillRule() const;
-
 };
 
 #endif //SVG_RENDERING_POLYLINE_H

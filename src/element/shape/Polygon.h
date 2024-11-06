@@ -1,7 +1,7 @@
 #ifndef SVG_RENDERING_POLYGON_H
 #define SVG_RENDERING_POLYGON_H
 
-#include "../Element.h"
+#include "Polyline.h"
 #include "../../api/Graphic.h"
 #include "../utils/FillRule.h"
 #include <vector>
@@ -12,7 +12,7 @@
  * @note position vector2D in Polygon is the first point of polygon
  * @note lines describe all edges of Polygon
 */
-class Polygon : public Element{
+class Polygon : public Polyline{
 private:
 	std::vector<Vector2D<float>> points;
 	FillRule fillRule;
@@ -38,10 +38,10 @@ public:
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 	/** @brief Set the vector of lines */
-	void setPoints(const std::vector<Vector2D<float>> &lines);
+	void setPoints(const std::vector<Vector2D<float>> &points);
 
 	/** @brief Add a line to vector */
-	void addPoints(const Line &line);
+	void addPoints(const Vector2D<float> &point);
 
 	/**
 	 * @brief Get vector of lines

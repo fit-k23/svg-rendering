@@ -1,27 +1,13 @@
 #include "Polygon.h"
-#include "../utils/FillRule.h"
 
 /** @brief Default constructor */
-Polygon::Polygon() : Element(), points{}, fillRule(FillRule::NON_ZERO) {}
+Polygon::Polygon() : Polyline() {}
 
 /** @brief Parameterized constructor with fill rule parameter */
-Polygon::Polygon(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &_points, const FillRule fillRule) : Element(_position, fillColor, strokeColor, strokeWidth), points(_points), fillRule(fillRule) {}
-
+Polygon::Polygon(const Vector2D<float> &_position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &_points, FillRule fillRule) : Polyline(_position, fillColor, &strokeColor, strokeWidth, _points, fillRule) {}
 
 /** @brief Get type Polygon */
 ElementType Polygon::getTypeName() { return ElementType::Polygon; }
-
-/** @brief Print all information of Polygon */
-void Polygon::dbg() {
-	Element::dbg();
-	std::cout << "Fill rule: " << (fillRule == FillRule::NON_ZERO ? "nonzero" : "evenodd") << '\n';
-	std::cout << "Set of lines are ";
-	for (int i = 0; i < (int) points.size(); ++i) {
-		// TODO: correctly debug Polygon
-//		std::cout << "(" << lines[i].getPosition().x << ", " << lines[i].getPosition().y << ") -> ";
-//		std::cout << "(" << lines[i].getEndPosition().x << ", " << lines[i].getEndPosition().y << ") ";
-	}
-}
 
 /**
  * @brief Get bounding box of polygon
@@ -62,7 +48,7 @@ std::vector<Vector2D<float>> Polygon::getPoints() const { return points; }
  * @brief Set fill rule
  * @param fillRule new fill rule
 */
-void Polygon::setFillRule(const FillRule &_fillRule) { this->fillRule = _fillRule; }
+void Polygon::setFillRule(FillRule _fillRule) { this->fillRule = _fillRule; }
 
 /**
  * @brief Get fill rule
