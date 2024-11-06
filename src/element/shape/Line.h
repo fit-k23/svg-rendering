@@ -1,7 +1,9 @@
 #ifndef SVG_RENDERING_LINE_H
 #define SVG_RENDERING_LINE_H
 
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 
 #include "../Element.h"
 #include <iostream>

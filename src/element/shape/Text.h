@@ -14,7 +14,7 @@
 * @note font size default to be 1
 */
 
-class Text : public Element{
+class SVGText : public Element{
 private:
 	std::string data; // <-- content of the text
 	std::string textAnchor; // <-- position based on "cursor"
@@ -24,10 +24,10 @@ private:
 	Vector2D<float> dataSize; // <-- width and height of whole text
 public:
 	/** @brief Default constructor */
-	Text();
+	SVGText();
 
 	/** @brief Parameterized constructor */
-	Text(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize);
+	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize);
 
 	/** @brief Get type Text */
 	ElementType getTypeName() override;

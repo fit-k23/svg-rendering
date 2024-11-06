@@ -42,42 +42,42 @@ public:
 	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Rect *element);
+	void drawRect(SVGRect *element);
 
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(Ell *element);
+	void drawEllipse(SVGEllipse *element);
 
 	/*
 	* @brief Draw a circle
 	*/
-	void drawCircle(Circle *element);
+	void drawCircle(SVGCircle *element);
 
 	/*
 	* @brief Draw a line
 	*/
-	void drawLine(Line *element);
+	void drawLine(SVGLine *element);
 
 	/*
 	* @brief Draw polyline
 	*/
-	void drawPolyline(Polyline *element);
+	void drawPolyline(SVGPolyline *element);
 
 	/*
 	* @brief Draw a polygon
 	*/
-	void drawPolygon(Polygon *element);
+	void drawPolygon(SVGPolygon *element);
 
 	/*
 	* @brief Draw text
 	*/
-	void drawText(Text *element, float offset);
+	void drawText(SVGText *element, float offset);
 
 	/*
 	* @brief Draw path
 	*/
-	void drawPath(Path *element);
+	void drawPath(SVGPath *element);
 };
 
 #endif //RENDERER_H

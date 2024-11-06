@@ -2,10 +2,8 @@
 #define SVG_RENDERING_POLYLINE_H
 
 #include "../Element.h"
-#include "../../api/Graphic.h"
 #include "../utils/FillRule.h"
 #include <vector>
-#include <string>
 
 /**
  * @brief Polyline class

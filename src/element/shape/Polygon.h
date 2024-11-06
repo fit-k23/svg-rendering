@@ -2,10 +2,6 @@
 #define SVG_RENDERING_POLYGON_H
 
 #include "Polyline.h"
-#include "../utils/FillRule.h"
-#include "../utils/Vector2D.h"
-#include <vector>
-#include <string>
 
 /**
  * @brief Polygon class

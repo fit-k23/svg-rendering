@@ -19,7 +19,7 @@
 class XMLParser{
 private:
 	rapidxml::xml_document<> doc;
-	elements::Vector2D<float> viewPort;
+	Vector2D<float> viewPort;
 	// TODO: add viewBox
 public:
 	/** @brief Default constructor */
@@ -35,63 +35,63 @@ public:
 	 * @brief Set view port
 	 * @param new view port
 	*/
-	void setViewPort(const elements::Vector2D<float> &viewPort);
+	void setViewPort(const Vector2D<float> &viewPort);
 
 	/**
 	 * @brief Get viewport information
 	 * @return Vector2D type of viewport
 	*/
-	elements::Vector2D<float> getViewPort();
+	Vector2D<float> getViewPort();
 
 	/**
 	 * @brief Traverse through each nodes and attributes of SVG
 	 * @note Handling and drawing in here
 	*/
-	void traverseXML(const std::string &fileName, std::vector<elements::Element *> &v);
+	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
 
 	/**
 	 * @brief Parse rectangle attributes
 	 * @return Rectangle object
 	 * @note x, y, rx, ry is 0 by default
 	*/
-	Rectangle parseRect(rapidxml::xml_node<> *pNode);
+	SVGRect parseRect(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Parse Ellipse attributes
 	 * @return a Ellipse object
 	*/
-	class Ellipse parseEllipse(rapidxml::xml_node<> *pNode);
+	SVGEllipse parseEllipse(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Parse Circle attributes
 	 * @return a Circle object
 	*/
-	Circle parseCircle(rapidxml::xml_node<> *pNode);
+	SVGCircle parseCircle(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Parse Line attributes
 	 * @return a Line object
 	*/
-	Line parseLine(rapidxml::xml_node<> *pNode);
+	SVGLine parseLine(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Parse Polyline attributes
 	 * @return a Polyline object
 	*/
-	class Polyline parsePolyline(rapidxml::xml_node<> *pNode);
+	SVGPolyline parsePolyline(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Parse Polygon attributes
 	 * @return a Polygon object
 	*/
-	class Polygon parsePolygon(rapidxml::xml_node<> *pNode);
+	SVGPolygon parsePolygon(rapidxml::xml_node<> *pNode);
 
 
 	/**
 	 * @brief Parse Text attributes
 	 * @return a Text object
 	*/
-	Text parseText(rapidxml::xml_node<> *pNode);
+	SVGText parseText(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Get the float value of specific attribute
@@ -115,7 +115,7 @@ public:
 	 * @param attrName attribute's name
 	 * @return SVGColor type
 	*/
-	elements::SVGColor parseColor(rapidxml::xml_node<> *pNode, std::string attrName);
+	SVGColor parseColor(rapidxml::xml_node<> *pNode, std::string attrName);
 
 	/**
 	 * @brief Parse set of points attributes
@@ -123,9 +123,7 @@ public:
 	 * @param attrName attribute's name
 	 * @return a vector of Vector2D<float> set of points
 	*/
-	std::vector<Vector2D < float>> parsePointsAttr(
-	rapidxml::xml_node<> *pNode, std::string
-	attrName);
+	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, std::string attrName);
 };
 
 #endif // XML_PARSER_H_
