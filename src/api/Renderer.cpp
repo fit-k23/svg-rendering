@@ -103,11 +103,13 @@ void Renderer::drawRect(SVGRect *element) {
 
 /** @brief Draw an ellipse */
 void Renderer::drawEllipse(SVGEllipse *element) {
-	// Vector2D<float> position = element->getPosition();
-	// Vector2D<float> radii = element->getRadii();
-	// SVGColor fillColor = element->getFillColor();
-	// SVGColor strokeColor = element->getStrokeColor();
-	// 	// float strokeWidth = element->getStrokeWidth();
+	Vector2D<float> position = element->getPosition();
+	Vector2D<float> radius = element->getRadii();
+	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
+
+
 	// 	// /// TODO: Draw outer outline and inner outline
 	// 	// BeginTextureMode(renderTexture);
 	// 	// ClearBackground(BLANK);

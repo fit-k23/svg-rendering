@@ -2,13 +2,28 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
+#include "element/utils/SVGColor.h"
+
 using namespace Gdiplus;
 #pragma comment (lib, "Gdiplus.lib")
 
 void OnPaint(HDC hdc) {
 	Graphics graphics(hdc);
-	Pen pen(Color(255, 0, 0, 255));
-	graphics.DrawLine(&pen, 0, 0, 200, 100);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetTextContrast(100);
+	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
+	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+
+	Pen pen(Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
+
+	// Set up the ellipse parameters
+	REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
+	graphics.DrawEllipse(&pen, x, y, width, height);
+	graphics.DrawEllipse(&pen, x + 200, y, width, width);
+	SolidBrush whiteBrush(SVG_YELLOW);
+	graphics.FillEllipse(&whiteBrush, 200, 100, 150, 50);
+
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
