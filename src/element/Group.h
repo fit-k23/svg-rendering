@@ -15,33 +15,31 @@ public:
 	 */
 	Group();
 
-	/**
-	 * @brief Destructor 
-	 */
+	/** @brief Destructor */
 	~Group();
 
 	/**
 	 * @brief Get type name of Group
 	 * @return ElementType::Group
-	 */
+	*/
 	ElementType getTypeName() override;
 
 	/**
 	 * @brief Print data of group
 	 * @note This function does not change the class attributes
-	 */
+	*/
 	void dbg() override;
 
 	/**
 	 * @brief Add an element (shape, g, ...) to current group class
-	 */
+	*/
 	void addElement(Element *element);
 
 	/**
 	 * @brief Get all elements of current group class
 	 * @return elements vector
 	 * @note This function does not change the class attributes
-	 */
+	*/
 	std::vector<Element *> getElements() const;
 };
 

@@ -15,16 +15,13 @@
 class Polygon : public Element{
 private:
 	std::vector<Vector2D<float>> points;
-	elements::FillRule fillRule;
+	FillRule fillRule;
 public:
 	/** @brief Default constructor */
 	Polygon();
 
 	/** @brief Parameterized constructor */
-	Polygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
-
-	/** @brief Parameterized constructor with fill rule parameter */
-	Polygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Line> &lines, const std::string &fillRule);
+	Polygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule = FillRule::NON_ZERO);
 
 
 	/** @brief Get type Polygon */
@@ -56,13 +53,13 @@ public:
 	 * @brief Set fill rule
 	 * @param fillRule new fill rule
 	*/
-	void setFillRule(const elements::FillRule fillRule);
+	void setFillRule(FillRule fillRule);
 
 	/**
 	 * @brief Get fill rule
 	 * @return fill rule
 	*/
-	std::string getFillRule() const;
+	FillRule getFillRule() const;
 };
 
 #endif //SVG_RENDERING_POLYGON_H

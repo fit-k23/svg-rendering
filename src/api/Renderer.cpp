@@ -33,7 +33,7 @@ void Renderer::draw() {
 	for (auto &shape: shapes) {
 		switch (shape->getTypeName()) {
 			case ElementType::Rect: {
-				drawRect(static_cast<Rect *>(shape), renderTexture);
+				drawRect(static_cast<Rectangle *>(shape), renderTexture);
 				//shape->dbg();
 				break;
 			}

@@ -43,10 +43,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 						CW_USEDEFAULT,            // initial y position
 						CW_USEDEFAULT,            // initial x size
 						CW_USEDEFAULT,            // initial y size
-						nullptr,                     // parent window handle
-						nullptr,                     // window menu handle
+						nullptr,                  // parent window handle
+						nullptr,                  // window menu handle
 						hInstance,                // program instance handle
-						nullptr);                    // creation parameters
+						nullptr);                 // creation parameters
 
 	ShowWindow(hWnd, iCmdShow);
 	UpdateWindow(hWnd);

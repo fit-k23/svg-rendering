@@ -1,7 +1,6 @@
 #ifndef SVG_RENDERING_GRAPHIC_H
 #define SVG_RENDERING_GRAPHIC_H
 
-namespace elements {
 #include "../element/shape/Circle.h"
 #include "../element/shape/Ellipse.h"
 #include "../element/shape/Line.h"
@@ -16,5 +15,5 @@ namespace elements {
 #include "../element/utils/SVGColor.h"
 #include "../element/utils/ViewBox.h"
 #include "../element/utils/Vector2D.h"
-}
+
 #endif //SVG_RENDERING_GRAPHIC_H

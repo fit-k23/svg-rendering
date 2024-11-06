@@ -21,7 +21,7 @@ public:
 	Polyline();
 
 	/** @brief Parameterized constructor */
-	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines);
+	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<flaot>> &points);
 
 	/** @brief Parameterized constructor with fill rule parameter */
 	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines, const std::string &fillRule);

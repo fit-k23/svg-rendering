@@ -3,11 +3,8 @@
 
 class ViewBox{
 	float getMinX() const;
-
 	float getMinY() const;
-
 	float getWidth() const;
-
 	float getHeight() const;
 
 private:
