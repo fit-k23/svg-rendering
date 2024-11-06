@@ -176,22 +176,13 @@ SVGPolyline XMLParser::parsePolyline(rapidxml::xml_node<> *pNode) {
 * @return a Polygon object
 */
 SVGPolygon XMLParser::parsePolygon(rapidxml::xml_node<> *pNode) {
-	// SVGColor fillColor = parseColor(pNode, "fill");
-	// SVGColor strokeColor = parseColor(pNode, "stroke");
-	// float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	// std::vector<Vector2D < float>>
-	// points = parsePointsAttr(pNode, "points");
-	// std::string fillRule = parseStringAttr(pNode, "fill-rule");
-	// std::vector<Line> lines;
-	// for (int i = 0; i + 1 < (int) points.size(); ++i) {
-	// 	Vector2D<float> position = points[i];
-	// 	Vector2D<float> endPosition = points[i + 1];
-	// 	lines.push_back(Line(position, fillColor, strokeColor, strokeWidth, endPosition));
-	// }
-	// lines.push_back(Line(points.back(), fillColor, strokeColor, strokeWidth, points[0]));
-	// Polygon polygon = Polygon(points[0], fillColor, strokeColor, strokeWidth, lines, fillRule);
-	return {};
-
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
+	std::string fillRule = parseStringAttr(pNode, "fill-rule");
+	Vector2D<float> position = points[0];
+	return SVGPolygon(position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
 }
 
 
@@ -269,9 +260,10 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
-		//std::cout << pNode->name() << " " << attrName << '\n';
 		// If no attribute with attrName specified, default color is black
 		color = SVGColor(0, 0, 0, 0);
+		// If stroke not specified => no stroke
+		if (attrName == "stroke") return color;
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 		color.a = (unsigned char) (255.0f * opaque);
 		if (strcmp(pNode->name(), "line") == 0 && attrName == "stroke") {

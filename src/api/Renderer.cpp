@@ -62,8 +62,30 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 				break;
 			}
 			case ElementType::Polygon: {
-				//drawPolygon(static_cast<SVGPolygon*>(shape));
+				drawPolygon(graphics, static_cast<SVGPolygon*>(shape));
 				//shape->dbg();
+				//Gdiplus::SolidBrush fillBrush(Gdiplus::Color(255, 255, 0, 0)); // Red fill color
+
+				// Define the points for the polygon.
+				/*Gdiplus::Point* points = new Gdiplus::Point[5];
+				points[0] = Gdiplus::Point(50, 50);
+				points[1] = Gdiplus::Point(100, 100);
+				points[2] = Gdiplus::Point(150, 50);
+				points[3] = Gdiplus::Point(200, 100);
+				points[4] = Gdiplus::Point(250, 50);*/
+
+
+				//Gdiplus::Point points[5] = {
+				//	Gdiplus::Point(50, 50),
+				//	Gdiplus::Point(100, 100),
+				//	Gdiplus::Point(150, 50),
+				//	Gdiplus::Point(200, 100),
+				//	Gdiplus::Point(250, 50)
+				//};
+
+				// Fill the polygon defined by the points.
+				//graphics.FillPolygon(&fillBrush, points, 5); // '5' is the number of points
+				//delete[] points;
 				break;
 			}
 			case ElementType::Text: {
@@ -198,14 +220,47 @@ void Renderer::drawLine(SVGLine *element) {
 * @brief Draw polyline
 */
 void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
-	
+	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
+	std::vector<Vector2D<float>> points = element->getPoints();
+
+	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+
+	// Since polyline is open-formed, cannot use DrawPolygon() function to draw
+	// Draw multiple offset lines to create a filled effect (default: winding mode)
+	Gdiplus::GraphicsPath path(Gdiplus::FillModeWinding);
+	path.StartFigure();
+	for (int i = 0; i + 1 < (int)points.size(); ++i) {
+		path.AddLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+	}
+	graphics.FillPath(&brush, &path);
+	graphics.DrawPath(&pen, &path);
 }
 
 /*
 * @brief Draw a polygon
-* @note Using scan fill algorithm
 */
-void Renderer::drawPolygon(SVGPolygon *element) {}
+void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
+	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
+	std::vector<Vector2D<float>> points = element->getPoints();
+	
+	Gdiplus::Point* pointsArr = new Gdiplus::Point[(int)points.size()];
+	for (int i = 0; i < (int)points.size(); ++i)
+		pointsArr[i] = Gdiplus::Point(points[i].x, points[i].y);
+
+	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+	// Fill the polygon
+	graphics.FillPolygon(&brush, pointsArr, (int)points.size(), Gdiplus::FillModeWinding);
+	// Draw stroke
+	graphics.DrawPolygon(&pen, pointsArr, (int)points.size());
+
+	delete[]pointsArr;
+}
 
 /*
 * @brief Draw text

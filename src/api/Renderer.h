@@ -67,7 +67,7 @@ public:
 	/*
 	* @brief Draw a polygon
 	*/
-	void drawPolygon(SVGPolygon *element);
+	void drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element);
 
 	/*
 	* @brief Draw text
