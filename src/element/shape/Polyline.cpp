@@ -1,24 +1,16 @@
 #include "Polyline.h"
 #include "Line.h"
 
-/*
-* @brief Default constructor
-*/
+/** @brief Default constructor */
 Polyline::Polyline() : Element(), points{}, fillRule(FillRule::NON_ZERO) {}
 
-/*
-* @brief Parameterized constructor
-*/
+/** @brief Parameterized constructor */
 Polyline::Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule("nonzero") {}
 
-/*
-* @brief Parameterized constructor with fill rule parameter
-*/
+/** @brief Parameterized constructor with fill rule parameter */
 Polyline::Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Line> &lines, const std::string &fillRule) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule(fillRule) {}
 
-/*
-* @brief Copy constructor
-*/
+/** @brief Copy constructor */
 Polyline::Polyline(const Polyline &other)  : Element(other) {
 	position = other.position;
 	fillColor = other.fillColor;
@@ -64,30 +56,26 @@ std::pair<Vector2D <float>, Vector2D<float>> Polyline::getBoundingBox() const {
 	return {topLeft, bottomRight};
 }
 
-/*
-* @brief Set the vector of points
-*/
+/** @brief Set the vector of points */
 void Polyline::setLines(const std::vector<Line> &lines) { this->lines = lines; }
 
-/*
-* @brief Add a line to vector
-*/
+/** @brief Add a line to vector */
 void Polyline::addLines(const Line &line) { lines.push_back(line); }
 
-/*
-* @brief Get vector of lines
-* @note This function doesn't change any attributes
+/**
+ * @brief Get vector of lines
+ * @note This function doesn't change any attributes
 */
 std::vector<Line> Polyline::getLines() const { return lines; }
 
-/*
-* @brief Set fill rule
-* @param fillRule new fill rule
+/**
+ * @brief Set fill rule
+ * @param fillRule new fill rule
 */
 void Polyline::setFillRule(const std::string &fillRule) { this->fillRule = fillRule; }
 
-/*
-* @brief Get fill rule
-* @return fill rule
+/**
+ * @brief Get fill rule
+ * @return fill rule
 */
 std::string Polyline::getFillRule() const { return fillRule; }

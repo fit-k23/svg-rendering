@@ -41,7 +41,7 @@ public:
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 	/** @brief Set the vector of lines */
-	void setPoints(const std::vector<Line> &lines);
+	void setPoints(const std::vector<Vector2D<float>> &lines);
 
 	/** @brief Add a line to vector */
 	void addPoints(const Line &line);
