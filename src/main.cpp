@@ -11,7 +11,7 @@
 
 #pragma comment (lib, "Gdiplus.lib")
 
-void draw(HDC hdc, std::string fileName) {
+void draw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
 	std::vector<Element*> v;
 	XMLParser parser;
@@ -20,11 +20,11 @@ void draw(HDC hdc, std::string fileName) {
 	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
 	render.draw(graphics);
 
-	//graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-	/*graphics.SetTextContrast(100);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);*/
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
 	//Gdiplus::Pen pen(Gdiplus::Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
 

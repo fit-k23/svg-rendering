@@ -2,22 +2,21 @@
 #define SVG_RENDERING_TEXT_H
 
 #include "../Element.h"
-#include "../../api/Graphic.h"
+#include "../utils/TextAnchor.h"
 #include <string>
 
 /**
-* @brief Text Class
-* @note All text object has a text-anchor (default to start)
-* @note dx, dy (shift along Ox, Oy coordinates) is default to be zero
-* @note dx, dy will be added to position so there are no attributes dx, dy
-* @note rotation is set to 0 by default (no rotation)
-* @note font size default to be 1
+ * @brief Text Class
+ * @note All text object has a text-anchor (default to start)
+ * @note dx, dy (shift along Ox, Oy coordinates) is default to be zero
+ * @note dx, dy will be added to position so there are no attributes dx, dy
+ * @note rotation is set to 0 by default (no rotation)
+ * @note font size default to be 1
 */
 
 class SVGText : public Element{
-private:
 	std::string data; // <-- content of the text
-	std::string textAnchor; // <-- position based on "cursor"
+	TextAnchor textAnchor; // <-- position based on "cursor", default:  TextAnchor::START
 	std::string fontStyle; // <-- font style of text
 	float fontSize; // <-- font size of text
 	float offset; // <-- some offset so that raylib draws text more like svg
@@ -41,6 +40,11 @@ public:
 	 * @note This function doesn't change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+	/**
+	 * @brief Return the actual position of the text with inputted text size
+	*/
+	Vector2D<float> getActualPosition(Vector2D<float> size) const;
 
 	/**
 	 * @brief Set data size
@@ -74,13 +78,13 @@ public:
 	 * @brief Set text anchor
 	 * @param textAnchor new anchor for text
 	*/
-	void setTextAnchor(const std::string &textAnchor);
+	void setTextAnchor(const TextAnchor &textAnchor);
 
 	/**
 	 * @brief Get anchor of text
 	 * @note This function doesn't change any attributes
 	*/
-	std::string getTextAnchor() const;
+	TextAnchor getTextAnchor() const;
 
 	/**
 	 * @brief Set font style

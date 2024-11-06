@@ -191,20 +191,19 @@ SVGPolygon XMLParser::parsePolygon(rapidxml::xml_node<> *pNode) {
 * @return a Text object
 */
 SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
-	// float x = parseFloatAttr(pNode, "x");
-	// float y = parseFloatAttr(pNode, "y");
-	// float dx = parseFloatAttr(pNode, "dx");
-	// float dy = parseFloatAttr(pNode, "dy");
-	// x += dx;
-	// y += dy;
-	// std::string textAnchor = parseStringAttr(pNode, "text-anchor");
-	// SVGColor fillColor = parseColor(pNode, "fill");
-	// SVGColor strokeColor = parseColor(pNode, "stroke");
-	// float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	// float fontSize = parseFloatAttr(pNode, "font-size");
-	// std::string data = pNode->value();
-	// Text text = Text(Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, data, fontSize);
-	return {};
+	float x = parseFloatAttr(pNode, "x");
+	float y = parseFloatAttr(pNode, "y");
+	float dx = parseFloatAttr(pNode, "dx");
+	float dy = parseFloatAttr(pNode, "dy");
+	x += dx;
+	y += dy;
+	std::string textAnchor = parseStringAttr(pNode, "text-anchor");
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	float fontSize = parseFloatAttr(pNode, "font-size");
+	std::string data = pNode->value();
+	return SVGText(Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, data, fontSize);
 }
 
 

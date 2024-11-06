@@ -1,9 +1,6 @@
 #include "Renderer.h"
-#include "conio.h"
 
-/*
-* @brief Default constructor
-*/
+/** @brief Default constructor */
 Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>{}} {
 	shapes.clear();
 }
@@ -12,15 +9,13 @@ Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>{}} {
 * @brief Parameterized constructor
 * @param vector of pointers to Element abstract type
 */
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes) : viewPort(_viewPort),
-	shapes(_shapes), screenSize{} {}
+Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{viewPort} {}
 
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes,
-	Vector2D<float> _screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
+Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
 
-/*
-* @brief Destructor
-* @note Delete all pointers in shapes vector
+/**
+ * @brief Destructor
+ * @note Delete all pointers in shapes vector
 */
 Renderer::~Renderer() {
 	for (auto &shape: shapes) delete shape;
@@ -43,17 +38,17 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 				break;
 			}
 			case ElementType::Ellipse: {
-				//drawEllipse(static_cast<SVGEllipse*>(shape));
+				drawEllipse(graphics, static_cast<SVGEllipse*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Circle: {
-				//drawCircle(static_cast<SVGCircle*>(shape));
+				drawCircle(graphics, static_cast<SVGCircle*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Line: {
-				//drawLine(static_cast<SVGLine*>(shape));
+				drawLine(graphics, static_cast<SVGLine*>(shape));
 				//shape->dbg();
 				break;
 			}
@@ -89,7 +84,7 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 				break;
 			}
 			case ElementType::Text: {
-				//drawText(static_cast<SVGText*>(shape), 10);
+				drawText(graphics, static_cast<SVGText*>(shape));
 				//shape->dbg();
 				break;
 			}
@@ -103,10 +98,8 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 	}
 }
 
-/*
-* @brief Draw a rectangle
-*/
-void Renderer::drawRect(Gdiplus::Graphics& graphics, SVGRect *element) {
+/** @brief Draw a rectangle */
+void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -114,111 +107,71 @@ void Renderer::drawRect(Gdiplus::Graphics& graphics, SVGRect *element) {
 	float width = element->getWidth();
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
-	/// Draw a color-filled Rectangle with normal corners 
-	 if (radii.x == 0 && radii.y == 0) {
-		 // Draw stroke of rectangle
-		 Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
-		 graphics.DrawRectangle(&pen, position.x, position.y, width, height);
-		 Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
-		 graphics.FillRectangle(&brush, position.x, position.y, width, height);
-		 //graphics.DrawArc(&pen, 100.0f, 100.0f, 50.0f, 50.0f, 0, 9)
-	 } else { /// <--- Rounded corner
-		 Gdiplus::Pen strokePen(strokeColor.operator Gdiplus::Color(), strokeWidth);
-		 Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
-		 Gdiplus::GraphicsPath path; // path for rounded rectangle
-		 // Top-left corner
-		 path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
-		 // Top-right corner
-		 path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
-		 // Bottom-left corner
-		 path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
-		 // Bottom-right corner
-		 path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
-		 // Close to form the final shape
-		 path.CloseFigure();
-		 graphics.FillPath(&brush, &path);
-		 graphics.DrawPath(&strokePen, &path);
+	// Draw a color-filled Rectangle with normal corners
+	if (radii.x == 0 && radii.y == 0) {
+		// Draw stroke of rectangle
+		Gdiplus::Pen pen(strokeColor, strokeWidth);
+		graphics.DrawRectangle(&pen, position.x, position.y, width, height);
+		Gdiplus::SolidBrush brush(fillColor);
+		graphics.FillRectangle(&brush, position.x, position.y, width, height);
+		//graphics.DrawArc(&pen, 100.0f, 100.0f, 50.0f, 50.0f, 0, 9)
+	} else { /// <--- Rounded corner
+		Gdiplus::Pen strokePen(strokeColor, strokeWidth);
+		Gdiplus::SolidBrush brush(fillColor);
+		Gdiplus::GraphicsPath path; // path for rounded rectangle
+		// Top-left corner
+		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
+		// Top-right corner
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
+		// Bottom-left corner
+		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
+		// Bottom-right corner
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
+		// Close to form the final shape
+		path.CloseFigure();
+		graphics.FillPath(&brush, &path);
+		graphics.DrawPath(&strokePen, &path);
+		Gdiplus::Pen pen(strokeColor, strokeWidth);
 	 }
 }
 
 /** @brief Draw an ellipse */
-void Renderer::drawEllipse(SVGEllipse *element) {
+void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
+	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	Vector2D<float> radius = element->getRadii();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-
-
-	// 	// /// TODO: Draw outer outline and inner outline
-	// 	// BeginTextureMode(renderTexture);
-	// 	// ClearBackground(BLANK);
-	// 	// BeginBlendMode(BLEND_SUBTRACT_COLORS);
-	// 	// DrawEllipse(position
-	// 	// .x, position.y, radii.x + strokeWidth / 2.0f, radii.y + strokeWidth / 2.0f, strokeColor.
-	// 	//
-	// 	// pureColor()
-	//
-	// );
-	// DrawEllipse(position
-	// .x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, strokeColor.
-	//
-	// pureColor()
-	//
-	// );
-	//
-	// EndBlendMode();
-	//
-	// EndTextureMode();
-	//
-	// DrawTextureRec(renderTexture
-	// .texture, {
-	// 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, {
-	// 0, 0 },
-	// ColorAlpha(WHITE,
-	// (float)strokeColor.a / 255.0f));
-	// /// TODO: Draw inner ellipse
-	// BeginTextureMode(renderTexture);
-	// ClearBackground(BLANK);
-	// DrawEllipse(position
-	// .x, position.y, radii.x - strokeWidth / 2.0f, radii.y - strokeWidth / 2.0f, fillColor.
-	//
-	// pureColor()
-	//
-	// );
-	//
-	// EndTextureMode();
-	//
-	// DrawTextureRec(renderTexture
-	// .texture, {
-	// 0, 0, (float)renderTexture.texture.width, (float)-renderTexture.texture.height }, {
-	// 0, 0 },
-	// ColorAlpha(WHITE,
-	// (float)fillColor.a / 255.0f));
+	Gdiplus::SolidBrush brush(fillColor);
+	graphics.FillEllipse(&brush, position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
+	if (strokeWidth != 0) {
+		Gdiplus::Pen pen(strokeColor, strokeWidth);
+		graphics.DrawEllipse(&pen, position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
+	}
 }
 
-/*
-* @brief Draw a circle
-*/
-void Renderer::drawCircle(SVGCircle *element) {
-	drawEllipse(static_cast<SVGEllipse*>(element));
+/** @brief Draw a circle */
+void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
+	Vector2D<float> radius = element->getRadii();
+	radius.y = radius.x;
+	element->setRadii(radius);
+	drawEllipse(graphics, element);
 }
 
-/*
-* @brief Draw a line
-*/
-void Renderer::drawLine(SVGLine *element) {
+/** @brief Draw a line */
+void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
+	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	Vector2D<float> endPosition = element->getEndPosition();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 
-	// DrawLineEx({position.x, position.y}, {endPosition.x, endPosition.y}, strokeWidth, strokeColor.operator Color());
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
+	graphics.DrawLine(&pen, position.x, position.y, endPosition.x, endPosition.y);
 }
 
-/*
-* @brief Draw polyline
-*/
+/** @brief Draw polyline */
 void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -239,15 +192,15 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
 	graphics.DrawPath(&pen, &path);
 }
 
-/*
-* @brief Draw a polygon
+/**
+ * @brief Draw a polygon
 */
 void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 	std::vector<Vector2D<float>> points = element->getPoints();
-	
+
 	Gdiplus::Point* pointsArr = new Gdiplus::Point[(int)points.size()];
 	for (int i = 0; i < (int)points.size(); ++i)
 		pointsArr[i] = Gdiplus::Point(points[i].x, points[i].y);
@@ -262,29 +215,38 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	delete[]pointsArr;
 }
 
-/*
-* @brief Draw text
-*/
-void Renderer::drawText(SVGText *element, float offset) {
+/** @brief Draw text */
+void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
+	if (element == nullptr) return;
 	std::string data = element->getData();
-	Vector2D<float> position = element->getPosition();
+	// convert string to wstring
+//	std::wstring wData(data.size(), L'#');
+//	mbstowcs(&wData[0], data.c_str(), data.size());
+	std::wstring wData(data.begin(), data.end());
+
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
-	std::string textAnchor = element->getTextAnchor();
 
-	float actualY = position.y - fontSize + offset;
-	float actualX = position.x;
-	// POINT dataSize = MeasureTextEx(font, &data[0], fontSize, 1.0);
-	// element->setDataSize(dataSize);
+//	Gdiplus::FontFamily fontFamily(L"Arial");
+	Gdiplus::FontFamily fontFamily(L"Times New Roman");
+	Gdiplus::Font font(&fontFamily, fontSize - 13); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
 
-	if (textAnchor == "middle" || textAnchor == "end") {
-		// if (textAnchor == "middle") dataSize.x /= 2.0f;
-		// actualX -= dataSize.x;
-	}
-	// DrawTextEx(font, &data[0], {position.x, actualY}, fontSize, 1, fillColor.operator Color());
+	Gdiplus::RectF layoutRect;
+	Gdiplus::StringFormat format;
+	format.SetAlignment(Gdiplus::StringAlignmentFar);
+	Gdiplus::RectF boundRect;
+	// Measure the string.
+	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundRect);
+
+	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
+	boundRect.X = actualPosition.x;
+	boundRect.Y = actualPosition.y;
+	Gdiplus::SolidBrush solidBrush(fillColor);
+
+	graphics.DrawString(wData.c_str(), -1, &font, boundRect, nullptr, &solidBrush);
+//	Gdiplus::Pen pen({255, 0, 0, 0});
+//	graphics.DrawRectangle(&pen, boundRect);
 }
 
-/*
-* @brief Draw path
-*/
+/** @brief Draw path */
 void Renderer::drawPath(SVGPath *element) {}

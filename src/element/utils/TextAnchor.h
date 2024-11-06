@@ -1,0 +1,10 @@
+#ifndef SVG_RENDERING_TEXT_ANCHOR_H
+#define SVG_RENDERING_TEXT_ANCHOR_H
+
+enum class TextAnchor : int{
+	START = 0,
+	MIDDLE,
+	END,
+};
+
+#endif //SVG_RENDERING_TEXT_ANCHOR_H

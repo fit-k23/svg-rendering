@@ -22,7 +22,7 @@ public:
 	*/
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
 
-	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, Vector2D<float> screenSize);
+	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, const Vector2D<float> &screenSize);
 
 	/*
 	* @brief Destructor
@@ -47,17 +47,17 @@ public:
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(SVGEllipse *element);
+	void drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element);
 
 	/*
 	* @brief Draw a circle
 	*/
-	void drawCircle(SVGCircle *element);
+	void drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element);
 
 	/*
 	* @brief Draw a line
 	*/
-	void drawLine(SVGLine *element);
+	void drawLine(Gdiplus::Graphics &graphics, SVGLine *element);
 
 	/*
 	* @brief Draw polyline
@@ -72,7 +72,7 @@ public:
 	/*
 	* @brief Draw text
 	*/
-	void drawText(SVGText *element, float offset);
+	void drawText(Gdiplus::Graphics &graphics, SVGText *element);
 
 	/*
 	* @brief Draw path

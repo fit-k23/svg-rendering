@@ -42,6 +42,8 @@ public:
 
 };
 
+#define SVG_BLANK SVGColor(0, 0, 0, 0)
+
 #define SVG_ALICEBLUE SVGColor(240, 248, 255)
 #define SVG_ANTIQUEWHITE SVGColor(250, 235, 215)
 #define SVG_AQUA SVGColor(0, 255, 255)
