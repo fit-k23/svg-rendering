@@ -1,17 +1,18 @@
 #include "Polyline.h"
-#include "Line.h"
 
 /** @brief Default constructor */
-Polyline::Polyline() : Element(), points{}, fillRule(FillRule::NON_ZERO) {}
+SVGPolyline::SVGPolyline() : Element(), points{}, fillRule(FillRule::NON_ZERO) {}
 
-/** @brief Parameterized constructor */
-Polyline::Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule("nonzero") {}
+SVGPolyline::SVGPolyline(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth,
+	const std::vector<Vector2D<float>>& points) : Element(position, fillColor, strokeColor, strokeWidth), points(points) {}
+
 
 /** @brief Parameterized constructor with fill rule parameter */
-Polyline::Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Line> &lines, const std::string &fillRule) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule(fillRule) {}
+SVGPolyline::SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth,
+	const std::vector<Line> &lines, const std::string &fillRule) : Element(position, fillColor, strokeColor, strokeWidth), lines(lines), fillRule(fillRule) {}
 
 /** @brief Copy constructor */
-Polyline::Polyline(const Polyline &other)  : Element(other) {
+SVGPolyline::SVGPolyline(const SVGPolyline &other)  : Element(other) {
 	position = other.position;
 	fillColor = other.fillColor;
 	strokeColor = other.strokeColor;
@@ -20,10 +21,10 @@ Polyline::Polyline(const Polyline &other)  : Element(other) {
 }
 
 /** @brief Get type Line */
-ElementType Polyline::getTypeName() { return ElementType::Polyline; }
+ElementType SVGPolyline::getTypeName() { return ElementType::SVGPolyline; }
 
 /** @brief Print all information of Line */
-void Polyline::dbg() {
+void SVGPolyline::dbg() {
 	Element::dbg();
 	std::cout << "Fill rule: " << fillRule << '\n';
 	std::cout << "Set of lines are ";
@@ -34,11 +35,11 @@ void Polyline::dbg() {
 }
 
 /**
- * @brief Get bounding box of polyline
+ * @brief Get bounding box of svgpolyline
  * @return pair of top-left and bottom-right coordinate
  * @note This function doesn't change any attributes
 */
-std::pair<Vector2D <float>, Vector2D<float>> Polyline::getBoundingBox() const {
+std::pair<Vector2D <float>, Vector2D<float>> SVGPolyline::getBoundingBox() const {
 	Vector2D<float> topLeft = {99999.0f, 99999.0f};
 	Vector2D<float> bottomRight = {-99999.0f, -99999.0f};
 	for (int i = 0; i < (int) points.size(); ++i) {
@@ -57,25 +58,25 @@ std::pair<Vector2D <float>, Vector2D<float>> Polyline::getBoundingBox() const {
 }
 
 /** @brief Set the vector of points */
-void Polyline::setLines(const std::vector<Line> &lines) { this->lines = lines; }
+void SVGPolyline::setLines(const std::vector<SVGLine> &lines) { this->lines = lines; }
 
 /** @brief Add a line to vector */
-void Polyline::addLines(const Line &line) { lines.push_back(line); }
+void SVGPolyline::addLines(const SVGLine &line) { lines.push_back(line); }
 
 /**
  * @brief Get vector of lines
  * @note This function doesn't change any attributes
 */
-std::vector<Line> Polyline::getLines() const { return lines; }
+std::vector<Line> SVGPolyline::getLines() const { return lines; }
 
 /**
  * @brief Set fill rule
  * @param fillRule new fill rule
 */
-void Polyline::setFillRule(const std::string &fillRule) { this->fillRule = fillRule; }
+void SVGPolyline::setFillRule(const std::string &fillRule) { this->fillRule = fillRule; }
 
 /**
  * @brief Get fill rule
  * @return fill rule
 */
-std::string Polyline::getFillRule() const { return fillRule; }
+std::string SVGPolyline::getFillRule() const { return fillRule; }

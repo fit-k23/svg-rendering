@@ -14,7 +14,8 @@ Renderer::Renderer() : screenSize{}, viewPort{Vector2D < float > {}} {
 */
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{} {}
 
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, POINT _screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
+Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, Vector2D<float> _screenSize) : 
+															viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
 
 /*
 * @brief Destructor
@@ -32,38 +33,38 @@ Renderer::~Renderer() {
 void Renderer::draw() {
 	for (auto &shape: shapes) {
 		switch (shape->getTypeName()) {
-			case ElementType::Rect: {
-				drawRect(static_cast<Rectangle *>(shape), renderTexture);
+			case ElementType::Rectangle: {
+				drawRect(static_cast<Rect*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Ellipse: {
-				drawEllipse(static_cast<Ellipse *>(shape), renderTexture);
+				drawEllipse(static_cast<Ell*>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Circle: {
-				drawCircle(static_cast<Circle *>(shape), renderTexture);
+				drawCircle(static_cast<Circle *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Line: {
-				drawLine(static_cast<Line *>(shape), renderTexture);
+				drawLine(static_cast<Line *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Polyline: {
-				drawPolyline(static_cast<Polyline *>(shape), renderTexture);
+				drawPolyline(static_cast<Polyline *>(shape));
 				break;
 			}
 			case ElementType::Polygon: {
 				//std::cout << "hey\n";
-				drawPolygon(static_cast<Polygon *>(shape), renderTexture);
+				drawPolygon(static_cast<Polygon *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Text: {
-				drawText(static_cast<Text *>(shape), font, 10);
+				drawText(static_cast<Text *>(shape), 10);
 				//shape->dbg();
 				break;
 			}

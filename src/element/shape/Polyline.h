@@ -9,26 +9,28 @@
 #include <string>
 
 /**
- * @brief Polyline class
+ * @brief SVGPolyline class
  * @note position is the first point of the polygon (first point of the first line)
 */
-class Polyline : public Element{
+class SVGPolyline : public Element{
 private:
 	std::vector<Vector2D<float>> points;
 	FillRule fillRule;
 public:
 	/** @brief Default constructor */
-	Polyline();
+	SVGPolyline();
 
 	/** @brief Parameterized constructor */
-	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<flaot>> &points);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, 
+		const std::vector<Vector2D<float>> &points);
 
 	/** @brief Parameterized constructor with fill rule parameter */
-	Polyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<elements::Line> &lines, const std::string &fillRule);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, 
+		const std::vector<SVGLine> &lines, const std::string &fillRule);
 
 
 	/** @brief Copy constructor */
-	Polyline(const Polyline &other);
+	SVGPolyline(const SVGPolyline&other);
 
 	/** @brief Get type Line */
 	ElementType getTypeName() override;
@@ -37,7 +39,7 @@ public:
 	void dbg() override;
 
 	/**
-	 * @brief Get bounding box of polyline
+	 * @brief Get bounding box of svgpolyline
 	 * @return pair of top-left and bottom-right coordinate
 	 * @note This function doesn't change any attributes
 	*/
@@ -45,16 +47,16 @@ public:
 
 
 	/** @brief Set the vector of lines */
-	void setLines(const std::vector<elements::Line> &lines);
+	void setLines(const std::vector<SVGLine> &lines);
 
 	/** @brief Add a line to vector */
-	void addLines(const elements::Line &line);
+	void addLines(const SVGLine &line);
 
 	/**
 	 * @brief Get vector of lines
 	 * @note This function doesn't change any attributes
 	*/
-	std::vector<elements::Line> getLines() const;
+	std::vector<SVGLine> getLines() const;
 
 	/**
 	 * @brief Set fill rule

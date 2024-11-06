@@ -1,33 +1,33 @@
-#ifndef SVG_RENDERING_ELLIPSE_H
-#define SVG_RENDERING_ELLIPSE_H
+#ifndef SVG_RENDERING_Ell_H
+#define SVG_RENDERING_Ell_H
 
 #include "../Element.h"
 #include "../utils/SVGColor.h"
 #include "../utils/Gradient.h"
 #include "../utils/Vector2D.h"
 
-class Ellipse : public Element{
+class SVGEllipse : public Element{
 private:
 	Vector2D<float> radii;
 public:
 	/** @brief Default Constructor */
-	Ellipse();
+	SVGEllipse();
 
-	/** @brief Full-parameterized constructor of ellipse */
-	Ellipse(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const Vector2D<float> &radii);
+	/** @brief Full-parameterized constructor of SVGEllipse */
+	SVGEllipse(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const Vector2D<float> &radii);
 
 	/**
 	 * @brief get type of object
-	 * @return ElementType::Ellipse
+	 * @return ElementType::SVGEllipse
 	*/
 	ElementType getTypeName() override;
 
-	/** @brief print all data of Ellipse */
+	/** @brief print all data of SVGEllipse */
 	void dbg() override;
 
 
 	/**
-	 * @brief Get bounding box of ellipse
+	 * @brief Get bounding box of SVGEllipse
 	 * @return pair of top-left and bottom-right coordinate
 	 * @note This function doesn't change any attributes
 	*/
@@ -47,4 +47,4 @@ public:
 	Vector2D<float> getRadii() const;
 };
 
-#endif //SVG_RENDERING_ELLIPSE_H
+#endif //SVG_RENDERING_Ell_H

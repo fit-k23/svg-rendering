@@ -7,7 +7,7 @@
 
 class Renderer{
 private:
-	Vector2 screenSize;
+	Vector2D<float> screenSize;
 	Vector2D<float> viewPort;
 	std::vector<Element *> shapes;
 public:
@@ -22,7 +22,7 @@ public:
 	*/
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
 
-	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, Vector2 screenSize);
+	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, Vector2D<float> screenSize);
 
 	/*
 	* @brief Destructor
@@ -42,37 +42,37 @@ public:
 	/*
 	* @brief Draw a rectangle
 	*/
-	void drawRect(Rect *element, RenderTexture2D renderTexture);
+	void drawRect(Rect *element);
 
 	/*
 	* @brief Draw an ellipse
 	*/
-	void drawEllipse(Ellipse *element, RenderTexture2D renderTexture);
+	void drawEllipse(Ell *element);
 
 	/*
 	* @brief Draw a circle
 	*/
-	void drawCircle(Circle *element, RenderTexture2D renderTexture);
+	void drawCircle(Circle *element);
 
 	/*
 	* @brief Draw a line
 	*/
-	void drawLine(Line *element, RenderTexture2D renderTexture);
+	void drawLine(Line *element);
 
 	/*
 	* @brief Draw polyline
 	*/
-	void drawPolyline(Polyline *element, RenderTexture2D renderTexture);
+	void drawPolyline(Polyline *element);
 
 	/*
 	* @brief Draw a polygon
 	*/
-	void drawPolygon(Polygon *element, RenderTexture2D renderTexture);
+	void drawPolygon(Polygon *element);
 
 	/*
 	* @brief Draw text
 	*/
-	void drawText(Text *element, Font font, float offset);
+	void drawText(Text *element, float offset);
 
 	/*
 	* @brief Draw path

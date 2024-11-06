@@ -3,9 +3,9 @@
 
 #include "../Element.h"
 
-class Path : public Element{
+class SVGPath : public Element{
 public:
-	const ElementType type = ElementType::Path;
+	const ElementType type = ElementType::SVGPath;
 };
 
 #endif //SVG_RENDERING_PATH_H
