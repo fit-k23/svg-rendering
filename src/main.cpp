@@ -67,8 +67,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 						WS_OVERLAPPEDWINDOW,      // window style
 						CW_USEDEFAULT,            // initial x position
 						CW_USEDEFAULT,            // initial y position
-						CW_USEDEFAULT,            // initial x size
-						CW_USEDEFAULT,            // initial y size
+						1000,            // initial x size
+						500,            // initial y size
 						nullptr,                  // parent window handle
 						nullptr,                  // window menu handle
 						hInstance,                // program instance handle
