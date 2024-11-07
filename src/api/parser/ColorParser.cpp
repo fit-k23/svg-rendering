@@ -15,7 +15,7 @@ SVGColor ColorParser::parse(rapidxml::xml_node<> *pNode, const std::string &attr
 			return SVG_BLANK;
 		}
 		float opaque = floatParser->parse(pNode, attributeName + "-opacity") * floatParser->parse(pNode, "opacity");
-		return SVG_BLACK.alpha(opaque);
+		return SVG_BLACK.alpha((unsigned char) (255.0f * opaque));
 	}
 	SVGColor color;
 	std::string value = pAttr->value();

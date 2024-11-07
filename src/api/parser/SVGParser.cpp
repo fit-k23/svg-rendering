@@ -12,5 +12,5 @@ std::vector<Element *> SVGParser::parse(rapidxml::xml_node<> *pNode, const std::
 	auto *textParser = ParserManager::getInstance().getParser<SVGText>("text");
 	auto *pathParser = ParserManager::getInstance().getParser<Group>("path");
 	auto *groupParser = ParserManager::getInstance().getParser<SVGEllipse>("group");
-	return std::vector<Element *>();
+	return {};
 }
