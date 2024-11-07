@@ -5,6 +5,7 @@
 
 #include "element/utils/SVGColor.h"
 #include "api/XMLParser.h"
+#include "api/parser/ParserManager.h"
 #include "api/Renderer.h"
 #include "api/Graphic.h"
 
@@ -82,6 +83,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	}
 
 	Gdiplus::GdiplusShutdown(gdiplusToken);
+	delete &ParserManager::getInstance();
 	return msg.wParam; // NOLINT(*-narrowing-conversions)
 }
 
