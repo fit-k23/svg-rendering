@@ -32,6 +32,4 @@ void ParserManager::parseFile(const std::string &fileName, std::vector<Element *
 	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
 
 	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>
-	
-	return {};
 }
