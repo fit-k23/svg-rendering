@@ -1,31 +1,37 @@
+#include <fstream>
+#include <sstream>
 #include "ParserManager.h"
+#include "ParserHInit.h"
+
+std::map<std::string, IParser *> ParserManager::parsers;
+rapidxml::xml_document<> ParserManager::doc;
+ParserManager ParserManager::instance;
+
 ParserManager::ParserManager() = default;
 
-ParserManager *ParserManager::instance = new ParserManager();
+ParserManager &ParserManager::getInstance() { return instance; }
 
-ParserManager &ParserManager::getInstance() {
-	if (instance == nullptr) instance = new ParserManager();
-	return *instance;
-}
-
-bool ParserManager::registerParser(IParser *parse) {
-	std::string attributeName = parse->getAttributeName();
-	auto parserN = parsers.find(attributeName);
-	if (parserN == parsers.end()) {
-		parsers[attributeName] = parse;
-		return true;
-	}
-	return false;
+ParserManager::~ParserManager() {
+	for (auto &parser : parsers) delete parser.second;
 }
 
 std::vector<Element *> ParserManager::parseFile(const std::string &fileName) {
-	return std::vector<Element *>();
+
 }
 
-Element *ParserManager::requestToParse(const std::string &attributeName, rapidxml::xml_node<> *pNode) {
-	auto parserN = parsers.find(attributeName);
-	if (parserN == parsers.end()) {
-		return nullptr;
+void ParserManager::parseFile(const std::string &fileName, std::vector<Element *> &v) {
+	std::ifstream fin(fileName.c_str());
+	if (!fin.is_open()) {
+		std::cout << "Cannot open file\n";
+		return;
 	}
-	return parserN->second->parse(pNode);
+	std::stringstream buffer;
+	buffer << fin.rdbuf(); // <-- push file data to buffer
+	fin.close();
+	std::string svgData = buffer.str(); // <-- save in svgData string
+	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
+
+	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>
+	
+	return {};
 }

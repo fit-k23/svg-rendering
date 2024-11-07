@@ -1,22 +1,19 @@
+#pragma comment (lib, "Gdiplus.lib")
 #include <iostream>
 #include <windows.h>
 #include <objidl.h>
-#include <gdiplus.h>
 
+#include <gdiplus.h>
 #include "element/utils/SVGColor.h"
 #include "api/XMLParser.h"
-#include "api/parser/ParserManager.h"
 #include "api/Renderer.h"
 #include "api/Graphic.h"
+#include "api/parser/ParserManager.h"
+#include "api/parser/ParserHInit.h"
 
-#include <cmath>
-#pragma comment (lib, "Gdiplus.lib")
-
-#include <chrono>
-
-float getSineValueByTime(float time, float frequency = 1.0f, float amplitude = 1.0f, float phaseShift = 0.0f) {
-	// Time-based sine calculation
-	return amplitude * std::sin(2.0f * M_PI * frequency * time + phaseShift);
+void ProjectInit() {
+	ParserManager::getInstance().registerParser("float", new FloatParser());
+	ParserManager::getInstance().registerParser("color", new ColorParser());
 }
 
 void draw(HDC hdc, const std::string &fileName) {
@@ -74,6 +71,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 						hInstance,                // program instance handle
 						nullptr);                 // creation parameters
 
+	ProjectInit();
+
 	ShowWindow(hWnd, iCmdShow);
 	UpdateWindow(hWnd);
 
@@ -83,7 +82,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	}
 
 	Gdiplus::GdiplusShutdown(gdiplusToken);
-	delete &ParserManager::getInstance();
 	return msg.wParam; // NOLINT(*-narrowing-conversions)
 }
 

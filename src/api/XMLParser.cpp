@@ -249,9 +249,9 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
-		// If no attribute with attrName specified, default color is blank (black with opacity = 0)
-		color = SVG_BLANK;
+		// If no attribute with attrName specified, default color is black
 		// If stroke not specified => no stroke
+		color = SVG_BLACK;
 		if (attrName == "stroke") return color;
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 		color.a = (unsigned char) (255.0f * opaque);
