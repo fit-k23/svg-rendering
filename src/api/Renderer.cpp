@@ -5,9 +5,9 @@ Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>{}} {
 	shapes.clear();
 }
 
-/*
-* @brief Parameterized constructor
-* @param vector of pointers to Element abstract type
+/**
+ * @brief Parameterized constructor
+ * @param vector of pointers to Element abstract type
 */
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{viewPort} {}
 
@@ -21,11 +21,7 @@ Renderer::~Renderer() {
 	for (auto &shape: shapes) delete shape;
 }
 
-#define APPLICATION_NAME "SVG RENDERING"
-
-/*
-* @brief Traverse and draw all elements
-*/
+/** @brief Traverse and draw all elements */
 void Renderer::draw(Gdiplus::Graphics& graphics) {
 	for (auto &shape: shapes) {
 		switch (shape->getTypeName()) {
@@ -169,9 +165,7 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
 	graphics.DrawPath(&pen, &path);
 }
 
-/**
- * @brief Draw a polygon
-*/
+/** @brief Draw a polygon */
 void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();

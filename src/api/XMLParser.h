@@ -11,11 +11,11 @@
 #include "../../lib/rapidxml/rapidxml.hpp"
 
 /**
-* @brief Parse SVG (XML format) file and handle its nodes, attributes
-* @note Xml document is declared through xml_document data type
-* @note Nodes and attributes are represented by xml_node and xml_attribute
-* @note Every xml file has only one root node 
-**/
+ * @brief Parse SVG (XML format) file and handle its nodes, attributes
+ * @note Xml document is declared through xml_document data type
+ * @note Nodes and attributes are represented by xml_node and xml_attribute
+ * @note Every xml file has only one root node
+*/
 
 class XMLParser{
 private:

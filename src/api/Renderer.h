@@ -11,22 +11,19 @@ private:
 	Vector2D<float> viewPort;
 	std::vector<Element *> shapes;
 public:
-	/*
-	* @brief Default constructor
-	*/
+	/** @brief Default constructor */
 	Renderer();
 
-	/*
-	* @brief Parameterized constructor
-	* @param vector of pointers to Element abstract type
+	/**
+	 * @brief Parameterized constructor
+	 * @param vector of pointers to Element abstract type
 	*/
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
-
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, const Vector2D<float> &screenSize);
 
-	/*
-	* @brief Destructor
-	* @note Delete all pointers in shapes vector
+	/**
+	 * @brief Destructor
+	 * @note Delete all pointers in shapes vector
 	*/
 	~Renderer();
 
@@ -34,49 +31,31 @@ public:
 		shapes.push_back(shape);
 	}
 
-	/*
-	* @brief Traverse and draw all elements
-	*/
+	/** @brief Traverse and draw all elements */
 	void draw(Gdiplus::Graphics& graphics);
 
-	/*
-	* @brief Draw a rectangle
-	*/
+	/** @brief Draw a rectangle */
 	void drawRect(Gdiplus::Graphics &graphics, SVGRect *element);
 
-	/*
-	* @brief Draw an ellipse
-	*/
+	/** @brief Draw an ellipse */
 	void drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element);
 
-	/*
-	* @brief Draw a circle
-	*/
+	/** @brief Draw a circle */
 	void drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element);
 
-	/*
-	* @brief Draw a line
-	*/
+	/** @brief Draw a line */
 	void drawLine(Gdiplus::Graphics &graphics, SVGLine *element);
 
-	/*
-	* @brief Draw polyline
-	*/
+	/** @brief Draw polyline */
 	void drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element);
 
-	/*
-	* @brief Draw a polygon
-	*/
+	/** @brief Draw a polygon */
 	void drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element);
 
-	/*
-	* @brief Draw text
-	*/
+	/** @brief Draw text */
 	void drawText(Gdiplus::Graphics &graphics, SVGText *element);
 
-	/*
-	* @brief Draw path
-	*/
+	/** @brief Draw path */
 	void drawPath(SVGPath *element);
 };
 
