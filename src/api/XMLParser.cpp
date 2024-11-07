@@ -1,26 +1,22 @@
 #include "XMLParser.h"
 
 /**
-* @brief Default constructor
-**/
+ * @brief Default constructor
+*/
 XMLParser::XMLParser() {
 	viewPort = Vector2D<float>(0, 0);
 }
 
 /**
-* @brief Default destructor
-* @note In case there are dynamic allocated memories
-**/
-//XMLParser::~XMLParser() {}
-//= default; //= default ?
-
-
+ * @brief Default destructor
+ * @note In case there are dynamic allocated memories
+*/
 
 /**
-* @brief Traverse through each nodes and attributes of SVG
-* @note Initialize viewport and viewbox
-* @note Handling and drawing in here
-**/
+ * @brief Traverse through each nodes and attributes of SVG
+ * @note Initialize viewport and viewbox
+ * @note Handling and drawing in here
+*/
 void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> &v) {
 	std::ifstream fin(fileName.c_str());
 	if (!fin.is_open()) {
@@ -71,29 +67,28 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			}
 		}
 		// TODO: break just for testing
-		//break;
 		pNode = pNode->next_sibling();
 	}
 }
 
-/*
-* @brief Set view port
-* @param new view port
+/**
+ * @brief Set view port
+ * @param new view port
 */
-void XMLParser::setViewPort(const Vector2D<float> &viewPort) { this->viewPort = viewPort; }
+void XMLParser::setViewPort(const Vector2D<float> &_viewPort) { this->viewPort = _viewPort; }
 
-/*
-* @brief get view port information
-* @return viewport
+/**
+ * @brief get view port information
+ * @return viewport
 */
 Vector2D<float> XMLParser::getViewPort() {
 	return this->viewPort;
 }
 
 /**
-* @brief Parse rectangle attributes
-* @return Rectangle object
-* @note x, y, rx, ry is 0 by default
+ * @brief Parse rectangle attributes
+ * @return Rectangle object
+ * @note x, y, rx, ry is 0 by default
 */
 SVGRect XMLParser::parseRect(rapidxml::xml_node<> *pNode) {
 	float x = parseFloatAttr(pNode, "x");
@@ -105,13 +100,12 @@ SVGRect XMLParser::parseRect(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	SVGRect rect = SVGRect(Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
-	return rect;
+	return {Vector2D(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry)};
 }
 
 /**
-* @brief Parse Ellipse attributes
-* @return Ellipse object
+ * @brief Parse Ellipse attributes
+ * @return Ellipse object
 */
 SVGEllipse XMLParser::parseEllipse(rapidxml::xml_node<> *pNode) {
 	float cx = parseFloatAttr(pNode, "cx");
@@ -121,13 +115,12 @@ SVGEllipse XMLParser::parseEllipse(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	SVGEllipse ellipse = SVGEllipse(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry));
-	return ellipse;
+	return {Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry)};
 }
 
-/*
-* @brief Parse Circle attributes
-* @return a Circle object
+/**
+ * @brief Parse Circle attributes
+ * @return a Circle object
 */
 SVGCircle XMLParser::parseCircle(rapidxml::xml_node<> *pNode) {
 	float cx = parseFloatAttr(pNode, "cx");
@@ -136,13 +129,12 @@ SVGCircle XMLParser::parseCircle(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	SVGCircle circle = SVGCircle(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, radius);
-	return circle;
+	return {Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, radius};
 }
 
-/*
-* @brief Parse Line attributes
-* @return a Line object
+/**
+ * @brief Parse Line attributes
+ * @return a Line object
 */
 SVGLine XMLParser::parseLine(rapidxml::xml_node<> *pNode) {
 	float x1 = parseFloatAttr(pNode, "x1");
@@ -152,13 +144,12 @@ SVGLine XMLParser::parseLine(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	SVGLine line = SVGLine(Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2));
-	return line;
+	return {Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2)};
 }
 
-/*
-* @brief Parse Polyline attributes
-* @return a Polyline object
+/**
+ * @brief Parse Polyline attributes
+ * @return a Polyline object
 */
 SVGPolyline XMLParser::parsePolyline(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
@@ -167,12 +158,12 @@ SVGPolyline XMLParser::parsePolyline(rapidxml::xml_node<> *pNode) {
 	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
 	std::string fillRule = parseStringAttr(pNode, "fill-rule");
 	Vector2D<float> position = points[0];
-	return SVGPolyline(position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
+	return {position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD};
 }
 
-/*
-* @brief Parse Polygon attributes
-* @return a Polygon object
+/**
+ * @brief Parse Polygon attributes
+ * @return a Polygon object
 */
 SVGPolygon XMLParser::parsePolygon(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
@@ -181,13 +172,13 @@ SVGPolygon XMLParser::parsePolygon(rapidxml::xml_node<> *pNode) {
 	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
 	std::string fillRule = parseStringAttr(pNode, "fill-rule");
 	Vector2D<float> position = points[0];
-	return SVGPolygon(position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
+	return {position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD};
 }
 
 
-/*
-* @brief Parse Text attributes
-* @return a Text object
+/**
+ * @brief Parse Text attributes
+ * @return a Text object
 */
 SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
 	float x = parseFloatAttr(pNode, "x");
@@ -202,16 +193,16 @@ SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	float fontSize = parseFloatAttr(pNode, "font-size");
 	std::string data = pNode->value();
-	return SVGText(Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, data, fontSize);
+	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize};
 }
 
 
 /**
-* @brief Get the float value of specific attribute
-* @param node: current xml node
-* @param attrName: name of attribute
-* @return a float
-**/
+ * @brief Get the float value of specific attribute
+ * @param node: current xml node
+ * @param attrName: name of attribute
+ * @return a float
+*/
 float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrName) {
 	float ret = 0.0;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
@@ -231,11 +222,11 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrNam
 }
 
 /**
-* @brief Get the insight value of specific attribute
-* @param node: current xml node
-* @param attrName: name of attribute
-* @return a string type
-**/
+ * @brief Get the insight value of specific attribute
+ * @param node: current xml node
+ * @param attrName: name of attribute
+ * @return a string type
+*/
 std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, std::string attrName) {
 	std::string data("");
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
@@ -253,13 +244,13 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, std::string 
  * @param pNode current xml node
  * @param attrName the attribute name to find value
  * @return SVGColor type
- */
+*/
 SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
-		// If no attribute with attrName specified, default color is black
-		color = SVGColor(0, 0, 0, 0);
+		// If no attribute with attrName specified, default color is blank (black with opacity = 0)
+		color = SVG_BLANK;
 		// If stroke not specified => no stroke
 		if (attrName == "stroke") return color;
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
@@ -273,8 +264,7 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	std::string value = pAttr->value();
 	if (value == "none" || value == "transparent") {
 		// If value is none or transparent -> opacity = 0 so return default color with alpha = 0
-		color = SVGColor(0, 0, 0, 0);
-		return color;
+		return SVG_BLANK;
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
 		// TODO: process the case fill or stroke value is a gradient
@@ -292,20 +282,20 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	return color;
 }
 
-std::vector<Vector2D < float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) return {};
 	std::vector<Vector2D<float>> ret = {};
 
 	std::string value = pAttr->value();
-	for (int i = 0; i < (int)value.size(); ++i) if (value[i] == ',') value[i] = ' ';
+	for (char & i : value) if (i == ',') i = ' ';
 	std::stringstream buffer(value);
 
 	float x = 0;
 	while (buffer >> x) {
 		float y = 0;
 		buffer >> y;
-		ret.push_back(Vector2D<float>(x, y));
+		ret.emplace_back(x, y); //ret.push_back(Vector2D<float>(x, y));
 	}
 
 	buffer.str(""); // <-- clear buffer
