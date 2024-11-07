@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <fstream>
 #include <map>
 #include "Graphic.h"
 #include "../../lib/rapidxml/rapidxml.hpp"

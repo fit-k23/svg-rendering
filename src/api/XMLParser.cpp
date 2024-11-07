@@ -1,5 +1,4 @@
 #include "XMLParser.h"
-#include <fstream>
 
 /**
 * @brief Default constructor

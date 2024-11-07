@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <windows.h>
 #include <objidl.h>
 #include <gdiplus.h>
@@ -9,7 +8,15 @@
 #include "api/Renderer.h"
 #include "api/Graphic.h"
 
+#include <cmath>
 #pragma comment (lib, "Gdiplus.lib")
+
+#include <chrono>
+
+float getSineValueByTime(float time, float frequency = 1.0f, float amplitude = 1.0f, float phaseShift = 0.0f) {
+	// Time-based sine calculation
+	return amplitude * std::sin(2.0f * M_PI * frequency * time + phaseShift);
+}
 
 void draw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
@@ -17,24 +24,15 @@ void draw(HDC hdc, const std::string &fileName) {
 	XMLParser parser;
 	parser.traverseXML(fileName, v);
 
-	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
-	render.draw(graphics);
-
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
-	//Gdiplus::Pen pen(Gdiplus::Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
-
-	//// Set up the ellipse parameters
-	//Gdiplus::REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
-	//graphics.DrawEllipse(&pen, x, y, width, height);
-	//graphics.DrawEllipse(&pen, x + 200, y, width, width);
-	//Gdiplus::SolidBrush whiteBrush(SVG_YELLOW);
-	//graphics.FillEllipse(&whiteBrush, 200, 100, 150, 50);
-
+	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
+	graphics.ScaleTransform(0.5, .5);
+	render.draw(graphics);
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -49,6 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, PSTR, INT iCmdShow) {
 	// Initialize GDI+.
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 
+//	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
 	wndClass.lpfnWndProc = WndProc;
 	wndClass.cbClsExtra = 0;
@@ -91,11 +90,57 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	PAINTSTRUCT ps;
 
 	switch (message) {
-		case WM_PAINT:
+		case WM_PAINT: {
 			hdc = BeginPaint(hWnd, &ps);
-			draw(hdc, "sample.svg");
+
+			RECT rect;
+			::GetClientRect(hWnd, &rect);
+
+			int width = rect.right - rect.left;
+			int height = rect.right - rect.left;
+
+			HDC hdcMem = CreateCompatibleDC(hdc);
+			HBITMAP hbmMem = CreateCompatibleBitmap(hdc, width, height);
+
+			HGDIOBJ hOld = SelectObject(hdcMem, hbmMem);
+//			SetBkColor(hdcMem, RGB(255, 255, 255));
+
+			HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));  // White brush
+			FillRect(hdcMem, &rect, hBrush);
+			DeleteObject(hBrush);
+
+			// Draw into hdcMem here
+			draw(hdcMem, "sample.svg");
+//			draw(hdc, "sample.svg");
+
+			// Transfer the off-screen DC to the screen
+
+			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+
+			// Free-up the off-screen DC
+			SelectObject(hdcMem, hOld);
+
+			DeleteObject(hbmMem);
+			DeleteDC (hdcMem);
 			EndPaint(hWnd, &ps);
 			return 0;
+		}
+		case WM_ERASEBKGND:
+			return 1;
+		case WM_KEYDOWN: {
+			std::string tmp = "start cmd /k echo \"";
+			tmp += static_cast<char>(wParam);
+			tmp += "\"";
+			if (static_cast<char>(wParam) == 'R') {
+				RECT rect;
+				::GetClientRect(hWnd, &rect);
+				::RedrawWindow(hWnd, &rect, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN);
+				InvalidateRect(hWnd, NULL, TRUE);
+			} else {
+				system(tmp.c_str());
+			}
+			return 0;
+		}
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;

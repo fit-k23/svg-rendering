@@ -58,29 +58,6 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 			}
 			case ElementType::Polygon: {
 				drawPolygon(graphics, static_cast<SVGPolygon*>(shape));
-				//shape->dbg();
-				//Gdiplus::SolidBrush fillBrush(Gdiplus::Color(255, 255, 0, 0)); // Red fill color
-
-				// Define the points for the polygon.
-				/*Gdiplus::Point* points = new Gdiplus::Point[5];
-				points[0] = Gdiplus::Point(50, 50);
-				points[1] = Gdiplus::Point(100, 100);
-				points[2] = Gdiplus::Point(150, 50);
-				points[3] = Gdiplus::Point(200, 100);
-				points[4] = Gdiplus::Point(250, 50);*/
-
-
-				//Gdiplus::Point points[5] = {
-				//	Gdiplus::Point(50, 50),
-				//	Gdiplus::Point(100, 100),
-				//	Gdiplus::Point(150, 50),
-				//	Gdiplus::Point(200, 100),
-				//	Gdiplus::Point(250, 50)
-				//};
-
-				// Fill the polygon defined by the points.
-				//graphics.FillPolygon(&fillBrush, points, 5); // '5' is the number of points
-				//delete[] points;
 				break;
 			}
 			case ElementType::Text: {
