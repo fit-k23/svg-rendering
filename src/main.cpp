@@ -14,6 +14,7 @@
 void ProjectInit() {
 	ParserManager::getInstance().registerParser("float", new FloatParser());
 	ParserManager::getInstance().registerParser("color", new ColorParser());
+	ParserManager::getInstance().registerParser("string", new StringParser());
 }
 
 void draw(HDC hdc, const std::string &fileName) {

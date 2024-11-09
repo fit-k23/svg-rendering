@@ -16,7 +16,7 @@ ParserManager::~ParserManager() {
 }
 
 std::vector<Element *> ParserManager::parseFile(const std::string &fileName) {
-
+	return {};
 }
 
 void ParserManager::parseFile(const std::string &fileName, std::vector<Element *> &v) {

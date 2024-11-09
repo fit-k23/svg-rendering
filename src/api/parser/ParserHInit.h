@@ -5,6 +5,7 @@
 #include "TParser.h"
 #include "FloatParser.h"
 #include "ColorParser.h"
+#include "StringParser.h"
 #include "SVGParser.h"
 
 #endif //SVG_RENDERING_PARSERHINIT_H

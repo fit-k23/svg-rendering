@@ -4,7 +4,7 @@
 #include "TParser.h"
 
 class FloatParser : public TParser<float> {
-	float parse(rapidxml::xml_node<> *pNode, const std::string &attributeName = "") override;
+	float parse(rapidxml::xml_node<> *pNode, const std::string &attrName) override;
 };
 
 #endif //SVG_RENDERING_FLOATPARSER_H
