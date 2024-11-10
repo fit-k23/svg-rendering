@@ -56,7 +56,7 @@ public:
 	void drawText(Gdiplus::Graphics &graphics, SVGText *element);
 
 	/** @brief Draw path */
-	void drawPath(SVGPath *element);
+	void drawPath(Gdiplus::Graphics &graphics, SVGPath *element);
 };
 
 #endif //RENDERER_H

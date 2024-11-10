@@ -28,9 +28,6 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect*>(shape));
 				//shape->dbg();
-				//Gdiplus::REAL x = 50.0f, y = 50.0f, width = 200.0f, height = 100.0f;
-				//Gdiplus::Pen pen(Gdiplus::Color(220, 255, 0, 0), 10);  // Red color, 3 pixel width
-				//graphics.DrawRectangle(&pen, x, y, width, height);
 				break;
 			}
 			case ElementType::Ellipse: {
@@ -62,7 +59,7 @@ void Renderer::draw(Gdiplus::Graphics& graphics) {
 				break;
 			}
 			case ElementType::Path: {
-				//drawPath(static_cast<SVGPath*>(shape));
+				drawPath(graphics, static_cast<SVGPath*>(shape));
 				break;
 			}
 			default:
@@ -220,4 +217,6 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 }
 
 /** @brief Draw path */
-void Renderer::drawPath(SVGPath *element) {}
+void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
+	
+}

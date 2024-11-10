@@ -94,6 +94,11 @@ public:
 	*/
 	SVGText parseText(rapidxml::xml_node<> *pNode);
 
+	/*
+	* @brief Parse Path attributes
+	*/
+	SVGPath parsePath(rapidxml::xml_node<>* pNode);
+
 	/**
 	 * @brief Get the float value of specific attribute
 	 * @param node current xml node

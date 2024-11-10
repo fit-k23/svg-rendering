@@ -10,7 +10,7 @@ std::vector<Element *> SVGParser::parse(rapidxml::xml_node<> *pNode, const std::
 	auto *polygonParser = ParserManager::getInstance().getParser<SVGPolygon>("polygon");
 	auto *polylineParser= ParserManager::getInstance().getParser<SVGPolyline>("polyline");
 	auto *textParser = ParserManager::getInstance().getParser<SVGText>("text");
-	auto *pathParser = ParserManager::getInstance().getParser<Group>("path");
-	auto *groupParser = ParserManager::getInstance().getParser<SVGEllipse>("group");
+	auto *pathParser = ParserManager::getInstance().getParser<SVGPath>("path");
+	auto *groupParser = ParserManager::getInstance().getParser<Group>("group");
 	return {};
 }

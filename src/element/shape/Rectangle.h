@@ -45,7 +45,7 @@ public:
 	 * @return pair of top-left and bottom-right coordinate
 	 * @note This function doesn't change any attributes
 	*/
-	std::pair<Vector2D < float>, Vector2D<float>> getBoundingBox() const override;
+	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 	/**
 	 * @brief set width of the SVGRect

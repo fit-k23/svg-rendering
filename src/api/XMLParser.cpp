@@ -196,6 +196,48 @@ SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
 	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize};
 }
 
+SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
+	SVGColor fillColor = parseColor(pNode, "fill");
+	SVGColor strokeColor = parseColor(pNode, "stroke");
+	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+
+	std::vector<Vector2D<float>> points;
+	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
+	std::string instructions = "";
+
+	for (int i = 0; i < (int)d.size(); ++i) {
+		if (d[i] == '.' || d[i] == ' ') continue; // <-- . indicates float so not instruction
+		if (!(d[i] >= '0' && d[i] <= '9')) { // <-- if not a digit, then it must be instruction
+			instructions += d[i];
+			d[i] = ' '; // <-- set empty to use stringstream
+		}
+	}
+
+	std::stringstream buffer(d);
+
+	for (int i = 0; i < (int)instructions.size(); ++i) {
+		char ins = instructions[i];
+		if (ins == 'Z') {
+			/// TODO: End current path. Draw a straight line from current point to first point.
+			/// TODO: Add code here
+			continue;
+		}
+		if (ins == 'M' || ins == 'm' || ins == 'L' || ins == 'l') {
+			float x, y;
+			buffer >> x >> y;
+			points.push_back(Vector2D(x, y));
+		}
+		else if (ins == 'H' || ins == 'h' || ins == 'V' || ins == 'v') {
+			float num;
+			buffer >> num;
+			if (ins == 'H' || ins == 'h') points.push_back(Vector2D(num, points.back().y));
+			else if (ins == 'V' || ins == 'v') points.push_back(Vector2D(points.back().x, num));
+		}
+	}
+
+	return SVGPath();
+}
+
 
 /**
  * @brief Get the float value of specific attribute
