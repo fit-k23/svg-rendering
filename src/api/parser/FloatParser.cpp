@@ -2,7 +2,6 @@
 
 float FloatParser::parse(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	float ret = 0.0f;
-	float ret = 0.0;
 	rapidxml::xml_attribute<>* pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
 		// stroke, fill, opacity default must be 1

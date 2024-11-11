@@ -64,6 +64,9 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 				v.push_back(new SVGPolygon(parsePolygon(pNode)));
 			} else if (nodeName == "text") {
 				v.push_back(new SVGText(parseText(pNode)));
+			} else if (nodeName == "path") {
+				v.push_back(new SVGPath(parsePath(pNode)));
+				v.back()->dbg();
 			}
 		}
 		// TODO: break just for testing
@@ -204,52 +207,65 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	std::vector<PathPoint> points;
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
 
-	auto isCmd(char c) -> bool {
-		return c == 'M' || c == 'm' || c == 'L' || c == 'l' || c == 'H' || c == 'h' || c == 'V' || c == 'v' || c == 'Z' || c == 'z' || c == 'C' || c == 'c' ||
-			c == 'S' || c == 's' || c == 'Q' || c == 'q' || c == 'T' || c == 't' || c == 'A' || c == 'a';
+	auto isCmd = [](char c) -> bool {
+		char ch = tolower(c);
+		return ch == 'm' || ch == 'l' || c == 'h' || ch == 'v' || ch == 'z' || ch == 'c' || ch == 's' || ch == 'q' || ch == 't' || ch == 'a';
+	};
+
+	auto getLastPos = [](const std::vector<PathPoint> &points) -> Vector2D<float> {
+		if (points.empty()) return Vector2D<float>(0.0f, 0.0f);
+		return points.back().pos;
 	};
 
 	std::string cmd = "";
 
+	// change all command and hyphens to blank space to use stringstream
 	for (int i = 0; i < (int)d.size(); ++i) {
 		if (isCmd(d[i])) {
 			cmd += d[i];
 			d[i] = ' ';
 		}
+		else if (d[i] == ',') d[i] = ' ';
 	}
 
+	std::cout << "cmd = " << cmd << '\n';
+	std::cout << "d after format: " << d << '\n';
 	std::stringstream buffer(d);
 
 	for (int i = 0; i < (int)cmd.size(); ++i) {
-		if (cmd[i] == 'M' || cmd[i] == 'm' || cmd[i] == 'T' || cmd[i] == 't' || cmd[i] == 'L' || cmd[i] == 'l') {
+		if (tolower(cmd[i]) == 'm' || tolower(cmd[i]) == 't' || tolower(cmd[i]) == 'l') {
 			float x, y;
 			buffer >> x >> y;
-			/// TODO: Do more research for 'm' cmd
-			if (cmd[i] == 'M' || cmd[i] == 'm' || cmd[i] == 'T' || cmd[i] == 'L')
+			if (isupper(cmd[i]))
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y)));
-			else points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(x, y)));
+			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y)));
 		}
-		else if (cmd[i] == 'H' || cmd[i] == 'h' || cmd[i] == 'V' || cmd[i] == 'v') {
+		else if (tolower(cmd[i]) == 'h' || tolower(cmd[i]) == 'v') {
 			float num;
 			buffer >> num;
-			if (cmd[i] == 'H' || cmd[i] == 'h')
-				points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(cmd[i] == 'H' ? 0 : num, 0)));
+			if (tolower(cmd[i] == 'h')) 
+				points.push_back(PathPoint(cmd[i], Vector2D<float>(cmd[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y)));
 			else 
-				points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(0, cmd[i] == 'V' ? 0 : num)));
+				points.push_back(PathPoint(cmd[i], Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num)));
 		}
-		else if (cmd[i] == 'Q' || cmd[i] == 'q') {
+		else if (tolower(cmd[i]) == 'q') {
 			float x, y, cenx, ceny;
 			buffer >> cenx >> ceny >> x >> y;
 			if (cmd[i] == 'Q')
-				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny));
-			else points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(x, y), points.back().pos + Vector2D<float>(cenx, ceny)));
+				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny)));
+			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y), getLastPos(points) + Vector2D<float>(cenx, ceny)));
 		}
-		else if (cmd[i] == 'A' || cmd[i] == 'a') {
-
+		else if (tolower(cmd[i]) == 'a') {
+			Vector2D<float> radii;
+			float xRotation;
+			bool largeArcFlag; 
+			bool sweepFlag;
+			Vector2D<float> pos;
+			buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y;
+			points.push_back(PathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 		}
-		// TODO: Cubic bezier curve
-		else if (cmd[i] == 'C' || cmd[i] == 'c') {
-
+		else if (tolower(cmd[i]) == 'c') {
+			// TODO: Cubic bezier curve	
 		}
 	}
 
@@ -310,15 +326,13 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
 		// If no attribute with attrName specified, default color is black
-		// If stroke not specified => no stroke
 		color = SVG_BLACK;
-		if (attrName == "stroke") return color;
+		if (attrName == "stroke") { // <-- If stroke is not specifed, then there is no stroke
+			color = SVG_BLANK;
+			return color;
+		}
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 		color.a = (unsigned char) (255.0f * opaque);
-		if (strcmp(pNode->name(), "line") == 0 && attrName == "stroke") {
-			color.a = 0; /// <-- In line, if not specify stroke then not visible
-			//std::cout << "Stroke not found in line\n";
-		}
 		return color;
 	}
 	std::string value = pAttr->value();
@@ -329,13 +343,10 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
 		// TODO: process the case fill or stroke value is a gradient
 	} else {
-		//std::cout << "Can find attribute " << attrName << '\n';
 		color = SVGColor(value); // <-- get Color in SVGColor class
 		// get opacity
 		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
-		//std::cout << "Opacity = " << opaque << '\n';
 		color.a = (unsigned char) ((double) 255.0f * opaque);
-		//std::cout << "So return color is "; color.output(); std::cout << '\n';
 
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
@@ -355,7 +366,7 @@ std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pN
 	while (buffer >> x) {
 		float y = 0;
 		buffer >> y;
-		ret.emplace_back(x, y); //ret.push_back(Vector2D<float>(x, y));
+		ret.emplace_back(x, y); 
 	}
 
 	buffer.str(""); // <-- clear buffer

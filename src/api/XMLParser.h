@@ -2,6 +2,7 @@
 #define XML_PARSER_H_
 
 #include <iostream>
+#include <cctype> // uppercase and lowercase letter only
 #include <vector>
 #include <sstream>
 #include <string>
