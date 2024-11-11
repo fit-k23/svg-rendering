@@ -41,6 +41,16 @@ struct PathPoint {
 		this->cen[0] = cen;
 	}
 
+	/*
+	* @brief Default constructor for cubic quadratic bezier curve
+	*/
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen1, Vector2D<float> cen2) {
+		this->cmd = cmd;
+		this->pos = pos;
+		this->cen[0] = cen1;
+		this->cen[1] = cen2;
+	}
+
 	void output() {
 		std::cout << "Cmd: " << cmd << '\n';
 		std::cout << "Pos: " << pos.x << ", " << pos.y << '\n';

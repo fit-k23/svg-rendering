@@ -233,7 +233,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	std::stringstream buffer(d);
 
 	for (int i = 0; i < (int)cmd.size(); ++i) {
-		if (tolower(cmd[i]) == 'm' || tolower(cmd[i]) == 't' || tolower(cmd[i]) == 'l') {
+		if (tolower(cmd[i]) == 'm' || tolower(cmd[i]) == 'l') {
 			float x, y;
 			buffer >> x >> y;
 			if (isupper(cmd[i]))
@@ -248,14 +248,14 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			else 
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num)));
 		}
-		else if (tolower(cmd[i]) == 'q') {
+		else if (tolower(cmd[i]) == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
 			buffer >> cenx >> ceny >> x >> y;
 			if (cmd[i] == 'Q')
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny)));
 			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y), getLastPos(points) + Vector2D<float>(cenx, ceny)));
 		}
-		else if (tolower(cmd[i]) == 'a') {
+		else if (tolower(cmd[i]) == 'a') { // <-- Arc
 			Vector2D<float> radii;
 			float xRotation;
 			bool largeArcFlag; 
@@ -264,8 +264,20 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y;
 			points.push_back(PathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 		}
-		else if (tolower(cmd[i]) == 'c') {
-			// TODO: Cubic bezier curve	
+		else if (tolower(cmd[i]) == 'c') { // <-- Cubic Bezier Curve
+			Vector2D<float> pos, cen[2]; 
+			buffer >> cen[0].x >> cen[0].y >> cen[1].x >> cen[1].y >> pos.x >> pos.y;
+			if (cmd[i] == 'C') points.push_back(PathPoint(cmd[i], pos, cen[0], cen[1]));
+			else {
+				Vector2D<float> lastPos = getLastPos(points);
+				points.push_back(PathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
+			}
+		}
+		else if (tolower(cmd[i]) == 't') { // smooth quadratic bezier curve
+
+		}
+		else if (tolower(cmd[i]) == 's') { // smooth cubic bezier curve
+
 		}
 	}
 

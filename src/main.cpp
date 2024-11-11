@@ -94,9 +94,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case WM_PAINT: {
 			hdc = BeginPaint(hWnd, &ps);
 
-			// Just to have a debug console in visual studio
-			/*AllocConsole();
-			freopen("CONOUT$", "w", stdout);*/
+			// To have a debug terminal in visual studio (bruh)
+			//AllocConsole();
+			//freopen("CONOUT$", "w", stdout);
 
 			RECT rect;
 			::GetClientRect(hWnd, &rect);
