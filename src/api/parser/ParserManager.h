@@ -7,9 +7,9 @@
 #include "TParser.h"
 #include "../../../src/element/Element.h"
 
-/*
-* @brief This class only has one instance 
-* @note Apply singleton design pattern
+/**
+ * @brief This class only has one instance
+ * @note Apply singleton design pattern
 */
 
 class ParserManager {
@@ -19,15 +19,13 @@ class ParserManager {
 	ParserManager();
 	~ParserManager(); // delete allocated memory in parsers
 public:
-	/*
-	* @brief Get current instance of parser manager class
-	* @note Static method that controls access to Singleton instance
+	/**
+	 * @brief Get current instance of parser manager class
+	 * @note Static method that controls access to Singleton instance
 	*/
 	static ParserManager &getInstance();
 	
-	/*
-	* @brief Register a new type of parser
-	*/
+	/** @brief Register a new type of parser */
 	template<typename T>
 	bool registerParser(const std::string &name, TParser<T> *parser) {
 		auto parserN = parsers.find(name);
@@ -38,20 +36,24 @@ public:
 		return false;
 	}
 
-	/*
-	* @brief Parse xml file and store elements in a Element-pointer vector
-	*/
+	/** @brief Parse xml file and store elements in a Element-pointer vector */
 	void parseFile(const std::string &fileName, std::vector<Element *> &v);
 	std::vector<Element *> parseFile(const std::string &fileName);
 
-	/*
-	* @brief Get the proper parser for the node name
-	*/
+	/** @brief Get the proper parser with given name and return type */
 	template<typename T>
 	TParser<T> *getParser(const std::string &name) {
 		auto it = parsers.find(name);
 		if (it != parsers.end()) {
 			return dynamic_cast<TParser<T> *>(it->second);
+		}
+		return nullptr;
+	}
+
+	static IParser *getParser(const std::string &name) {
+		auto it = parsers.find(name);
+		if (it != parsers.end()) {
+			return it->second;
 		}
 		return nullptr;
 	}

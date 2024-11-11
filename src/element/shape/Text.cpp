@@ -16,20 +16,7 @@ ElementType SVGText::getTypeName() { return ElementType::Text; }
 void SVGText::dbg() {
 	Element::dbg();
 	std::cout << "Data: " << data << '\n';
-	switch (textAnchor) {
-		case TextAnchor::START:
-			std::cout << "Anchor: " << "start" << '\n';
-			break;
-		case TextAnchor::MIDDLE:
-			std::cout << "Anchor: " << "middle" << '\n';
-			break;
-		case TextAnchor::END:
-			std::cout << "Anchor: " << "end" << '\n';
-			break;
-		default:
-			std::cout << "Anchor: " << "N/A" << '\n';
-			break;
-	}
+	std::cout << "Anchor: " << TextAnchorHelper::getName(textAnchor) << '\n';
 	std::cout << "Font style: " << (fontStyle.empty() ? "default" : fontStyle) << '\n';
 	std::cout << "Font size: " << fontSize << '\n';
 }
@@ -43,8 +30,8 @@ std::pair<Vector2D<float>, Vector2D<float>> SVGText::getBoundingBox() const {
 	float actualY = position.y - fontSize + offset;
 	float actualX = position.x;
 	if (textAnchor == TextAnchor::MIDDLE || textAnchor == TextAnchor::END) {
-		if (textAnchor == TextAnchor::START) actualX -= dataSize.x / 2.0f;
-		actualX -= dataSize.x;
+//		if (textAnchor == TextAnchor::START) actualX -= dataSize.x / 2.0f;
+//		actualX -= dataSize.x;
 	}
 	return {Vector2D<float>(actualX, actualY), Vector2D<float>(actualX + dataSize.x, actualY + dataSize.y)};
 }

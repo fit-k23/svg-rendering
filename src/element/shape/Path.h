@@ -12,17 +12,13 @@ struct PathPoint {
 	bool largeArcFlag = false;
 	bool sweepFlag = false;
 
-	/*
-	* @brief Default constructor for normal point
-	*/
-	PathPoint(char cmd, Vector2D<float> pos) {
+	/** @brief Default constructor for normal point */
+	PathPoint(char cmd, const Vector2D<float> &pos) {
 		this->cmd = cmd;
 		this->pos = pos;
 	}
 
-	/*
-	* @brief Default constructor for arc point
-	*/
+	/** @brief Default constructor for arc point */
 	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> radii, float xRotation, bool largeArcFlag, bool sweepFlag) {
 		this->cmd = cmd;
 		this->pos = pos;
@@ -32,18 +28,14 @@ struct PathPoint {
 		this->sweepFlag = sweepFlag;
 	}
 
-	/*
-	* @brief Default constructor for quadratic bezier curve
-	*/
+	/** @brief Default constructor for quadratic bezier curve */
 	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen) {
 		this->cmd = cmd;
 		this->pos = pos;
 		this->cen[0] = cen;
 	}
 
-	/*
-	* @brief Default constructor for cubic quadratic bezier curve
-	*/
+	/** @brief Default constructor for cubic quadratic bezier curve */
 	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen1, Vector2D<float> cen2) {
 		this->cmd = cmd;
 		this->pos = pos;
@@ -68,34 +60,32 @@ class SVGPath : public Element{
 private:
 	std::vector<PathPoint> points;
 public:
-	/*
-	* @brief Default constructor for path
-	*/
+	/** @brief Default constructor for path */
 	SVGPath();
 
-	/*
-	* @brief Parameterized constructor for path
-	* @param points new vector of points
+	/**
+	 * @brief Parameterized constructor for path
+	 * @param points new vector of points
 	*/
 	SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint> &points);
 
 
-	/*
-	* @brief Get type path
-	* @return ElementType::Path
-	* @note This function is overrided
+	/**
+	 * @brief Get type path
+	 * @return ElementType::Path
+	 * @note This function is override
 	*/
 	ElementType getTypeName() override;
 
-	/*
-	* @brief Print all information of path
-	* @note This function is overrided
+	/**
+	 * @brief Print all information of path
+	 * @note This function is override
 	*/
 	void dbg() override;
 
-	/*
-	* @brief Get bounding box of path object
-	* @note This function is overrided and does not change any attributes
+	/**
+	 * @brief Get bounding box of path object
+	 * @note This function is override and does not change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 };

@@ -195,25 +195,29 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
 
-//	Gdiplus::FontFamily fontFamily(L"Arial");
 	Gdiplus::FontFamily fontFamily(L"Times New Roman");
 	Gdiplus::Font font(&fontFamily, fontSize - 13); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
+//	Gdiplus::Font font(&fontFamily, fontSize); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
 
 	Gdiplus::RectF layoutRect;
 	Gdiplus::StringFormat format;
-	format.SetAlignment(Gdiplus::StringAlignmentFar);
+	format.SetAlignment(TextAnchorHelper::getStringAlignment(element->getTextAnchor()));
 	Gdiplus::RectF boundRect;
 	// Measure the string.
 	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundRect);
 
-	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
+//	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
+	Vector2D<float> actualPosition = element->getPosition();
 	boundRect.X = actualPosition.x;
 	boundRect.Y = actualPosition.y;
 	Gdiplus::SolidBrush solidBrush(fillColor);
 
 	graphics.DrawString(wData.c_str(), -1, &font, boundRect, nullptr, &solidBrush);
-//	Gdiplus::Pen pen({255, 0, 0, 0});
-//	graphics.DrawRectangle(&pen, boundRect);
+	Gdiplus::Pen pen({255, 0, 0, 0});
+	graphics.DrawEllipse(&pen, actualPosition.x, actualPosition.y, 3.0f, 3.0f);
+	graphics.DrawRectangle(&pen, boundRect);
+	pen.SetColor({255, 255, 0, 0});
+	graphics.DrawRectangle(&pen, layoutRect);
 }
 
 /** @brief Draw path */

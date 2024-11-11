@@ -5,7 +5,6 @@
 #include <sstream>
 #include <algorithm>
 #include "IParser.h"
-#include "../../../lib/rapidxml/rapidxml.hpp"
 
 template<typename T>
 class TParser : public IParser {
