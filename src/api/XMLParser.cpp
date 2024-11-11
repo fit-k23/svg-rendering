@@ -201,41 +201,59 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 
-	std::vector<Vector2D<float>> points;
+	std::vector<PathPoint> points;
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
-	std::string instructions = "";
+
+	auto isCmd(char c) -> bool {
+		return c == 'M' || c == 'm' || c == 'L' || c == 'l' || c == 'H' || c == 'h' || c == 'V' || c == 'v' || c == 'Z' || c == 'z' || c == 'C' || c == 'c' ||
+			c == 'S' || c == 's' || c == 'Q' || c == 'q' || c == 'T' || c == 't' || c == 'A' || c == 'a';
+	};
+
+	std::string cmd = "";
 
 	for (int i = 0; i < (int)d.size(); ++i) {
-		if (d[i] == '.' || d[i] == ' ') continue; // <-- . indicates float so not instruction
-		if (!(d[i] >= '0' && d[i] <= '9')) { // <-- if not a digit, then it must be instruction
-			instructions += d[i];
-			d[i] = ' '; // <-- set empty to use stringstream
+		if (isCmd(d[i])) {
+			cmd += d[i];
+			d[i] = ' ';
 		}
 	}
 
 	std::stringstream buffer(d);
 
-	for (int i = 0; i < (int)instructions.size(); ++i) {
-		char ins = instructions[i];
-		if (ins == 'Z') {
-			/// TODO: End current path. Draw a straight line from current point to first point.
-			/// TODO: Add code here
-			continue;
-		}
-		if (ins == 'M' || ins == 'm' || ins == 'L' || ins == 'l') {
+	for (int i = 0; i < (int)cmd.size(); ++i) {
+		if (cmd[i] == 'M' || cmd[i] == 'm' || cmd[i] == 'T' || cmd[i] == 't' || cmd[i] == 'L' || cmd[i] == 'l') {
 			float x, y;
 			buffer >> x >> y;
-			points.push_back(Vector2D(x, y));
+			/// TODO: Do more research for 'm' cmd
+			if (cmd[i] == 'M' || cmd[i] == 'm' || cmd[i] == 'T' || cmd[i] == 'L')
+				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y)));
+			else points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(x, y)));
 		}
-		else if (ins == 'H' || ins == 'h' || ins == 'V' || ins == 'v') {
+		else if (cmd[i] == 'H' || cmd[i] == 'h' || cmd[i] == 'V' || cmd[i] == 'v') {
 			float num;
 			buffer >> num;
-			if (ins == 'H' || ins == 'h') points.push_back(Vector2D(num, points.back().y));
-			else if (ins == 'V' || ins == 'v') points.push_back(Vector2D(points.back().x, num));
+			if (cmd[i] == 'H' || cmd[i] == 'h')
+				points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(cmd[i] == 'H' ? 0 : num, 0)));
+			else 
+				points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(0, cmd[i] == 'V' ? 0 : num)));
+		}
+		else if (cmd[i] == 'Q' || cmd[i] == 'q') {
+			float x, y, cenx, ceny;
+			buffer >> cenx >> ceny >> x >> y;
+			if (cmd[i] == 'Q')
+				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny));
+			else points.push_back(PathPoint(cmd[i], points.back().pos + Vector2D<float>(x, y), points.back().pos + Vector2D<float>(cenx, ceny)));
+		}
+		else if (cmd[i] == 'A' || cmd[i] == 'a') {
+
+		}
+		// TODO: Cubic bezier curve
+		else if (cmd[i] == 'C' || cmd[i] == 'c') {
+
 		}
 	}
 
-	return SVGPath();
+	return SVGPath(points[0].pos, fillColor, strokeColor, strokeWidth, points);
 }
 
 

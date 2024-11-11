@@ -1,14 +1,17 @@
 #include "Path.h"
 
-SVGPath::SVGPath() : Element(), points({}), instructions({}) {}
+SVGPath::SVGPath() : Element(), points({}) {}
+
+SVGPath::SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint>& points) :
+				Element(position, fillColor, strokeColor, strokeWidth), points(points) {}
+
 
 ElementType SVGPath::getTypeName() { return ElementType::Path; }
 
 void SVGPath::dbg() {
 	Element::dbg();
-	std::cout << "d = "; 
-	for (int i = 0; i < (int)instructions.size(); ++i)
-		std::cout << instructions << "(" << points[i].x << ", " << points[i].y << ")" << (i + 1 < (int)instructions.size() ? " " : "");
+	std::cout << "Set of points: \n"; 
+	for (int i = 0; i < (int)points.size(); ++i) points[i].output();
 }
 
 std::pair<Vector2D<float>, Vector2D<float>> SVGPath::getBoundingBox() const {

@@ -3,23 +3,72 @@
 
 #include "../Element.h"
 
-struct Point {
-	char instruction;
+struct PathPoint {
+	char cmd;
 	Vector2D<float> pos;
+	Vector2D<float> cen[2] = { {}, {} };
 	Vector2D<float> radii = { 0.0f, 0.0f };
 	float xRotation = 0.0f;
 	bool largeArcFlag = false;
 	bool sweepFlag = false;
+
+	/*
+	* @brief Default constructor for normal point
+	*/
+	PathPoint(char cmd, Vector2D<float> pos) {
+		this->cmd = cmd;
+		this->pos = pos;
+	}
+
+	/*
+	* @brief Default constructor for arc point
+	*/
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> radii, float xRotation, bool largeArcFlag, bool sweepFlag) {
+		this->cmd = cmd;
+		this->pos = pos;
+		this->radii = radii;
+		this->xRotation = xRotation;
+		this->largeArcFlag = largeArcFlag;
+		this->sweepFlag = sweepFlag;
+	}
+
+	/*
+	* @brief Default constructor for quadratic bezier curve
+	*/
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen) {
+		this->cmd = cmd;
+		this->pos = pos;
+		this->cen[0] = cen;
+	}
+
+	void output() {
+		std::cout << "Cmd: " << cmd << '\n';
+		std::cout << "Pos: " << pos.x << ", " << pos.y << '\n';
+		std::cout << "Center point: "; 
+		for (int i = 0; i < 2; ++i)
+			std::cout << "(" << cen[i].x << ", " << cen[i].y << ") ";
+		std::cout << '\n';
+		std::cout << "radii: " << radii.x << ", " << radii.y << '\n';
+		std::cout << "x axis rotation: " << xRotation << '\n';
+		std::cout << "largeArcFlag = " << largeArcFlag << '\n' << "sweepFlag = " << sweepFlag << '\n';
+	}
 };
 
 class SVGPath : public Element{
 private:
-	std::vector<Point> points;
+	std::vector<PathPoint> points;
 public:
 	/*
 	* @brief Default constructor for path
 	*/
 	SVGPath();
+
+	/*
+	* @brief Parameterized constructor for path
+	* @param points new vector of points
+	*/
+	SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint> &points);
+
 
 	/*
 	* @brief Get type path
