@@ -45,18 +45,17 @@ int main() {
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, nullptr);
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 
-	WNDCLASS wndClass = {
-		.style = CS_HREDRAW | CS_VREDRAW,
-		.lpfnWndProc = WndProc,
-		.cbClsExtra = 0,
-		.cbWndExtra = 0,
-		.hInstance = hInstance,
-		.hIcon = LoadIcon(nullptr, IDI_APPLICATION),
-		.hCursor = LoadCursor(nullptr, IDC_ARROW),
-		.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH),
-		.lpszMenuName = nullptr,
-		.lpszClassName = TEXT(APPLICATION_CLASS_NAME),
-	};
+	WNDCLASS wndClass;
+	wndClass.style = CS_HREDRAW | CS_VREDRAW;
+	wndClass.lpfnWndProc = WndProc;
+	wndClass.cbClsExtra = 0;
+	wndClass.cbWndExtra = 0;
+	wndClass.hInstance = hInstance;
+	wndClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndClass.lpszMenuName = nullptr;
+	wndClass.lpszClassName = TEXT(APPLICATION_CLASS_NAME);
 
 	RegisterClass(&wndClass);
 

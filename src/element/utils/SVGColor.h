@@ -26,7 +26,7 @@ public:
 
 	SVGColor &operator=(const SVGColor &other);
 
-	explicit SVGColor(std::string param); // -> tên màu luôn, mã hex
+	explicit SVGColor(std::string param);
 	SVGColor fromHSL(int h, int s, int l, int a = 255);
 
 	operator Gdiplus::Color() const;

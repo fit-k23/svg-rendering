@@ -2,63 +2,40 @@
 #define SVG_RENDERING_PATH_H
 
 #include "../Element.h"
+#include "../utils/FillRule.h"
 
 struct PathPoint {
-	char cmd;
-	Vector2D<float> pos;
-	Vector2D<float> cen[2] = { {}, {} };
-	Vector2D<float> radii = { 0.0f, 0.0f };
-	float xRotation = 0.0f;
-	bool largeArcFlag = false;
-	bool sweepFlag = false;
+	char cmd;								// <-- type of instruction
+	Vector2D<float> pos;					// <-- end position
+	Vector2D<float> cen[2] = { {}, {} };	// <-- center points for bezier curve
+	Vector2D<float> radii = { 0.0f, 0.0f };	// <-- radii of the ellipse
+	float xRotation = 0.0f;					// <-- rotation (in degree) of the arc relative to the x-axis
+	bool largeArcFlag = false;              // <-- decide whether < 180 degree (small arc) or > 180 degree (large arc)
+	bool sweepFlag = false;                 // <-- clockwise (1) or counterclockwise (0) 
 
-	/** @brief Default constructor for normal point */
-	PathPoint(char cmd, const Vector2D<float> &pos) {
-		this->cmd = cmd;
-		this->pos = pos;
-	}
+	/** @brief Default constructor */
+	PathPoint();
 
-	/** @brief Default constructor for arc point */
-	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> radii, float xRotation, bool largeArcFlag, bool sweepFlag) {
-		this->cmd = cmd;
-		this->pos = pos;
-		this->radii = radii;
-		this->xRotation = xRotation;
-		this->largeArcFlag = largeArcFlag;
-		this->sweepFlag = sweepFlag;
-	}
+	/** @brief Parameterized constructor for normal point */
+	PathPoint(char cmd, const Vector2D<float>& pos);
 
-	/** @brief Default constructor for quadratic bezier curve */
-	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen) {
-		this->cmd = cmd;
-		this->pos = pos;
-		this->cen[0] = cen;
-	}
+	/** @brief Parameterized constructor for arc point */
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> radii, float xRotation, bool largeArcFlag, bool sweepFlag);
 
-	/** @brief Default constructor for cubic quadratic bezier curve */
-	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen1, Vector2D<float> cen2) {
-		this->cmd = cmd;
-		this->pos = pos;
-		this->cen[0] = cen1;
-		this->cen[1] = cen2;
-	}
+	/** @brief Parameterized constructor for quadratic bezier curve */
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen);
 
-	void output() {
-		std::cout << "Cmd: " << cmd << '\n';
-		std::cout << "Pos: " << pos.x << ", " << pos.y << '\n';
-		std::cout << "Center point: "; 
-		for (int i = 0; i < 2; ++i)
-			std::cout << "(" << cen[i].x << ", " << cen[i].y << ") ";
-		std::cout << '\n';
-		std::cout << "radii: " << radii.x << ", " << radii.y << '\n';
-		std::cout << "x axis rotation: " << xRotation << '\n';
-		std::cout << "largeArcFlag = " << largeArcFlag << '\n' << "sweepFlag = " << sweepFlag << '\n';
-	}
+	/** @brief Parameterized constructor for cubic bezier curve */
+	PathPoint(char cmd, Vector2D<float> pos, Vector2D<float> cen1, Vector2D<float> cen2);
+
+	/** @brief Print information of a point */
+	void output();
 };
 
 class SVGPath : public Element{
 private:
 	std::vector<PathPoint> points;
+	FillRule fillRule;
 public:
 	/** @brief Default constructor for path */
 	SVGPath();
@@ -67,7 +44,7 @@ public:
 	 * @brief Parameterized constructor for path
 	 * @param points new vector of points
 	*/
-	SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint> &points);
+	SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint> &points, FillRule fillRule);
 
 
 	/**
@@ -88,6 +65,38 @@ public:
 	 * @note This function is override and does not change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
+
+	/*
+	 * @brief Set points for path
+	 * @param points new set of points for path
+	*/
+	void setPoints(const std::vector<PathPoint>& points); 
+
+	/*
+	* @brief Get points for path
+	* @note This function doesn't change any attributes
+	*/
+	std::vector<PathPoint> getPoints() const;
+
+	/*
+	* @brief Add a point to path
+	* @param point new point
+	*/
+	void addPoint(const PathPoint& point);
+
+	/*
+	* @brief Set fill rule for path
+	* @param fillRule new fill rule
+	*/
+	void setFillRule(FillRule fillRule);
+
+	/*
+	* @brief Get fill rule for path
+	* @return fill rule
+	* @note This function doesn't change any attributes
+	*/
+	FillRule getFillRule() const;
+
 };
 
 #endif //SVG_RENDERING_PATH_H

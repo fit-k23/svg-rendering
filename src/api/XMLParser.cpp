@@ -52,19 +52,26 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 		} else { // <-- Shape type, if not then pass ?
 			if (nodeName == "rect") {
 				v.push_back(new SVGRect(parseRect(pNode)));
-			} else if (nodeName == "ellipse") {
+			} 
+			else if (nodeName == "ellipse") {
 				v.push_back(new SVGEllipse(parseEllipse(pNode)));
-			} else if (nodeName == "circle") {
+			} 
+			else if (nodeName == "circle") {
 				v.push_back(new SVGCircle(parseCircle(pNode)));
-			} else if (nodeName == "line") {
+			} 
+			else if (nodeName == "line") {
 				v.push_back(new SVGLine(parseLine(pNode)));
-			} else if (nodeName == "polyline") {
+			} 
+			else if (nodeName == "polyline") {
 				v.push_back(new SVGPolyline(parsePolyline(pNode)));
-			} else if (nodeName == "polygon") {
+			} 
+			else if (nodeName == "polygon") {
 				v.push_back(new SVGPolygon(parsePolygon(pNode)));
-			} else if (nodeName == "text") {
+			} 
+			else if (nodeName == "text") {
 				v.push_back(new SVGText(parseText(pNode)));
-			} else if (nodeName == "path") {
+			} 
+			else if (nodeName == "path") {
 				v.push_back(new SVGPath(parsePath(pNode)));
 				v.back()->dbg();
 			}
@@ -203,13 +210,14 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
+	FillRule fillRule = (parseStringAttr(pNode, "fill-rule") == "nonzero" ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
 
 	std::vector<PathPoint> points;
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
 
 	auto isCmd = [](char c) -> bool {
 		char ch = tolower(c);
-		return ch == 'm' || ch == 'l' || c == 'h' || ch == 'v' || ch == 'z' || ch == 'c' || ch == 's' || ch == 'q' || ch == 't' || ch == 'a';
+		return ch == 'm' || ch == 'l' || ch == 'h' || ch == 'v' || ch == 'z' || ch == 'c' || ch == 's' || ch == 'q' || ch == 't' || ch == 'a';
 	};
 
 	auto getLastPos = [](const std::vector<PathPoint> &points) -> Vector2D<float> {
@@ -233,29 +241,28 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	std::stringstream buffer(d);
 
 	for (int i = 0; i < (int)cmd.size(); ++i) {
-		if (tolower(cmd[i]) == 'm' || tolower(cmd[i]) == 'l') {
+		char ins = tolower(cmd[i]);
+		if (ins == 'm' || ins == 'l') { // <-- move to and line command
 			float x, y;
 			buffer >> x >> y;
-			if (isupper(cmd[i]))
-				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y)));
-			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y)));
+			points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y) + (isupper(cmd[i]) ? Vector2D<float>(0, 0) : getLastPos(points))));
 		}
-		else if (tolower(cmd[i]) == 'h' || tolower(cmd[i]) == 'v') {
+		else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
 			buffer >> num;
-			if (tolower(cmd[i] == 'h')) 
+			if (ins == 'h')
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(cmd[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y)));
 			else 
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num)));
 		}
-		else if (tolower(cmd[i]) == 'q') { // <-- Quadratic Bezier Curve
+		else if (ins == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
 			buffer >> cenx >> ceny >> x >> y;
 			if (cmd[i] == 'Q')
 				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny)));
 			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y), getLastPos(points) + Vector2D<float>(cenx, ceny)));
 		}
-		else if (tolower(cmd[i]) == 'a') { // <-- Arc
+		else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
 			float xRotation;
 			bool largeArcFlag; 
@@ -264,7 +271,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y;
 			points.push_back(PathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 		}
-		else if (tolower(cmd[i]) == 'c') { // <-- Cubic Bezier Curve
+		else if (ins == 'c') { // <-- Cubic Bezier Curve
 			Vector2D<float> pos, cen[2]; 
 			buffer >> cen[0].x >> cen[0].y >> cen[1].x >> cen[1].y >> pos.x >> pos.y;
 			if (cmd[i] == 'C') points.push_back(PathPoint(cmd[i], pos, cen[0], cen[1]));
@@ -273,15 +280,19 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 				points.push_back(PathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
 			}
 		}
-		else if (tolower(cmd[i]) == 't') { // smooth quadratic bezier curve
+		else if (ins == 't') { // smooth quadratic bezier curve
 
 		}
-		else if (tolower(cmd[i]) == 's') { // smooth cubic bezier curve
+		else if (ins == 's') { // smooth cubic bezier curve
 
+		}
+		else if (ins == 'z') { // end current path
+			// No parameter in z command
+			points.push_back(PathPoint(cmd[i], getLastPos(points)));
 		}
 	}
 
-	return SVGPath(points[0].pos, fillColor, strokeColor, strokeWidth, points);
+	return SVGPath(points[0].pos, fillColor, strokeColor, strokeWidth, points, fillRule);
 }
 
 

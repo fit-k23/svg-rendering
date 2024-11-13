@@ -7,7 +7,7 @@ enum class TextAnchor : int{
 	END,
 };
 
-#include <gdiplus/gdiplusenums.h>
+//#include <gdiplus/gdiplusenums.h>
 
 class TextAnchorHelper{
 public:

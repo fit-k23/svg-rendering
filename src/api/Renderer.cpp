@@ -101,7 +101,6 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 		path.CloseFigure();
 		graphics.FillPath(&brush, &path);
 		graphics.DrawPath(&strokePen, &path);
-		Gdiplus::Pen pen(strokeColor, strokeWidth);
 	 }
 }
 
@@ -222,5 +221,45 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 
 /** @brief Draw path */
 void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
-	
+	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
+	float strokeWidth = element->getStrokeWidth();
+
+	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth); 
+	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+
+	std::vector<PathPoint> points = element->getPoints();
+
+	Vector2D<float> sta;
+	for (int i = 0; i < (int)points.size(); ++i) {
+		char ins = tolower(points[i].cmd);
+		Vector2D<float> pos = points[i].pos;
+		Vector2D<float> pre = (i > 0 ? points[i - 1].pos : Vector2D<float>());
+		if (ins == 'm') { // Move-to command
+			// Starting point of a path
+			sta = pos;
+		}
+		else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
+			if (ins == 'z') graphics.DrawLine(&pen, pos.x, pos.y, sta.x, sta.y);
+			else graphics.DrawLine(&pen, pre.x, pre.y, pos.x, pos.y);
+		}
+		else if (ins == 'a') { // Drawing arc
+			// TODO: draw arc
+			// TODO: calculate the bounding box of the arc
+			Vector2D<float> radii = points[i].radii;
+			float xRotation = points[i].xRotation;
+			bool largeArcFlag = points[i].largeArcFlag;
+			bool sweepFlag = points[i].sweepFlag;
+
+			// ellipse formula: x^2 / rx^2 + y^2 / ry^2 = 1
+
+			//graphics.DrawArc(&pen, )
+		}
+		else if (ins == 'q') { // Drawing Quadratic Bezier Curve
+
+		}
+		else if (ins == 'c') { // Drawing Cubic Bezier Curve
+
+		}
+	}
 }
