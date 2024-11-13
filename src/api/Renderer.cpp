@@ -224,6 +224,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
+	FillRule fillRule = element->getFillRule();
 
 	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth); 
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
@@ -231,17 +232,29 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	std::vector<PathPoint> points = element->getPoints();
 
 	Vector2D<float> sta;
+	Vector2D<float> cur;
+	Gdiplus::GraphicsPath path(fillRule == FillRule::NON_ZERO ? Gdiplus::FillModeWinding : Gdiplus::FillModeAlternate);
+
 	for (int i = 0; i < (int)points.size(); ++i) {
 		char ins = tolower(points[i].cmd);
 		Vector2D<float> pos = points[i].pos;
-		Vector2D<float> pre = (i > 0 ? points[i - 1].pos : Vector2D<float>());
 		if (ins == 'm') { // Move-to command
 			// Starting point of a path
 			sta = pos;
+			cur = pos;
+			path.StartFigure();
 		}
 		else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
-			if (ins == 'z') graphics.DrawLine(&pen, pos.x, pos.y, sta.x, sta.y);
-			else graphics.DrawLine(&pen, pre.x, pre.y, pos.x, pos.y);
+			if (ins == 'z') {
+				//graphics.DrawLine(&pen, pos.x, pos.y, sta.x, sta.y);
+				path.CloseFigure(); 
+				cur = sta;
+			}
+			else {
+				//graphics.DrawLine(&pen, pre.x, pre.y, pos.x, pos.y);
+				path.AddLine(cur.x, cur.y, pos.x, pos.y);
+				cur = pos;
+			}
 		}
 		else if (ins == 'a') { // Drawing arc
 			// TODO: draw arc
@@ -262,4 +275,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 
 		}
 	}
+
+	graphics.DrawPath(&pen, &path);
+	graphics.FillPath(&brush, &path);
 }

@@ -288,7 +288,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		}
 		else if (ins == 'z') { // end current path
 			// No parameter in z command
-			points.push_back(PathPoint(cmd[i], getLastPos(points)));
+			points.push_back(PathPoint(cmd[i], Vector2D<float>()));
 		}
 	}
 
