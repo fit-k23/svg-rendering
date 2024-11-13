@@ -229,15 +229,15 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth); 
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 
-	std::vector<PathPoint> points = element->getPoints();
+	std::vector<PathPoint *> points = element->getPoints();
 
 	Vector2D<float> sta;
 	Vector2D<float> cur;
 	Gdiplus::GraphicsPath path(fillRule == FillRule::NON_ZERO ? Gdiplus::FillModeWinding : Gdiplus::FillModeAlternate);
 
 	for (int i = 0; i < (int)points.size(); ++i) {
-		char ins = tolower(points[i].cmd);
-		Vector2D<float> pos = points[i].pos;
+		char ins = tolower(points[i]->getCMD());
+		Vector2D<float> pos = points[i]->getPos();
 		if (ins == 'm') { // Move-to command
 			// Starting point of a path
 			sta = pos;
@@ -259,10 +259,11 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 		else if (ins == 'a') { // Drawing arc
 			// TODO: draw arc
 			// TODO: calculate the bounding box of the arc
-			Vector2D<float> radii = points[i].radii;
-			float xRotation = points[i].xRotation;
-			bool largeArcFlag = points[i].largeArcFlag;
-			bool sweepFlag = points[i].sweepFlag;
+			ArcPathPoint* pArc = static_cast<ArcPathPoint*>(points[i]);
+			Vector2D<float> radii = pArc->getRadii();
+			float xRotation = pArc->getXRotation();
+			bool largeArcFlag = pArc->getLargeArcFlag();
+			bool sweepFlag = pArc->getSweepFlag();
 
 			// ellipse formula: x^2 / rx^2 + y^2 / ry^2 = 1
 

@@ -212,7 +212,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	FillRule fillRule = (parseStringAttr(pNode, "fill-rule") == "nonzero" ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
 
-	std::vector<PathPoint> points;
+	std::vector<PathPoint *> points;
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
 
 	auto isCmd = [](char c) -> bool {
@@ -220,9 +220,9 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		return ch == 'm' || ch == 'l' || ch == 'h' || ch == 'v' || ch == 'z' || ch == 'c' || ch == 's' || ch == 'q' || ch == 't' || ch == 'a';
 	};
 
-	auto getLastPos = [](const std::vector<PathPoint> &points) -> Vector2D<float> {
+	auto getLastPos = [](const std::vector<PathPoint *> &points) -> Vector2D<float> {
 		if (points.empty()) return Vector2D<float>(0.0f, 0.0f);
-		return points.back().pos;
+		return points.back()->getPos();
 	};
 
 	std::string cmd = "";
@@ -245,22 +245,27 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		if (ins == 'm' || ins == 'l') { // <-- move to and line command
 			float x, y;
 			buffer >> x >> y;
-			points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y) + (isupper(cmd[i]) ? Vector2D<float>(0, 0) : getLastPos(points))));
+			Vector2D<float> newPos = Vector2D<float>(x, y) + (isupper(cmd[i]) ? Vector2D<float>(0, 0) : getLastPos(points));
+			points.push_back(new NormPathPoint(cmd[i], newPos));
 		}
 		else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
 			buffer >> num;
-			if (ins == 'h')
-				points.push_back(PathPoint(cmd[i], Vector2D<float>(cmd[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y)));
-			else 
-				points.push_back(PathPoint(cmd[i], Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num)));
+			Vector2D<float> newPos;
+			if (ins == 'h') newPos = Vector2D<float>(cmd[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y);
+			else newPos = Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num);
+			points.push_back(new NormPathPoint(cmd[i], newPos));
 		}
 		else if (ins == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
 			buffer >> cenx >> ceny >> x >> y;
-			if (cmd[i] == 'Q')
-				points.push_back(PathPoint(cmd[i], Vector2D<float>(x, y), Vector2D<float>(cenx, ceny)));
-			else points.push_back(PathPoint(cmd[i], getLastPos(points) + Vector2D<float>(x, y), getLastPos(points) + Vector2D<float>(cenx, ceny)));
+			Vector2D<float> newPos = Vector2D<float>(x, y);
+			Vector2D<float> newCen = Vector2D<float>(cenx, ceny);
+			if (cmd[i] == 'q') {
+				newPos += getLastPos(points);
+				newCen += getLastPos(points);
+			}
+			points.push_back(new QuadPathPoint(cmd[i], newPos, newCen));
 		}
 		else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
@@ -269,15 +274,15 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			bool sweepFlag;
 			Vector2D<float> pos;
 			buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y;
-			points.push_back(PathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
+			points.push_back(new ArcPathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 		}
 		else if (ins == 'c') { // <-- Cubic Bezier Curve
 			Vector2D<float> pos, cen[2]; 
 			buffer >> cen[0].x >> cen[0].y >> cen[1].x >> cen[1].y >> pos.x >> pos.y;
-			if (cmd[i] == 'C') points.push_back(PathPoint(cmd[i], pos, cen[0], cen[1]));
+			if (cmd[i] == 'C') points.push_back(new CubicPathPoint(cmd[i], pos, cen[0], cen[1]));
 			else {
 				Vector2D<float> lastPos = getLastPos(points);
-				points.push_back(PathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
+				points.push_back(new CubicPathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
 			}
 		}
 		else if (ins == 't') { // smooth quadratic bezier curve
@@ -288,11 +293,11 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		}
 		else if (ins == 'z') { // end current path
 			// No parameter in z command
-			points.push_back(PathPoint(cmd[i], Vector2D<float>()));
+			points.push_back(new NormPathPoint(cmd[i], Vector2D<float>()));
 		}
 	}
 
-	return SVGPath(points[0].pos, fillColor, strokeColor, strokeWidth, points, fillRule);
+	return SVGPath(points[0]->getPos(), fillColor, strokeColor, strokeWidth, points, fillRule);
 }
 
 
