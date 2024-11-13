@@ -257,22 +257,29 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			}
 		}
 		else if (ins == 'a') { // Drawing arc
-			// TODO: draw arc
-			// TODO: calculate the bounding box of the arc
 			ArcPathPoint* pArc = static_cast<ArcPathPoint*>(points[i]);
 			Vector2D<float> radii = pArc->getRadii();
 			float xRotation = pArc->getXRotation();
 			bool largeArcFlag = pArc->getLargeArcFlag();
 			bool sweepFlag = pArc->getSweepFlag();
 
-			// ellipse formula: x^2 / rx^2 + y^2 / ry^2 = 1
-
-			//graphics.DrawArc(&pen, )
+			// TODO: do research on how to draw arc in svg path
 		}
 		else if (ins == 'q') { // Drawing Quadratic Bezier Curve
 
 		}
 		else if (ins == 'c') { // Drawing Cubic Bezier Curve
+			CubicPathPoint* pCubic = static_cast<CubicPathPoint*>(points[i]);
+			Vector2D<float> cen1 = pCubic->getCen(0);
+			Vector2D<float> cen2 = pCubic->getCen(1);
+			Gdiplus::Point curvePoints[4] = { Gdiplus::Point(cur.x, cur.y), Gdiplus::Point(cen1.x, cen1.y), Gdiplus::Point(cen2.x, cen2.y), Gdiplus::Point(pos.x, pos.y) };
+			path.AddBeziers(curvePoints, 4);
+			cur = pos;
+		}
+		else if (ins == 't') { // smooth quadratic bezier curve
+
+		}
+		else if (ins == 's') { // smooth cubic bezier curve
 
 		}
 	}
