@@ -14,6 +14,7 @@ public:
 	void setCen(const Vector2D<float> &cen);
 	Vector2D<float> getCen() const;
 	void output() const override;
+	std::string getPointType() const override;
 };
 
 #endif 

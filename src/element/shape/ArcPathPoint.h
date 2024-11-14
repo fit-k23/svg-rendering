@@ -23,6 +23,8 @@ public:
 	void setSweepFlag(bool sweepFlag);
 	bool getSweepFlag() const;
 	void output() const override;
+
+	std::string getPointType() const override;
 };
 
 #endif 

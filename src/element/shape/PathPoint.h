@@ -4,6 +4,7 @@
 #include "../utils/Vector2D.h"
 #include <vector>
 #include <algorithm>
+#include <cmath>
 #include <string>
 
 class PathPoint {
@@ -20,6 +21,8 @@ public:
 	void setPos(const Vector2D<float> &pos);
 	Vector2D<float> getPos() const;
 	virtual void output() const;
+
+	virtual std::string getPointType() const;
 };
 
 #endif // SVG_RENDERING_PATHPOINT_H

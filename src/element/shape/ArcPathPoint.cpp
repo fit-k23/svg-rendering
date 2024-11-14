@@ -30,3 +30,7 @@ void ArcPathPoint::output() const {
 	std::cout << "X-axis rotation: " << xRotation << '\n';
 	std::cout << "LargeArcFlag = " << largeArcFlag << '\n' << "SweepFlag = " << sweepFlag << '\n';
 }
+
+std::string ArcPathPoint::getPointType() const {
+	return "arc";
+}

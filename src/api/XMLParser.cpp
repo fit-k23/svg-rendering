@@ -33,12 +33,12 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 	viewPort.x = parseFloatAttr(pRoot, "width");
 	viewPort.y = parseFloatAttr(pRoot, "height");
 
-	std::cout << "Viewport x = " << viewPort.x << '\n';
-	std::cout << "Viewport y = " << viewPort.y << '\n';
+	//std::cout << "Viewport x = " << viewPort.x << '\n';
+	//std::cout << "Viewport y = " << viewPort.y << '\n';
 
 	// TODO: Add viewBox info from pRoot attribute (ViewBox.h not finished .-.)
 
-	// TODO: Traverse all elements
+	// Traverse all elements
 	rapidxml::xml_node<> *pNode = pRoot->first_node();
 	while (pNode != nullptr) {
 		std::string nodeName = pNode->name(); // <-- get node's name
@@ -66,10 +66,9 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 				v.push_back(new SVGText(parseText(pNode)));
 			} else if (nodeName == "path") {
 				v.push_back(new SVGPath(parsePath(pNode)));
-				v.back()->dbg();
+				//v.back()->dbg();
 			}
 		}
-		// TODO: break just for testing
 		pNode = pNode->next_sibling();
 	}
 }
@@ -218,47 +217,105 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		return points.back()->getPos();
 	};
 
-	std::string cmd = "";
-
-	// change all command and hyphens to blank space to use stringstream
+	// change all hyphens to blank space to use stringstream
 	for (int i = 0; i < (int)d.size(); ++i) {
-		if (isCmd(d[i])) {
-			cmd += d[i];
-			d[i] = ' ';
-		}
-		else if (d[i] == ',') d[i] = ' ';
+		if (d[i] == ',') d[i] = ' ';
 	}
 
-	std::cout << "cmd = " << cmd << '\n';
-	std::cout << "d after format: " << d << '\n';
-	std::stringstream buffer(d);
+	//std::cout << "d after format: " << d << '\n';
 
-	for (int i = 0; i < (int)cmd.size(); ++i) {
-		char ins = tolower(cmd[i]);
-		if (ins == 'm' || ins == 'l') { // <-- move to and line command
+	Vector2D<float> sta;
+	std::stringstream buffer;
+	std::string data;
+	for (int i = 0; i < (int)d.size(); ++i) {
+		if (!isCmd(d[i])) continue;
+		char ins = tolower(d[i]);
+		int nxt = -1;
+		int tmpI = i + 1;
+		data = "";
+		while (tmpI < (int)d.size()) {
+			if (isCmd(d[tmpI])) {
+				nxt = tmpI;
+				break;
+			}
+			data += d[tmpI];
+			++tmpI;
+		}
+		/*std::cout << "current cmd: " << d[i] << '\n';
+		std::cout << "data: " << data << '\n';
+		std::cout << "next command: " << (nxt == -1 ? '?' : d[nxt]) << '\n';
+		std::cout << "next command position: " << nxt << '\n';*/
+		buffer.clear();
+		buffer.str(data);
+		//std::stringstream buffer(data);
+		if (ins == 'm' || ins == 'l') { // <-- move-to and line command
 			float x, y;
-			buffer >> x >> y;
-			Vector2D<float> newPos = Vector2D<float>(x, y) + (isupper(cmd[i]) ? Vector2D<float>(0, 0) : getLastPos(points));
-			points.push_back(new NormPathPoint(cmd[i], newPos));
+			while (buffer >> x >> y) {
+				Vector2D<float> newPos = Vector2D<float>(x, y) + (isupper(d[i]) ? Vector2D<float>(0, 0) : getLastPos(points));
+				points.push_back(new NormPathPoint(d[i], newPos));
+				//std::cout << x << " " << y << '\n';
+				if (ins == 'm') sta = newPos;
+			}
 		}
 		else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
-			buffer >> num;
-			Vector2D<float> newPos;
-			if (ins == 'h') newPos = Vector2D<float>(cmd[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y);
-			else newPos = Vector2D<float>(getLastPos(points).x, cmd[i] == 'V' ? num : getLastPos(points).y + num);
-			points.push_back(new NormPathPoint(cmd[i], newPos));
+			while (buffer >> num) {
+				//std::cout << num << '\n';
+				Vector2D<float> newPos;
+				if (ins == 'h') newPos = Vector2D<float>(d[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y);
+				else newPos = Vector2D<float>(getLastPos(points).x, d[i] == 'V' ? num : getLastPos(points).y + num);
+				points.push_back(new NormPathPoint(d[i], newPos));
+			}
 		}
 		else if (ins == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
-			buffer >> cenx >> ceny >> x >> y;
-			Vector2D<float> newPos = Vector2D<float>(x, y);
-			Vector2D<float> newCen = Vector2D<float>(cenx, ceny);
-			if (cmd[i] == 'q') {
-				newPos += getLastPos(points);
-				newCen += getLastPos(points);
+			while (buffer >> cenx >> ceny >> x >> y) {
+				//std::cout << cenx << " " << ceny << " " << x << " " << y << '\n';
+				Vector2D<float> newPos = Vector2D<float>(x, y);
+				Vector2D<float> newCen = Vector2D<float>(cenx, ceny);
+				if (d[i] == 'q') {
+					newPos += getLastPos(points);
+					newCen += getLastPos(points);
+				}
+				points.push_back(new QuadPathPoint(d[i], newPos, newCen));
 			}
-			points.push_back(new QuadPathPoint(cmd[i], newPos, newCen));
+		}
+		else if (ins == 't') { // <-- reflection of previous quadratic bezier control's point
+			float x, y;
+			while (buffer >> x >> y) {
+				//std::cout << x << " " << y << '\n';
+				Vector2D<float> newPos = Vector2D<float>(x, y);
+				if (d[i] == 't') newPos += getLastPos(points);
+				Vector2D<float> cen;
+				// If previous command not a quadratic-type, the control point is the same as the current point
+				if (!points.empty() && points.back()->getPointType() != "quad") cen = points.back()->getPos();
+				else {
+					QuadPathPoint* pQuad = static_cast<QuadPathPoint*>(points.back());
+					// calculate new reflection control point
+					Vector2D<float> cen = pQuad->getPos() + (pQuad->getPos() - pQuad->getCen());
+				}
+				points.push_back(new QuadPathPoint(d[i], newPos, cen));
+			}
+		}
+		else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
+			float x, y, cen2x, cen2y;
+			while (buffer >> cen2x >> cen2y >> x >> y) {
+				//std::cout << cen2x << " " << cen2y << " " << x << " " << y << '\n';
+				Vector2D<float> newPos = Vector2D<float>(x, y);
+				Vector2D<float> cen2 = Vector2D<float>(cen2x, cen2y);
+				if (d[i] == 's') {
+					newPos += getLastPos(points);
+					cen2 += getLastPos(points);
+				}
+				Vector2D<float> cen1;
+				// If previous cmd not cubic-type, start control point is the same as the curve starting point (current point)
+				if (!points.empty() && points.back()->getPointType() != "cubic") cen1 = points.back()->getPos();
+				else { // <-- start control point is reflection of previous end control point and current point.
+					CubicPathPoint* pCubic = static_cast<CubicPathPoint*>(points.back()); // don't use points[i - 1]
+					cen1 = pCubic->getPos() + (pCubic->getPos() - pCubic->getCen(1));
+				}
+				points.push_back(new CubicPathPoint(d[i], newPos, cen1, cen2));
+			}
 		}
 		else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
@@ -266,28 +323,31 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			bool largeArcFlag; 
 			bool sweepFlag;
 			Vector2D<float> pos;
-			buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y;
-			points.push_back(new ArcPathPoint(cmd[i], (cmd[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
-		}
-		else if (ins == 'c') { // <-- Cubic Bezier Curve
-			Vector2D<float> pos, cen[2]; 
-			buffer >> cen[0].x >> cen[0].y >> cen[1].x >> cen[1].y >> pos.x >> pos.y;
-			if (cmd[i] == 'C') points.push_back(new CubicPathPoint(cmd[i], pos, cen[0], cen[1]));
-			else {
-				Vector2D<float> lastPos = getLastPos(points);
-				points.push_back(new CubicPathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
+			while (buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y) {
+				//std::cout << radii.x << " " << radii.y << " " << xRotation << " " << largeArcFlag << " " << sweepFlag << " " << pos.x << " " << pos.y << '\n';
+				points.push_back(new ArcPathPoint(d[i], (d[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 			}
 		}
-		else if (ins == 't') { // smooth quadratic bezier curve
-
-		}
-		else if (ins == 's') { // smooth cubic bezier curve
-
+		else if (ins == 'c') { // <-- Cubic Bezier Curve
+			Vector2D<float> pos;
+			float cen0x, cen0y, cen1x, cen1y, x;
+			while (buffer >> cen0x >> cen0y >> cen1x >> cen1y >> pos.x >> pos.y) {
+				//std::cout << cen0x << " " << cen0y << " " << cen1x << " " << cen1y << " " << pos.x << " " << pos.y << '\n';
+				if (d[i] == 'C') points.push_back(new CubicPathPoint(d[i], pos, Vector2D<float>(cen0x, cen0y), Vector2D<float>(cen1x, cen1y)));
+				else {
+					Vector2D<float> lastPos = getLastPos(points);
+					points.push_back(new CubicPathPoint(d[i], lastPos + pos, lastPos + Vector2D<float>(cen0x, cen0y), lastPos + Vector2D<float>(cen1x, cen1y)));
+				}
+			}
 		}
 		else if (ins == 'z') { // end current path
 			// No parameter in z command
-			points.push_back(new NormPathPoint(cmd[i], Vector2D<float>()));
+			// Current point goes back to the starting point
+			points.push_back(new NormPathPoint(d[i], sta));
 		}
+		if (nxt == -1) break;
+		i = nxt - 1; // go to position of next command
+		//std::cout << "i = " << i << '\n';
 	}
 
 	return SVGPath(points[0]->getPos(), fillColor, strokeColor, strokeWidth, points, fillRule);
