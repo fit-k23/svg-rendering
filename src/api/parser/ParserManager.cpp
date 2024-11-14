@@ -5,15 +5,8 @@
 
 std::map<std::string, IParser *> ParserManager::parsers;
 rapidxml::xml_document<> ParserManager::doc;
-ParserManager ParserManager::instance;
 
 ParserManager::ParserManager() = default;
-
-ParserManager &ParserManager::getInstance() { return instance; }
-
-ParserManager::~ParserManager() {
-	for (auto &parser : parsers) delete parser.second;
-}
 
 std::vector<Element *> ParserManager::parseFile(const std::string &fileName) {
 	std::ifstream fin(fileName.c_str());
@@ -64,4 +57,11 @@ void ParserManager::parseFile(const std::string &fileName, std::vector<Element *
 	doc.parse<0>(&svgData[0]); // <-- save in xml_document type
 
 	rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>
+}
+
+void ParserManager::free() {
+	for (auto &parser : parsers) {
+		delete parser.second;
+	}
+	parsers.clear();
 }
