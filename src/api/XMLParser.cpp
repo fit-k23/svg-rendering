@@ -33,12 +33,12 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 	viewPort.x = parseFloatAttr(pRoot, "width");
 	viewPort.y = parseFloatAttr(pRoot, "height");
 
-	std::cout << "Viewport x = " << viewPort.x << '\n';
-	std::cout << "Viewport y = " << viewPort.y << '\n';
+	//std::cout << "Viewport x = " << viewPort.x << '\n';
+	//std::cout << "Viewport y = " << viewPort.y << '\n';
 
 	// TODO: Add viewBox info from pRoot attribute (ViewBox.h not finished .-.)
 
-	// TODO: Traverse all elements
+	// Traverse all elements
 	rapidxml::xml_node<> *pNode = pRoot->first_node();
 	while (pNode != nullptr) {
 		std::string nodeName = pNode->name(); // <-- get node's name
@@ -73,10 +73,9 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			} 
 			else if (nodeName == "path") {
 				v.push_back(new SVGPath(parsePath(pNode)));
-				v.back()->dbg();
+				//v.back()->dbg();
 			}
 		}
-		// TODO: break just for testing
 		pNode = pNode->next_sibling();
 	}
 }
