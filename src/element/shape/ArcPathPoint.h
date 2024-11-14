@@ -72,6 +72,8 @@ public:
 	* @note This function overrides from PathPoint class
 	*/
 	void output() const override;
+
+	std::string getPointType() const override;
 };
 
 #endif 

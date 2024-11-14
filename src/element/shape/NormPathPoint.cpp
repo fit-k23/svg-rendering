@@ -7,3 +7,7 @@ NormPathPoint::NormPathPoint(char cmd, const Vector2D<float>& pos) : PathPoint(c
 NormPathPoint::NormPathPoint(const NormPathPoint& other) : PathPoint(other) {}
 
 void NormPathPoint::output() const { PathPoint::output(); }
+
+std::string NormPathPoint::getPointType() const {
+	return PathPoint::getPointType();
+}

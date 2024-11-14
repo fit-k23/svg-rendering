@@ -63,7 +63,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 500, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 1024, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
 	ShowWindow(hWnd, SW_SHOWNORMAL);

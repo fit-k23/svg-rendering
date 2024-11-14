@@ -44,6 +44,8 @@ public:
 	* @note This function overrides from PathPoint
 	*/
 	void output() const override;
+
+	std::string getPointType() const override;
 };
 
 #endif 

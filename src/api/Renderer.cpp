@@ -273,6 +273,46 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			bool sweepFlag = pArc->getSweepFlag();
 
 			// TODO: do research on how to draw arc in svg path
+			// get cos and sin rotation
+			float cosRotation = cos(xRotation);
+			float sinRotation = sin(xRotation);
+				
+			// applying rotation to endpoints
+			float x1p = cosRotation * (cur.x - pos.x) / 2.0f + sinRotation * (cur.y - pos.y) / 2.0f;
+			float y1p = -sinRotation * (cur.x - pos.x) / 2.0f + cosRotation * (cur.y - pos.y) / 2.0f;
+		
+			// calculate arc center point
+			float rxSq = radii.x * radii.x;
+			float rySq = radii.y * radii.y;
+			float x1pSq = x1p * x1p;
+			float y1pSq = y1p * y1p;
+
+			float radicant = ((rxSq * rySq) - (rxSq * y1pSq) - (rySq * x1pSq)) / ((rxSq * y1pSq) + (rySq * x1pSq));
+			radicant = radicant < 0 ? 0 : radicant;
+			float cFactor = (largeArcFlag != sweepFlag ? 1 : -1) * sqrt(radicant);
+
+			float cxp = cFactor * ((radii.x * y1p) / radii.y);
+			float cyp = cFactor * (-(radii.y * x1p) / radii.x);
+
+			// Convert center point back to original coordinate system
+			float cx = cosRotation * cxp - sinRotation * cyp + (cur.x + pos.x) / 2.0f;
+			float cy = sinRotation * cxp + cosRotation * cyp + (cur.y + pos.y) / 2.0f;
+
+			// Calculate start and sweep angles
+			float startAngle = atan2((y1p - cyp) / radii.y, (x1p - cxp) / radii.x);
+			float endAngle = atan2((-y1p - cyp) / radii.y, (-x1p - cxp) / radii.x);
+
+			float sweepAngle = endAngle - startAngle;
+			if (sweepFlag && sweepAngle < 0) sweepAngle += 2 * 3.14159265359f;
+			if (!sweepFlag && sweepAngle > 0) sweepAngle -= 2 * 3.14159265359f;
+
+			startAngle = startAngle * (180.0f / 3.14159265359f);
+			sweepAngle = sweepAngle * (180.0f / 3.14159265359f);
+
+			// Define bounding rectangle
+			Gdiplus::RectF rect(cx - radii.x, cy - radii.y, radii.x * 2.0f, radii.y * 2.0f);
+			path.AddArc(rect, startAngle, sweepAngle);
+			cur = pos;
 		}
 		else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
 			QuadPathPoint* pQuad = static_cast<QuadPathPoint*>(points[i]);
@@ -289,9 +329,6 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF(cen1.x, cen1.y), Gdiplus::PointF(cen2.x, cen2.y), Gdiplus::PointF(pos.x, pos.y) };
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
-		}
-		else if (ins == 's') { // smooth cubic bezier curve
-
 		}
 	}
 

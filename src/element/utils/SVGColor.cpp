@@ -12,31 +12,26 @@ SVGColor::SVGColor(std::string param) {
 	g = 0;
 	b = 0;
 	a = 0;
+	// #RRGGBB
 	if (param[0] == '#') {
-		for (int i = 1; i < 7; i++) {
+		bool correct = true;
+		for (int i = 1; i < (int)param.size(); i++) {
 			if (((param[i] >= '0' && param[i] <= '9') || (param[i] >= 'a' && param[i] <= 'f')) || (param[i] >= 'A' && param[i] <= 'F')) {
 				continue;
 			}
-			SVGColor();
+			correct = false;
 			std::cout << "Wrong string input to SVG Color \n";
-			return;
 		}
-		if (param.length() == 7) { // Assuming the format is #RRGGBB
+		if (correct) {
 			if (!param.substr(1, 2).empty())
 				r = std::stoi(param.substr(1, 2), nullptr, 16);
 			if (!param.substr(3, 2).empty())
 				g = std::stoi(param.substr(3, 2), nullptr, 16);
 			if (!param.substr(5, 2).empty())
 				b = std::stoi(param.substr(5, 2), nullptr, 16);
-		} else if (param.length() == 9) { // Assuming the format is #RRGGBBAA
-			if (!param.substr(1, 2).empty())
-				r = std::stoi(param.substr(1, 2), nullptr, 16);
-			if (!param.substr(3, 2).empty())
-				g = std::stoi(param.substr(3, 2), nullptr, 16);
-			if (!param.substr(5, 2).empty())
-				b = std::stoi(param.substr(5, 2), nullptr, 16);
-			if (!param.substr(7, 2).empty())
-				a = std::stoi(param.substr(7, 2), nullptr, 16);
+			if ((int)param.size() == 9) // Assuming the format is #RRGGBBAA
+				if (!param.substr(7, 2).empty())
+					a = std::stoi(param.substr(7, 2), nullptr, 16);
 		}
 	} else {
 		//Assuming the form of string input is rgb(r,g,b)
@@ -45,11 +40,9 @@ SVGColor::SVGColor(std::string param) {
 				if (!(param[i] >= '0' && param[i] <= '9') && param[i] != '.')
 					param[i] = ' ';
 			}
-			//std::cout << "Param after preprocess = " << param << '\n';
 			std::stringstream buffer(param);
 			float R, G, B;
 			buffer >> R >> G >> B;
-			//std::cout << "R G B = " << R << " " << G << " " << B << '\n';
 			r = (unsigned char) R;
 			g = (unsigned char) G;
 			b = (unsigned char) B;

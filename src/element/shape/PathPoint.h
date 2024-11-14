@@ -4,6 +4,7 @@
 #include "../utils/Vector2D.h"
 #include <vector>
 #include <algorithm>
+#include <cmath>
 #include <string>
 
 /*
@@ -61,6 +62,8 @@ public:
 	* @note This function can be overrided to print different types of points
 	*/
 	virtual void output() const;
+
+	virtual std::string getPointType() const;
 };
 
 #endif // SVG_RENDERING_PATHPOINT_H

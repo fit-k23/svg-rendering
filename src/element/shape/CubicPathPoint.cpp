@@ -35,3 +35,7 @@ void CubicPathPoint::output() const {
 		std::cout << "(" << cen[i].x << ", " << cen[i].y << ") ";
 	std::cout << '\n';
 }
+
+std::string CubicPathPoint::getPointType() const {
+	return "cubic";
+}

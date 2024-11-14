@@ -16,3 +16,7 @@ void QuadPathPoint::output() const {
 	PathPoint::output();
 	std::cout << "Center point: " << cen.x << ", " << cen.y << '\n';
 }
+
+std::string QuadPathPoint::getPointType() const {
+	return "quad";
+}
