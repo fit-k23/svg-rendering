@@ -2,7 +2,7 @@
 #include "ParserManager.h"
 
 SVGColor ColorParser::parse(rapidxml::xml_node<> *pNode, const std::string &attributeName) {
-	TParser<float> *floatParser = ParserManager::getInstance().getParser<float>("float");
+	TParser<float> *floatParser = ParserManager::getParser<float>("float");
 	if (floatParser == nullptr) return SVG_BLANK;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attributeName.c_str());
 	if (pAttr == nullptr) { // <-- can't find any attribute named attributeName
