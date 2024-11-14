@@ -193,26 +193,19 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
 
+//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
+//	Gdiplus::FontFamily fontFamily(L"Arial");
 	Gdiplus::FontFamily fontFamily(L"Times New Roman");
-	Gdiplus::Font font(&fontFamily, fontSize - 13); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
-//	Gdiplus::Font font(&fontFamily, fontSize); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
+	Gdiplus::Font font(&fontFamily, fontSize, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
 
-//	Gdiplus::RectF layoutRect;
-//	Gdiplus::StringFormat format;
-//	format.SetAlignment(TextAnchorHelper::getStringAlignment(element->getTextAnchor()));
-//	Gdiplus::RectF boundRect;
-//	// Measure the string.
-//	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundRect);
-//
-////	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
 	Vector2D<float> actualPosition = element->getPosition();
+	Gdiplus::SolidBrush solidBrush(fillColor);
 
-	Gdiplus::StringFormat format;
 	Gdiplus::RectF boundingBox;
 
-	// Measure the text width
+	// Measure the text widthformat
 	Gdiplus::RectF layoutRect;
-	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundingBox);
+	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, Gdiplus::StringFormat::GenericTypographic(), &boundingBox);
 	float textWidth = boundingBox.Width;
 	float x = actualPosition.x;
 	if (element->getTextAnchor() == TextAnchor::MIDDLE) {
@@ -220,14 +213,23 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	} else if (element->getTextAnchor() == TextAnchor::END) {
 		x -= textWidth;
 	}
-	boundingBox.X = x;
-	boundingBox.Y = actualPosition.y;
-	Gdiplus::SolidBrush solidBrush(fillColor);
 
-	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, actualPosition.y), &format, &solidBrush);
+	// TODO: Research to https://learn.microsoft.com/en-us/dotnet/api/system.drawing.fontfamily.getemheight?view=windowsdesktop-8.0
+//	float padding = fontFamily.GetEmHeight(Gdiplus::FontStyleRegular) / font.GetSize() / 6.0;
+	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0 + 0.5;
+	actualPosition.y -= boundingBox.Height;
+	actualPosition.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em but I don't bother to fix it :l
+	boundingBox.X = x;
+	boundingBox.Y = actualPosition.y + padding;
+	boundingBox.Height -= padding * 2;
+
 	Gdiplus::Pen pen({255, 0, 0, 0});
-	graphics.DrawEllipse(&pen, x, actualPosition.y, 3.0f, 3.0f);
+//	graphics.DrawLine(&pen, x + 30, actualPosition.y, x + 30, actualPosition.y + size);
+	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
+	pen.SetColor(SVG_BLUE.alpha(200));
+	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
 	graphics.DrawRectangle(&pen, boundingBox);
+	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, actualPosition.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
 }
 
 /** @brief Draw path */
@@ -256,12 +258,14 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			path.StartFigure();
 		}
 		else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
-			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point
+			if (ins == 'z') {
+				//graphics.DrawLine(&pen, pos.x, pos.y, sta.x, sta.y);
 				path.CloseFigure();
 				cur = sta;
 			}
 			else {
-				path.AddLine(cur.x, cur.y, pos.x, pos.y); // <-- Add a line from previous point to current point
+				//graphics.DrawLine(&pen, pre.x, pre.y, pos.x, pos.y);
+				path.AddLine(cur.x, cur.y, pos.x, pos.y);
 				cur = pos;
 			}
 		}
@@ -274,21 +278,19 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 
 			// TODO: do research on how to draw arc in svg path
 		}
-		else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
-			QuadPathPoint* pQuad = static_cast<QuadPathPoint*>(points[i]);
-			Vector2D<float> cen = pQuad->getCen();
-			// normal quadratic bezier curve
-			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF(pos.x, pos.y)};
-			path.AddBeziers(curvePoints, 4);
-			cur = pos;
+		else if (ins == 'q') { // Drawing Quadratic Bezier Curve
+
 		}
-		else if (ins == 'c' || ins == 's') { // Drawing Cubic Bezier Curve
+		else if (ins == 'c') { // Drawing Cubic Bezier Curve
 			CubicPathPoint* pCubic = static_cast<CubicPathPoint*>(points[i]);
 			Vector2D<float> cen1 = pCubic->getCen(0);
 			Vector2D<float> cen2 = pCubic->getCen(1);
-			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF(cen1.x, cen1.y), Gdiplus::PointF(cen2.x, cen2.y), Gdiplus::PointF(pos.x, pos.y) };
+			Gdiplus::Point curvePoints[4] = { Gdiplus::Point(cur.x, cur.y), Gdiplus::Point(cen1.x, cen1.y), Gdiplus::Point(cen2.x, cen2.y), Gdiplus::Point(pos.x, pos.y) };
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
+		}
+		else if (ins == 't') { // smooth quadratic bezier curve
+
 		}
 		else if (ins == 's') { // smooth cubic bezier curve
 

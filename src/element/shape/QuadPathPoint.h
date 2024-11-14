@@ -9,8 +9,8 @@ private:
 public:
 	QuadPathPoint();
 	QuadPathPoint(char cmd, const Vector2D<float> &pos);
-	QuadPathPoint(char cmd, const Vector2D<float>& pos, const Vector2D<float>& cen);
-	QuadPathPoint(const QuadPathPoint& other);
+	QuadPathPoint(char cmd, const Vector2D<float> &pos, const Vector2D<float> &cen);
+	QuadPathPoint(const QuadPathPoint &other);
 	void setCen(const Vector2D<float> &cen);
 	Vector2D<float> getCen() const;
 	void output() const override;

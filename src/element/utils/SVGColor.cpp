@@ -62,9 +62,10 @@ SVGColor::SVGColor(std::string param) {
 				r = lc.r;
 				g = lc.g;
 				b = lc.b;
-				a = 255;
+				a = lc.a;
+			} else {
+				std::cout << "String input does not start with '#' nor supported\n";
 			}
-			std::cout << "String input does not start with '#' nor supported\n";
 		}
 	}
 }

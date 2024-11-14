@@ -4,13 +4,16 @@
 
 #include <gdiplus.h>
 #include "api/XMLParser.h"
+#include "api/Camera.h"
 #include "api/Renderer.h"
 #include "api/Graphic.h"
+#include "api/FileManager.h"
 #include "api/parser/ParserManager.h"
 #include "api/parser/ParserHInit.h"
 
 #define APPLICATION_CLASS_NAME "SVGRendering-Group11"
 #define APPLICATION_TITLE_NAME "SVG Renderer"
+
 
 void ProjectInit() {
 	ParserManager::registerParser("svg", new SVGParser);
@@ -35,8 +38,15 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
-	Renderer render = Renderer(parser.getViewPort(), v, {800, 700});
-//	graphics.ScaleTransform(0.5, .5);
+	float centerX = GetSystemMetrics(SM_CXSCREEN) / 2.0f;
+	float centerY = GetSystemMetrics(SM_CYSCREEN) / 2.0f;
+
+	Renderer render = Renderer(parser.getViewPort(), v, {2 * centerX, 2 * centerY});
+
+	graphics.TranslateTransform(centerX, centerY);
+	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
+	graphics.RotateTransform(Camera::rotation);
+	graphics.TranslateTransform(-centerX, -centerY);
 	render.draw(graphics);
 }
 
@@ -93,7 +103,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			::GetClientRect(hWnd, &rect);
 
 			int width = rect.right - rect.left;
-			int height = rect.right - rect.left;
+			int height = rect.bottom - rect.top;
 
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			HBITMAP hbmMem = CreateCompatibleBitmap(hdc, width, height);
@@ -105,36 +115,51 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			FillRect(hdcMem, &rect, hBrush);
 
 			// Draw into hdcMem here
+//			ProjectDraw(hdcMem, "asset/text_anchor.svg");
 			ProjectDraw(hdcMem, "sample.svg");
 			// Transfer the off-screen DC to the screen
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hOld);
+
 			DeleteObject(hBrush);
-
-			// Free-up the off-screen DC
-
 			DeleteObject(hbmMem);
 			DeleteDC(hdcMem);
 			EndPaint(hWnd, &ps);
 			return 0;
 		}
-//		case WM_ERASEBKGND:
-//			return 1;
+		case WM_ERASEBKGND:
+			return 1;
 		case WM_KEYDOWN: {
-			std::string tmp = "start cmd /k echo \"";
-			tmp += static_cast<char>(wParam);
-			tmp += "\"";
-			if (static_cast<char>(wParam) == 'R') {
-				RECT rect;
-				::GetClientRect(hWnd, &rect);
-				//				::RedrawWindow(hWnd, &rect, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN);
-				::RedrawWindow(hWnd, &rect, nullptr, RDW_INVALIDATE | RDW_NOERASE | RDW_NOFRAME | RDW_UPDATENOW);
-				//				InvalidateRect(hWnd, nullptr, TRUE);
+			switch (static_cast<char>(wParam)) {
+				case 'R': {
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case 'W': {
+					Camera::zoom += 0.05;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case 'S': {
+					Camera::zoom -= 0.05;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case 'A': {
+					Camera::rotation += 1;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case 'D': {
+					Camera::rotation -= 1;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				default: {
+
+				}
 			}
-//			else {
-//				system(tmp.c_str());
-//			}
 			return 0;
 		}
 		case WM_DESTROY:

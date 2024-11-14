@@ -1,15 +1,10 @@
 #include "QuadPathPoint.h"
 
-QuadPathPoint::QuadPathPoint() : PathPoint(), cen(Vector2D<float>()) {}
-
-QuadPathPoint::QuadPathPoint(char cmd, const Vector2D<float>& pos) : PathPoint(cmd, pos), cen(Vector2D<float>()) {}
-
-QuadPathPoint::QuadPathPoint(char cmd, const Vector2D<float>& pos, const Vector2D<float>& cen) : PathPoint(cmd, pos), cen(cen) {}
-
-QuadPathPoint::QuadPathPoint(const QuadPathPoint& other) : PathPoint(other), cen(other.cen) {}
-
-void QuadPathPoint::setCen(const Vector2D<float>& cen) { this->cen = cen; }
-
+QuadPathPoint::QuadPathPoint() : PathPoint(), cen{} {}
+QuadPathPoint::QuadPathPoint(char _cmd, const Vector2D<float> &_pos) : PathPoint(_cmd, _pos), cen{} {}
+QuadPathPoint::QuadPathPoint(char _cmd, const Vector2D<float> &_pos, const Vector2D<float> &_cen) : PathPoint(_cmd, _pos), cen(_cen) {}
+QuadPathPoint::QuadPathPoint(const QuadPathPoint &other) : PathPoint(other), cen(other.cen) {}
+void QuadPathPoint::setCen(const Vector2D<float> &_cen) { cen = _cen; }
 Vector2D<float> QuadPathPoint::getCen() const { return cen; }
 
 void QuadPathPoint::output() const {

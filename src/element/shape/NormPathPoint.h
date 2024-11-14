@@ -4,12 +4,10 @@
 #include "PathPoint.h"
 
 class NormPathPoint : public PathPoint {
-private:
-
 public:
 	NormPathPoint(); 
 	NormPathPoint(char cmd, const Vector2D<float> &pos);
-	NormPathPoint(const NormPathPoint& other);
+	NormPathPoint(const NormPathPoint &other);
 	void output() const override;
 };
 

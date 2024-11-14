@@ -1,0 +1,19 @@
+<svg viewBox="0 0 120 300" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="120" height="300" fill="white" />
+
+  <!-- Anchors in action -->
+  <text text-anchor="start" x="60" y="40" font-size="30">A</text>
+  <text text-anchor="middle" x="60" y="75" font-size="30">A</text>
+  <text text-anchor="end" x="60" y="110" font-size="30">A</text>
+  <text x="60" y="200" font-size="30">AAAAA</text>
+
+  <line x1="20" y1="40" x2="100" y2="40" stroke="red" stroke-width="1" />
+  <line x1="20" y1="75" x2="100" y2="75" stroke="red" stroke-width="1" />
+  <line x1="20" y1="110" x2="100" y2="110" stroke="red" stroke-width="1" />
+  <line x1="20" y1="200" x2="100" y2="200" stroke="red" stroke-width="1" />
+
+  <!-- Materialization of anchors -->
+  <circle cx="60" cy="40" r="2" fill="red" />
+  <circle cx="60" cy="75" r="2" fill="red" />
+  <circle cx="60" cy="110" r="2" fill="red" />
+</svg>

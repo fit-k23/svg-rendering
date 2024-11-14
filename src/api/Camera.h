@@ -1,7 +1,11 @@
 #ifndef SVG_RENDERING_CAMERA_H
 #define SVG_RENDERING_CAMERA_H
 
-struct Camera{
+#include "../element/utils/Vector2D.h"
+
+class Camera{
+public:
+	static Vector2D<float> position;
 	static float rotation;
 	static float zoom;
 };
