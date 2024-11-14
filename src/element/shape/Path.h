@@ -19,6 +19,9 @@ public:
 	*/
 	SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint *> &points, FillRule fillRule);
 
+	/*
+	* @brief Destructor to deallocate memory (PathPoint)
+	*/
 	~SVGPath();
 
 	/**

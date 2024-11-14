@@ -242,7 +242,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 
 	for (int i = 0; i < (int)cmd.size(); ++i) {
 		char ins = tolower(cmd[i]);
-		if (ins == 'm' || ins == 'l') { // <-- move to and line command
+		if (ins == 'm' || ins == 'l') { // <-- move-to and line command
 			float x, y;
 			buffer >> x >> y;
 			Vector2D<float> newPos = Vector2D<float>(x, y) + (isupper(cmd[i]) ? Vector2D<float>(0, 0) : getLastPos(points));
@@ -267,6 +267,29 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			}
 			points.push_back(new QuadPathPoint(cmd[i], newPos, newCen));
 		}
+		else if (ins == 't') { // <-- reflection of previous quadratic bezier control's point
+			float x, y;
+			buffer >> x >> y;
+			Vector2D<float> newPos = Vector2D<float>(x, y);
+			if (cmd[i] == 't') newPos += getLastPos(points);
+			QuadPathPoint* pQuad = static_cast<QuadPathPoint*>(points[i - 1]);
+			// calculate new reflection control point
+			Vector2D<float> cen = pQuad->getPos() + (pQuad->getPos() - pQuad->getCen());
+			points.push_back(new QuadPathPoint(cmd[i], newPos, cen));
+		}
+		else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
+			float x, y, cen2x, cen2y;
+			buffer >> cen2x >> cen2y >> x >> y;
+			Vector2D<float> newPos = Vector2D<float>(x, y);
+			Vector2D<float> cen2 = Vector2D<float>(cen2x, cen2y);
+			if (cmd[i] == 's') {
+				newPos += getLastPos(points);
+				cen2 += getLastPos(points);
+			}
+			CubicPathPoint* pCubic = static_cast<CubicPathPoint*>(points[i - 1]);
+			Vector2D<float> cen1 = pCubic->getPos() + (pCubic->getPos() - pCubic->getCen(0));
+			points.push_back(new CubicPathPoint(cmd[i], newPos, cen1, cen2));
+		}
 		else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
 			float xRotation;
@@ -284,9 +307,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 				Vector2D<float> lastPos = getLastPos(points);
 				points.push_back(new CubicPathPoint(cmd[i], lastPos + pos, lastPos + cen[0], lastPos + cen[1]));
 			}
-		}
-		else if (ins == 't') { // smooth quadratic bezier curve
-
 		}
 		else if (ins == 's') { // smooth cubic bezier curve
 

@@ -22,8 +22,27 @@
   <path d="M 70 70 h 80 v 80 h -80 Z" fill="transparent" stroke-width="2" stroke="red" />
   <!--<path d="M120,60 A 30,30 0 0,0 150,110" stroke="#FFA500" stroke-width="1" fill="none" />
   <path d="M120,60 A 30,30 0 1 0 150,110" stroke="#FF0000" stroke-width="1" fill="none" />-->
-  <path d="M 10 100 Q 25 10 180 100" stroke="black" stroke-width="1" fill="transparent" />
+  <!--<path d="M 10 100 Q 25 10 180 100" stroke="black" stroke-width="1" fill="aqua" />
+  <path d="M 10 100 Q 25 10 180 100 T 350 100 T 520 100 T 690 100" stroke="black" stroke-width="3" fill="none" />
+  <path d="M 10 100 Q 25 10 180 100 T 250 100 T 320 100 T 390 100" stroke="#FFA500" stroke-width="3" fill="none" />
+  <path d="M 10 200 Q 25 110 180 200 T 300 250 T 420 250 T 490 150" stroke="grey" stroke-width="3" fill="none" />
   <path d="M 100 250 C 150 60 355 140 328 260 " stroke="black" stroke-width="3" fill="none" />
-  <path d="M 100 250 C 40 500 240 510 328 260" stroke="red" stroke-width="3" fill="none" />
+  <path d="M 100 250 C 40 500 240 510 328 260" stroke="red" stroke-width="3" fill="none" />-->
+  <!--body 1 path-->
+  <path d="M 100 250 C 150 60 355 140 328 260 C 240 510 40 500 100 250" fill="none" stroke="black" stroke-width="3" />
+  <!--wing-->
+  <path d="M 110 260 C 220 200, 250 280, 120 410" fill="none" stroke="black" stroke-width="3"/>
+  <!--1 eyebrow-->
+  <path d="M 110 240 C 130 220, 220 130, 231 230" fill="none" stroke="black" stroke-width="3"/>
+  <!--2 eyebrow-->
+  <path d="M 231 231 C 230 220, 280 130, 329 258" fill="none" stroke="black" stroke-width="3"/>
+  <!--line-->
+  <path d="M 30 380 l 63 0" fill="none" stroke="black" stroke-width="3"/>
+  <path d="M 266 380 c 33 8 63 -8 90 5" fill="none" stroke="black" stroke-width="3" />
+  <!--eyes-->
+  <circle cx="204" cy="209" r="3" fill="none" stroke="black" stroke-width="3" />
+  <circle cx="205" cy="210" r="9" fill="none" stroke="black" stroke-width="3" />
+  <circle cx="265" cy="209" r="3" fill="none" stroke="black" stroke-width="3" />
+  <circle cx="265" cy="210" r="8" fill="none" stroke="black" stroke-width="3" />
 </svg>
  
