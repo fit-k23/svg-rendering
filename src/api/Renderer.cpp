@@ -263,8 +263,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 				cur = sta;
 			}
 			else {
-				//graphics.DrawLine(&pen, pre.x, pre.y, pos.x, pos.y);
-				path.AddLine(cur.x, cur.y, pos.x, pos.y);
+				path.AddLine(cur.x, cur.y, pos.x, pos.y); // <-- Add a line from previous point to current point
 				cur = pos;
 			}
 		}
@@ -317,22 +316,21 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			path.AddArc(rect, startAngle, sweepAngle);
 			cur = pos;
 		}
-		else if (ins == 'q') { // Drawing Quadratic Bezier Curve
-
-		}
-		else if (ins == 'c') { // Drawing Cubic Bezier Curve
-			CubicPathPoint* pCubic = static_cast<CubicPathPoint*>(points[i]);
-			Vector2D<float> cen1 = pCubic->getCen(0);
-			Vector2D<float> cen2 = pCubic->getCen(1);
-			Gdiplus::Point curvePoints[4] = { Gdiplus::Point(cur.x, cur.y), Gdiplus::Point(cen1.x, cen1.y), Gdiplus::Point(cen2.x, cen2.y), Gdiplus::Point(pos.x, pos.y) };
+		else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
+			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(points[i]);
+			Vector2D<float> cen = pQuad->getCen();
+			// normal quadratic bezier curve
+			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF(pos.x, pos.y)};
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
 		}
-		else if (ins == 't') { // smooth quadratic bezier curve
-
-		}
-		else if (ins == 's') { // smooth cubic bezier curve
-
+		else if (ins == 'c' || ins == 's') { // Drawing Cubic Bezier Curve
+			CubicPathPoint *pCubic = static_cast<CubicPathPoint *>(points[i]);
+			Vector2D<float> cen1 = pCubic->getCen(0);
+			Vector2D<float> cen2 = pCubic->getCen(1);
+			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF(cen1.x, cen1.y), Gdiplus::PointF(cen2.x, cen2.y), Gdiplus::PointF(pos.x, pos.y) };
+			path.AddBeziers(curvePoints, 4);
+			cur = pos;
 		}
 	}
 

@@ -198,6 +198,7 @@ SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
 	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize, TextAnchorHelper::fromName(textAnchor)};
 }
 
+
 SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
@@ -320,7 +321,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 		else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
 			float xRotation;
-			bool largeArcFlag; 
+			bool largeArcFlag;
 			bool sweepFlag;
 			Vector2D<float> pos;
 			while (buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y) {
@@ -352,7 +353,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 
 	return SVGPath(points[0]->getPos(), fillColor, strokeColor, strokeWidth, points, fillRule);
 }
-
 
 /**
  * @brief Get the float value of specific attribute
