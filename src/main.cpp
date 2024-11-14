@@ -13,14 +13,19 @@
 #define APPLICATION_TITLE_NAME "SVG Renderer"
 
 void ProjectInit() {
-	ParserManager::getInstance().registerParser("float", new FloatParser());
-	ParserManager::getInstance().registerParser("color", new ColorParser());
-	ParserManager::getInstance().registerParser("string", new StringParser());
+	ParserManager::registerParser("svg", new SVGParser);
+	ParserManager::registerParser("float", new FloatParser);
+	ParserManager::registerParser("color", new ColorParser);
+	ParserManager::registerParser("string", new StringParser);
+}
+
+void ProjectDeInit() {
+	ParserManager::free();
 }
 
 void ProjectDraw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
-	std::vector<Element*> v;
+	std::vector<Element *> v;
 	XMLParser parser;
 	parser.traverseXML(fileName, v);
 
@@ -38,7 +43,6 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int main() {
-	HWND hWnd;
 	MSG msg;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
@@ -59,7 +63,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 500, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 500, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
 	ShowWindow(hWnd, SW_SHOWNORMAL);
@@ -76,13 +80,11 @@ int main() {
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	HDC hdc;
 	PAINTSTRUCT ps;
 
 	switch (message) {
 		case WM_PAINT: {
-			hdc = BeginPaint(hWnd, &ps);
-
+			HDC hdc = BeginPaint(hWnd, &ps);
 			// To have a debug terminal in visual studio (bruh)
 			//AllocConsole();
 			//freopen("CONOUT$", "w", stdout);
@@ -113,7 +115,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			// Free-up the off-screen DC
 
 			DeleteObject(hbmMem);
-			DeleteDC (hdcMem);
+			DeleteDC(hdcMem);
 			EndPaint(hWnd, &ps);
 			return 0;
 		}
@@ -126,12 +128,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			if (static_cast<char>(wParam) == 'R') {
 				RECT rect;
 				::GetClientRect(hWnd, &rect);
-//				::RedrawWindow(hWnd, &rect, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN);
+				//				::RedrawWindow(hWnd, &rect, nullptr, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN);
 				::RedrawWindow(hWnd, &rect, nullptr, RDW_INVALIDATE | RDW_NOERASE | RDW_NOFRAME | RDW_UPDATENOW);
-//				InvalidateRect(hWnd, nullptr, TRUE);
-			} else {
-				system(tmp.c_str());
+				//				InvalidateRect(hWnd, nullptr, TRUE);
 			}
+//			else {
+//				system(tmp.c_str());
+//			}
 			return 0;
 		}
 		case WM_DESTROY:

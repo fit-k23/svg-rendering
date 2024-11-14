@@ -7,8 +7,8 @@
 #include "../utils/Vector2D.h"
 
 class SVGEllipse : public Element{
-private:
 	Vector2D<float> radii;
+
 public:
 	/** @brief Default Constructor */
 	SVGEllipse();
@@ -24,7 +24,6 @@ public:
 
 	/** @brief print all data of SVGEllipse */
 	void dbg() override;
-
 
 	/**
 	 * @brief Get bounding box of SVGEllipse

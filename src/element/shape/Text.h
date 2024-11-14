@@ -26,7 +26,7 @@ public:
 	SVGText();
 
 	/** @brief Parameterized constructor */
-	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize);
+	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, TextAnchor textAnchor = TextAnchor::START);
 
 	/** @brief Get type Text */
 	ElementType getTypeName() override;

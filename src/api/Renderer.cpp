@@ -1,7 +1,7 @@
 #include "Renderer.h"
 
 /** @brief Default constructor */
-Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>{}} {
+Renderer::Renderer() : screenSize{}, viewPort{Vector2D < float > {}} {
 	shapes.clear();
 }
 
@@ -9,9 +9,8 @@ Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>{}} {
  * @brief Parameterized constructor
  * @param vector of pointers to Element abstract type
 */
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{viewPort} {}
-
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element*> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
+Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{_viewPort} {}
+Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
 
 /**
  * @brief Destructor
@@ -22,44 +21,43 @@ Renderer::~Renderer() {
 }
 
 /** @brief Traverse and draw all elements */
-void Renderer::draw(Gdiplus::Graphics& graphics) {
+void Renderer::draw(Gdiplus::Graphics &graphics) {
 	for (auto &shape: shapes) {
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
-				drawRect(graphics, static_cast<SVGRect*>(shape));
-				//shape->dbg();
+				drawRect(graphics, static_cast<SVGRect *>(shape));
 				break;
 			}
 			case ElementType::Ellipse: {
-				drawEllipse(graphics, static_cast<SVGEllipse*>(shape));
+				drawEllipse(graphics, static_cast<SVGEllipse *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Circle: {
-				drawCircle(graphics, static_cast<SVGCircle*>(shape));
+				drawCircle(graphics, static_cast<SVGCircle *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Line: {
-				drawLine(graphics, static_cast<SVGLine*>(shape));
+				drawLine(graphics, static_cast<SVGLine *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Polyline: {
-				drawPolyline(graphics, static_cast<SVGPolyline*>(shape));
+				drawPolyline(graphics, static_cast<SVGPolyline *>(shape));
 				break;
 			}
 			case ElementType::Polygon: {
-				drawPolygon(graphics, static_cast<SVGPolygon*>(shape));
+				drawPolygon(graphics, static_cast<SVGPolygon *>(shape));
 				break;
 			}
 			case ElementType::Text: {
-				drawText(graphics, static_cast<SVGText*>(shape));
+				drawText(graphics, static_cast<SVGText *>(shape));
 				//shape->dbg();
 				break;
 			}
 			case ElementType::Path: {
-				drawPath(graphics, static_cast<SVGPath*>(shape));
+				drawPath(graphics, static_cast<SVGPath *>(shape));
 				break;
 			}
 			default:
@@ -101,6 +99,7 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 		path.CloseFigure();
 		graphics.FillPath(&brush, &path);
 		graphics.DrawPath(&strokePen, &path);
+		Gdiplus::Pen pen(strokeColor, strokeWidth);
 	 }
 }
 
@@ -141,11 +140,11 @@ void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 }
 
 /** @brief Draw polyline */
-void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
+void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	std::vector<Vector2D<float>> points = element->getPoints();
+	std::vector<Vector2D < float>> points = element->getPoints();
 
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
@@ -154,7 +153,7 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline* element) {
 	// Draw multiple offset lines to create a filled effect (default: winding mode)
 	Gdiplus::GraphicsPath path(Gdiplus::FillModeWinding);
 	path.StartFigure();
-	for (int i = 0; i + 1 < (int)points.size(); ++i) {
+	for (int i = 0; i + 1 < (int) points.size(); ++i) {
 		path.AddLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
 	}
 	graphics.FillPath(&brush, &path);
@@ -168,16 +167,16 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	float strokeWidth = element->getStrokeWidth();
 	std::vector<Vector2D<float>> points = element->getPoints();
 
-	Gdiplus::Point* pointsArr = new Gdiplus::Point[(int)points.size()];
-	for (int i = 0; i < (int)points.size(); ++i)
+	Gdiplus::Point *pointsArr = new Gdiplus::Point[(int) points.size()];
+	for (int i = 0; i < (int) points.size(); ++i)
 		pointsArr[i] = Gdiplus::Point(points[i].x, points[i].y);
 
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
 	// Fill the polygon
-	graphics.FillPolygon(&brush, pointsArr, (int)points.size(), Gdiplus::FillModeWinding);
+	graphics.FillPolygon(&brush, pointsArr, (int) points.size(), Gdiplus::FillModeWinding);
 	// Draw stroke
-	graphics.DrawPolygon(&pen, pointsArr, (int)points.size());
+	graphics.DrawPolygon(&pen, pointsArr, (int) points.size());
 
 	delete[]pointsArr;
 }
@@ -198,25 +197,37 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	Gdiplus::Font font(&fontFamily, fontSize - 13); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
 //	Gdiplus::Font font(&fontFamily, fontSize); //, Gdiplus::FontStyleBold, Gdiplus::UnitPoint);
 
-	Gdiplus::RectF layoutRect;
-	Gdiplus::StringFormat format;
-	format.SetAlignment(TextAnchorHelper::getStringAlignment(element->getTextAnchor()));
-	Gdiplus::RectF boundRect;
-	// Measure the string.
-	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundRect);
-
-//	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
+//	Gdiplus::RectF layoutRect;
+//	Gdiplus::StringFormat format;
+//	format.SetAlignment(TextAnchorHelper::getStringAlignment(element->getTextAnchor()));
+//	Gdiplus::RectF boundRect;
+//	// Measure the string.
+//	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundRect);
+//
+////	Vector2D<float> actualPosition = element->getActualPosition({boundRect.Width, boundRect.Height});
 	Vector2D<float> actualPosition = element->getPosition();
-	boundRect.X = actualPosition.x;
-	boundRect.Y = actualPosition.y;
+
+	Gdiplus::StringFormat format;
+	Gdiplus::RectF boundingBox;
+
+	// Measure the text width
+	Gdiplus::RectF layoutRect;
+	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, &format, &boundingBox);
+	float textWidth = boundingBox.Width;
+	float x = actualPosition.x;
+	if (element->getTextAnchor() == TextAnchor::MIDDLE) {
+		x -= textWidth / 2.0f;
+	} else if (element->getTextAnchor() == TextAnchor::END) {
+		x -= textWidth;
+	}
+	boundingBox.X = x;
+	boundingBox.Y = actualPosition.y;
 	Gdiplus::SolidBrush solidBrush(fillColor);
 
-	graphics.DrawString(wData.c_str(), -1, &font, boundRect, nullptr, &solidBrush);
+	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, actualPosition.y), &format, &solidBrush);
 	Gdiplus::Pen pen({255, 0, 0, 0});
-	graphics.DrawEllipse(&pen, actualPosition.x, actualPosition.y, 3.0f, 3.0f);
-	graphics.DrawRectangle(&pen, boundRect);
-	pen.SetColor({255, 255, 0, 0});
-	graphics.DrawRectangle(&pen, layoutRect);
+	graphics.DrawEllipse(&pen, x, actualPosition.y, 3.0f, 3.0f);
+	graphics.DrawRectangle(&pen, boundingBox);
 }
 
 /** @brief Draw path */
@@ -226,7 +237,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	float strokeWidth = element->getStrokeWidth();
 	FillRule fillRule = element->getFillRule();
 
-	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth); 
+	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 
 	std::vector<PathPoint *> points = element->getPoints();
@@ -247,7 +258,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 		else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') {
 				//graphics.DrawLine(&pen, pos.x, pos.y, sta.x, sta.y);
-				path.CloseFigure(); 
+				path.CloseFigure();
 				cur = sta;
 			}
 			else {

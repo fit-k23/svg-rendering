@@ -203,7 +203,7 @@ SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode) {
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	float fontSize = parseFloatAttr(pNode, "font-size");
 	std::string data = pNode->value();
-	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize};
+	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize, TextAnchorHelper::fromName(textAnchor)};
 }
 
 SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {

@@ -1,13 +1,10 @@
 #ifndef XML_PARSER_H_
 #define XML_PARSER_H_
 
-#include <iostream>
-#include <cctype> // uppercase and lowercase letter only
 #include <vector>
-#include <sstream>
 #include <string>
+#include <sstream>
 #include <fstream>
-#include <map>
 #include "Graphic.h"
 #include "../../lib/rapidxml/rapidxml.hpp"
 
@@ -19,7 +16,6 @@
 */
 
 class XMLParser{
-private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	// TODO: add viewBox
@@ -88,7 +84,6 @@ public:
 	*/
 	SVGPolygon parsePolygon(rapidxml::xml_node<> *pNode);
 
-
 	/**
 	 * @brief Parse Text attributes
 	 * @return a Text object
@@ -98,7 +93,7 @@ public:
 	/*
 	* @brief Parse Path attributes
 	*/
-	SVGPath parsePath(rapidxml::xml_node<>* pNode);
+	SVGPath parsePath(rapidxml::xml_node<> *pNode);
 
 	/**
 	 * @brief Get the float value of specific attribute

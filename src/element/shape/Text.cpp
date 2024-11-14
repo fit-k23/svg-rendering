@@ -3,11 +3,8 @@
 /** @brief Default constructor */
 SVGText::SVGText() : textAnchor(TextAnchor::START), fontSize(1.0), offset(10.0) {} // default string init is "", so there's no need of re-type them here
 
-/**
- * @brief Parameterized constructor
- * @note TODO change font style. What is raylib default font style ???
-*/
-SVGText::SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize) : Element(position, fillColor, strokeColor, strokeWidth), data(data), textAnchor(TextAnchor::START), fontSize(fontSize), offset(10.0) {}
+/** @brief Parameterized constructor */
+SVGText::SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, TextAnchor textAnchor) : Element(position, fillColor, strokeColor, strokeWidth), data(data), textAnchor(textAnchor), fontSize(fontSize), offset(10.0) {}
 
 /** @brief Get type Text */
 ElementType SVGText::getTypeName() { return ElementType::Text; }
