@@ -72,7 +72,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			break;
 		}
 		case WM_LBUTTONDOWN: {
-			// Handle mouse click
 			POINT pt = {LOWORD(lp), HIWORD(lp)};
 
 			if (openMenu) {
