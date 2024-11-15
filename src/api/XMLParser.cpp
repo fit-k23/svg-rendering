@@ -298,6 +298,18 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 				points.push_back(new QuadPathPoint(d[i], newPos, cen));
 			}
 		}
+		else if (ins == 'c') { // <-- Cubic Bezier Curve
+			Vector2D<float> pos;
+			float cen0x, cen0y, cen1x, cen1y, x;
+			while (buffer >> cen0x >> cen0y >> cen1x >> cen1y >> pos.x >> pos.y) {
+				//std::cout << cen0x << " " << cen0y << " " << cen1x << " " << cen1y << " " << pos.x << " " << pos.y << '\n';
+				if (d[i] == 'C') points.push_back(new CubicPathPoint(d[i], pos, Vector2D<float>(cen0x, cen0y), Vector2D<float>(cen1x, cen1y)));
+				else {
+					Vector2D<float> lastPos = getLastPos(points);
+					points.push_back(new CubicPathPoint(d[i], lastPos + pos, lastPos + Vector2D<float>(cen0x, cen0y), lastPos + Vector2D<float>(cen1x, cen1y)));
+				}
+			}
+		}
 		else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
 			float x, y, cen2x, cen2y;
 			while (buffer >> cen2x >> cen2y >> x >> y) {
@@ -327,18 +339,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode) {
 			while (buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y) {
 				//std::cout << radii.x << " " << radii.y << " " << xRotation << " " << largeArcFlag << " " << sweepFlag << " " << pos.x << " " << pos.y << '\n';
 				points.push_back(new ArcPathPoint(d[i], (d[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
-			}
-		}
-		else if (ins == 'c') { // <-- Cubic Bezier Curve
-			Vector2D<float> pos;
-			float cen0x, cen0y, cen1x, cen1y, x;
-			while (buffer >> cen0x >> cen0y >> cen1x >> cen1y >> pos.x >> pos.y) {
-				//std::cout << cen0x << " " << cen0y << " " << cen1x << " " << cen1y << " " << pos.x << " " << pos.y << '\n';
-				if (d[i] == 'C') points.push_back(new CubicPathPoint(d[i], pos, Vector2D<float>(cen0x, cen0y), Vector2D<float>(cen1x, cen1y)));
-				else {
-					Vector2D<float> lastPos = getLastPos(points);
-					points.push_back(new CubicPathPoint(d[i], lastPos + pos, lastPos + Vector2D<float>(cen0x, cen0y), lastPos + Vector2D<float>(cen1x, cen1y)));
-				}
 			}
 		}
 		else if (ins == 'z') { // end current path
