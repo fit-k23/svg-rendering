@@ -43,10 +43,12 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 
 	Renderer render = Renderer(parser.getViewPort(), v, {2 * centerX, 2 * centerY});
 
-	graphics.TranslateTransform(centerX, centerY);
+	graphics.TranslateTransform(Camera::position.x, Camera::position.y);
+//	graphics.TranslateTransform(centerX, centerY);
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
-	graphics.TranslateTransform(-centerX, -centerY);
+//	graphics.TranslateTransform(-centerX, -centerY);
+	graphics.TranslateTransform(-Camera::position.x, -Camera::position.y);
 	render.draw(graphics);
 }
 
@@ -128,8 +130,38 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			EndPaint(hWnd, &ps);
 			return 0;
 		}
-		case WM_ERASEBKGND:
+		case WM_ERASEBKGND: {
 			return 1;
+		}
+		case WM_MOUSEWHEEL: {
+			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+
+			if (delta > 0) {
+				Camera::zoomIn();
+			} else {
+				Camera::zoomOut();
+			}
+			InvalidateRect(hWnd, nullptr, false);
+			break;
+		}
+		case WM_LBUTTONDOWN: {
+			Camera::isDragging = true;
+			SetCapture(hWnd);
+			break;
+		}
+		case WM_LBUTTONUP: {
+			Camera::isDragging = false;
+			ReleaseCapture();
+			break;
+		}
+		case WM_MOUSEMOVE: {
+			POINT pt = {LOWORD(lParam), HIWORD(lParam)};
+			if (Camera::isDragging) {
+				Camera::position = {pt.x, pt.y};
+				InvalidateRect(hWnd, nullptr, false);
+			}
+			return 0;
+		}
 		case WM_KEYDOWN: {
 			switch (static_cast<char>(wParam)) {
 				case 'R': {
@@ -137,22 +169,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				case 'W': {
-					Camera::zoom += 0.05;
+					Camera::zoomIn();
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
 				case 'S': {
-					Camera::zoom -= 0.05;
+					Camera::zoomOut();
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
 				case 'A': {
-					Camera::rotation += 1;
+					Camera::rotateClockWise();
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
 				case 'D': {
-					Camera::rotation -= 1;
+					Camera::rotateCounterClockWise();
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
@@ -168,4 +200,5 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+	return 0;
 }
