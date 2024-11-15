@@ -93,7 +93,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	HWND hWnd = CreateWindow(TEXT("DropFileWindowClass"), TEXT("DropFileWindowClass"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 500, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(TEXT("DropFileWindowClass"), TEXT("Drop PNG To Window"), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1000, 500, nullptr, nullptr, hInstance, nullptr);
 
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 	UpdateWindow(hWnd);
