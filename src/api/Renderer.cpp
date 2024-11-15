@@ -154,9 +154,9 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
 	
 	path->AddEllipse(position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
-	
-	graphics.DrawPath(&pen, path);
+
 	graphics.FillPath(&brush, path);
+	graphics.DrawPath(&pen, path);
 	delete path;
 }
 
@@ -374,6 +374,6 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 		}
 	}
 
-	graphics.DrawPath(&pen, &path);
 	graphics.FillPath(&brush, &path);
+	graphics.DrawPath(&pen, &path);
 }
