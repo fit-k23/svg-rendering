@@ -48,10 +48,16 @@ public:
 	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
 
 	/*
+	* @brief Parse group attributes and apply to its children
+	* @note This function do
+	*/
+	void parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v, const std::vector<std::string> &passTransform);
+
+	/*
 	* @brief Parse all common attributes of shapes
 	* @note Avoid reusing fill,stroke,strokeWidth,transformation many times
 	*/
-	Element *parseShape(rapidxml::xml_node<>* pNode);
+	Element *parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string>& passTransform);
 
 	/**
 	 * @brief Parse rectangle attributes

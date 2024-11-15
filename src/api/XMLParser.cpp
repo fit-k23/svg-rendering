@@ -34,12 +34,36 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			// TODO: Save gradients id
 		} else if (nodeName == "g") {
 			// TODO: Parse and get group attributes
-			// TODO: Process to each element of group
-			// TODO: May perform recursively when <g> contains other <g>
-		} else { // <-- Shape type, if not then pass ?
-			v.push_back(parseShape(pNode));
+			parseGroup(pNode, v, {});
+			// TODO: All transformations in <g> applies to its children
+			// TODO: Children nodes inherits all attributes from <g>
+			
+		}
+		else { // <-- Shape type, if not then pass ?
+			v.push_back(parseShape(pNode, {}));
 		}
 		pNode = pNode->next_sibling();
+	}
+}
+
+void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v, const std::vector<std::string> &passTransform) {
+	std::string transformAttr = parseStringAttr(pNode, "transform");
+	std::vector<std::string> transformation = parseTransformation(transformAttr);
+
+	rapidxml::xml_node<>* pChild = pNode->first_node(); // <-- first child node
+	while (pChild != nullptr) {
+		std::string nodeName = pChild->name();
+		if (nodeName == "defs") {
+			// TODO: recall function parseDefs and parseGradients (haven't created .-.)
+		}
+		else if (nodeName == "g") {
+			// recursively call to handle inside g tag
+			parseGroup(pChild, v, transformation);
+		}
+		else {
+			v.push_back(parseShape(pChild, transformation));
+		}
+		pChild = pChild->next_sibling();
 	}
 }
 
@@ -47,7 +71,7 @@ void XMLParser::setViewPort(const Vector2D<float> &_viewPort) { this->viewPort =
 
 Vector2D<float> XMLParser::getViewPort() { return this->viewPort; }
 
-Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode) {
+Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransform) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
@@ -74,6 +98,8 @@ Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode) {
 		//ret->dbg();
 	}
 	ret->setTransformation(parseTransformation(transformation));
+	for (int i = 0; i < (int)passTransform.size(); ++i)
+		ret->addTransformation(passTransform[i]);
 	return ret;
 }
 
@@ -291,12 +317,14 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrNam
 	float ret = 0.0;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
+		rapidxml::xml_node<>* pPar = pNode->parent();
+		if (pPar != nullptr) return parseFloatAttr(pPar, attrName);
 		// stroke, fill, opacity default must be 1
 		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos || attrName.find("opacity") != std::string::npos)
 			ret = 1;
 		return ret;
 	}
-	std::string value = pAttr->value();
+	std::string value = pAttr->value();	
 	std::stringstream buffer(value);
 	buffer >> ret;
 	buffer.str(""); // <-- clear buffer
@@ -320,14 +348,30 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, std::string 
 SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
+	bool hasOpaque = false;
+	rapidxml::xml_attribute<>* pOpa = pNode->first_attribute((attrName + "-opacity").c_str());
+	hasOpaque |= (pOpa != nullptr);
+	pOpa = pNode->first_attribute("opacity");
+	hasOpaque |= (pOpa != nullptr);
+	float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
+		rapidxml::xml_node<>* pPar = pNode->parent();
+		// In case there is a parent node, recursively return the color of parent node
+		// This works because only parent node of basic shape in this project is <g> tag which has color attributes
+		if (pPar != nullptr) {
+			SVGColor parColor = parseColor(pPar, attrName);
+			if (hasOpaque) {
+				//std::cout << "cur opa = " << opaque << '\n';
+				parColor.a = (unsigned char)(255.0f * opaque);
+			}
+			return parColor;
+		}
 		// If no attribute with attrName specified, default color is black
 		color = SVG_BLACK;
 		if (attrName == "stroke") { // <-- If stroke is not specifed, then there is no stroke
 			color = SVG_BLANK;
 			return color;
 		}
-		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 		color.a = (unsigned char) (255.0f * opaque);
 		return color;
 	}
@@ -340,10 +384,7 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 		// TODO: process the case fill or stroke value is a gradient
 	} else {
 		color = SVGColor(value); // <-- get Color in SVGColor class
-		// get opacity
-		float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
-		color.a = (unsigned char) ((double) 255.0 * opaque);
-
+		color.a = (unsigned char) (255.0f * opaque);
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;

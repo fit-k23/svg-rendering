@@ -23,6 +23,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
+				shape->dbg();
 				break;
 			}
 			case ElementType::Ellipse: {
@@ -112,8 +113,8 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
 
-	Gdiplus::Pen pen(strokeColor, strokeWidth);
-	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
 
 	// Draw a color-filled Rectangle with normal corners
@@ -132,8 +133,8 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 		path->CloseFigure();
 	}
 
-	graphics.DrawPath(&pen, path);
 	graphics.FillPath(&brush, path);
+	graphics.DrawPath(&pen, path);
 	delete path;
 }
 

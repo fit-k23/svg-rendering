@@ -75,7 +75,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1024, 1024, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 800, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
 	ShowWindow(hWnd, SW_SHOWNORMAL);
@@ -118,7 +118,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			// Draw into hdcMem here
 //			ProjectDraw(hdcMem, "asset/text_anchor.svg");
-			ProjectDraw(hdcMem, "sample.svg");
+			ProjectDraw(hdcMem, "asset/group.svg");
 			// Transfer the off-screen DC to the screen
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
