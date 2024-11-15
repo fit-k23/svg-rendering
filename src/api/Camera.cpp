@@ -1,6 +1,7 @@
 #include "Camera.h"
 
-Vector2D<float> Camera::position = {};
+Vector2D<float> Camera::startPosition = {};
+Vector2D<float> Camera::mousePosition = {-1, -1};
 float Camera::rotation = 0.0f;
 float Camera::zoom = 1.0f;
 bool Camera::isDragging = false;
@@ -13,6 +14,8 @@ void Camera::zoomIn(float amount) {
 	if (amount < 0 && Camera::zoom <= 0.0f) {
 		Camera::zoom = -amount;
 	}
+//	Camera::startPosition.x *= Camera::zoom;
+//	Camera::startPosition.y *= Camera::zoom;
 }
 
 void Camera::zoomOut(float amount) {

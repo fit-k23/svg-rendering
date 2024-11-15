@@ -5,7 +5,8 @@
 
 class Camera{
 public:
-	static Vector2D<float> position;
+	static Vector2D<float> startPosition;
+	static Vector2D<float> mousePosition;
 	static float rotation;
 	static float zoom;
 	static bool isDragging;

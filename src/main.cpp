@@ -43,12 +43,13 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 
 	Renderer render = Renderer(parser.getViewPort(), v, {2 * centerX, 2 * centerY});
 
-	graphics.TranslateTransform(Camera::position.x, Camera::position.y);
+	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
+	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
 //	graphics.TranslateTransform(centerX, centerY);
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
 //	graphics.TranslateTransform(-centerX, -centerY);
-	graphics.TranslateTransform(-Camera::position.x, -Camera::position.y);
+	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 	render.draw(graphics);
 }
 
@@ -146,6 +147,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_LBUTTONDOWN: {
 			Camera::isDragging = true;
+			Camera::mousePosition.x = LOWORD(lParam);
+			Camera::mousePosition.y = HIWORD(lParam);
 			SetCapture(hWnd);
 			break;
 		}
@@ -155,10 +158,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_MOUSEMOVE: {
-			POINT pt = {LOWORD(lParam), HIWORD(lParam)};
+			POINT pt = {(int)(short) LOWORD(lParam), (int)(short) HIWORD(lParam)};
+
 			if (Camera::isDragging && GetCapture() != nullptr) {
-				Camera::position.x = pt.x;
-				Camera::position.y = pt.y;
+				if (Camera::mousePosition.x != -1.0f) {
+					Vector2D<float> offset = {pt.x - Camera::mousePosition.x, pt.y - Camera::mousePosition.y};
+					Camera::startPosition += offset;
+				}
+				Camera::mousePosition.x = pt.x;
+				Camera::mousePosition.y = pt.y;
+				std::printf("(%d, %d, %d)\n", lParam, pt.x, pt.y);
 				InvalidateRect(hWnd, nullptr, false);
 			}
 			return 0;

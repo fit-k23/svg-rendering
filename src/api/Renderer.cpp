@@ -23,7 +23,6 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
-				shape->dbg();
 				break;
 			}
 			case ElementType::Ellipse: {
