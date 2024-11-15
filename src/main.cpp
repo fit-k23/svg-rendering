@@ -118,7 +118,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			// Draw into hdcMem here
 //			ProjectDraw(hdcMem, "asset/text_anchor.svg");
-			ProjectDraw(hdcMem, "asset/group.svg");
+			ProjectDraw(hdcMem, "asset/Zig_logo_2020.svg");
 			// Transfer the off-screen DC to the screen
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
@@ -156,8 +156,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_MOUSEMOVE: {
 			POINT pt = {LOWORD(lParam), HIWORD(lParam)};
-			if (Camera::isDragging) {
-				Camera::position = Vector2D<float>(pt.x, pt.y);
+			if (Camera::isDragging && GetCapture() != nullptr) {
+				Camera::position.x = pt.x;
+				Camera::position.y = pt.y;
 				InvalidateRect(hWnd, nullptr, false);
 			}
 			return 0;
