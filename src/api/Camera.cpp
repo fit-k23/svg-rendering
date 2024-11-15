@@ -7,8 +7,8 @@ bool Camera::isDragging = false;
 
 void Camera::zoomIn(float amount) {
 	Camera::zoom += amount;
-	if (Camera::zoom > 5.0f) {
-		Camera::zoom = 5.0f;
+	if (Camera::zoom > 10.0f) {
+		Camera::zoom = 10.0f;
 	}
 	if (amount < 0 && Camera::zoom <= 0.0f) {
 		Camera::zoom = -amount;
