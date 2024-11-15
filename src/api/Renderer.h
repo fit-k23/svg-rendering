@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include <vector>
+#include <sstream>
 #include "Graphic.h"
 #include <gdiplus.h>
 
@@ -27,12 +28,20 @@ public:
 	*/
 	~Renderer();
 
-	void addShape(Element *shape) {
-		shapes.push_back(shape);
-	}
+	/*
+	* @brief Add new shape
+	*/
+	void addShape(Element* shape);
 
 	/** @brief Traverse and draw all elements */
 	void draw(Gdiplus::Graphics& graphics);
+
+	/*
+	* @brief Apply transformation to gdiplus graphics path
+	* @param path the graphics path
+	* @param transformation the vector of transformation
+	*/
+	void applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string>& transformations);
 
 	/** @brief Draw a rectangle */
 	void drawRect(Gdiplus::Graphics &graphics, SVGRect *element);

@@ -47,53 +47,59 @@ public:
 	*/
 	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
 
+	/*
+	* @brief Parse all common attributes of shapes
+	* @note Avoid reusing fill,stroke,strokeWidth,transformation many times
+	*/
+	Element *parseShape(rapidxml::xml_node<>* pNode);
+
 	/**
 	 * @brief Parse rectangle attributes
 	 * @return Rectangle object
 	 * @note x, y, rx, ry is 0 by default
 	*/
-	SVGRect parseRect(rapidxml::xml_node<> *pNode);
+	SVGRect parseRect(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Ellipse attributes
 	 * @return a Ellipse object
 	*/
-	SVGEllipse parseEllipse(rapidxml::xml_node<> *pNode);
+	SVGEllipse parseEllipse(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Circle attributes
 	 * @return a Circle object
 	*/
-	SVGCircle parseCircle(rapidxml::xml_node<> *pNode);
+	SVGCircle parseCircle(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Line attributes
 	 * @return a Line object
 	*/
-	SVGLine parseLine(rapidxml::xml_node<> *pNode);
+	SVGLine parseLine(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Polyline attributes
 	 * @return a Polyline object
 	*/
-	SVGPolyline parsePolyline(rapidxml::xml_node<> *pNode);
+	SVGPolyline parsePolyline(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Polygon attributes
 	 * @return a Polygon object
 	*/
-	SVGPolygon parsePolygon(rapidxml::xml_node<> *pNode);
+	SVGPolygon parsePolygon(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Text attributes
 	 * @return a Text object
 	*/
-	SVGText parseText(rapidxml::xml_node<> *pNode);
+	SVGText parseText(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/*
 	* @brief Parse Path attributes
 	*/
-	SVGPath parsePath(rapidxml::xml_node<> *pNode);
+	SVGPath parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Get the float value of specific attribute
@@ -126,6 +132,11 @@ public:
 	 * @return a vector of Vector2D<float> set of points
 	*/
 	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, std::string attrName);
+
+	/*
+	* @brief Parse transformation and add to vector
+	*/
+	std::vector<std::string> parseTransformation(std::string &transformation);
 };
 
 #endif // XML_PARSER_H_

@@ -28,16 +28,18 @@ protected:
 
 	/**
 	* @brief Default constructor
-	* TODO: change to not default
-	* Because now I haven't finished other classes yet .-.
 	*/
 	Element();
 
 	/**
 	* @brief Parameterized constructor
-	* @note easier for subclass to inherit and write its constructor
 	*/
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
+
+	/**
+	* @brief Parameterized constructor
+	*/
+	Element(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<std::string> &transformation);
 
 public:
 	/**
@@ -128,6 +130,12 @@ public:
 	 * @param s a transformation string
 	 */
 	void addTransformation(const std::string &s);
+
+	/*
+	* @brief Set transformation
+	* @param transformations new transformation for svg element
+	*/
+	void setTransformation(const std::vector<std::string> &transformations);
 
 	/**
 	 * @brief get all current transformations

@@ -1,28 +1,25 @@
 #include "Renderer.h"
 
-/** @brief Default constructor */
 Renderer::Renderer() : screenSize{}, viewPort{Vector2D < float > {}} {
 	shapes.clear();
 }
 
-/**
- * @brief Parameterized constructor
- * @param vector of pointers to Element abstract type
-*/
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{_viewPort} {}
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
 
-/**
- * @brief Destructor
- * @note Delete all pointers in shapes vector
-*/
 Renderer::~Renderer() {
 	for (auto &shape: shapes) delete shape;
 }
 
-/** @brief Traverse and draw all elements */
+void Renderer::addShape(Element* shape) { shapes.push_back(shape); }
+
 void Renderer::draw(Gdiplus::Graphics &graphics) {
 	for (auto &shape: shapes) {
+		Gdiplus::Matrix orgMatrix;
+		// save an initial original matrix for graphics to later reset it
+		graphics.GetTransform(&orgMatrix);
+		// apply current transformation for current shape
+		applyTransformation(graphics, shape->getTransformation());
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -30,17 +27,14 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 			}
 			case ElementType::Ellipse: {
 				drawEllipse(graphics, static_cast<SVGEllipse *>(shape));
-				//shape->dbg();
 				break;
 			}
 			case ElementType::Circle: {
 				drawCircle(graphics, static_cast<SVGCircle *>(shape));
-				//shape->dbg();
 				break;
 			}
 			case ElementType::Line: {
 				drawLine(graphics, static_cast<SVGLine *>(shape));
-				//shape->dbg();
 				break;
 			}
 			case ElementType::Polyline: {
@@ -53,7 +47,6 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 			}
 			case ElementType::Text: {
 				drawText(graphics, static_cast<SVGText *>(shape));
-				//shape->dbg();
 				break;
 			}
 			case ElementType::Path: {
@@ -63,63 +56,109 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 			default:
 				break;
 		}
+		// reset back to original matrix
+		graphics.SetTransform(&orgMatrix);
 	}
 }
 
-/** @brief Draw a rectangle */
+void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string>& transformations) {
+	// Matrix in gdiplus is the transpose 
+	std::stringstream buffer;
+	std::string cmd;
+	for (int i = 0; i < (int)transformations.size(); ++i) {
+		buffer.clear();
+		buffer.str(transformations[i]);
+		buffer >> cmd;
+		if (cmd == "matrix") {
+			float a, b, c, d, e, f;
+			buffer >> a >> b >> c >> d >> e >> f;
+			Gdiplus::Matrix matrix(a, b, c, d, e, f);
+			graphics.SetTransform(&matrix);
+		}
+		else if (cmd == "translate") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = 0;
+			//Gdiplus::Matrix matrix(1.0f, 0.0f, 0.0f, 1.0f, dx, dy);
+			graphics.TranslateTransform(dx, dy);
+		}
+		else if (cmd == "scale") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = dx;
+			//Gdiplus::Matrix matrix(dx, 0.0f, 0.0f, dy, 0.0f, 0.0f);
+			graphics.ScaleTransform(dx, dy);	
+		}
+		else if (cmd == "rotate") {
+			float a, x = 0, y = 0;
+			buffer >> a;
+			if (!(buffer >> x >> y)) {
+				x = 0;
+				y = 0;
+			}
+			graphics.RotateTransform(a);
+		}
+	}
+}
+
 void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
+	std::vector<std::string> transformations = element->getTransformation();
+	
 	float width = element->getWidth();
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
+
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
+	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
+
 	// Draw a color-filled Rectangle with normal corners
-	if (radii.x == 0 && radii.y == 0) {
-		// Draw stroke of rectangle
-		Gdiplus::Pen pen(strokeColor, strokeWidth);
-		graphics.DrawRectangle(&pen, position.x, position.y, width, height);
-		Gdiplus::SolidBrush brush(fillColor);
-		graphics.FillRectangle(&brush, position.x, position.y, width, height);
-		//graphics.DrawArc(&pen, 100.0f, 100.0f, 50.0f, 50.0f, 0, 9)
-	} else { /// <--- Rounded corner
-		Gdiplus::Pen strokePen(strokeColor, strokeWidth);
-		Gdiplus::SolidBrush brush(fillColor);
-		Gdiplus::GraphicsPath path; // path for rounded rectangle
+	if (radii.x == 0 && radii.y == 0) 
+		path->AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
+	else { /// <--- Rounded corner
 		// Top-left corner
-		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
+		path->AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
 		// Top-right corner
-		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
+		path->AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
 		// Bottom-left corner
-		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
+		path->AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
 		// Bottom-right corner
-		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
+		path->AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
 		// Close to form the final shape
-		path.CloseFigure();
-		graphics.FillPath(&brush, &path);
-		graphics.DrawPath(&strokePen, &path);
-		Gdiplus::Pen pen(strokeColor, strokeWidth);
-	 }
+		path->CloseFigure();
+	}
+
+	graphics.DrawPath(&pen, path);
+	graphics.FillPath(&brush, path);
+	delete path;
 }
 
-/** @brief Draw an ellipse */
 void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	Vector2D<float> radius = element->getRadii();
+
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
+	
+	std::vector<std::string> transformations = element->getTransformation();
+	
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
-	graphics.FillEllipse(&brush, position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
-	if (strokeWidth != 0) {
-		Gdiplus::Pen pen(strokeColor, strokeWidth);
-		graphics.DrawEllipse(&pen, position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
-	}
+	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
+	
+	path->AddEllipse(position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
+	
+	graphics.DrawPath(&pen, path);
+	graphics.FillPath(&brush, path);
+	delete path;
 }
 
-/** @brief Draw a circle */
 void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
 	Vector2D<float> radius = element->getRadii();
 	radius.y = radius.x;
@@ -127,7 +166,6 @@ void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
 	drawEllipse(graphics, element);
 }
 
-/** @brief Draw a line */
 void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
@@ -238,7 +276,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 	FillRule fillRule = element->getFillRule();
-
+	
 	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
 
@@ -274,7 +312,6 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			bool largeArcFlag = pArc->getLargeArcFlag();
 			bool sweepFlag = pArc->getSweepFlag();
 
-			// TODO: do research on how to draw arc in svg path
 			// get cos and sin rotation
 			float cosRotation = cos(xRotation);
 			float sinRotation = sin(xRotation);
@@ -315,11 +352,13 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			Gdiplus::RectF rect(cx - radii.x, cy - radii.y, radii.x * 2.0f, radii.y * 2.0f);
 			path.AddArc(rect, startAngle, sweepAngle);
 			cur = pos;
+
 		}
 		else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
 			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(points[i]);
 			Vector2D<float> cen = pQuad->getCen();
-			// normal quadratic bezier curve
+			// draw bezier curve by bezier splines:
+			// https://groups.google.com/g/microsoft.public.win32.programmer.gdi/c/f46zo9NyIzA 
 			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF(pos.x, pos.y)};
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
