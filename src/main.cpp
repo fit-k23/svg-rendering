@@ -157,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case WM_MOUSEMOVE: {
 			POINT pt = {LOWORD(lParam), HIWORD(lParam)};
 			if (Camera::isDragging) {
-				Camera::position = {pt.x, pt.y};
+				Camera::position = Vector2D<float>(pt.x, pt.y);
 				InvalidateRect(hWnd, nullptr, false);
 			}
 			return 0;
