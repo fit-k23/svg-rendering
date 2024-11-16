@@ -52,13 +52,13 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	ViewBox vBox = parser.getViewBox();
 
 
-	std::cout << "Viewport x = " << vPort.x << '\n';
-	std::cout << "Viewport y = " << vPort.y << '\n';
-
-	std::cout << "ViewBox minX = " << vBox.minX << '\n';
-	std::cout << "ViewBox minY = " << vBox.minY << '\n';
-	std::cout << "ViewBox width = " << vBox.width << '\n';
-	std::cout << "ViewBox height = " << vBox.height << '\n';
+//	std::cout << "Viewport x = " << vPort.x << '\n';
+//	std::cout << "Viewport y = " << vPort.y << '\n';
+//
+//	std::cout << "ViewBox minX = " << vBox.minX << '\n';
+//	std::cout << "ViewBox minY = " << vBox.minY << '\n';
+//	std::cout << "ViewBox width = " << vBox.width << '\n';
+//	std::cout << "ViewBox height = " << vBox.height << '\n';
 
 	if (vBox.width != -1) {
 		float scaleX = vPort.x / vBox.width;
@@ -69,11 +69,11 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 		float translateX = vPort.x - (vBox.minX * scaleX);
 		float translateY = vPort.y - (vBox.minY * scaleY);
 
-		std::cout << "Scale X = " << scaleX << '\n';
-		std::cout << "Scale Y = " << scaleY << '\n';
-		std::cout << "Translate X = " << translateX << '\n';
-		std::cout << "Translate Y = " << translateY << '\n';
-		std::cout << "\n";
+//		std::cout << "Scale X = " << scaleX << '\n';
+//		std::cout << "Scale Y = " << scaleY << '\n';
+//		std::cout << "Translate X = " << translateX << '\n';
+//		std::cout << "Translate Y = " << translateY << '\n';
+//		std::cout << "\n";
 
 //		graphics.TranslateTransform(translateX, translateY);
 //		graphics.ScaleTransform(scaleX, scaleY);
