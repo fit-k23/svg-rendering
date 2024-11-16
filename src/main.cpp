@@ -32,6 +32,8 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	XMLParser parser;
 	parser.traverseXML(fileName, v);
 
+//	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
+
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
@@ -45,6 +47,37 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	float centerY = GetSystemMetrics(SM_CYSCREEN) / 2.0f;
 
 	Renderer render = Renderer(parser.getViewPort(), v, {2 * centerX, 2 * centerY});
+
+	Vector2D<float> vPort = parser.getViewPort();
+	ViewBox vBox = parser.getViewBox();
+
+
+	std::cout << "Viewport x = " << vPort.x << '\n';
+	std::cout << "Viewport y = " << vPort.y << '\n';
+
+	std::cout << "ViewBox minX = " << vBox.minX << '\n';
+	std::cout << "ViewBox minY = " << vBox.minY << '\n';
+	std::cout << "ViewBox width = " << vBox.width << '\n';
+	std::cout << "ViewBox height = " << vBox.height << '\n';
+
+	if (vBox.width != -1) {
+		float scaleX = vPort.x / vBox.width;
+		float scaleY = vPort.y / vBox.height;
+
+//		if (scaleX < scaleY) scaleY = scaleX;
+//		else scaleX = scaleY;
+		float translateX = vPort.x - (vBox.minX * scaleX);
+		float translateY = vPort.y - (vBox.minY * scaleY);
+
+		std::cout << "Scale X = " << scaleX << '\n';
+		std::cout << "Scale Y = " << scaleY << '\n';
+		std::cout << "Translate X = " << translateX << '\n';
+		std::cout << "Translate Y = " << translateY << '\n';
+		std::cout << "\n";
+
+//		graphics.TranslateTransform(translateX, translateY);
+//		graphics.ScaleTransform(scaleX, scaleY);
+	}
 
 	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
 	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
@@ -99,10 +132,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	switch (message) {
 		case WM_PAINT: {
 			HDC hdc = BeginPaint(hWnd, &ps);
-			// To have a debug terminal in visual studio (bruh)
-			//AllocConsole();
-			//freopen("CONOUT$", "w", stdout);
-
 			RECT rect;
 			::GetClientRect(hWnd, &rect);
 
@@ -120,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			// Draw into hdcMem here
 //			ProjectDraw(hdcMem, "asset/text_anchor.svg");
-			ProjectDraw(hdcMem, "asset/sample2.svg");
+			ProjectDraw(hdcMem, "asset/sample.svg");
 			// Transfer the off-screen DC to the screen
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);

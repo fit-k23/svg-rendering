@@ -114,22 +114,22 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
 
-	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
-	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
-	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
+	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::GraphicsPath *path = new Gdiplus::GraphicsPath();
 
 	// Draw a color-filled Rectangle with normal corners
 	if (radii.x == 0 && radii.y == 0) 
 		path->AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
 	else { /// <--- Rounded corner
 		// Top-left corner
-		path->AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180, 90);
+		path->AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0);
 		// Top-right corner
-		path->AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270, 90);
+		path->AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0);
 		// Bottom-left corner
-		path->AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90, 90);
+		path->AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0);
 		// Bottom-right corner
-		path->AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0, 90);
+		path->AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0);
 		// Close to form the final shape
 		path->CloseFigure();
 	}
@@ -184,16 +184,17 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	std::vector<Vector2D < float>> points = element->getPoints();
+	std::vector<Vector2D<float>> points = element->getPoints();
 
-	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
-	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
 
 	// Since polyline is open-formed, cannot use DrawPolygon() function to draw
 	// Draw multiple offset lines to create a filled effect (default: winding mode)
-	Gdiplus::GraphicsPath path(Gdiplus::FillModeWinding);
+	Gdiplus::GraphicsPath path(FillRuleHelper::getGdiplusFillMode(element->getFillRule()));
 	path.StartFigure();
-	for (int i = 0; i + 1 < (int) points.size(); ++i) {
+	int last = (int) points.size() - 1;
+	for (int i = 0; i < last; ++i) {
 		path.AddLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
 	}
 	graphics.FillPath(&brush, &path);
@@ -207,18 +208,20 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	float strokeWidth = element->getStrokeWidth();
 	std::vector<Vector2D<float>> points = element->getPoints();
 
-	Gdiplus::Point *pointsArr = new Gdiplus::Point[(int) points.size()];
-	for (int i = 0; i < (int) points.size(); ++i)
-		pointsArr[i] = Gdiplus::Point(points[i].x, points[i].y);
+	int size = (int) points.size();
+	Gdiplus::Point *pointsArr = new Gdiplus::Point[size];
 
-	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
-	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
+	for (int i = 0; i < size; ++i)
+		pointsArr[i] = points[i];
+
+	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	// Fill the polygon
-	graphics.FillPolygon(&brush, pointsArr, (int) points.size(), Gdiplus::FillModeWinding);
+	graphics.FillPolygon(&brush, pointsArr, size, FillRuleHelper::getGdiplusFillMode(element->getFillRule()));
 	// Draw stroke
-	graphics.DrawPolygon(&pen, pointsArr, (int) points.size());
+	graphics.DrawPolygon(&pen, pointsArr, size);
 
-	delete[]pointsArr;
+	delete[] pointsArr;
 }
 
 /** @brief Draw text */
@@ -251,26 +254,24 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	}
 
 	// TODO: Research to https://learn.microsoft.com/en-us/dotnet/api/system.drawing.fontfamily.getemheight?view=windowsdesktop-8.0
-//	float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0;
-	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0 + 0.5;
+//	float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0f;
+	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0f + 0.5f;
 	position.y -= boundingBox.Height;
-	position.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em but I don't bother to fix it :l
+	position.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em, but I don't bother to fix it :l
 	boundingBox.X = x;
 	boundingBox.Y = position.y + padding;
-	boundingBox.Height -= padding * 2;
+	boundingBox.Height -= padding * 2.0f;
 
-	Gdiplus::Pen pen({255, 0, 0, 0}, 1);
-	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
-	pen.SetColor(SVG_BLUE.alpha(200));
-	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
-	graphics.DrawRectangle(&pen, boundingBox);
+//	Gdiplus::Pen pen({255, 0, 0, 0}, 1);
+//	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
+//	pen.SetColor(SVG_BLUE.alpha(200));
+//	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
+//	graphics.DrawRectangle(&pen, boundingBox);
 //	Gdiplus::SolidBrush solidBrush(fillColor);
 //	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
 
 	Gdiplus::GraphicsPath path;
-	path.StartFigure();
 	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic());
-	path.CloseFigure();
 	Gdiplus::SolidBrush brush(fillColor);
 	graphics.FillPath(&brush, &path);
 	Gdiplus::Pen pen2(strokeColor, strokeWidth);
@@ -284,8 +285,8 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	float strokeWidth = element->getStrokeWidth();
 	FillRule fillRule = element->getFillRule();
 	
-	Gdiplus::Pen pen(strokeColor.operator Gdiplus::Color(), strokeWidth);
-	Gdiplus::SolidBrush brush(fillColor.operator Gdiplus::Color());
+	Gdiplus::Pen pen(strokeColor, strokeWidth);
+	Gdiplus::SolidBrush brush(fillColor);
 
 	std::vector<PathPoint *> points = element->getPoints();
 
@@ -293,27 +294,24 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	Vector2D<float> cur;
 	Gdiplus::GraphicsPath path(fillRule == FillRule::NON_ZERO ? Gdiplus::FillModeWinding : Gdiplus::FillModeAlternate);
 
-	for (int i = 0; i < (int)points.size(); ++i) {
-		char ins = tolower(points[i]->getCMD());
-		Vector2D<float> pos = points[i]->getPos();
+	for (auto &point : points) {
+		char ins = tolower(point->getCMD());
+		Vector2D<float> pos = point->getPos();
 		if (ins == 'm') { // Move-to command
 			// Starting point of a path
 			sta = pos;
 			cur = pos;
 			path.StartFigure();
-		}
-		else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
+		} else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point
 				path.CloseFigure();
 				cur = sta;
-			}
-			else {
+			} else {
 				path.AddLine(cur.x, cur.y, pos.x, pos.y); // <-- Add a line from previous point to current point
 				cur = pos;
 			}
-		}
-		else if (ins == 'a') { // Drawing arc
-			ArcPathPoint* pArc = static_cast<ArcPathPoint*>(points[i]);
+		} else if (ins == 'a') { // Drawing arc
+			ArcPathPoint *pArc = static_cast<ArcPathPoint *>(point);
 			Vector2D<float> radii = pArc->getRadii();
 			float xRotation = pArc->getXRotation();
 			bool largeArcFlag = pArc->getLargeArcFlag();
@@ -335,7 +333,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 
 			float radicant = ((rxSq * rySq) - (rxSq * y1pSq) - (rySq * x1pSq)) / ((rxSq * y1pSq) + (rySq * x1pSq));
 			radicant = radicant < 0 ? 0 : radicant;
-			float cFactor = (largeArcFlag != sweepFlag ? 1 : -1) * sqrt(radicant);
+			float cFactor = (largeArcFlag != sweepFlag ? 1.0f : -1.0f) * sqrtf(radicant);
 
 			float cxp = cFactor * ((radii.x * y1p) / radii.y);
 			float cyp = cFactor * (-(radii.y * x1p) / radii.x);
@@ -349,8 +347,8 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			float endAngle = atan2((-y1p - cyp) / radii.y, (-x1p - cxp) / radii.x);
 
 			float sweepAngle = endAngle - startAngle;
-			if (sweepFlag && sweepAngle < 0) sweepAngle += 2 * 3.14159265359f;
-			if (!sweepFlag && sweepAngle > 0) sweepAngle -= 2 * 3.14159265359f;
+			if (sweepFlag && sweepAngle < 0) sweepAngle += 2.0f * 3.14159265359f;
+			if (!sweepFlag && sweepAngle > 0) sweepAngle -= 2.0f * 3.14159265359f;
 
 			startAngle = startAngle * (180.0f / 3.14159265359f);
 			sweepAngle = sweepAngle * (180.0f / 3.14159265359f);
@@ -359,22 +357,19 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			Gdiplus::RectF rect(cx - radii.x, cy - radii.y, radii.x * 2.0f, radii.y * 2.0f);
 			path.AddArc(rect, startAngle, sweepAngle);
 			cur = pos;
-
-		}
-		else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
-			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(points[i]);
+		} else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
+			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(point);
 			Vector2D<float> cen = pQuad->getCen();
 			// draw bezier curve by bezier splines:
 			// https://groups.google.com/g/microsoft.public.win32.programmer.gdi/c/f46zo9NyIzA 
-			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF(pos.x, pos.y)};
+			Gdiplus::PointF curvePoints[4] = {cur, Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), pos};
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
-		}
-		else if (ins == 'c' || ins == 's') { // Drawing Cubic Bezier Curve
-			CubicPathPoint *pCubic = static_cast<CubicPathPoint *>(points[i]);
+		} else if (ins == 'c' || ins == 's') { // Drawing Cubic Bezier Curve
+			CubicPathPoint *pCubic = static_cast<CubicPathPoint *>(point);
 			Vector2D<float> cen1 = pCubic->getCen(0);
 			Vector2D<float> cen2 = pCubic->getCen(1);
-			Gdiplus::PointF curvePoints[4] = { Gdiplus::PointF(cur.x, cur.y), Gdiplus::PointF(cen1.x, cen1.y), Gdiplus::PointF(cen2.x, cen2.y), Gdiplus::PointF(pos.x, pos.y) };
+			Gdiplus::PointF curvePoints[4] = {cur, cen1, cen2, pos};
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
 		}
