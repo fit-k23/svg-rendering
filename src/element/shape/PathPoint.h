@@ -60,6 +60,8 @@ public:
 	virtual void output() const;
 
 	virtual std::string getPointType() const;
+
+	operator Vector2D<float>();
 };
 
 #endif // SVG_RENDERING_PATHPOINT_H
