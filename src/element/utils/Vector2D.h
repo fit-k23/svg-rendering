@@ -119,44 +119,47 @@ public:
 	Vector2D<T> &operator=(const Vector2D<T> &other);
 
 	operator POINT();
+	operator Gdiplus::Point();
+	operator Gdiplus::PointF();
+	operator Gdiplus::Size();
+	operator Gdiplus::SizeF();
 };
 
-
 /**
-* @brief default constructor
-* x and y default is 0
-**/
+ * @brief default constructor
+ * x and y default is 0
+*/
 template<typename T>
 Vector2D<T>::Vector2D() : x(0), y(0) {}
 
 /**
-* @brief parameterized constructor
-* @param _x: passed x cord, _y: passed y cord
-**/
+ * @brief parameterized constructor
+ * @param _x: passed x cord, _y: passed y cord
+*/
 template<typename T>
 Vector2D<T>::Vector2D(T x, T y) : x(x), y(y) {}
 
 /**
-* @brief copy constructor to copy content (deep copy)
-* @param other: same-class object
-**/
+ * @brief copy constructor to copy content (deep copy)
+ * @param other: same-class object
+*/
 template<typename T>
 Vector2D<T>::Vector2D(const Vector2D<T> &other) : x(other.x), y(other.y) {}
 
-/*
-* @brief Arithmetic operator + for vector2D class
-* @param other same-class vector2D
-* @return new vector2D
+/**
+ * @brief Arithmetic operator + for vector2D class
+ * @param other same-class vector2D
+ * @return new vector2D
 */
 template<typename T>
 Vector2D<T> Vector2D<T>::operator+(const Vector2D<T> &other) {
 	return Vector2D<T>(this->x + other.x, this->y + other.y);
 }
 
-/*
-* @brief Arithmetic operator += for vector2D class
-* @param other same-class vector2D
-* @return reference to this
+/**
+ * @brief Arithmetic operator += for vector2D class
+ * @param other same-class vector2D
+ * @return reference to this
 */
 template<typename T>
 Vector2D<T> &Vector2D<T>::operator+=(const Vector2D<T> &other) {
@@ -165,20 +168,20 @@ Vector2D<T> &Vector2D<T>::operator+=(const Vector2D<T> &other) {
 	return *this;
 }
 
-/*
-* @brief Arithmetic operator - for vector2D class
-* @param other same-class vector2D
-* @return new vector2D
+/**
+ * @brief Arithmetic operator - for vector2D class
+ * @param other same-class vector2D
+ * @return new vector2D
 */
 template<typename T>
 Vector2D<T> Vector2D<T>::operator-(const Vector2D<T> &other) {
 	return Vector2D<T>(this->x - other.x, this->y - other.y);
 }
 
-/*
-* @brief Arithmetic operator -= for vector2D class
-* @param other same-class vector2D
-* @return reference to this
+/**
+ * @brief Arithmetic operator -= for vector2D class
+ * @param other same-class vector2D
+ * @return reference to this
 */
 template<typename T>
 Vector2D<T> &Vector2D<T>::operator-=(const Vector2D<T> &other) {
@@ -187,20 +190,20 @@ Vector2D<T> &Vector2D<T>::operator-=(const Vector2D<T> &other) {
 	return *this;
 }
 
-/*
-* @brief Arithmetic operator * for vector2D class
-* @param other number of type T
-* @return new vector2D
+/**
+ * @brief Arithmetic operator * for vector2D class
+ * @param other number of type T
+ * @return new vector2D
 */
 template<typename T>
 Vector2D<T> Vector2D<T>::operator*(const T &other) {
 	return Vector2D<T>(this->x * other, this->y * other);
 }
 
-/*
-* @brief Arithmetic operator *= for vector2D class
-* @param other number of type T
-* @return reference to this
+/**
+ * @brief Arithmetic operator *= for vector2D class
+ * @param other number of type T
+ * @return reference to this
 */
 template<typename T>
 Vector2D<T> &Vector2D<T>::operator*=(const T &other) {
@@ -209,10 +212,10 @@ Vector2D<T> &Vector2D<T>::operator*=(const T &other) {
 	return *this;
 }
 
-/*
-* @brief Arithmetic operator / for vector2D class
-* @param other number of type T
-* @return new vector2D
+/**
+ * @brief Arithmetic operator / for vector2D class
+ * @param other number of type T
+ * @return new vector2D
 */
 template<typename T>
 Vector2D<T> Vector2D<T>::operator/(const T &other) {
@@ -220,10 +223,10 @@ Vector2D<T> Vector2D<T>::operator/(const T &other) {
 	return Vector2D<T>(this->x / other, this->y / other);
 }
 
-/*
-* @brief Arithmetic operator /= for vector2D class
-* @param other number of type T
-* @return reference to this
+/**
+ * @brief Arithmetic operator /= for vector2D class
+ * @param other number of type T
+ * @return reference to this
 */
 template<typename T>
 Vector2D<T> &Vector2D<T>::operator/=(const T &other) {
@@ -233,10 +236,10 @@ Vector2D<T> &Vector2D<T>::operator/=(const T &other) {
 	return *this;
 }
 
-/*
-* @brief Relational operator ==, != for vector2D class
-* @param other a same-class object
-* @return boolean
+/**
+ * @brief Relational operator ==, != for vector2D class
+ * @param other a same-class object
+ * @return boolean
 */
 template<typename T>
 bool Vector2D<T>::operator==(const Vector2D<T> &other) const {
@@ -250,12 +253,32 @@ bool Vector2D<T>::operator!=(const Vector2D<T> &other) const {
 
 template<typename T>
 Vector2D<T>::operator POINT() {
-	return POINT{static_cast<LONG>(this->x), static_cast<LONG>(this->y)};
+	return POINT{static_cast<LONG>(x), static_cast<LONG>(y)};
 }
 
-/*
-* @brief Assignment (equal) operator
-* @note Remember to check self-assignment case
+template<typename T>
+Vector2D<T>::operator Gdiplus::Point() {
+	return Gdiplus::Point{static_cast<int>(x), static_cast<LONG>(y)};
+}
+
+template<typename T>
+Vector2D<T>::operator Gdiplus::PointF() {
+	return Gdiplus::PointF{static_cast<float>(x), static_cast<float>(y)};
+}
+
+template<typename T>
+Vector2D<T>::operator Gdiplus::Size() {
+	return Gdiplus::Size{static_cast<int>(x), static_cast<LONG>(y)};
+}
+
+template<typename T>
+Vector2D<T>::operator Gdiplus::SizeF() {
+	return Gdiplus::SizeF{static_cast<float>(x), static_cast<float>(y)};
+}
+
+/**
+ * @brief Assignment (equal) operator
+ * @note Remember to check self-assignment case
 */
 template<typename T>
 Vector2D<T> &Vector2D<T>::operator=(const Vector2D<T> &other) {
