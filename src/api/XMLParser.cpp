@@ -1,8 +1,6 @@
 #include "XMLParser.h"
 
-XMLParser::XMLParser() {
-	viewPort = Vector2D<float>(0, 0);
-}
+XMLParser::XMLParser() : viewPort{}, viewBox{0, 0, -1, -1} {}
 
 void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> &v) {
 	std::ifstream fin(fileName.c_str());
@@ -20,10 +18,7 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 	viewPort.x = parseFloatAttr(pRoot, "width");
 	viewPort.y = parseFloatAttr(pRoot, "height");
 
-	//std::cout << "Viewport x = " << viewPort.x << '\n';
-	//std::cout << "Viewport y = " << viewPort.y << '\n';
-
-	// TODO: Add viewBox info from pRoot attribute (ViewBox.h not finished .-.)
+	viewBox = parseViewBox(pRoot);
 
 	// Traverse all elements
 	rapidxml::xml_node<> *pNode = pRoot->first_node();
@@ -35,12 +30,20 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 		} else if (nodeName == "g") {
 			// TODO: Parse and get group attributes
 			parseGroup(pNode, v, {});			
-		}
-		else { // <-- Shape type, if not then pass ?
+		} else { // <-- Shape type, if not then pass ?
 			v.push_back(parseShape(pNode, {}));
 		}
 		pNode = pNode->next_sibling();
 	}
+}
+
+ViewBox XMLParser::parseViewBox(rapidxml::xml_node<> *pNode) {
+	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute("viewBox");
+	if (pAttr == nullptr) return {0, 0, -1, -1};
+	std::istringstream is(pAttr->value());
+	ViewBox v{};
+	is >> v.minX >> v.minY >> v.width >> v.height;
+	return v;
 }
 
 void XMLParser::propagateTransform(std::vector<std::string>& transformation, const std::vector<std::string>& passTransform) {
@@ -62,23 +65,19 @@ void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v
 		std::string nodeName = pChild->name();
 		if (nodeName == "defs") {
 			// TODO: recall function parseDefs and parseGradients (haven't created .-.)
-		}
-		else if (nodeName == "g") {
+		} else if (nodeName == "g") {
 			// recursively call to handle inside g tag
 			parseGroup(pChild, v, transformation);
-		}
-		else {
+		} else {
 			v.push_back(parseShape(pChild, transformation));
 		}
 		pChild = pChild->next_sibling();
 	}
 }
 
-void XMLParser::setViewPort(const Vector2D<float> &_viewPort) { this->viewPort = _viewPort; }
+Vector2D<float> XMLParser::getViewPort() { return viewPort; }
 
-Vector2D<float> XMLParser::getViewPort() { return this->viewPort; }
-
-Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransform) {
+Element *XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransform) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
@@ -108,7 +107,9 @@ Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<st
 	
 	propagateTransform(transformation, passTransform);
 
-	ret->setTransformation(transformation);
+	if (ret != nullptr) {
+		ret->setTransformation(transformation);
+	}
 	return ret;
 }
 
@@ -120,7 +121,7 @@ SVGRect XMLParser::parseRect(rapidxml::xml_node<> *pNode, const SVGColor &fillCo
 	float width = parseFloatAttr(pNode, "width");
 	float height = parseFloatAttr(pNode, "height");
 
-	return SVGRect(Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry));
+	return {Vector2D<float>(x, y), fillColor, strokeColor, strokeWidth, width, height, Vector2D(rx, ry)};
 }
 
 SVGEllipse XMLParser::parseEllipse(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
@@ -128,14 +129,14 @@ SVGEllipse XMLParser::parseEllipse(rapidxml::xml_node<> *pNode, const SVGColor& 
 	float cy = parseFloatAttr(pNode, "cy");
 	float rx = parseFloatAttr(pNode, "rx");
 	float ry = parseFloatAttr(pNode, "ry");
-	return SVGEllipse(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry));
+	return {Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, Vector2D(rx, ry)};
 }
 
 SVGCircle XMLParser::parseCircle(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
 	float cx = parseFloatAttr(pNode, "cx");
 	float cy = parseFloatAttr(pNode, "cy");
 	float radius = parseFloatAttr(pNode, "r");
-	return SVGCircle(Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, radius);
+	return {Vector2D(cx, cy), fillColor, strokeColor, strokeWidth, radius};
 }
 
 SVGLine XMLParser::parseLine(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
@@ -143,21 +144,17 @@ SVGLine XMLParser::parseLine(rapidxml::xml_node<> *pNode, const SVGColor& fillCo
 	float y1 = parseFloatAttr(pNode, "y1");
 	float x2 = parseFloatAttr(pNode, "x2");
 	float y2 = parseFloatAttr(pNode, "y2");
-	return SVGLine(Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2));
+	return {Vector2D(x1, y1), fillColor, strokeColor, strokeWidth, Vector2D(x2, y2)};
 }
 
 SVGPolyline XMLParser::parsePolyline(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
 	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
-	std::string fillRule = parseStringAttr(pNode, "fill-rule");
-	Vector2D<float> position = points[0];
-	return {position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD};
+	return {points[0], fillColor, strokeColor, strokeWidth, points, FillRuleHelper::fromName(parseStringAttr(pNode, "fill-rule"))};
 }
 
 SVGPolygon XMLParser::parsePolygon(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
 	std::vector<Vector2D<float>> points = parsePointsAttr(pNode, "points");
-	std::string fillRule = parseStringAttr(pNode, "fill-rule");
-	Vector2D<float> position = points[0];
-	return {position, fillColor, strokeColor, strokeWidth, points, (fillRule == "nonzero") ? FillRule::NON_ZERO : FillRule::EVEN_ODD};
+	return {points[0], fillColor, strokeColor, strokeWidth, points, FillRuleHelper::fromName(parseStringAttr(pNode, "fill-rule"))};
 }
 
 SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
@@ -167,14 +164,13 @@ SVGText XMLParser::parseText(rapidxml::xml_node<> *pNode, const SVGColor& fillCo
 	float dy = parseFloatAttr(pNode, "dy");
 	x += dx;
 	y += dy;
-	std::string textAnchor = parseStringAttr(pNode, "text-anchor");
 	float fontSize = parseFloatAttr(pNode, "font-size");
 	std::string data = pNode->value();
-	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize, TextAnchorHelper::fromName(textAnchor)};
+	return {Vector2D<float>{x, y}, fillColor, strokeColor, strokeWidth, data, fontSize, TextAnchorHelper::fromName(parseStringAttr(pNode, "text-anchor"))};
 }
 
 SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth) {
-	FillRule fillRule = (parseStringAttr(pNode, "fill-rule") == "nonzero" ? FillRule::NON_ZERO : FillRule::EVEN_ODD);
+	FillRule fillRule = FillRuleHelper::fromName(parseStringAttr(pNode, "fill-rule"));
 
 	std::vector<PathPoint *> points;
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
@@ -185,13 +181,13 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 	};
 
 	auto getLastPos = [](const std::vector<PathPoint *> &points) -> Vector2D<float> {
-		if (points.empty()) return Vector2D<float>(0.0f, 0.0f);
+		if (points.empty()) return {0.0f, 0.0f};
 		return points.back()->getPos();
 	};
 
 	// change all hyphens to blank space to use stringstream
-	for (int i = 0; i < (int)d.size(); ++i) {
-		if (d[i] == ',') d[i] = ' ';
+	for (char &i : d) {
+		if (i == ',') i = ' ';
 	}
 
 	//std::cout << "d after format: " << d << '\n';
@@ -199,13 +195,14 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 	Vector2D<float> sta;
 	std::stringstream buffer;
 	std::string data;
-	for (int i = 0; i < (int)d.size(); ++i) {
+	int size = (int) d.size();
+	for (int i = 0; i < size; ++i) {
 		if (!isCmd(d[i])) continue;
 		char ins = tolower(d[i]);
 		int nxt = -1;
 		int tmpI = i + 1;
 		data = "";
-		while (tmpI < (int)d.size()) {
+		while (tmpI < size) {
 			if (isCmd(d[tmpI])) {
 				nxt = tmpI;
 				break;
@@ -225,8 +222,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				//std::cout << x << " " << y << '\n';
 				if (ins == 'm') sta = newPos;
 			}
-		}
-		else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
+		} else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
 			while (buffer >> num) {
 				//std::cout << num << '\n';
@@ -235,8 +231,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				else newPos = Vector2D<float>(getLastPos(points).x, d[i] == 'V' ? num : getLastPos(points).y + num);
 				points.push_back(new NormPathPoint(d[i], newPos));
 			}
-		}
-		else if (ins == 'q') { // <-- Quadratic Bezier Curve
+		} else if (ins == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
 			while (buffer >> cenx >> ceny >> x >> y) {
 				//std::cout << cenx << " " << ceny << " " << x << " " << y << '\n';
@@ -248,8 +243,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				}
 				points.push_back(new QuadPathPoint(d[i], newPos, newCen));
 			}
-		}
-		else if (ins == 't') { // <-- reflection of previous quadratic bezier control's point
+		} else if (ins == 't') { // <-- reflection of previous quadratic bezier control's point
 			float x, y;
 			while (buffer >> x >> y) {
 				//std::cout << x << " " << y << '\n';
@@ -259,16 +253,15 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				// If previous command not a quadratic-type, the control point is the same as the current point
 				if (!points.empty() && points.back()->getPointType() != "quad") cen = getLastPos(points);
 				else {
-					QuadPathPoint* pQuad = static_cast<QuadPathPoint*>(points.back());
+					QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(points.back());
 					// calculate new reflection control point
 					cen = pQuad->getPos() + (pQuad->getPos() - pQuad->getCen());
 				}
 				points.push_back(new QuadPathPoint(d[i], newPos, cen));
 			}
-		}
-		else if (ins == 'c') { // <-- Cubic Bezier Curve
+		} else if (ins == 'c') { // <-- Cubic Bezier Curve
 			Vector2D<float> pos;
-			float cen0x, cen0y, cen1x, cen1y, x;
+			float cen0x, cen0y, cen1x, cen1y;
 			while (buffer >> cen0x >> cen0y >> cen1x >> cen1y >> pos.x >> pos.y) {
 				//std::cout << cen0x << " " << cen0y << " " << cen1x << " " << cen1y << " " << pos.x << " " << pos.y << '\n';
 				if (d[i] == 'C') points.push_back(new CubicPathPoint(d[i], pos, Vector2D<float>(cen0x, cen0y), Vector2D<float>(cen1x, cen1y)));
@@ -277,8 +270,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 					points.push_back(new CubicPathPoint(d[i], lastPos + pos, lastPos + Vector2D<float>(cen0x, cen0y), lastPos + Vector2D<float>(cen1x, cen1y)));
 				}
 			}
-		}
-		else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
+		} else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
 			float x, y, cen2x, cen2y;
 			while (buffer >> cen2x >> cen2y >> x >> y) {
 				//std::cout << cen2x << " " << cen2y << " " << x << " " << y << '\n';
@@ -297,8 +289,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				}
 				points.push_back(new CubicPathPoint(d[i], newPos, cen1, cen2));
 			}
-		}
-		else if (ins == 'a') { // <-- Arc
+		} else if (ins == 'a') { // <-- Arc
 			Vector2D<float> radii;
 			float xRotation;
 			bool largeArcFlag;
@@ -308,8 +299,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 				//std::cout << radii.x << " " << radii.y << " " << xRotation << " " << largeArcFlag << " " << sweepFlag << " " << pos.x << " " << pos.y << '\n';
 				points.push_back(new ArcPathPoint(d[i], (d[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 			}
-		}
-		else if (ins == 'z') { // end current path
+		} else if (ins == 'z') { // end current path
 			// No parameter in z command
 			// Current point goes back to the starting point
 			points.push_back(new NormPathPoint(d[i], sta));
@@ -319,10 +309,10 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		//std::cout << "i = " << i << '\n';
 	}
 
-	return SVGPath(points[0]->getPos(), fillColor, strokeColor, strokeWidth, points, fillRule);
+	return {*points[0], fillColor, strokeColor, strokeWidth, points, fillRule};
 }
 
-float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrName) {
+float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	float ret = 0.0;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
@@ -336,25 +326,22 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrNam
 	std::string value = pAttr->value();	
 	std::stringstream buffer(value);
 	buffer >> ret;
-	buffer.str(""); // <-- clear buffer
+	buffer.clear(); // <-- clear buffer
 	// TODO: value is a real number
 	// TODO: value is percentage (%)
 	return ret;
 }
 
-std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, std::string attrName) {
-	std::string data("");
+std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) {
-		/// TODO: handle if no attribute name = attrName
-		if (attrName == "fill-rule") data = "nonzero";
-		return data;
+		// TODO: handle if no attribute name = attrName
+		return "";
 	}
-	data = pAttr->value();
-	return data;
+	return pAttr->value();
 }
 
-SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName) {
+SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	bool hasOpaque = false;
@@ -399,13 +386,13 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, std::string attrName
 	return color;
 }
 
-std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pNode, std::string attrName) {
+std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) return {};
 	std::vector<Vector2D<float>> ret = {};
 
 	std::string value = pAttr->value();
-	for (char & i : value) if (i == ',') i = ' ';
+	for (char &i : value) if (i == ',') i = ' ';
 	std::stringstream buffer(value);
 
 	float x = 0;
@@ -422,15 +409,14 @@ std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<>* pN
 std::vector<std::string> XMLParser::parseTransformation(std::string& transformation) {
 	std::vector<std::string> ret;
 
-	for (int i = 0; i < (int)transformation.size(); ++i)
-		if (transformation[i] >= 'A' && transformation[i] <= 'Z')
-			transformation[i] = tolower(transformation[i]);
+	for (char &i : transformation)
+		if (i >= 'A' && i <= 'Z')
+			i = tolower(i);
 	
 	std::string data;
 	bool start = false;
-	for (int i = 0; i < (int)transformation.size(); ++i) {
-		char save = transformation[i];
-		if (save == ',' || save == '(' || save == ')') {
+	for (char &save : transformation) {
+			if (save == ',' || save == '(' || save == ')') {
 			data += ' ';
 			if (save == ')') {
 				ret.push_back(data);
@@ -446,4 +432,6 @@ std::vector<std::string> XMLParser::parseTransformation(std::string& transformat
 	}
 	return ret;
 }
+
+ViewBox XMLParser::getViewBox() const { return viewBox; }
 

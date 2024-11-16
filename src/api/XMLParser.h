@@ -18,6 +18,7 @@
 class XMLParser{
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
+	ViewBox viewBox{};
 	// TODO: add viewBox
 public:
 	/** @brief Default constructor */
@@ -30,16 +31,11 @@ public:
 	~XMLParser() = default;
 
 	/**
-	 * @brief Set view port
-	 * @param new view port
-	*/
-	void setViewPort(const Vector2D<float> &viewPort);
-
-	/**
 	 * @brief Get viewport information
 	 * @return Vector2D type of viewport
 	*/
 	Vector2D<float> getViewPort();
+	ViewBox getViewBox() const;
 
 	/**
 	 * @brief Traverse through each nodes and attributes of SVG
@@ -47,21 +43,23 @@ public:
 	*/
 	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
 
-	/*
-	* @brief Propagate transformation from parent to children
-	* @note Ensure correct order of transformation (parent first, then children)
-	*/
-	void propagateTransform(std::vector<std::string>& transformation, const std::vector<std::string>& passTransforms);
+	ViewBox parseViewBox(rapidxml::xml_node<> *pNode);
 
-	/*
-	* @brief Parse group attributes and apply to its children
-	* @note This function do
+	/**
+	 * @brief Propagate transformation from parent to children
+	 * @note Ensure correct order of transformation (parent first, then children)
+	*/
+	void propagateTransform(std::vector<std::string> &transformation, const std::vector<std::string> &passTransforms);
+
+	/**
+	 * @brief Parse group attributes and apply to its children
+	 * @note This function do
 	*/
 	void parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v, const std::vector<std::string> &passTransform);
 
-	/*
-	* @brief Parse all common attributes of shapes
-	* @note Avoid reusing fill,stroke,strokeWidth,transformation many times
+	/**
+	 * @brief Parse all common attributes of shapes
+	 * @note Avoid reusing fill,stroke,strokeWidth,transformation many times
 	*/
 	Element *parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string>& passTransform);
 
@@ -108,9 +106,7 @@ public:
 	*/
 	SVGText parseText(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
-	/*
-	* @brief Parse Path attributes
-	*/
+	/** @brief Parse Path attributes */
 	SVGPath parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
@@ -119,7 +115,7 @@ public:
 	 * @param attrName attribute's name
 	 * @return a float
 	*/
-	float parseFloatAttr(rapidxml::xml_node<> *pNode, std::string attrName);
+	float parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
 
 	/**
 	 * @brief Get the insight value of specific attribute
@@ -127,7 +123,7 @@ public:
 	 * @param attrName attribute's name
 	 * @return a string type
 	*/
-	std::string parseStringAttr(rapidxml::xml_node<> *pNode, std::string attrName);
+	std::string parseStringAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
 
 	/**
 	 * @brief Parse color attributes
@@ -135,7 +131,7 @@ public:
 	 * @param attrName attribute's name
 	 * @return SVGColor type
 	*/
-	SVGColor parseColor(rapidxml::xml_node<> *pNode, std::string attrName);
+	SVGColor parseColor(rapidxml::xml_node<> *pNode, const std::string& attrName);
 
 	/**
 	 * @brief Parse set of points attributes
@@ -143,11 +139,9 @@ public:
 	 * @param attrName attribute's name
 	 * @return a vector of Vector2D<float> set of points
 	*/
-	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, std::string attrName);
+	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
 
-	/*
-	* @brief Parse transformation and add to vector
-	*/
+	/** @brief Parse transformation and add to vector */
 	std::vector<std::string> parseTransformation(std::string &transformation);
 };
 
