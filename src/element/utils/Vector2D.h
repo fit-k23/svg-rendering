@@ -118,11 +118,16 @@ public:
 	*/
 	Vector2D<T> &operator=(const Vector2D<T> &other);
 
-	operator POINT();
+	/** @brief Auto-cast the class to Gdiplus::Point */
 	operator Gdiplus::Point();
+	/** @brief Auto-cast the class to Gdiplus::PointF */
 	operator Gdiplus::PointF();
+	/** @brief Auto-cast the class to Gdiplus::Size */
 	operator Gdiplus::Size();
+	/** @brief Auto-cast the class to Gdiplus::SizeF */
 	operator Gdiplus::SizeF();
+	/** @brief Auto-cast the class to POINTS */
+	operator POINT();
 };
 
 /**

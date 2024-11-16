@@ -7,9 +7,9 @@ enum class TextAnchor : int{
 	END,
 };
 
-//#include <gdiplus/gdiplusenums.h>
+#include <gdiplus/gdiplusenums.h>
 
-class TextAnchorHelper{
+class TextAnchorHelper final{
 public:
 	static TextAnchor fromName(const std::string &s) {
 		if (s == "middle") {

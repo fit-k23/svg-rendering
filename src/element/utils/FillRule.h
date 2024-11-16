@@ -6,4 +6,26 @@ enum class FillRule : int{
 	EVEN_ODD,
 };
 
+#include <gdiplus/gdiplusenums.h>
+
+class FillRuleHelper final{
+public:
+	static FillRule fromName(const std::string &s) {
+		if (s == "evenodd") {
+			return FillRule::EVEN_ODD;
+		}
+		return FillRule::NON_ZERO; // default is start
+	}
+
+	static std::string getName(const FillRule &fillRule) {
+		if (fillRule == FillRule::EVEN_ODD) return "evenodd";
+		return "nonzero";
+	}
+
+	static Gdiplus::FillMode getGdiplusFillMode(const FillRule &fillRule) {
+		if (fillRule == FillRule::EVEN_ODD) return Gdiplus::FillModeAlternate;
+		return Gdiplus::FillModeWinding;
+	}
+};
+
 #endif //SVG_RENDERING_FILL_RULE_H
