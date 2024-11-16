@@ -131,6 +131,9 @@ void Element::dbg() {
 	std::pair<Vector2D<float>, Vector2D<float>> boundingBox = getBoundingBox();
 	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
 	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
+	std::cout << "Transformation: "; 
+	for (int i = 0; i < (int)transformation.size(); ++i)
+		std::cout << transformation[i] << '\n';
 }
 
 std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {

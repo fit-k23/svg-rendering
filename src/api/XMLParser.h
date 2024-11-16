@@ -48,6 +48,12 @@ public:
 	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
 
 	/*
+	* @brief Propagate transformation from parent to children
+	* @note Ensure correct order of transformation (parent first, then children)
+	*/
+	void propagateTransform(std::vector<std::string>& transformation, const std::vector<std::string>& passTransforms);
+
+	/*
 	* @brief Parse group attributes and apply to its children
 	* @note This function do
 	*/

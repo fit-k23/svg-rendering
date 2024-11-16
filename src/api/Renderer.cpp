@@ -20,6 +20,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		graphics.GetTransform(&orgMatrix);
 		// apply current transformation for current shape
 		applyTransformation(graphics, shape->getTransformation());
+		shape->dbg();
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -87,6 +88,7 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 			buffer >> dx;
 			if (!(buffer >> dy)) dy = dx;
 			//Gdiplus::Matrix matrix(dx, 0.0f, 0.0f, dy, 0.0f, 0.0f);
+			std::cout << "scale " << dx << " " << dy << '\n';
 			graphics.ScaleTransform(dx, dy);	
 		}
 		else if (cmd == "rotate") {
@@ -174,6 +176,7 @@ void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 	float strokeWidth = element->getStrokeWidth();
 
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.DrawLine(&pen, position.x, position.y, endPosition.x, endPosition.y);
 }
 
@@ -230,6 +233,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
+	float strokeWidth = element->getStrokeWidth();
 
 //	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
 //	Gdiplus::FontFamily fontFamily(L"Arial");
@@ -261,13 +265,14 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	boundingBox.Y = actualPosition.y + padding;
 	boundingBox.Height -= padding * 2;
 
-	Gdiplus::Pen pen({255, 0, 0, 0});
+	Gdiplus::Pen pen({255, 0, 0, 0}, strokeWidth);
 //	graphics.DrawLine(&pen, x + 30, actualPosition.y, x + 30, actualPosition.y + size);
 	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
 	pen.SetColor(SVG_BLUE.alpha(200));
 	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
 	graphics.DrawRectangle(&pen, boundingBox);
 	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, actualPosition.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
+	//graphics.DrawString()
 }
 
 /** @brief Draw path */

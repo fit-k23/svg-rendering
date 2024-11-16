@@ -34,10 +34,7 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			// TODO: Save gradients id
 		} else if (nodeName == "g") {
 			// TODO: Parse and get group attributes
-			parseGroup(pNode, v, {});
-			// TODO: All transformations in <g> applies to its children
-			// TODO: Children nodes inherits all attributes from <g>
-			
+			parseGroup(pNode, v, {});			
 		}
 		else { // <-- Shape type, if not then pass ?
 			v.push_back(parseShape(pNode, {}));
@@ -46,9 +43,19 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 	}
 }
 
+void XMLParser::propagateTransform(std::vector<std::string>& transformation, const std::vector<std::string>& passTransform) {
+	std::reverse(transformation.begin(), transformation.end());
+	for (int i = (int)passTransform.size() - 1; i >= 0; --i) transformation.push_back(passTransform[i]);
+	std::reverse(transformation.begin(), transformation.end());
+}
+
 void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v, const std::vector<std::string> &passTransform) {
+	// All transformations in <g> applies to its children
+	// Children nodes inherits fill, stroke from <g>
 	std::string transformAttr = parseStringAttr(pNode, "transform");
 	std::vector<std::string> transformation = parseTransformation(transformAttr);
+
+	propagateTransform(transformation, passTransform);
 
 	rapidxml::xml_node<>* pChild = pNode->first_node(); // <-- first child node
 	while (pChild != nullptr) {
@@ -75,7 +82,8 @@ Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<st
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
-	std::string transformation = parseStringAttr(pNode, "transform");
+	std::string transformAttr = parseStringAttr(pNode, "transform");
+	std::vector<std::string> transformation = parseTransformation(transformAttr);
 
 	std::string nodeName = pNode->name();
 	Element* ret = nullptr;
@@ -97,9 +105,10 @@ Element* XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<st
 		ret = new SVGPath(parsePath(pNode, fillColor, strokeColor, strokeWidth));
 		//ret->dbg();
 	}
-	ret->setTransformation(parseTransformation(transformation));
-	for (int i = 0; i < (int)passTransform.size(); ++i)
-		ret->addTransformation(passTransform[i]);
+	
+	propagateTransform(transformation, passTransform);
+
+	ret->setTransformation(transformation);
 	return ret;
 }
 
