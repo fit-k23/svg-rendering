@@ -20,7 +20,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		graphics.GetTransform(&orgMatrix);
 		// apply current transformation for current shape
 		applyTransformation(graphics, shape->getTransformation());
-		shape->dbg();
+//		shape->dbg();
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -152,7 +152,7 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
-	Gdiplus::GraphicsPath* path = new Gdiplus::GraphicsPath();
+	Gdiplus::GraphicsPath *path = new Gdiplus::GraphicsPath();
 	
 	path->AddEllipse(position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
 
@@ -176,7 +176,6 @@ void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 	float strokeWidth = element->getStrokeWidth();
 
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.DrawLine(&pen, position.x, position.y, endPosition.x, endPosition.y);
 }
 
@@ -226,30 +225,25 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	if (element == nullptr) return;
 	std::string data = element->getData();
-	// convert string to wstring
-//	std::wstring wData(data.size(), L'#');
-//	mbstowcs(&wData[0], data.c_str(), data.size());
 	std::wstring wData(data.begin(), data.end());
 
 	float fontSize = element->getFontSize();
 	SVGColor fillColor = element->getFillColor();
+	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 
-//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
-//	Gdiplus::FontFamily fontFamily(L"Arial");
 	Gdiplus::FontFamily fontFamily(L"Times New Roman");
 	Gdiplus::Font font(&fontFamily, fontSize, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
 
-	Vector2D<float> actualPosition = element->getPosition();
-	Gdiplus::SolidBrush solidBrush(fillColor);
+	Vector2D<float> position = element->getPosition();
 
 	Gdiplus::RectF boundingBox;
 
-	// Measure the text widthformat
+	// Measure the text width
 	Gdiplus::RectF layoutRect;
 	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, Gdiplus::StringFormat::GenericTypographic(), &boundingBox);
 	float textWidth = boundingBox.Width;
-	float x = actualPosition.x;
+	float x = position.x;
 	if (element->getTextAnchor() == TextAnchor::MIDDLE) {
 		x -= textWidth / 2.0f;
 	} else if (element->getTextAnchor() == TextAnchor::END) {
@@ -257,22 +251,30 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	}
 
 	// TODO: Research to https://learn.microsoft.com/en-us/dotnet/api/system.drawing.fontfamily.getemheight?view=windowsdesktop-8.0
-//	float padding = fontFamily.GetEmHeight(Gdiplus::FontStyleRegular) / font.GetSize() / 6.0;
+//	float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0;
 	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0 + 0.5;
-	actualPosition.y -= boundingBox.Height;
-	actualPosition.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em but I don't bother to fix it :l
+	position.y -= boundingBox.Height;
+	position.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em but I don't bother to fix it :l
 	boundingBox.X = x;
-	boundingBox.Y = actualPosition.y + padding;
+	boundingBox.Y = position.y + padding;
 	boundingBox.Height -= padding * 2;
 
-	Gdiplus::Pen pen({255, 0, 0, 0}, strokeWidth);
-//	graphics.DrawLine(&pen, x + 30, actualPosition.y, x + 30, actualPosition.y + size);
+	Gdiplus::Pen pen({255, 0, 0, 0}, 1);
 	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
 	pen.SetColor(SVG_BLUE.alpha(200));
 	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
 	graphics.DrawRectangle(&pen, boundingBox);
-	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, actualPosition.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
-	//graphics.DrawString()
+//	Gdiplus::SolidBrush solidBrush(fillColor);
+//	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
+
+	Gdiplus::GraphicsPath path;
+	path.StartFigure();
+	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic());
+	path.CloseFigure();
+	Gdiplus::SolidBrush brush(fillColor);
+	graphics.FillPath(&brush, &path);
+	Gdiplus::Pen pen2(strokeColor, strokeWidth);
+	graphics.DrawPath(&pen2, &path);
 }
 
 /** @brief Draw path */

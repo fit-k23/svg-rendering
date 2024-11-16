@@ -32,7 +32,10 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	XMLParser parser;
 	parser.traverseXML(fileName, v);
 
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
@@ -45,10 +48,8 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 
 	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
 	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
-//	graphics.TranslateTransform(centerX, centerY);
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
-//	graphics.TranslateTransform(-centerX, -centerY);
 	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 	render.draw(graphics);
 }
@@ -147,8 +148,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_LBUTTONDOWN: {
 			Camera::isDragging = true;
-			Camera::mousePosition.x = LOWORD(lParam);
-			Camera::mousePosition.y = HIWORD(lParam);
+			Camera::mousePosition.x = (int)(short) LOWORD(lParam);
+			Camera::mousePosition.y = (int)(short) HIWORD(lParam);
 			SetCapture(hWnd);
 			break;
 		}
@@ -167,7 +168,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				Camera::mousePosition.x = pt.x;
 				Camera::mousePosition.y = pt.y;
-				std::printf("(%d, %d, %d)\n", lParam, pt.x, pt.y);
+//				std::printf("(%d, %d, %d)\n", lParam, pt.x, pt.y);
 				InvalidateRect(hWnd, nullptr, false);
 			}
 			return 0;
