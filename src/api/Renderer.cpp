@@ -15,6 +15,9 @@ void Renderer::addShape(Element* shape) { shapes.push_back(shape); }
 
 void Renderer::draw(Gdiplus::Graphics &graphics) {
 	for (auto &shape: shapes) {
+		if (shape == nullptr) {
+			continue;
+		}
 		Gdiplus::Matrix orgMatrix;
 		// save an initial original matrix for graphics to later reset it
 		graphics.GetTransform(&orgMatrix);
