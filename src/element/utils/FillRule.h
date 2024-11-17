@@ -6,7 +6,7 @@ enum class FillRule : int{
 	EVEN_ODD,
 };
 
-#include <gdiplus/gdiplusenums.h>
+//#include <gdiplus/gdiplusenums.h>
 
 class FillRuleHelper final{
 public:
@@ -14,7 +14,7 @@ public:
 		if (s == "evenodd") {
 			return FillRule::EVEN_ODD;
 		}
-		return FillRule::NON_ZERO; // default is start
+		return FillRule::NON_ZERO; // default is non_zero
 	}
 
 	static std::string getName(const FillRule &fillRule) {

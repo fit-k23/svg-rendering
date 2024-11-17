@@ -1,12 +1,16 @@
 #ifndef XML_PARSER_H_
 #define XML_PARSER_H_
 
+#include <map>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include "Graphic.h"
 #include "../../lib/rapidxml/rapidxml.hpp"
+#include "../element/utils/Gradient.h"
+#include "../element/utils/LinearGradient.h"
+#include "../element/utils/RadialGradient.h"
 
 /**
  * @brief Parse SVG (XML format) file and handle its nodes, attributes
@@ -16,10 +20,11 @@
 */
 
 class XMLParser{
+private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
-	// TODO: add viewBox
+	std::map<std::string, Gradient *> grads;
 public:
 	/** @brief Default constructor */
 	XMLParser();
@@ -28,13 +33,17 @@ public:
 	 * @brief Default destructor
 	 * @note In case there are dynamic allocated memories
 	*/
-	~XMLParser() = default;
+	~XMLParser();
 
 	/**
 	 * @brief Get viewport information
 	 * @return Vector2D type of viewport
 	*/
 	Vector2D<float> getViewPort();
+
+	/*
+	* @brief Get view box object
+	*/
 	ViewBox getViewBox() const;
 
 	/**
@@ -108,6 +117,12 @@ public:
 
 	/** @brief Parse Path attributes */
 	SVGPath parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+
+	/*
+	* @brief Parse gradient attributes 
+	* @note All gradients will be stored in grads map
+	*/
+	void parseGradients(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransforms);
 
 	/**
 	 * @brief Get the float value of specific attribute
