@@ -26,6 +26,8 @@ void ProjectDeInit() {
 	ParserManager::free();
 }
 
+std::string svgFile = "asset/sample.svg";
+
 void ProjectDraw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
 	std::vector<Element *> v;
@@ -76,7 +78,7 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 //		std::cout << "\n";
 
 //		graphics.TranslateTransform(translateX, translateY);
-//		graphics.ScaleTransform(scaleX, scaleY);
+		graphics.ScaleTransform(scaleX, scaleY);
 	}
 
 	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
@@ -130,6 +132,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 	PAINTSTRUCT ps;
 
 	switch (message) {
+		case WM_CREATE: {
+			DragAcceptFiles(hWnd, true);
+			break;
+		}
 		case WM_PAINT: {
 			HDC hdc = BeginPaint(hWnd, &ps);
 			RECT rect;
@@ -149,7 +155,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			// Draw into hdcMem here
 //			ProjectDraw(hdcMem, "asset/text_anchor.svg");
-			ProjectDraw(hdcMem, "asset/bear.svg");
+			ProjectDraw(hdcMem, svgFile);
 			// Transfer the off-screen DC to the screen
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
@@ -177,8 +183,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_LBUTTONDOWN: {
 			Camera::isDragging = true;
-			Camera::mousePosition.x = (int)(short) LOWORD(lParam);
-			Camera::mousePosition.y = (int)(short) HIWORD(lParam);
+			Camera::mousePosition.x = (float)(short) LOWORD(lParam);
+			Camera::mousePosition.y = (float)(short) HIWORD(lParam);
 			SetCapture(hWnd);
 			break;
 		}
@@ -200,6 +206,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 //				std::printf("(%d, %d, %d)\n", lParam, pt.x, pt.y);
 				InvalidateRect(hWnd, nullptr, false);
 			}
+			return 0;
+		}
+		case WM_DROPFILES: {
+			// Get the file path of the dropped file
+			HDROP hDrop = (HDROP) wParam;
+			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
+			if (fileCount > 0) {
+				std::wstring filePath(256, L'\0');
+				DragQueryFileW(hDrop, 0, &filePath[0], filePath.size());
+				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
+				svgFile = std::string(filePath.begin(), filePath.end());
+				InvalidateRect(hWnd, nullptr, false);
+			}
+			DragFinish(hDrop);
 			return 0;
 		}
 		case WM_KEYDOWN: {
