@@ -55,7 +55,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 			}
 			case ElementType::Path: {
 				drawPath(graphics, static_cast<SVGPath *>(shape));
-				shape->dbg();
+				//shape->dbg();
 				break;
 			}
 			default:

@@ -26,7 +26,7 @@ void ProjectDeInit() {
 	ParserManager::free();
 }
 
-std::string svgFile = "asset/sample.svg";
+std::string svgFile = "asset/tiger.svg";
 
 void ProjectDraw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
