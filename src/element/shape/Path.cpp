@@ -17,7 +17,7 @@ void SVGPath::dbg() {
 	std::cout << "Set of points: \n"; 
 	for (auto& point : points) {
 		point->output();
-		std::cout << '\n';
+//		std::cout << '\n';
 	}
 }
 

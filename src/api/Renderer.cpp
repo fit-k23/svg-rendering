@@ -52,6 +52,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 			}
 			case ElementType::Path: {
 				drawPath(graphics, static_cast<SVGPath *>(shape));
+				shape->dbg();
 				break;
 			}
 			default:
@@ -294,14 +295,23 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	Vector2D<float> cur;
 	Gdiplus::GraphicsPath path(fillRule == FillRule::NON_ZERO ? Gdiplus::FillModeWinding : Gdiplus::FillModeAlternate);
 
+	PathPoint* pre = nullptr;
 	for (auto &point : points) {
 		char ins = tolower(point->getCMD());
 		Vector2D<float> pos = point->getPos();
 		if (ins == 'm') { // Move-to command
+			bool startPath = true;
+			if (pre != nullptr) {
+				if (pre->getCMD() == point->getCMD()) {
+					//std::cout << "Draw line from (" << cur.x << ", " << cur.y << ") to (" << pos.x << ", " << pos.y << ")\n";
+					path.AddLine(cur.x, cur.y, pos.x, pos.y);
+					startPath = false;
+				}
+			}
 			// Starting point of a path
 			sta = pos;
 			cur = pos;
-			path.StartFigure();
+			if (startPath) path.StartFigure();
 		} else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point
 				path.CloseFigure();
@@ -373,6 +383,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
 		}
+		pre = point;
 	}
 
 	graphics.FillPath(&brush, &path);

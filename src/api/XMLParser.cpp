@@ -261,16 +261,21 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 			++tmpI;
 		}
 
-		buffer.clear();
+		buffer.clear(); // reset stringstream cursor to begin
 		buffer.str(data);
 		
 		if (ins == 'm' || ins == 'l') { // <-- move-to and line command
 			float x, y;
 			while (buffer >> x >> y) {
-				Vector2D<float> newPos = Vector2D<float>(x, y) + (isupper(d[i]) ? Vector2D<float>(0, 0) : getLastPos(points));
+				Vector2D<float> newPos = Vector2D<float>(x, y);
+				if (!isupper(d[i])) newPos += getLastPos(points);
+				char preCmd = (points.empty() ? '.' : points.back()->getCMD());
 				points.push_back(new NormPathPoint(d[i], newPos));
-				//std::cout << x << " " << y << '\n';
-				if (ins == 'm') sta = newPos;
+				if (ins == 'm') {
+					// The starting point doesn't change unless the path is explicitly restarted with another m or similar command.
+					if (points.size() == 1 || (preCmd != '.' && preCmd != d[i]))
+						sta = newPos;
+				}
 			}
 		} else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
