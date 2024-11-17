@@ -12,9 +12,19 @@ SVGColor::SVGColor(std::string param) {
 	g = 0;
 	b = 0;
 	a = 0;
-	// #RRGGBB
+	// #RRGGBB or #RGB
 	if (param[0] == '#') {
 		unsigned int pSize = param.size();
+		if (pSize == 4) {
+			std::string newParam = "#";
+			for (int i = 1; i < 4; ++i) {
+				newParam += param[i];
+				newParam += param[i];
+			}
+			param = newParam;
+			pSize = param.size();
+		}
+
 		if (pSize != 7 && pSize != 9) {
 			return;
 		}
