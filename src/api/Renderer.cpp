@@ -15,9 +15,9 @@ void Renderer::addShape(Element* shape) { shapes.push_back(shape); }
 
 void Renderer::draw(Gdiplus::Graphics &graphics) {
 	for (auto &shape: shapes) {
-		if (shape == nullptr) {
-			continue;
-		}
+//		if (shape == nullptr) {
+//			continue;
+//		}
 		Gdiplus::Matrix orgMatrix;
 		// save an initial original matrix for graphics to later reset it
 		graphics.GetTransform(&orgMatrix);
@@ -70,32 +70,28 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	// Matrix in gdiplus is the transpose 
 	std::stringstream buffer;
 	std::string cmd;
-	for (int i = 0; i < (int)transformations.size(); ++i) {
+	for (const auto &transformation : transformations) {
 		buffer.clear();
-		buffer.str(transformations[i]);
+		buffer.str(transformation);
 		buffer >> cmd;
 		if (cmd == "matrix") {
 			float a, b, c, d, e, f;
 			buffer >> a >> b >> c >> d >> e >> f;
 			Gdiplus::Matrix matrix(a, b, c, d, e, f);
-			graphics.SetTransform(&matrix);
+			graphics.MultiplyTransform(&matrix);
 		}
 		else if (cmd == "translate") {
 			float dx = 0, dy = 0;
 			buffer >> dx;
 			if (!(buffer >> dy)) dy = 0;
-			//Gdiplus::Matrix matrix(1.0f, 0.0f, 0.0f, 1.0f, dx, dy);
 			graphics.TranslateTransform(dx, dy);
-		}
-		else if (cmd == "scale") {
+		} else if (cmd == "scale") {
 			float dx = 0, dy = 0;
 			buffer >> dx;
 			if (!(buffer >> dy)) dy = dx;
-			//Gdiplus::Matrix matrix(dx, 0.0f, 0.0f, dy, 0.0f, 0.0f);
-			std::cout << "scale " << dx << " " << dy << '\n';
+//			std::cout << "scale " << dx << " " << dy << '\n';
 			graphics.ScaleTransform(dx, dy);	
-		}
-		else if (cmd == "rotate") {
+		} else if (cmd == "rotate") {
 			float a, x = 0, y = 0;
 			buffer >> a;
 			if (!(buffer >> x >> y)) {

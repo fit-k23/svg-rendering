@@ -25,7 +25,7 @@ SVGColor::SVGColor(std::string param) {
 			pSize = param.size();
 		}
 
-		if (pSize != 7 && pSize != 9) {
+		if (pSize != 4 && pSize != 7 && pSize != 9) {
 			return;
 		}
 		for (int i = 1; i < pSize; ++i) {
