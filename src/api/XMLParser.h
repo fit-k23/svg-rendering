@@ -157,7 +157,7 @@ public:
 	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
 
 	/** @brief Parse transformation and add to vector */
-	std::vector<std::string> parseTransformation(std::string &transformation);
+	std::vector<std::string> parseTransformation(std::string transformation);
 };
 
 #endif // XML_PARSER_H_

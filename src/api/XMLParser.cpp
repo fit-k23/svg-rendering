@@ -468,7 +468,7 @@ std::vector<Vector2D<float>> XMLParser::parsePointsAttr(rapidxml::xml_node<> *pN
 	return ret;
 }
 
-std::vector<std::string> XMLParser::parseTransformation(std::string& transformation) {
+std::vector<std::string> XMLParser::parseTransformation(std::string transformation) {
 	std::vector<std::string> ret;
 
 	for (char &i : transformation)
