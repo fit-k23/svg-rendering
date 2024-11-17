@@ -77,7 +77,7 @@ void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v
 			// recursively call to handle inside g tag
 			parseGroup(pChild, v, transformation);
 		} else {
-			Element *e = parseShape(pNode, transformation);
+			Element *e = parseShape(pChild, transformation);
 			if (e != nullptr) v.push_back(e);
 		}
 		pChild = pChild->next_sibling();
