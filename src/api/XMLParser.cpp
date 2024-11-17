@@ -37,7 +37,8 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			// TODO: Parse and get group attributes
 			parseGroup(pNode, v, {});			
 		} else { // <-- Shape type, if not then pass ?
-			v.push_back(parseShape(pNode, {}));
+			Element *e = parseShape(pNode, {});
+			if (e != nullptr) v.push_back(e);
 		}
 		pNode = pNode->next_sibling();
 	}
@@ -76,7 +77,8 @@ void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v
 			// recursively call to handle inside g tag
 			parseGroup(pChild, v, transformation);
 		} else {
-			v.push_back(parseShape(pChild, transformation));
+			Element *e = parseShape(pNode, transformation);
+			if (e != nullptr) v.push_back(e);
 		}
 		pChild = pChild->next_sibling();
 	}
@@ -126,7 +128,7 @@ void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<st
 	}
 }
 
-Element *XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransform) {
+Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode, const std::vector<std::string> &passTransform) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
@@ -134,7 +136,7 @@ Element *XMLParser::parseShape(rapidxml::xml_node<>* pNode, const std::vector<st
 	std::vector<std::string> transformation = parseTransformation(transformAttr);
 
 	std::string nodeName = pNode->name();
-	Element* ret = nullptr;
+	Element *ret = nullptr;
 	if (nodeName == "rect")
 		ret = new SVGRect(parseRect(pNode, fillColor, strokeColor, strokeWidth));
 	else if (nodeName == "ellipse") 
