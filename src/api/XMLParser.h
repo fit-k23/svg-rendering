@@ -24,16 +24,31 @@ private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
-	std::map<std::string, Gradient *> grads;
+	std::vector<Element *> shapes;
+	std::map<std::string, Gradient*> grads;
+	static XMLParser *instance;
 public:
-	/** @brief Default constructor */
-	XMLParser();
+	/*
+	* @brief Get instance of XMLParser (apply singleton design pattern)
+	*/
+	static XMLParser* getInstance();
+
+	/*
+	* @brief Delete copy constructor to ensure the singleton design pattern
+	*/
+	XMLParser(const XMLParser &other) = delete;
 
 	/**
-	 * @brief Default destructor
-	 * @note In case there are dynamic allocated memories
+	 * @brief Destructor of XMLParser
+	 * @note Delete allocated memory of map gradients
 	*/
 	~XMLParser();
+
+	/**
+	 * @brief Traverse through each nodes and attributes of SVG
+	 * @note Handling and drawing in here
+	*/
+	void traverseXML(const std::string& fileName);
 
 	/**
 	 * @brief Get viewport information
@@ -46,12 +61,18 @@ public:
 	*/
 	ViewBox getViewBox() const;
 
-	/**
-	 * @brief Traverse through each nodes and attributes of SVG
-	 * @note Handling and drawing in here
+	/*
+	* @brief Get the vector containing all shapes
 	*/
-	void traverseXML(const std::string &fileName, std::vector<Element *> &v);
+	std::vector<Element *> getShapes() const;
+private:
+	/** @brief Default constructor */
+	XMLParser();
 
+	/*
+	* @brief Parse view box information
+	* @return a view box
+	*/
 	ViewBox parseViewBox(rapidxml::xml_node<> *pNode);
 
 	/**

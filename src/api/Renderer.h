@@ -11,7 +11,34 @@ private:
 	Vector2D<float> screenSize;
 	Vector2D<float> viewPort;
 	std::vector<Element *> shapes;
+	static Renderer *instance;
 public:
+	/*
+	* @brief Get instance of XMLParser (apply singleton design pattern)
+	*/
+	static Renderer *getInstance();
+
+	/*
+	* @brief Delete copy constructor to ensure the singleton design pattern
+	*/
+	Renderer(const Renderer &other) = delete;
+	
+	/** @brief Traverse and draw all elements */
+	void draw(Gdiplus::Graphics& graphics);
+	
+	void setScreenSize(const Vector2D<float> &screenSize);
+
+	Vector2D<float> getScreenSize() const;
+
+	void setViewPort(const Vector2D<float> &viewPort);
+
+	Vector2D<float> getViewPort() const;
+
+	void setShapes(const std::vector<Element *> &shapes);
+
+	std::vector<Element *> getShapes() const;
+
+private:
 	/** @brief Default constructor */
 	Renderer();
 
@@ -22,19 +49,10 @@ public:
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
 	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, const Vector2D<float> &screenSize);
 
-	/**
-	 * @brief Destructor
-	 * @note Delete all pointers in shapes vector
-	*/
-	~Renderer();
-
 	/*
 	* @brief Add new shape
 	*/
 	void addShape(Element* shape);
-
-	/** @brief Traverse and draw all elements */
-	void draw(Gdiplus::Graphics& graphics);
 
 	/*
 	* @brief Apply transformation to gdiplus graphics path

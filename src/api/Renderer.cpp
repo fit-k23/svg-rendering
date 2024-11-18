@@ -1,17 +1,21 @@
 #include "Renderer.h"
 
-Renderer::Renderer() : screenSize{}, viewPort{Vector2D < float > {}} {
+Renderer *Renderer::instance = nullptr;
+
+Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>()} {
 	shapes.clear();
 }
 
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{_viewPort} {}
 Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
 
-Renderer::~Renderer() {
-	for (auto &shape: shapes) delete shape;
-}
-
 void Renderer::addShape(Element* shape) { shapes.push_back(shape); }
+
+Renderer* Renderer::getInstance() {
+	if (instance == nullptr) 
+		instance = new Renderer();
+	return instance;
+}
 
 void Renderer::draw(Gdiplus::Graphics &graphics) {
 	for (auto &shape: shapes) {
@@ -65,6 +69,18 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		graphics.SetTransform(&orgMatrix);
 	}
 }
+
+void Renderer::setScreenSize(const Vector2D<float>& screenSize) { this->screenSize = screenSize; }
+
+Vector2D<float> Renderer::getScreenSize() const { return screenSize; }
+
+void Renderer::setViewPort(const Vector2D<float>& viewPort) { this->viewPort = viewPort; }
+
+Vector2D<float> Renderer::getViewPort() const { return viewPort; }
+
+void Renderer::setShapes(const std::vector<Element*>& shapes) { this->shapes = shapes; }
+
+std::vector<Element*> Renderer::getShapes() const { return shapes; }
 
 void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string>& transformations) {
 	// Matrix in gdiplus is the transpose 

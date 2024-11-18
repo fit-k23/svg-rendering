@@ -27,12 +27,20 @@ void ProjectDeInit() {
 }
 
 std::string svgFile = "asset/tiger.svg";
+std::string preFile = "";
+XMLParser *parser = nullptr;
+Renderer *render = nullptr;
 
 void ProjectDraw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
-	std::vector<Element *> v;
-	XMLParser parser;
-	parser.traverseXML(fileName, v);
+	if (parser == nullptr) parser = XMLParser::getInstance();
+
+	if (preFile != fileName) {
+		if (preFile != "")
+			std::cout << "Changing from " << preFile << " to " << fileName << '\n';
+		preFile = fileName;
+		parser->traverseXML(fileName);
+	}
 
 //	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
 
@@ -48,10 +56,8 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	float centerX = GetSystemMetrics(SM_CXSCREEN) / 2.0f;
 	float centerY = GetSystemMetrics(SM_CYSCREEN) / 2.0f;
 
-	Renderer render = Renderer(parser.getViewPort(), v, {2 * centerX, 2 * centerY});
-
-	Vector2D<float> vPort = parser.getViewPort();
-	ViewBox vBox = parser.getViewBox();
+	Vector2D<float> vPort = parser->getViewPort();
+	ViewBox vBox = parser->getViewBox();
 
 
 //	std::cout << "Viewport x = " << vPort.x << '\n';
@@ -86,7 +92,15 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
 	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
-	render.draw(graphics);
+
+	if (render == nullptr)
+		render = Renderer::getInstance();
+	
+	render->setViewPort(vPort);
+	render->setShapes(parser->getShapes());
+	render->setScreenSize({ 2 * centerX, 2 * centerY });
+
+	render->draw(graphics);
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -124,6 +138,10 @@ int main() {
 		DispatchMessage(&msg);
 	}
 
+	// delete XMLparser and Renderer pointer
+	delete parser;
+	delete render;
+	std::cout << "Deleteing instance of XMLParser and Renderer\n";
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return static_cast<int>(msg.wParam); // Return the message's result
 }

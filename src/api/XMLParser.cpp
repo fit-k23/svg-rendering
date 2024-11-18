@@ -1,13 +1,26 @@
 #include "XMLParser.h"
 
-XMLParser::XMLParser() : viewPort{}, viewBox{0, 0, -1, -1} {}
+XMLParser* XMLParser::instance = nullptr;
+
+XMLParser::XMLParser() : viewPort{}, viewBox{ 0, 0, -1, -1 }, shapes({}) { grads.clear(); }
+
+XMLParser* XMLParser::getInstance() {
+	if (instance == nullptr) instance = new XMLParser();
+	return instance;
+}
 
 XMLParser::~XMLParser() {
+	for (auto &e : shapes) delete e;
 	for (auto &gradient : grads)
 		delete gradient.second;
 }
 
-void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> &v) {
+void XMLParser::traverseXML(const std::string &fileName) {
+	// in case new file is dragged in
+	if (!shapes.empty()) {
+		for (auto& e : shapes) delete e;
+		shapes = {};
+	}
 	std::ifstream fin(fileName.c_str());
 	if (!fin.is_open()) {
 		std::cout << "Cannot open file\n";
@@ -35,10 +48,10 @@ void XMLParser::traverseXML(const std::string &fileName, std::vector<Element *> 
 			// TODO: Save gradients id
 		} else if (nodeName == "g") {
 			// TODO: Parse and get group attributes
-			parseGroup(pNode, v, {});			
+			parseGroup(pNode, shapes, {});			
 		} else { // <-- Shape type, if not then pass ?
 			Element *e = parseShape(pNode, {});
-			if (e != nullptr) v.push_back(e);
+			if (e != nullptr) shapes.push_back(e);
 		}
 		pNode = pNode->next_sibling();
 	}
@@ -71,7 +84,7 @@ void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v
 	while (pChild != nullptr) {
 		std::string nodeName = pChild->name();
 		if (nodeName == "defs") {
-			// TODO: recall function parseDefs and parseGradients (haven't created .-.)
+			// TODO: recall function parseDefs and parseGradients 
 			parseGradients(pChild, transformation);
 		} else if (nodeName == "g") {
 			// recursively call to handle inside g tag
@@ -498,5 +511,7 @@ std::vector<std::string> XMLParser::parseTransformation(std::string transformati
 }
 
 ViewBox XMLParser::getViewBox() const { return viewBox; }
+
+std::vector<Element*> XMLParser::getShapes() const { return shapes; }
 
 
