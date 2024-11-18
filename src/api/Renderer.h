@@ -25,17 +25,41 @@ public:
 	
 	/** @brief Traverse and draw all elements */
 	void draw(Gdiplus::Graphics& graphics);
-	
+
+	/*
+	* @brief Set new screen size
+	* @param screenSize new screen size
+	*/
 	void setScreenSize(const Vector2D<float> &screenSize);
 
+	/*
+	* @brief Get the screen size
+	* @note This function doesn't change any attributes
+	*/
 	Vector2D<float> getScreenSize() const;
 
+	/*
+	* @brief Set new view port
+	* @param viewPort new view port
+	*/
 	void setViewPort(const Vector2D<float> &viewPort);
 
+	/*
+	* @brief Get the view port
+	* @note This function doesn't change any attributes
+	*/	
 	Vector2D<float> getViewPort() const;
 
+	/*
+	* @brief Set new set of shapes
+	* @param shapes new shapes vector
+	*/
 	void setShapes(const std::vector<Element *> &shapes);
 
+	/*
+	* @brief Get the shapes vector
+	* @note This function doesn't change any attributes
+	*/	
 	std::vector<Element *> getShapes() const;
 
 private:

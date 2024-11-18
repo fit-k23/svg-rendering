@@ -27,7 +27,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 		graphics.GetTransform(&orgMatrix);
 		// apply current transformation for current shape
 		applyTransformation(graphics, shape->getTransformation());
-//		shape->dbg();
+
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -105,7 +105,6 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 			float dx = 0, dy = 0;
 			buffer >> dx;
 			if (!(buffer >> dy)) dy = dx;
-//			std::cout << "scale " << dx << " " << dy << '\n';
 			graphics.ScaleTransform(dx, dy);	
 		} else if (cmd == "rotate") {
 			float a, x = 0, y = 0;
@@ -270,7 +269,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	}
 
 	// TODO: Research to https://learn.microsoft.com/en-us/dotnet/api/system.drawing.fontfamily.getemheight?view=windowsdesktop-8.0
-//	float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0f;
+    //float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0f;
 	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0f + 0.5f;
 	position.y -= boundingBox.Height;
 	position.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em, but I don't bother to fix it :l
@@ -278,13 +277,13 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	boundingBox.Y = position.y + padding;
 	boundingBox.Height -= padding * 2.0f;
 
-//	Gdiplus::Pen pen({255, 0, 0, 0}, 1);
-//	graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
-//	pen.SetColor(SVG_BLUE.alpha(200));
-//	graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
-//	graphics.DrawRectangle(&pen, boundingBox);
-//	Gdiplus::SolidBrush solidBrush(fillColor);
-//	graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
+	//Gdiplus::Pen pen({255, 0, 0, 0}, 1);
+	//graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
+	//pen.SetColor(SVG_BLUE.alpha(200));
+	//graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
+	//graphics.DrawRectangle(&pen, boundingBox);
+	//Gdiplus::SolidBrush solidBrush(fillColor);
+	//graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
 
 	Gdiplus::GraphicsPath path;
 	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic());
@@ -318,7 +317,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			bool startPath = true;
 			if (pre != nullptr) {
 				if (pre->getCMD() == point->getCMD()) {
-					//std::cout << "Draw line from (" << cur.x << ", " << cur.y << ") to (" << pos.x << ", " << pos.y << ")\n";
+					// Any subsequent coordinate pair(s) are interpreted as parameter(s) for implicit absolute L/l command(s)
 					path.AddLine(cur.x, cur.y, pos.x, pos.y);
 					startPath = false;
 				}
@@ -388,7 +387,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(point);
 			Vector2D<float> cen = pQuad->getCen();
 			// draw bezier curve by bezier splines:
-			// https://groups.google.com/g/microsoft.public.win32.programmer.gdi/c/f46zo9NyIzA 
+			// research: https://groups.google.com/g/microsoft.public.win32.programmer.gdi/c/f46zo9NyIzA 
 			Gdiplus::PointF curvePoints[4] = {cur, Gdiplus::PointF((cur.x + cen.x * 2.0f) / 3.0f, (cur.y + cen.y * 2.0f) / 3.0f), Gdiplus::PointF((pos.x + cen.x * 2.0f) / 3.0f, (pos.y + cen.y * 2.0f) / 3.0f), pos};
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
