@@ -23,7 +23,7 @@ void XMLParser::traverseXML(const std::string &fileName) {
 	}
 	std::ifstream fin(fileName.c_str());
 	if (!fin.is_open()) {
-		std::cout << "Cannot open file\n";
+		std::cout << "Cannot open file " << fileName << '\n';
 		return;
 	}
 	std::stringstream buffer;
