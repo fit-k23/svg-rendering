@@ -307,10 +307,12 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 					startPath = false;
 				}
 			}
-			// Starting point of a path
-			sta = pos;
 			cur = pos;
-			if (startPath) path.StartFigure();
+			// Starting point of a path
+			if (startPath) {
+				path.StartFigure();
+				sta = pos;
+			}
 		} else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point
 				path.CloseFigure();
