@@ -395,8 +395,11 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 	std::string value = pAttr->value();	
 	std::stringstream buffer(value);
 	buffer >> ret;
-	// TODO: value is a real number
-	// TODO: value is percentage (%)
+	// If value is percentage (%)
+	if (value.find('%') != std::string::npos) {
+		//std::cout << value << '\n';
+		ret /= 100.0f;
+	}
 	return ret;
 }
 

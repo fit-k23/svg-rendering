@@ -45,17 +45,24 @@ SVGColor::SVGColor(std::string param) {
 			a = std::stoi(param.substr(7, 2), nullptr, 16);
 	} else {
 		//Assuming the form of string input is rgb(r,g,b)
+		bool isPercent[3] = { false, false, false };
+		int idPercent = 0;
 		if (param[0] == 'r' && (param[1] == 'g' && param[2] == 'b')) {
 			for (char & i : param) {
-				if (!(i >= '0' && i <= '9') && i != '.')
+				if (i == 'r' || i == 'g' || i == 'b' || i == '(' || i == ')' || i == ',' || i == '%') {
+					if (i == '%') isPercent[idPercent++] = true;
 					i = ' ';
+				}
 			}
 			std::stringstream buffer(param);
 			float R, G, B;
 			buffer >> R >> G >> B;
 			r = (unsigned char) R;
+			if (isPercent[0]) r = (255.0f * (R / 100.0f));
 			g = (unsigned char) G;
+			if (isPercent[1]) g = (255.0f * (G / 100.0f));
 			b = (unsigned char) B;
+			if (isPercent[2]) b = (255.0f * (B / 100.0f));
 		} else {
 			//Assuming the string input is color name
 			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
