@@ -255,8 +255,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		if (i == ',' || i == '\n' || i == '\t') i = ' ';
 	}
 
-	//std::cout << "d after format: " << d << '\n';
-
 	Vector2D<float> sta;
 	std::stringstream buffer;
 	std::string data;
@@ -295,7 +293,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		} else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
 			while (buffer >> num) {
-				//std::cout << num << '\n';
 				Vector2D<float> newPos;
 				if (ins == 'h') newPos = Vector2D<float>(d[i] == 'H' ? num : getLastPos(points).x + num, getLastPos(points).y);
 				else newPos = Vector2D<float>(getLastPos(points).x, d[i] == 'V' ? num : getLastPos(points).y + num);
@@ -304,7 +301,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		} else if (ins == 'q') { // <-- Quadratic Bezier Curve
 			float x, y, cenx, ceny;
 			while (buffer >> cenx >> ceny >> x >> y) {
-				//std::cout << cenx << " " << ceny << " " << x << " " << y << '\n';
 				Vector2D<float> newPos = Vector2D<float>(x, y);
 				Vector2D<float> newCen = Vector2D<float>(cenx, ceny);
 				if (d[i] == 'q') {
@@ -316,7 +312,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		} else if (ins == 't') { // <-- reflection of previous quadratic bezier control's point
 			float x, y;
 			while (buffer >> x >> y) {
-				//std::cout << x << " " << y << '\n';
 				Vector2D<float> newPos = Vector2D<float>(x, y);
 				if (d[i] == 't') newPos += getLastPos(points);
 				Vector2D<float> cen;
@@ -333,7 +328,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 			Vector2D<float> pos;
 			float cen0x, cen0y, cen1x, cen1y;
 			while (buffer >> cen0x >> cen0y >> cen1x >> cen1y >> pos.x >> pos.y) {
-				//std::cout << cen0x << " " << cen0y << " " << cen1x << " " << cen1y << " " << pos.x << " " << pos.y << '\n';
 				if (d[i] == 'C') points.push_back(new CubicPathPoint(d[i], pos, Vector2D<float>(cen0x, cen0y), Vector2D<float>(cen1x, cen1y)));
 				else {
 					Vector2D<float> lastPos = getLastPos(points);
@@ -343,7 +337,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		} else if (ins == 's') { // <-- only first control point has reflection, second control point must be specified
 			float x, y, cen2x, cen2y;
 			while (buffer >> cen2x >> cen2y >> x >> y) {
-				//std::cout << cen2x << " " << cen2y << " " << x << " " << y << '\n';
 				Vector2D<float> newPos = Vector2D<float>(x, y);
 				Vector2D<float> cen2 = Vector2D<float>(cen2x, cen2y);
 				if (d[i] == 's') {
@@ -366,7 +359,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 			bool sweepFlag;
 			Vector2D<float> pos;
 			while (buffer >> radii.x >> radii.y >> xRotation >> largeArcFlag >> sweepFlag >> pos.x >> pos.y) {
-				//std::cout << radii.x << " " << radii.y << " " << xRotation << " " << largeArcFlag << " " << sweepFlag << " " << pos.x << " " << pos.y << '\n';
 				points.push_back(new ArcPathPoint(d[i], (d[i] == 'A' ? pos : getLastPos(points) + pos), radii, xRotation, largeArcFlag, sweepFlag));
 			}
 		} else if (ins == 'z') { // end current path
@@ -376,7 +368,6 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		}
 		if (nxt == -1) break;
 		i = nxt - 1; // go to position of next command
-		//std::cout << "i = " << i << '\n';
 	}
 
 	return {*points[0], fillColor, strokeColor, strokeWidth, points, fillRule};
@@ -493,7 +484,7 @@ std::vector<std::string> XMLParser::parseTransformation(std::string transformati
 	std::string data;
 	bool start = false;
 	for (char &save : transformation) {
-			if (save == ',' || save == '(' || save == ')') {
+		if (save == ',' || save == '(' || save == ')') {
 			data += ' ';
 			if (save == ')') {
 				ret.push_back(data);
