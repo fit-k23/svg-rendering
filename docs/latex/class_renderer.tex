@@ -1,0 +1,108 @@
+\doxysection{Renderer Class Reference}
+\hypertarget{class_renderer}{}\label{class_renderer}\index{Renderer@{Renderer}}
+
+
+{\ttfamily \#include $<$Renderer.\+h$>$}
+
+
+
+Collaboration diagram for Renderer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=168pt]{class_renderer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_renderer_af52d7f0f9235d210d13071c0aa3a3723}{Renderer}} (const \mbox{\hyperlink{class_renderer}{Renderer}} \&other)=delete
+\item 
+void \mbox{\hyperlink{class_renderer_adb5024f12c204417a0cae2f374233ad3}{draw}} (Gdiplus\+::\+Graphics \&graphics)
+\begin{DoxyCompactList}\small\item\em Traverse and draw all elements. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_renderer_ae4fed0d295f7335b7d7756856a95a85f}{set\+Screen\+Size}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&screen\+Size)
+\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_renderer_a17d87f3b06194f9a38e25200d783ce4a}{get\+Screen\+Size}} () const
+\item 
+void \mbox{\hyperlink{class_renderer_a578828c33ce7ff0afe07e6163aa11e60}{set\+View\+Port}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&view\+Port)
+\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_renderer_a538a3e05f861d473e202ddb1d41bb1bc}{get\+View\+Port}} () const
+\item 
+void \mbox{\hyperlink{class_renderer_a6fedc044c247d27e6c26048895d80561}{set\+Shapes}} (const std\+::vector$<$ \mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} $>$ \&shapes)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} $>$ \mbox{\hyperlink{class_renderer_a77183127b1f60bcfcd7bcfc14523c54f}{get\+Shapes}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_renderer}{Renderer}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_renderer_a4398db2d94d056e2a2e2af1343386bfc}{get\+Instance}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_renderer_af52d7f0f9235d210d13071c0aa3a3723}\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\index{Renderer@{Renderer}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{Renderer()}{Renderer()}}
+{\footnotesize\ttfamily \label{class_renderer_af52d7f0f9235d210d13071c0aa3a3723} 
+Renderer\+::\+Renderer (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_renderer}{Renderer}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_renderer_adb5024f12c204417a0cae2f374233ad3}\index{Renderer@{Renderer}!draw@{draw}}
+\index{draw@{draw}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily \label{class_renderer_adb5024f12c204417a0cae2f374233ad3} 
+void Renderer\+::draw (\begin{DoxyParamCaption}\item[{Gdiplus\+::\+Graphics \&}]{graphics}{}\end{DoxyParamCaption})}
+
+
+
+Traverse and draw all elements. 
+
+\Hypertarget{class_renderer_a4398db2d94d056e2a2e2af1343386bfc}\index{Renderer@{Renderer}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily \label{class_renderer_a4398db2d94d056e2a2e2af1343386bfc} 
+static \mbox{\hyperlink{class_renderer}{Renderer}} \texorpdfstring{$\ast$}{*} Renderer\+::get\+Instance (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_renderer_a17d87f3b06194f9a38e25200d783ce4a}\index{Renderer@{Renderer}!getScreenSize@{getScreenSize}}
+\index{getScreenSize@{getScreenSize}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{getScreenSize()}{getScreenSize()}}
+{\footnotesize\ttfamily \label{class_renderer_a17d87f3b06194f9a38e25200d783ce4a} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Renderer\+::get\+Screen\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_renderer_a77183127b1f60bcfcd7bcfc14523c54f}\index{Renderer@{Renderer}!getShapes@{getShapes}}
+\index{getShapes@{getShapes}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{getShapes()}{getShapes()}}
+{\footnotesize\ttfamily \label{class_renderer_a77183127b1f60bcfcd7bcfc14523c54f} 
+std\+::vector$<$ \mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} $>$ Renderer\+::get\+Shapes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_renderer_a538a3e05f861d473e202ddb1d41bb1bc}\index{Renderer@{Renderer}!getViewPort@{getViewPort}}
+\index{getViewPort@{getViewPort}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{getViewPort()}{getViewPort()}}
+{\footnotesize\ttfamily \label{class_renderer_a538a3e05f861d473e202ddb1d41bb1bc} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Renderer\+::get\+View\+Port (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_renderer_ae4fed0d295f7335b7d7756856a95a85f}\index{Renderer@{Renderer}!setScreenSize@{setScreenSize}}
+\index{setScreenSize@{setScreenSize}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{setScreenSize()}{setScreenSize()}}
+{\footnotesize\ttfamily \label{class_renderer_ae4fed0d295f7335b7d7756856a95a85f} 
+void Renderer\+::set\+Screen\+Size (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{screen\+Size}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_renderer_a6fedc044c247d27e6c26048895d80561}\index{Renderer@{Renderer}!setShapes@{setShapes}}
+\index{setShapes@{setShapes}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{setShapes()}{setShapes()}}
+{\footnotesize\ttfamily \label{class_renderer_a6fedc044c247d27e6c26048895d80561} 
+void Renderer\+::set\+Shapes (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} $>$ \&}]{shapes}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_renderer_a578828c33ce7ff0afe07e6163aa11e60}\index{Renderer@{Renderer}!setViewPort@{setViewPort}}
+\index{setViewPort@{setViewPort}!Renderer@{Renderer}}
+\doxysubsubsection{\texorpdfstring{setViewPort()}{setViewPort()}}
+{\footnotesize\ttfamily \label{class_renderer_a578828c33ce7ff0afe07e6163aa11e60} 
+void Renderer\+::set\+View\+Port (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{view\+Port}{}\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_renderer_8h}{Renderer.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,33 @@
+\doxysection{Ellipse.\+h}
+\hypertarget{_ellipse_8h_source}{}\label{_ellipse_8h_source}\mbox{\hyperlink{_ellipse_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SVG\_RENDERING\_Ell\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SVG\_RENDERING\_Ell\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../Element.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../utils/SVGColor.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../utils/Gradient.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../utils/Vector2D.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_v_g_ellipse}{SVGEllipse}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_element}{Element}}\{}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ radii;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_ellipse_abc15004a1047fcbf4ad2bda4326766e8}{SVGEllipse}}();}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_ellipse_a4cedf471dee863d429db3c12848c1ca9}{SVGEllipse}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fillColor}},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{strokeColor}},\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{strokeWidth}},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{ElementType}}\ \mbox{\hyperlink{class_s_v_g_ellipse_ac0fa9b692021df4bc94f2d9ffe39eb0f}{getTypeName}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_ellipse_aa3aed829be120160bd1786195e20dea7}{dbg}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00033\ \ \ \ \ std::pair<Vector2D<float>,\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}>\ \mbox{\hyperlink{class_s_v_g_ellipse_a76feeef2e08ea52b475418d4c461f57f}{getBoundingBox}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_ellipse_adec5d5227117c1a4937b2c559997a8a5}{setRadii}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \mbox{\hyperlink{class_s_v_g_ellipse_a013d5d568f2a20d9fe720c71696533eb}{getRadii}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//SVG\_RENDERING\_Ell\_H}}
+
+\end{DoxyCode}

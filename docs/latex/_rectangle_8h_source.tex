@@ -1,0 +1,44 @@
+\doxysection{Rectangle.\+h}
+\hypertarget{_rectangle_8h_source}{}\label{_rectangle_8h_source}\mbox{\hyperlink{_rectangle_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SVG\_RENDERING\_RECT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SVG\_RENDERING\_RECT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../utils/Vector2D.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../Element.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../utils/SVGColor.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_v_g_rect}{SVGRect}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_element}{Element}}\{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{float}\ width;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{float}\ height;}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ radii;}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_rect_a81409e0df91f5b9c706edb367df0027c}{SVGRect}}();}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_rect_a42c93a10d4478648b0a2c40d2076a4a4}{SVGRect}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fillColor}},\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{strokeColor}},\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{strokeWidth}},\ \textcolor{keywordtype}{float}\ width,\ \textcolor{keywordtype}{float}\ height,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_rect_accaa80fd4900facb1783c68403a47ab8}{SVGRect}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_rect}{SVGRect}}\ \&other);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{ElementType}}\ \mbox{\hyperlink{class_s_v_g_rect_a575c2101c955e47bc8c5eaeaba3ab14c}{getTypeName}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_rect_a25a6cac1a98c3141bb2a7c521ce34add}{dbg}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00048\ \ \ \ \ std::pair<Vector2D<float>,\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}>\ \mbox{\hyperlink{class_s_v_g_rect_a2954d5ad921f4c5a58103a9542505909}{getBoundingBox}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_rect_affb8ec11e9cd18f90efda7ebb2427fca}{setWidth}}(\textcolor{keywordtype}{float}\ \_width);}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_rect_a82e8f6c332429aee0b93c058e0c6f2b9}{setHeight}}(\textcolor{keywordtype}{float}\ \_height);}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_s_v_g_rect_a3de20e8096c623ce861a6983b34a6018}{getWidth}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_s_v_g_rect_ac8e050c0a615114428087090df00bbfd}{getHeight}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_rect_ab45a4da7f604973969928da2fcf4c7c1}{setRadii}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00084\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \mbox{\hyperlink{class_s_v_g_rect_a35be96a4cbdb1038d2fc49f0a716d0c2}{getRadii}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//SVG\_RENDERING\_RECT\_H}}
+
+\end{DoxyCode}

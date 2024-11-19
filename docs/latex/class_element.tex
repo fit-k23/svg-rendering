@@ -1,0 +1,490 @@
+\doxysection{Element Class Reference}
+\hypertarget{class_element}{}\label{class_element}\index{Element@{Element}}
+
+
+\doxylink{class_element}{Element} is an abstract class for all svg elements (nodes) @attributes contains most of SVG attributes and a pointer to its parent node Since it\textquotesingle{}s abstract, the destructor must be virtual to avoid any undefined behaviors.  
+
+
+
+
+{\ttfamily \#include $<$Element.\+h$>$}
+
+
+
+Inheritance diagram for Element\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_element__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Element\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_element__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_element_aa153979c5d46fff8e2b9ee8b48dd863f}{\texorpdfstring{$\sim$}{\string~}\+Element}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{Element\+Type}} \mbox{\hyperlink{class_element_ae5ffda31e2cdca73f6b5a69eef056634}{get\+Type\+Name}} ()=0
+\begin{DoxyCompactList}\small\item\em Get Type\+Name of an svg element. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_element_a6c8d660348fe1564d09372bc37c51d5d}{dbg}} ()
+\begin{DoxyCompactList}\small\item\em Print all data of an svg element. \end{DoxyCompactList}\item 
+virtual std\+::pair$<$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$, \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ $>$ \mbox{\hyperlink{class_element_ae37416ec8b3f04a999fddd85d3d4e02e}{get\+Bounding\+Box}} () const
+\item 
+void \mbox{\hyperlink{class_element_ab124043237f73d55948aa444f0530011}{set\+Position}} (float x, float y)
+\begin{DoxyCompactList}\small\item\em Set position of an svg element. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a1b88431855854e04ea08c0e9570c287b}{set\+Position}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}})
+\begin{DoxyCompactList}\small\item\em set position of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_element_a8af03db2a7cf2629431bf0b68a9faec0}{get\+Position}} () const
+\begin{DoxyCompactList}\small\item\em get position of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a969ec036a048835ddeb31b3b5a98b7f8}{set\+Fill\+Color}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&color)
+\begin{DoxyCompactList}\small\item\em set fill color of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a453f0043f1ea111edf681766860aeaeb}{get\+Fill\+Color}} () const
+\begin{DoxyCompactList}\small\item\em get fill color of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a663e575e141948db494114ffc336568d}{set\+Stroke\+Color}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&color)
+\begin{DoxyCompactList}\small\item\em set stroke color of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a8f8d31e08a805662bf3e5cba6c3768c3}{get\+Stroke\+Color}} () const
+\begin{DoxyCompactList}\small\item\em get stroke color of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a8875e5b1193fbb2efb9ba7c51f9129bd}{set\+Stroke\+Width}} (float width)
+\begin{DoxyCompactList}\small\item\em set stroke width of an svg element \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_element_ac18c12f18471b1e13a444006afd13615}{get\+Stroke\+Width}} () const
+\begin{DoxyCompactList}\small\item\em get stroke width of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_accabfbfa9a44e105f689ff7aed360ca0}{add\+Transformation}} (const std\+::string \&s)
+\begin{DoxyCompactList}\small\item\em add a transformation ~\newline
+ \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_aab1cd2e2210d2e75aa693f87ef3efd36}{set\+Transformation}} (const std\+::vector$<$ std\+::string $>$ \&transformations)
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_element_ab66c2df89446a8c52521be29d14bb56a}{get\+Transformation}} () const
+\begin{DoxyCompactList}\small\item\em get all current transformations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a169755b74f356800d2e4c4f9d26ceaaa}{set\+Gradient}} (\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*}grad)
+\begin{DoxyCompactList}\small\item\em set gradient of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_a925ff44ea7182b98ab73ffa8951f49e3}{get\+Gradient}} () const
+\begin{DoxyCompactList}\small\item\em get gradient of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a583f3f8aefba05a7b24af2bd2a21df31}{set\+Parent}} (\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3}{parent}})
+\begin{DoxyCompactList}\small\item\em set parent node of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_ae31c5e0f4cbfce3db2681209b9c06421}{get\+Parent}} () const
+\begin{DoxyCompactList}\small\item\em get parent node of an svg element \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_element_ab0d0e20be9a36ae676202db753faeec9}{Element}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element_ab1d271deb39cb7c11e05657fc784fff4}{Element}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}, float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}})
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element_a5f90089cfd974067fa6456a385d00ed7}{Element}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}, float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}}, const std\+::vector$<$ std\+::string $>$ \&\mbox{\hyperlink{class_element_aa9a2eee7ed5f75abd17acf836d08487a}{transformation}})
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}
+\item 
+float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_element_aa9a2eee7ed5f75abd17acf836d08487a}{transformation}}
+\item 
+\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_aa5fae142034d5d9cd60b8a3ca09b71ef}{gradient}} \{\}
+\item 
+\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3}{parent}} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_element}{Element} is an abstract class for all svg elements (nodes) @attributes contains most of SVG attributes and a pointer to its parent node Since it\textquotesingle{}s abstract, the destructor must be virtual to avoid any undefined behaviors. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_element_ab0d0e20be9a36ae676202db753faeec9}\index{Element@{Element}!Element@{Element}}
+\index{Element@{Element}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{Element()}{Element()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{class_element_ab0d0e20be9a36ae676202db753faeec9} 
+Element\+::\+Element (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Default constructor. 
+
+\Hypertarget{class_element_ab1d271deb39cb7c11e05657fc784fff4}\index{Element@{Element}!Element@{Element}}
+\index{Element@{Element}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{Element()}{Element()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{class_element_ab1d271deb39cb7c11e05657fc784fff4} 
+Element\+::\+Element (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{position}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{fill\+Color}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{stroke\+Color}{, }\item[{float}]{stroke\+Width}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parameterized constructor. 
+
+\Hypertarget{class_element_a5f90089cfd974067fa6456a385d00ed7}\index{Element@{Element}!Element@{Element}}
+\index{Element@{Element}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{Element()}{Element()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{class_element_a5f90089cfd974067fa6456a385d00ed7} 
+Element\+::\+Element (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{position}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{fill\+Color}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{stroke\+Color}{, }\item[{float}]{stroke\+Width}{, }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{transformation}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Parameterized constructor. 
+
+\Hypertarget{class_element_aa153979c5d46fff8e2b9ee8b48dd863f}\index{Element@{Element}!````~Element@{\texorpdfstring{$\sim$}{\string~}Element}}
+\index{````~Element@{\texorpdfstring{$\sim$}{\string~}Element}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Element()}{\string~Element()}}
+{\footnotesize\ttfamily \label{class_element_aa153979c5d46fff8e2b9ee8b48dd863f} 
+virtual Element\+::\texorpdfstring{$\sim$}{\string~}\+Element (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+Virtual destructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_element_accabfbfa9a44e105f689ff7aed360ca0}\index{Element@{Element}!addTransformation@{addTransformation}}
+\index{addTransformation@{addTransformation}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{addTransformation()}{addTransformation()}}
+{\footnotesize\ttfamily \label{class_element_accabfbfa9a44e105f689ff7aed360ca0} 
+void Element\+::add\+Transformation (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{s}{}\end{DoxyParamCaption})}
+
+
+
+add a transformation ~\newline
+ 
+
+
+\begin{DoxyParams}{Parameters}
+{\em s} & a transformation string \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a6c8d660348fe1564d09372bc37c51d5d}\index{Element@{Element}!dbg@{dbg}}
+\index{dbg@{dbg}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{dbg()}{dbg()}}
+{\footnotesize\ttfamily \label{class_element_a6c8d660348fe1564d09372bc37c51d5d} 
+virtual void Element\+::dbg (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print all data of an svg element. 
+
+\begin{DoxyNote}{Note}
+For debugging 
+\end{DoxyNote}
+
+
+Reimplemented in \mbox{\hyperlink{class_group_acf41861c49be16efc9508847ba4ec02d}{Group}}, \mbox{\hyperlink{class_s_v_g_circle_aa828e7604b4863092bf243c880c2bbd8}{SVGCircle}}, \mbox{\hyperlink{class_s_v_g_ellipse_aa3aed829be120160bd1786195e20dea7}{SVGEllipse}}, \mbox{\hyperlink{class_s_v_g_line_a1ad10025e22ff796660e3774e5a64c0e}{SVGLine}}, \mbox{\hyperlink{class_s_v_g_path_a639e3da33c8ec99db9cad89e9c5f3a35}{SVGPath}}, \mbox{\hyperlink{class_s_v_g_polyline_a876f59299064e36da78343859b1d7341}{SVGPolyline}}, \mbox{\hyperlink{class_s_v_g_rect_a25a6cac1a98c3141bb2a7c521ce34add}{SVGRect}}, and \mbox{\hyperlink{class_s_v_g_text_ae21accfc4b964c1b4e78434a725f3d78}{SVGText}}.
+
+\Hypertarget{class_element_ae37416ec8b3f04a999fddd85d3d4e02e}\index{Element@{Element}!getBoundingBox@{getBoundingBox}}
+\index{getBoundingBox@{getBoundingBox}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getBoundingBox()}{getBoundingBox()}}
+{\footnotesize\ttfamily \label{class_element_ae37416ec8b3f04a999fddd85d3d4e02e} 
+virtual std\+::pair$<$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$, \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ $>$ Element\+::get\+Bounding\+Box (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_s_v_g_circle_a01153f61bfb09c7cd195889b232f0b3c}{SVGCircle}}, \mbox{\hyperlink{class_s_v_g_ellipse_a76feeef2e08ea52b475418d4c461f57f}{SVGEllipse}}, \mbox{\hyperlink{class_s_v_g_line_a464f4f27acaaf0b76ecb5cce9be585ce}{SVGLine}}, \mbox{\hyperlink{class_s_v_g_path_ab907dca7bfc9776bba83095815772681}{SVGPath}}, \mbox{\hyperlink{class_s_v_g_polyline_ab53fe989b6e1f7062ec51846562e68c5}{SVGPolyline}}, \mbox{\hyperlink{class_s_v_g_rect_a2954d5ad921f4c5a58103a9542505909}{SVGRect}}, and \mbox{\hyperlink{class_s_v_g_text_a4d746aa10a36b91b9017c92f2318e2cc}{SVGText}}.
+
+\Hypertarget{class_element_a453f0043f1ea111edf681766860aeaeb}\index{Element@{Element}!getFillColor@{getFillColor}}
+\index{getFillColor@{getFillColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getFillColor()}{getFillColor()}}
+{\footnotesize\ttfamily \label{class_element_a453f0043f1ea111edf681766860aeaeb} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} Element\+::get\+Fill\+Color (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get fill color of an svg element 
+
+\begin{DoxyReturn}{Returns}
+an \doxylink{class_s_v_g_color}{SVGColor} object 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_a925ff44ea7182b98ab73ffa8951f49e3}\index{Element@{Element}!getGradient@{getGradient}}
+\index{getGradient@{getGradient}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getGradient()}{getGradient()}}
+{\footnotesize\ttfamily \label{class_element_a925ff44ea7182b98ab73ffa8951f49e3} 
+\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*} Element\+::get\+Gradient (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get gradient of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to a \doxylink{class_gradient}{Gradient} object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_ae31c5e0f4cbfce3db2681209b9c06421}\index{Element@{Element}!getParent@{getParent}}
+\index{getParent@{getParent}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getParent()}{getParent()}}
+{\footnotesize\ttfamily \label{class_element_ae31c5e0f4cbfce3db2681209b9c06421} 
+\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} Element\+::get\+Parent (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get parent node of an svg element 
+
+\begin{DoxyReturn}{Returns}
+a pointer to a same-\/class object (parent) 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_a8af03db2a7cf2629431bf0b68a9faec0}\index{Element@{Element}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily \label{class_element_a8af03db2a7cf2629431bf0b68a9faec0} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Element\+::get\+Position (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get position of an svg element 
+
+\begin{DoxyReturn}{Returns}
+a vector2D 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_a8f8d31e08a805662bf3e5cba6c3768c3}\index{Element@{Element}!getStrokeColor@{getStrokeColor}}
+\index{getStrokeColor@{getStrokeColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getStrokeColor()}{getStrokeColor()}}
+{\footnotesize\ttfamily \label{class_element_a8f8d31e08a805662bf3e5cba6c3768c3} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} Element\+::get\+Stroke\+Color (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get stroke color of an svg element 
+
+\begin{DoxyReturn}{Returns}
+a \doxylink{class_s_v_g_color}{SVGColor} object 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_ac18c12f18471b1e13a444006afd13615}\index{Element@{Element}!getStrokeWidth@{getStrokeWidth}}
+\index{getStrokeWidth@{getStrokeWidth}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getStrokeWidth()}{getStrokeWidth()}}
+{\footnotesize\ttfamily \label{class_element_ac18c12f18471b1e13a444006afd13615} 
+float Element\+::get\+Stroke\+Width (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get stroke width of an svg element 
+
+\begin{DoxyReturn}{Returns}
+float 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_ab66c2df89446a8c52521be29d14bb56a}\index{Element@{Element}!getTransformation@{getTransformation}}
+\index{getTransformation@{getTransformation}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getTransformation()}{getTransformation()}}
+{\footnotesize\ttfamily \label{class_element_ab66c2df89446a8c52521be29d14bb56a} 
+std\+::vector$<$ std\+::string $>$ Element\+::get\+Transformation (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get all current transformations 
+
+\begin{DoxyReturn}{Returns}
+transformation 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_element_ae5ffda31e2cdca73f6b5a69eef056634}\index{Element@{Element}!getTypeName@{getTypeName}}
+\index{getTypeName@{getTypeName}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{getTypeName()}{getTypeName()}}
+{\footnotesize\ttfamily \label{class_element_ae5ffda31e2cdca73f6b5a69eef056634} 
+virtual \mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{Element\+Type}} Element\+::get\+Type\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Get Type\+Name of an svg element. 
+
+This function is abstract and must be implemented by subclasses (derived classes) 
+\begin{DoxyParams}{Parameters}
+{\em no} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the type (Element\+Type type) 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_group_af0a86b0bb7c151dfe04a94d66dd910db}{Group}}, \mbox{\hyperlink{class_s_v_g_circle_a912c73b0d8ada9d59ecef46eb1142e4f}{SVGCircle}}, \mbox{\hyperlink{class_s_v_g_ellipse_ac0fa9b692021df4bc94f2d9ffe39eb0f}{SVGEllipse}}, \mbox{\hyperlink{class_s_v_g_line_ade8ed71963b963a0198e40ffe139a1c1}{SVGLine}}, \mbox{\hyperlink{class_s_v_g_path_ab40a08fd1cd58cc109af6d2d7781560f}{SVGPath}}, \mbox{\hyperlink{class_s_v_g_polygon_a8f0369437ecc21c2936f897e0ad53aa8}{SVGPolygon}}, \mbox{\hyperlink{class_s_v_g_polyline_ad058f7518bb501e308ad497ec162e6d2}{SVGPolyline}}, \mbox{\hyperlink{class_s_v_g_rect_a575c2101c955e47bc8c5eaeaba3ab14c}{SVGRect}}, and \mbox{\hyperlink{class_s_v_g_text_a08e528e67c96d6a9b086be004ee94c0f}{SVGText}}.
+
+\Hypertarget{class_element_a969ec036a048835ddeb31b3b5a98b7f8}\index{Element@{Element}!setFillColor@{setFillColor}}
+\index{setFillColor@{setFillColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setFillColor()}{setFillColor()}}
+{\footnotesize\ttfamily \label{class_element_a969ec036a048835ddeb31b3b5a98b7f8} 
+void Element\+::set\+Fill\+Color (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{color}{}\end{DoxyParamCaption})}
+
+
+
+set fill color of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & passed-\/by-\/referenced \doxylink{class_s_v_g_color}{SVGColor} object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a169755b74f356800d2e4c4f9d26ceaaa}\index{Element@{Element}!setGradient@{setGradient}}
+\index{setGradient@{setGradient}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setGradient()}{setGradient()}}
+{\footnotesize\ttfamily \label{class_element_a169755b74f356800d2e4c4f9d26ceaaa} 
+void Element\+::set\+Gradient (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*}}]{grad}{}\end{DoxyParamCaption})}
+
+
+
+set gradient of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to an abstract \doxylink{class_gradient}{Gradient} object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a583f3f8aefba05a7b24af2bd2a21df31}\index{Element@{Element}!setParent@{setParent}}
+\index{setParent@{setParent}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setParent()}{setParent()}}
+{\footnotesize\ttfamily \label{class_element_a583f3f8aefba05a7b24af2bd2a21df31} 
+void Element\+::set\+Parent (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*}}]{parent}{}\end{DoxyParamCaption})}
+
+
+
+set parent node of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & pointer to a same-\/class object (parent) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a1b88431855854e04ea08c0e9570c287b}\index{Element@{Element}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_element_a1b88431855854e04ea08c0e9570c287b} 
+void Element\+::set\+Position (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{position}{}\end{DoxyParamCaption})}
+
+
+
+set position of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & new vector2D position \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_ab124043237f73d55948aa444f0530011}\index{Element@{Element}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_element_ab124043237f73d55948aa444f0530011} 
+void Element\+::set\+Position (\begin{DoxyParamCaption}\item[{float}]{x}{, }\item[{float}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Set position of an svg element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & and y coordinates (float) \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a663e575e141948db494114ffc336568d}\index{Element@{Element}!setStrokeColor@{setStrokeColor}}
+\index{setStrokeColor@{setStrokeColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setStrokeColor()}{setStrokeColor()}}
+{\footnotesize\ttfamily \label{class_element_a663e575e141948db494114ffc336568d} 
+void Element\+::set\+Stroke\+Color (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{color}{}\end{DoxyParamCaption})}
+
+
+
+set stroke color of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & passed-\/by-\/referenced \doxylink{class_s_v_g_color}{SVGColor} object \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_a8875e5b1193fbb2efb9ba7c51f9129bd}\index{Element@{Element}!setStrokeWidth@{setStrokeWidth}}
+\index{setStrokeWidth@{setStrokeWidth}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setStrokeWidth()}{setStrokeWidth()}}
+{\footnotesize\ttfamily \label{class_element_a8875e5b1193fbb2efb9ba7c51f9129bd} 
+void Element\+::set\+Stroke\+Width (\begin{DoxyParamCaption}\item[{float}]{width}{}\end{DoxyParamCaption})}
+
+
+
+set stroke width of an svg element 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & float variable \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_element_aab1cd2e2210d2e75aa693f87ef3efd36}\index{Element@{Element}!setTransformation@{setTransformation}}
+\index{setTransformation@{setTransformation}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{setTransformation()}{setTransformation()}}
+{\footnotesize\ttfamily \label{class_element_aab1cd2e2210d2e75aa693f87ef3efd36} 
+void Element\+::set\+Transformation (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{transformations}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_element_a97777f59534526eb045f8ca375ad3459}\index{Element@{Element}!fillColor@{fillColor}}
+\index{fillColor@{fillColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{fillColor}{fillColor}}
+{\footnotesize\ttfamily \label{class_element_a97777f59534526eb045f8ca375ad3459} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} Element\+::fill\+Color\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_aa5fae142034d5d9cd60b8a3ca09b71ef}\index{Element@{Element}!gradient@{gradient}}
+\index{gradient@{gradient}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{gradient}{gradient}}
+{\footnotesize\ttfamily \label{class_element_aa5fae142034d5d9cd60b8a3ca09b71ef} 
+\mbox{\hyperlink{class_gradient}{Gradient}}\texorpdfstring{$\ast$}{*} Element\+::gradient \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3}\index{Element@{Element}!parent@{parent}}
+\index{parent@{parent}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{parent}{parent}}
+{\footnotesize\ttfamily \label{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3} 
+\mbox{\hyperlink{class_element}{Element}}\texorpdfstring{$\ast$}{*} Element\+::parent \{\}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_a4e934e814cbe16037f99931fd2f4df6d}\index{Element@{Element}!position@{position}}
+\index{position@{position}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily \label{class_element_a4e934e814cbe16037f99931fd2f4df6d} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$float$>$ Element\+::position\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_afa04c2a678b1de16acebb06c8051ec06}\index{Element@{Element}!strokeColor@{strokeColor}}
+\index{strokeColor@{strokeColor}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{strokeColor}{strokeColor}}
+{\footnotesize\ttfamily \label{class_element_afa04c2a678b1de16acebb06c8051ec06} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} Element\+::stroke\+Color\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_abe79234d091dbd6d9a95139c3b5fae94}\index{Element@{Element}!strokeWidth@{strokeWidth}}
+\index{strokeWidth@{strokeWidth}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{strokeWidth}{strokeWidth}}
+{\footnotesize\ttfamily \label{class_element_abe79234d091dbd6d9a95139c3b5fae94} 
+float Element\+::stroke\+Width\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{class_element_aa9a2eee7ed5f75abd17acf836d08487a}\index{Element@{Element}!transformation@{transformation}}
+\index{transformation@{transformation}!Element@{Element}}
+\doxysubsubsection{\texorpdfstring{transformation}{transformation}}
+{\footnotesize\ttfamily \label{class_element_aa9a2eee7ed5f75abd17acf836d08487a} 
+std\+::vector$<$std\+::string$>$ Element\+::transformation\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_element_8h}{Element.\+h}}\end{DoxyCompactItemize}

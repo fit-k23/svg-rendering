@@ -1,0 +1,346 @@
+\doxysection{SVGColor.\+h}
+\hypertarget{_s_v_g_color_8h_source}{}\label{_s_v_g_color_8h_source}\mbox{\hyperlink{_s_v_g_color_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SVG\_RENDERING\_COLOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SVG\_RENDERING\_COLOR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <map>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <objidl.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <gdiplus.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}},\ \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}},\ \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}},\ \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color_a5c02749a4332f911c10f77c4c650f8fc}{SVGColor}}();\ \textcolor{comment}{//\ r,g,b\ =\ 0\ -\/>\ black,\ a\ =\ 0\ -\/>\ none}}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color_af191fa2283fde81991c2b649eba906ec}{SVGColor}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}},\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}\ =\ 255);}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color_afee89ec09c9f75a5016fbd0560df1f17}{SVGColor}}(\textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}},\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}\ =\ 255);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color_ac1c833457a5e5b3ecd19ed693c27bbf3}{SVGColor}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&other);}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&\mbox{\hyperlink{class_s_v_g_color_a673f5e63fc814ff85ff78250fee976a5}{operator=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \&other);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_s_v_g_color_a5e05c823e574f90e104f471fecfe66cb}{SVGColor}}(std::string\ param);}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \mbox{\hyperlink{class_s_v_g_color_a1119b45cf9b1c9f7da07c9813b7ff032}{fromHSL}}(\textcolor{keywordtype}{int}\ h,\ \textcolor{keywordtype}{int}\ s,\ \textcolor{keywordtype}{int}\ l,\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}\ =\ 255);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{operator}\ Gdiplus::Color()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_s_v_g_color_a64d15f02538fa77d55882b1a6501da48}{output}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \mbox{\hyperlink{class_s_v_g_color}{SVGColor}}\ \mbox{\hyperlink{class_s_v_g_color_a57dce5274a9b3094b899dfefb81d8c1e}{alpha}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}});}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ Parameterized\ constructor}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ @param:\ fill\ the\ string\ format}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ @note:\ fill\ can\ be\ hex\ code,\ color\ name,\ rgb(..),\ rgba(...),}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{comment}{//\ @note:\ hsl(...),\ hsla(...)}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ SVG\_BLANK\ SVGColor(0,\ 0,\ 0,\ 0)}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ SVG\_ALICEBLUE\ SVGColor(240,\ 248,\ 255)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ SVG\_ANTIQUEWHITE\ SVGColor(250,\ 235,\ 215)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ SVG\_AQUA\ SVGColor(0,\ 255,\ 255)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ SVG\_AQUAMARINE\ SVGColor(127,\ 255,\ 212)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ SVG\_AZURE\ SVGColor(240,\ 255,\ 255)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ SVG\_BEIGE\ SVGColor(245,\ 245,\ 220)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ SVG\_BISQUE\ SVGColor(255,\ 228,\ 196)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ SVG\_BLACK\ SVGColor(0,\ 0,\ 0)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ SVG\_BLANCHEDALMOND\ SVGColor(255,\ 235,\ 205)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ SVG\_BLUE\ SVGColor(0,\ 0,\ 255)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ SVG\_BLUEVIOLET\ SVGColor(138,\ 43,\ 226)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ SVG\_BROWN\ SVGColor(165,\ 42,\ 42)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ SVG\_BURLYWOOD\ SVGColor(222,\ 184,\ 135)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ SVG\_CADETBLUE\ SVGColor(95,\ 158,\ 160)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ SVG\_CHARTREUSE\ SVGColor(127,\ 255,\ 0)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ SVG\_CHOCOLATE\ SVGColor(210,\ 105,\ 30)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ SVG\_CORAL\ SVGColor(255,\ 127,\ 80)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ SVG\_CORNFLOWERBLUE\ SVGColor(100,\ 149,\ 237)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ SVG\_CORNSILK\ SVGColor(255,\ 248,\ 220)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ SVG\_CRIMSON\ SVGColor(220,\ 20,\ 60)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ SVG\_CYAN\ SVGColor(0,\ 255,\ 255)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ SVG\_DARKBLUE\ SVGColor(0,\ 0,\ 139)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ SVG\_DARKCYAN\ SVGColor(0,\ 139,\ 139)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ SVG\_DARKGOLDENROD\ SVGColor(184,\ 134,\ 11)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ SVG\_DARKGRAY\ SVGColor(169,\ 169,\ 169)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ SVG\_DARKGREEN\ SVGColor(0,\ 100,\ 0)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ SVG\_DARKGREY\ SVGColor(169,\ 169,\ 169)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ SVG\_DARKKHAKI\ SVGColor(189,\ 183,\ 107)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ SVG\_DARKMAGENTA\ SVGColor(139,\ 0,\ 139)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ SVG\_DARKOLIVEGREEN\ SVGColor(85,\ 107,\ 47)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ SVG\_DARKORANGE\ SVGColor(255,\ 140,\ 0)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ SVG\_DARKORCHID\ SVGColor(153,\ 50,\ 204)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ SVG\_DARKRED\ SVGColor(139,\ 0,\ 0)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ SVG\_DARKSALMON\ SVGColor(233,\ 150,\ 122)}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ SVG\_DARKSEAGREEN\ SVGColor(143,\ 188,\ 143)}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ SVG\_DARKSLATEBLUE\ SVGColor(72,\ 61,\ 139)}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ SVG\_DARKSLATEGRAY\ SVGColor(47,\ 79,\ 79)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ SVG\_DARKSLATEGREY\ SVGColor(47,\ 79,\ 79)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ SVG\_DARKTURQUOISE\ SVGColor(0,\ 206,\ 209)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ SVG\_DARKVIOLET\ SVGColor(148,\ 0,\ 211)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ SVG\_DEEPPINK\ SVGColor(255,\ 20,\ 147)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ SVG\_DEEPSKYBLUE\ SVGColor(0,\ 191,\ 255)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ SVG\_DIMGRAY\ SVGColor(105,\ 105,\ 105)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ SVG\_DIMGREY\ SVGColor(105,\ 105,\ 105)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ SVG\_DODGERBLUE\ SVGColor(30,\ 144,\ 255)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ SVG\_FIREBRICK\ SVGColor(178,\ 34,\ 34)}}
+\DoxyCodeLine{00093\ \textcolor{preprocessor}{\#define\ SVG\_FLORALWHITE\ SVGColor(255,\ 250,\ 240)}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ SVG\_FORESTGREEN\ SVGColor(34,\ 139,\ 34)}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ SVG\_FUCHSIA\ SVGColor(255,\ 0,\ 255)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ SVG\_GAINSBORO\ SVGColor(220,\ 220,\ 220)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ SVG\_GHOSTWHITE\ SVGColor(248,\ 248,\ 255)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ SVG\_GOLD\ SVGColor(255,\ 215,\ 0)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ SVG\_GOLDENROD\ SVGColor(218,\ 165,\ 32)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ SVG\_GRAY\ SVGColor(128,\ 128,\ 128)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ SVG\_GREY\ SVGColor(128,\ 128,\ 128)}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ SVG\_GREEN\ SVGColor(0,\ 128,\ 0)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ SVG\_GREENYELLOW\ SVGColor(173,\ 255,\ 47)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ SVG\_HONEYDEW\ SVGColor(240,\ 255,\ 240)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ SVG\_HOTPINK\ SVGColor(255,\ 105,\ 180)}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ SVG\_INDIANRED\ SVGColor(205,\ 92,\ 92)}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ SVG\_INDIGO\ SVGColor(75,\ 0,\ 130)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ SVG\_IVORY\ SVGColor(255,\ 255,\ 240)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ SVG\_KHAKI\ SVGColor(240,\ 230,\ 140)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ SVG\_LAVENDER\ SVGColor(230,\ 230,\ 250)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ SVG\_LAVENDERBLUSH\ SVGColor(255,\ 240,\ 245)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ SVG\_LAWNGREEN\ SVGColor(124,\ 252,\ 0)}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ SVG\_LEMONCHIFFON\ SVGColor(255,\ 250,\ 205)}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTBLUE\ SVGColor(173,\ 216,\ 230)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTCORAL\ SVGColor(240,\ 128,\ 128)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTCYAN\ SVGColor(224,\ 255,\ 255)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTGOLDENRODYELLOW\ SVGColor(250,\ 250,\ 210)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTGRAY\ SVGColor(211,\ 211,\ 211)}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTGREEN\ SVGColor(144,\ 238,\ 144)}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTGREY\ SVGColor(211,\ 211,\ 211)}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTPINK\ SVGColor(255,\ 182,\ 193)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSALMON\ SVGColor(255,\ 160,\ 122)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSEAGREEN\ SVGColor(32,\ 178,\ 170)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSKYBLUE\ SVGColor(135,\ 206,\ 250)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSLATEGRAY\ SVGColor(119,\ 136,\ 153)}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSLATEGREY\ SVGColor(119,\ 136,\ 153)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTSTEELBLUE\ SVGColor(176,\ 196,\ 222)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ SVG\_LIGHTYELLOW\ SVGColor(255,\ 255,\ 224)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ SVG\_LIME\ SVGColor(0,\ 255,\ 0)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ SVG\_LIMEGREEN\ SVGColor(50,\ 205,\ 50)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ SVG\_LINEN\ SVGColor(250,\ 240,\ 230)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ SVG\_MAGENTA\ SVGColor(255,\ 0,\ 255)}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ SVG\_MAROON\ SVGColor(128,\ 0,\ 0)}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMAQUAMARINE\ SVGColor(102,\ 205,\ 170)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMBLUE\ SVGColor(0,\ 0,\ 205)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMORCHID\ SVGColor(186,\ 85,\ 211)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMPURPLE\ SVGColor(147,\ 112,\ 219)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMSEAGREEN\ SVGColor(60,\ 179,\ 113)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMSLATEBLUE\ SVGColor(123,\ 104,\ 238)}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMSPRINGGREEN\ SVGColor(0,\ 250,\ 154)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMTURQUOISE\ SVGColor(72,\ 209,\ 204)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ SVG\_MEDIUMVIOLETRED\ SVGColor(199,\ 21,\ 133)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ SVG\_MIDNIGHTBLUE\ SVGColor(25,\ 25,\ 112)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ SVG\_MINTCREAM\ SVGColor(245,\ 255,\ 250)}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ SVG\_MISTYROSE\ SVGColor(255,\ 228,\ 225)}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ SVG\_MOCCASIN\ SVGColor(255,\ 228,\ 181)}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ SVG\_NAVAJOWHITE\ SVGColor(255,\ 222,\ 173)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ SVG\_NAVY\ SVGColor(0,\ 0,\ 128)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ SVG\_OLDLACE\ SVGColor(253,\ 245,\ 230)}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ SVG\_OLIVE\ SVGColor(128,\ 128,\ 0)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ SVG\_OLIVEDRAB\ SVGColor(107,\ 142,\ 35)}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ SVG\_ORANGE\ SVGColor(255,\ 165,\ 0)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ SVG\_ORANGERED\ SVGColor(255,\ 69,\ 0)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ SVG\_ORCHID\ SVGColor(218,\ 112,\ 214)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ SVG\_PALEGOLDENROD\ SVGColor(238,\ 232,\ 170)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ SVG\_PALEGREEN\ SVGColor(152,\ 251,\ 152)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ SVG\_PALETURQUOISE\ SVGColor(175,\ 238,\ 238)}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ SVG\_PALEVIOLETRED\ SVGColor(219,\ 112,\ 147)}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ SVG\_PAPAYAWHIP\ SVGColor(255,\ 239,\ 213)}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ SVG\_PEACHPUFF\ SVGColor(255,\ 218,\ 185)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ SVG\_PERU\ SVGColor(205,\ 133,\ 63)}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ SVG\_PINK\ SVGColor(255,\ 192,\ 203)}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ SVG\_PLUM\ SVGColor(221,\ 160,\ 221)}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ SVG\_POWDERBLUE\ SVGColor(176,\ 224,\ 230)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ SVG\_PURPLE\ SVGColor(128,\ 0,\ 128)}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ SVG\_RED\ SVGColor(255,\ 0,\ 0)}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ SVG\_ROSYBROWN\ SVGColor(188,\ 143,\ 143)}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ SVG\_ROYALBLUE\ SVGColor(65,\ 105,\ 225)}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ SVG\_SADDLEBROWN\ SVGColor(139,\ 69,\ 19)}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ SVG\_SALMON\ SVGColor(250,\ 128,\ 114)}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ SVG\_SANDYBROWN\ SVGColor(244,\ 164,\ 96)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ SVG\_SEAGREEN\ SVGColor(46,\ 139,\ 87)}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ SVG\_SEASHELL\ SVGColor(255,\ 245,\ 238)}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ SVG\_SIENNA\ SVGColor(160,\ 82,\ 45)}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ SVG\_SILVER\ SVGColor(192,\ 192,\ 192)}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ SVG\_SKYBLUE\ SVGColor(135,\ 206,\ 235)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ SVG\_SLATEBLUE\ SVGColor(106,\ 90,\ 205)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ SVG\_SLATEGRAY\ SVGColor(112,\ 128,\ 144)}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ SVG\_SLATEGREY\ SVGColor(112,\ 128,\ 144)}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ SVG\_SNOW\ SVGColor(255,\ 250,\ 250)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ SVG\_SPRINGGREEN\ SVGColor(0,\ 255,\ 127)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ SVG\_STEELBLUE\ SVGColor(70,\ 130,\ 180)}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ SVG\_TAN\ SVGColor(210,\ 180,\ 140)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ SVG\_TEAL\ SVGColor(0,\ 128,\ 128)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ SVG\_THISTLE\ SVGColor(216,\ 191,\ 216)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ SVG\_TOMATO\ SVGColor(255,\ 99,\ 71)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ SVG\_TURQUOISE\ SVGColor(64,\ 224,\ 208)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ SVG\_VIOLET\ SVGColor(238,\ 130,\ 238)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ SVG\_WHEAT\ SVGColor(245,\ 222,\ 179)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ SVG\_WHITE\ SVGColor(255,\ 255,\ 255)}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ SVG\_WHITESMOKE\ SVGColor(245,\ 245,\ 245)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ SVG\_YELLOW\ SVGColor(255,\ 255,\ 0)}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ SVG\_YELLOWGREEN\ SVGColor(154,\ 205,\ 50)}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ std::map<std::string,\ SVGColor>\ LABELED\_COLOR\ =\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \{\textcolor{stringliteral}{"{}aliceblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_adfb81dca19842af3a2754c0edd960b7f}{SVG\_ALICEBLUE}}\},}
+\DoxyCodeLine{00197\ \ \ \ \ \{\textcolor{stringliteral}{"{}antiquewhite"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a459a9d7e3d7af41165b9927160b82810}{SVG\_ANTIQUEWHITE}}\},}
+\DoxyCodeLine{00198\ \ \ \ \ \{\textcolor{stringliteral}{"{}aqua"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3081fac5420061af64d6c84658cbb692}{SVG\_AQUA}}\},}
+\DoxyCodeLine{00199\ \ \ \ \ \{\textcolor{stringliteral}{"{}aquamarine"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a77e0d9978beb62963bec6a6016948baf}{SVG\_AQUAMARINE}}\},}
+\DoxyCodeLine{00200\ \ \ \ \ \{\textcolor{stringliteral}{"{}azure"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a284adffc8e3cafafbe34078056be28e8}{SVG\_AZURE}}\},}
+\DoxyCodeLine{00201\ \ \ \ \ \{\textcolor{stringliteral}{"{}beige"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab75e4f7721c0785afc6b5909ae5b10c4}{SVG\_BEIGE}}\},}
+\DoxyCodeLine{00202\ \ \ \ \ \{\textcolor{stringliteral}{"{}bisque"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a2272fec4495389acea60c8b88e80b7ab}{SVG\_BISQUE}}\},}
+\DoxyCodeLine{00203\ \ \ \ \ \{\textcolor{stringliteral}{"{}black"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac9d73d554ed0b5e598b75edfbf36c953}{SVG\_BLACK}}\},}
+\DoxyCodeLine{00204\ \ \ \ \ \{\textcolor{stringliteral}{"{}blanchedalmond"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ad1027963fb9f2275131c64b5972adeb9}{SVG\_BLANCHEDALMOND}}\},}
+\DoxyCodeLine{00205\ \ \ \ \ \{\textcolor{stringliteral}{"{}blue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a31ad8f2c1ce99dc0c9a0661247c12487}{SVG\_BLUE}}\},}
+\DoxyCodeLine{00206\ \ \ \ \ \{\textcolor{stringliteral}{"{}blueviolet"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aab335f15ce7738fcbf0d70c015b50e5f}{SVG\_BLUEVIOLET}}\},}
+\DoxyCodeLine{00207\ \ \ \ \ \{\textcolor{stringliteral}{"{}brown"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a603e56b1a71a8011040893be0b5d7912}{SVG\_BROWN}}\},}
+\DoxyCodeLine{00208\ \ \ \ \ \{\textcolor{stringliteral}{"{}burlywood"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac247646e079d9386ee1a4167c00614a0}{SVG\_BURLYWOOD}}\},}
+\DoxyCodeLine{00209\ \ \ \ \ \{\textcolor{stringliteral}{"{}cadetblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac263a967eac1ae3b202655adfe76af9e}{SVG\_CADETBLUE}}\},}
+\DoxyCodeLine{00210\ \ \ \ \ \{\textcolor{stringliteral}{"{}chartreuse"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_acf461c4f26309538ac08c526b2c436a0}{SVG\_CHARTREUSE}}\},}
+\DoxyCodeLine{00211\ \ \ \ \ \{\textcolor{stringliteral}{"{}chocolate"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a0710dddc6964296df116fe1abeb56a89}{SVG\_CHOCOLATE}}\},}
+\DoxyCodeLine{00212\ \ \ \ \ \{\textcolor{stringliteral}{"{}coral"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a5ea7edc232b13c43df053389d2fec016}{SVG\_CORAL}}\},}
+\DoxyCodeLine{00213\ \ \ \ \ \{\textcolor{stringliteral}{"{}cornflowerblue"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a40a84213f9f92ac41fbda5344e8b12cb}{SVG\_CORNFLOWERBLUE}}\},}
+\DoxyCodeLine{00214\ \ \ \ \ \{\textcolor{stringliteral}{"{}cornsilk"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a5532101e8b30e7cfdce648f9db84a6b9}{SVG\_CORNSILK}}\},}
+\DoxyCodeLine{00215\ \ \ \ \ \{\textcolor{stringliteral}{"{}crimson"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_acb6a084e1952da32ae4484436e220e20}{SVG\_CRIMSON}}\},}
+\DoxyCodeLine{00216\ \ \ \ \ \{\textcolor{stringliteral}{"{}cyan"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af2941bbc9c9e4dddb1d2b77de13c8ba8}{SVG\_CYAN}}\},}
+\DoxyCodeLine{00217\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a39c8f4ea9e52fd41febb46756511d9f1}{SVG\_DARKBLUE}}\},}
+\DoxyCodeLine{00218\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkcyan"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a60a5a6f4d7e0b5183f68075c8be44ac5}{SVG\_DARKCYAN}}\},}
+\DoxyCodeLine{00219\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkgoldenrod"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a90d852f89401e1e31d9c25aaea3f74ff}{SVG\_DARKGOLDENROD}}\},}
+\DoxyCodeLine{00220\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkgray"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3b9dd94a312d3491947b86d86033a159}{SVG\_DARKGRAY}}\},}
+\DoxyCodeLine{00221\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkgreen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a9b7e7f66d14eabb3e309c2b8e33dd510}{SVG\_DARKGREEN}}\},}
+\DoxyCodeLine{00222\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkgrey"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a46ff658d609a42e798a5420d3c866ad0}{SVG\_DARKGREY}}\},}
+\DoxyCodeLine{00223\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkkhaki"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a98be815355588067297bbfecb97791c2}{SVG\_DARKKHAKI}}\},}
+\DoxyCodeLine{00224\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkmagenta"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae4f0d44401e0d6fd59ed9198a374c209}{SVG\_DARKMAGENTA}}\},}
+\DoxyCodeLine{00225\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkolivegreen"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a804038adcc9e143186655b7a4d983dee}{SVG\_DARKOLIVEGREEN}}\},}
+\DoxyCodeLine{00226\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkorange"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a0d522da073f9655236322d9e7312ee18}{SVG\_DARKORANGE}}\},}
+\DoxyCodeLine{00227\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkorchid"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af9a9ba32836b570ffa30e85fcf02a4f9}{SVG\_DARKORCHID}}\},}
+\DoxyCodeLine{00228\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkred"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a27624894fb029cb7735d47d692706402}{SVG\_DARKRED}}\},}
+\DoxyCodeLine{00229\ \ \ \ \ \{\textcolor{stringliteral}{"{}darksalmon"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_afae001f7920c539160ef2b5ccb70b424}{SVG\_DARKSALMON}}\},}
+\DoxyCodeLine{00230\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkseagreen"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_adfb81d36e103376aba7aa75a5580807c}{SVG\_DARKSEAGREEN}}\},}
+\DoxyCodeLine{00231\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkslateblue"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aadaaf1b9ce4469edcd0510b759abe546}{SVG\_DARKSLATEBLUE}}\},}
+\DoxyCodeLine{00232\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkslategray"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a4ff1f50d8edd6d432bdb59f337b34e0c}{SVG\_DARKSLATEGRAY}}\},}
+\DoxyCodeLine{00233\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkslategrey"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae8722ebf29831f614b84cde10b2b2112}{SVG\_DARKSLATEGREY}}\},}
+\DoxyCodeLine{00234\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkturquoise"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab7a51c00703077f3968669a67beff98e}{SVG\_DARKTURQUOISE}}\},}
+\DoxyCodeLine{00235\ \ \ \ \ \{\textcolor{stringliteral}{"{}darkviolet"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac7fa8bbcf3ad0cc347007600e190e1ae}{SVG\_DARKVIOLET}}\},}
+\DoxyCodeLine{00236\ \ \ \ \ \{\textcolor{stringliteral}{"{}deeppink"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a18405f2e27b0f32989bfc998096da291}{SVG\_DEEPPINK}}\},}
+\DoxyCodeLine{00237\ \ \ \ \ \{\textcolor{stringliteral}{"{}deepskyblue"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a61a2762f320973098f739c5a4eac8e1a}{SVG\_DEEPSKYBLUE}}\},}
+\DoxyCodeLine{00238\ \ \ \ \ \{\textcolor{stringliteral}{"{}dimgray"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a90e13d07bfc6cb3fe860a7db87309a0e}{SVG\_DIMGRAY}}\},}
+\DoxyCodeLine{00239\ \ \ \ \ \{\textcolor{stringliteral}{"{}dimgrey"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ad7a47d8113b7c6a4c8206f923b40e32d}{SVG\_DIMGREY}}\},}
+\DoxyCodeLine{00240\ \ \ \ \ \{\textcolor{stringliteral}{"{}dodgerblue"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a934d80fcd64abbf5341768a3749f07f9}{SVG\_DODGERBLUE}}\},}
+\DoxyCodeLine{00241\ \ \ \ \ \{\textcolor{stringliteral}{"{}firebrick"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a597fd98c9fc8886ea3aa90dd4f45f79b}{SVG\_FIREBRICK}}\},}
+\DoxyCodeLine{00242\ \ \ \ \ \{\textcolor{stringliteral}{"{}floralwhite"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8b46c48e80234b4c02a27332bdaf4cc7}{SVG\_FLORALWHITE}}\},}
+\DoxyCodeLine{00243\ \ \ \ \ \{\textcolor{stringliteral}{"{}forestgreen"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a49b64ce53edcf9ad5f4e570fcff9e7dd}{SVG\_FORESTGREEN}}\},}
+\DoxyCodeLine{00244\ \ \ \ \ \{\textcolor{stringliteral}{"{}fuchsia"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a08c0da5b09a27321159cad9da07abf8b}{SVG\_FUCHSIA}}\},}
+\DoxyCodeLine{00245\ \ \ \ \ \{\textcolor{stringliteral}{"{}gainsboro"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_acee9fe0615ca023e04f189f91616fbb2}{SVG\_GAINSBORO}}\},}
+\DoxyCodeLine{00246\ \ \ \ \ \{\textcolor{stringliteral}{"{}ghostwhite"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a61ca587997e92224150d9c3b20b8ae83}{SVG\_GHOSTWHITE}}\},}
+\DoxyCodeLine{00247\ \ \ \ \ \{\textcolor{stringliteral}{"{}gold"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1fe310b5c819ea1b6113b7e83ad31321}{SVG\_GOLD}}\},}
+\DoxyCodeLine{00248\ \ \ \ \ \{\textcolor{stringliteral}{"{}goldenrod"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a71c8fcd906b47fad3f66ca8844c44ca2}{SVG\_GOLDENROD}}\},}
+\DoxyCodeLine{00249\ \ \ \ \ \{\textcolor{stringliteral}{"{}gray"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a07b3db91b5f373bcf5a557b02d92140a}{SVG\_GRAY}}\},}
+\DoxyCodeLine{00250\ \ \ \ \ \{\textcolor{stringliteral}{"{}grey"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a86866b07052c44073e839547111559b9}{SVG\_GREY}}\},}
+\DoxyCodeLine{00251\ \ \ \ \ \{\textcolor{stringliteral}{"{}green"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a5af3fe95353b37af3f1788dd14797ec4}{SVG\_GREEN}}\},}
+\DoxyCodeLine{00252\ \ \ \ \ \{\textcolor{stringliteral}{"{}greenyellow"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ad4a565acaffa8c476c7dfbb5b6f21dd3}{SVG\_GREENYELLOW}}\},}
+\DoxyCodeLine{00253\ \ \ \ \ \{\textcolor{stringliteral}{"{}honeydew"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a024b6e6fcc13046d7ad29fe2984a7099}{SVG\_HONEYDEW}}\},}
+\DoxyCodeLine{00254\ \ \ \ \ \{\textcolor{stringliteral}{"{}hotpink"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a04812ac7e0412d7ffa6058b8e40243ed}{SVG\_HOTPINK}}\},}
+\DoxyCodeLine{00255\ \ \ \ \ \{\textcolor{stringliteral}{"{}indianred"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a004b29f350c6258728ce07dcc70be217}{SVG\_INDIANRED}}\},}
+\DoxyCodeLine{00256\ \ \ \ \ \{\textcolor{stringliteral}{"{}indigo"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a71e75e6b00de6e92b5533d0273f53e53}{SVG\_INDIGO}}\},}
+\DoxyCodeLine{00257\ \ \ \ \ \{\textcolor{stringliteral}{"{}ivory"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aa09550c48e60dd2c9eeee5673f6bae9f}{SVG\_IVORY}}\},}
+\DoxyCodeLine{00258\ \ \ \ \ \{\textcolor{stringliteral}{"{}khaki"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8543b65797e762834747cc09db97ddd6}{SVG\_KHAKI}}\},}
+\DoxyCodeLine{00259\ \ \ \ \ \{\textcolor{stringliteral}{"{}lavender"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a32f424978722e03d64320957051e8a89}{SVG\_LAVENDER}}\},}
+\DoxyCodeLine{00260\ \ \ \ \ \{\textcolor{stringliteral}{"{}lavenderblush"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a517cbc18131b8071b49c5e26bafada28}{SVG\_LAVENDERBLUSH}}\},}
+\DoxyCodeLine{00261\ \ \ \ \ \{\textcolor{stringliteral}{"{}lawngreen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a09d0c60ad00c45575a6cadb13fdeb776}{SVG\_LAWNGREEN}}\},}
+\DoxyCodeLine{00262\ \ \ \ \ \{\textcolor{stringliteral}{"{}lemonchiffon"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3ea418cb17d2e88a224b7dd463f8dd7f}{SVG\_LEMONCHIFFON}}\},}
+\DoxyCodeLine{00263\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aa216e745abc1edfda10b7dfd46c66f56}{SVG\_LIGHTBLUE}}\},}
+\DoxyCodeLine{00264\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightcoral"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab94555359ced349aa6d3dd67191f20f6}{SVG\_LIGHTCORAL}}\},}
+\DoxyCodeLine{00265\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightcyan"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8f91024b6d60ac058ccc59dc8ee1138c}{SVG\_LIGHTCYAN}}\},}
+\DoxyCodeLine{00266\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightgoldenrodyellow"{}},\ \mbox{\hyperlink{_s_v_g_color_8h_a2243614ce8655fc73608a4121a33c8bd}{SVG\_LIGHTGOLDENRODYELLOW}}\},}
+\DoxyCodeLine{00267\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightgray"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_abc9fb27894116429c656ee9904aa7ea0}{SVG\_LIGHTGRAY}}\},}
+\DoxyCodeLine{00268\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightgreen"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3088b96f827291069b174bc8e45df8c9}{SVG\_LIGHTGREEN}}\},}
+\DoxyCodeLine{00269\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightgrey"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3fb46d4aea4bc4cf3013368cca919fb8}{SVG\_LIGHTGREY}}\},}
+\DoxyCodeLine{00270\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightpink"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aa0a3c8a808e532be75a8cc2802d55dc5}{SVG\_LIGHTPINK}}\},}
+\DoxyCodeLine{00271\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightsalmon"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a9eacbef638e1dc7509053a09749a9b54}{SVG\_LIGHTSALMON}}\},}
+\DoxyCodeLine{00272\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightseagreen"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a26408ec62c24c4513226adffcd38878f}{SVG\_LIGHTSEAGREEN}}\},}
+\DoxyCodeLine{00273\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightskyblue"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae0d21b63c0dd79290a3426f3c2265d2b}{SVG\_LIGHTSKYBLUE}}\},}
+\DoxyCodeLine{00274\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightslategray"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8c0e8290f7bd4161244118b1c74fed23}{SVG\_LIGHTSLATEGRAY}}\},}
+\DoxyCodeLine{00275\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightslategrey"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ad1871117a7a59ffd7b5ec3bb5c160755}{SVG\_LIGHTSLATEGREY}}\},}
+\DoxyCodeLine{00276\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightsteelblue"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a707a1344d6eccd4250371153f1d94292}{SVG\_LIGHTSTEELBLUE}}\},}
+\DoxyCodeLine{00277\ \ \ \ \ \{\textcolor{stringliteral}{"{}lightyellow"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af88cd1d109ff422eb1324e63cdc2d851}{SVG\_LIGHTYELLOW}}\},}
+\DoxyCodeLine{00278\ \ \ \ \ \{\textcolor{stringliteral}{"{}lime"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1f0f02e749bac869a6edfb18dd2bd161}{SVG\_LIME}}\},}
+\DoxyCodeLine{00279\ \ \ \ \ \{\textcolor{stringliteral}{"{}limegreen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a0044bd5c799d9f8712814ce7a84d41c0}{SVG\_LIMEGREEN}}\},}
+\DoxyCodeLine{00280\ \ \ \ \ \{\textcolor{stringliteral}{"{}linen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a4a8c61421a5cab99adcb060081f366de}{SVG\_LINEN}}\},}
+\DoxyCodeLine{00281\ \ \ \ \ \{\textcolor{stringliteral}{"{}magenta"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a4b6da46e78c0d5201d2cbfdf5de5dadb}{SVG\_MAGENTA}}\},}
+\DoxyCodeLine{00282\ \ \ \ \ \{\textcolor{stringliteral}{"{}maroon"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a74e91673d90aa548a91cf3286d1b8b4d}{SVG\_MAROON}}\},}
+\DoxyCodeLine{00283\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumaquamarine"{}},\ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a64effc1cc7d5ab4dd3f8d236156f9776}{SVG\_MEDIUMAQUAMARINE}}\},}
+\DoxyCodeLine{00284\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumblue"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a4e2edf5fe7879cb40ce39ce834c2f4f8}{SVG\_MEDIUMBLUE}}\},}
+\DoxyCodeLine{00285\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumorchid"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab0ce81d4012c6e29809ab35f527228e3}{SVG\_MEDIUMORCHID}}\},}
+\DoxyCodeLine{00286\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumpurple"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_add531dfab4ff1e36d9e943a98c0bb098}{SVG\_MEDIUMPURPLE}}\},}
+\DoxyCodeLine{00287\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumseagreen"{}},\ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab96df766e718294a03b3490cc3506829}{SVG\_MEDIUMSEAGREEN}}\},}
+\DoxyCodeLine{00288\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumslateblue"{}},\ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a51530e51bc8106d7d8987e2971bf313d}{SVG\_MEDIUMSLATEBLUE}}\},}
+\DoxyCodeLine{00289\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumspringgreen"{}},\ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae6f0fe21973f14cc44a0d597f49b1cf7}{SVG\_MEDIUMSPRINGGREEN}}\},}
+\DoxyCodeLine{00290\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumturquoise"{}},\ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1b4278b1a2829937ad0844378bc6f012}{SVG\_MEDIUMTURQUOISE}}\},}
+\DoxyCodeLine{00291\ \ \ \ \ \{\textcolor{stringliteral}{"{}mediumvioletred"{}},\ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8cb7991fc776230e1608d2ff88739fce}{SVG\_MEDIUMVIOLETRED}}\},}
+\DoxyCodeLine{00292\ \ \ \ \ \{\textcolor{stringliteral}{"{}midnightblue"{}},\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8271124564d65290c31a5d6fe0f06881}{SVG\_MIDNIGHTBLUE}}\},}
+\DoxyCodeLine{00293\ \ \ \ \ \{\textcolor{stringliteral}{"{}mintcream"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac2aa4ff53591159063fcd590229123ac}{SVG\_MINTCREAM}}\},}
+\DoxyCodeLine{00294\ \ \ \ \ \{\textcolor{stringliteral}{"{}mistyrose"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a96f1c875a9df44994979a6d41da106dd}{SVG\_MISTYROSE}}\},}
+\DoxyCodeLine{00295\ \ \ \ \ \{\textcolor{stringliteral}{"{}moccasin"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a7a53ad667d7c35cd1da367b6ddd75621}{SVG\_MOCCASIN}}\},}
+\DoxyCodeLine{00296\ \ \ \ \ \{\textcolor{stringliteral}{"{}navajowhite"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a9f29391a082f28b3364875863e5642c9}{SVG\_NAVAJOWHITE}}\},}
+\DoxyCodeLine{00297\ \ \ \ \ \{\textcolor{stringliteral}{"{}navy"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab00488495a93e8c2fdc99c98e716dd17}{SVG\_NAVY}}\},}
+\DoxyCodeLine{00298\ \ \ \ \ \{\textcolor{stringliteral}{"{}oldlace"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a6c3fdfc39c8fec493a5055ec1f432c78}{SVG\_OLDLACE}}\},}
+\DoxyCodeLine{00299\ \ \ \ \ \{\textcolor{stringliteral}{"{}olive"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a0069cd9e795e364146bc31be2bd3845f}{SVG\_OLIVE}}\},}
+\DoxyCodeLine{00300\ \ \ \ \ \{\textcolor{stringliteral}{"{}olivedrab"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a575b3756668d928d3a43fac0bb49dabc}{SVG\_OLIVEDRAB}}\},}
+\DoxyCodeLine{00301\ \ \ \ \ \{\textcolor{stringliteral}{"{}orange"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ac49d9e8976a37a9bd341564bd925a8bb}{SVG\_ORANGE}}\},}
+\DoxyCodeLine{00302\ \ \ \ \ \{\textcolor{stringliteral}{"{}orangered"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a327d3642f3f593c3b702b95c6bc966d6}{SVG\_ORANGERED}}\},}
+\DoxyCodeLine{00303\ \ \ \ \ \{\textcolor{stringliteral}{"{}orchid"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aec866eae18c80db39b9d2b85bae792eb}{SVG\_ORCHID}}\},}
+\DoxyCodeLine{00304\ \ \ \ \ \{\textcolor{stringliteral}{"{}palegoldenrod"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a2178fcdb640ca53fb8965896c03b244a}{SVG\_PALEGOLDENROD}}\},}
+\DoxyCodeLine{00305\ \ \ \ \ \{\textcolor{stringliteral}{"{}palegreen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a83117777e01d91e29c235a1f78c0b5c0}{SVG\_PALEGREEN}}\},}
+\DoxyCodeLine{00306\ \ \ \ \ \{\textcolor{stringliteral}{"{}paleturquoise"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a3baf406d8c0d466fbcd47c457eed4d47}{SVG\_PALETURQUOISE}}\},}
+\DoxyCodeLine{00307\ \ \ \ \ \{\textcolor{stringliteral}{"{}palevioletred"{}},\ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af15a0fd30ee3518c467d1c66972fe8d2}{SVG\_PALEVIOLETRED}}\},}
+\DoxyCodeLine{00308\ \ \ \ \ \{\textcolor{stringliteral}{"{}papayawhip"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a138b191b40229262f4872df5e9db8caf}{SVG\_PAPAYAWHIP}}\},}
+\DoxyCodeLine{00309\ \ \ \ \ \{\textcolor{stringliteral}{"{}peachpuff"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a658809ec22b3ef07cc4d9d4ca0fb00a5}{SVG\_PEACHPUFF}}\},}
+\DoxyCodeLine{00310\ \ \ \ \ \{\textcolor{stringliteral}{"{}peru"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af18cc4bd369782f6a2a4685a7218bb84}{SVG\_PERU}}\},}
+\DoxyCodeLine{00311\ \ \ \ \ \{\textcolor{stringliteral}{"{}pink"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a75101265761fa57c9e8637d81b299d9d}{SVG\_PINK}}\},}
+\DoxyCodeLine{00312\ \ \ \ \ \{\textcolor{stringliteral}{"{}plum"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a80ae64de3a87ab134d1af94619ab84b6}{SVG\_PLUM}}\},}
+\DoxyCodeLine{00313\ \ \ \ \ \{\textcolor{stringliteral}{"{}powderblue"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1e2e2b22cd851a5002abc4eead260f4e}{SVG\_POWDERBLUE}}\},}
+\DoxyCodeLine{00314\ \ \ \ \ \{\textcolor{stringliteral}{"{}purple"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aeeaf13e2f2cac39b525f0690a3c726cd}{SVG\_PURPLE}}\},}
+\DoxyCodeLine{00315\ \ \ \ \ \{\textcolor{stringliteral}{"{}red"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1f4cf0a1f624616f46b5f86b15fa61f8}{SVG\_RED}}\},}
+\DoxyCodeLine{00316\ \ \ \ \ \{\textcolor{stringliteral}{"{}rosybrown"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_acc5b62f308fe8bd128ab881683b1f29e}{SVG\_ROSYBROWN}}\},}
+\DoxyCodeLine{00317\ \ \ \ \ \{\textcolor{stringliteral}{"{}royalblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_abcdf527758d85137071ac1470f2ecfdb}{SVG\_ROYALBLUE}}\},}
+\DoxyCodeLine{00318\ \ \ \ \ \{\textcolor{stringliteral}{"{}saddlebrown"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_af47b442f145ec43abf7a890b0dda65df}{SVG\_SADDLEBROWN}}\},}
+\DoxyCodeLine{00319\ \ \ \ \ \{\textcolor{stringliteral}{"{}salmon"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae8f1d1b1672381a52c3bbe0cdff25b35}{SVG\_SALMON}}\},}
+\DoxyCodeLine{00320\ \ \ \ \ \{\textcolor{stringliteral}{"{}sandybrown"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aee82f152bbf6b134ddaac6b7b8fb2938}{SVG\_SANDYBROWN}}\},}
+\DoxyCodeLine{00321\ \ \ \ \ \{\textcolor{stringliteral}{"{}seagreen"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_acfad3574427289e9af518b294b02362e}{SVG\_SEAGREEN}}\},}
+\DoxyCodeLine{00322\ \ \ \ \ \{\textcolor{stringliteral}{"{}seashell"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a14463dfd64757971a7d3818cde4b92c1}{SVG\_SEASHELL}}\},}
+\DoxyCodeLine{00323\ \ \ \ \ \{\textcolor{stringliteral}{"{}sienna"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a5c5abc24ae74ee4f48c30835ed011ab1}{SVG\_SIENNA}}\},}
+\DoxyCodeLine{00324\ \ \ \ \ \{\textcolor{stringliteral}{"{}silver"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ad90fabe866fa6eb168507b698bb4a081}{SVG\_SILVER}}\},}
+\DoxyCodeLine{00325\ \ \ \ \ \{\textcolor{stringliteral}{"{}skyblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ab8816236fb6e1f731d9a7fe95b12500e}{SVG\_SKYBLUE}}\},}
+\DoxyCodeLine{00326\ \ \ \ \ \{\textcolor{stringliteral}{"{}slateblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a88ebf25ecf45ca21515c05c4322d8a82}{SVG\_SLATEBLUE}}\},}
+\DoxyCodeLine{00327\ \ \ \ \ \{\textcolor{stringliteral}{"{}slategray"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a627698c20768e1ebe80dfc3ec4d3f10e}{SVG\_SLATEGRAY}}\},}
+\DoxyCodeLine{00328\ \ \ \ \ \{\textcolor{stringliteral}{"{}slategrey"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a648259d5dc2f51a3686b146de5ee9fcc}{SVG\_SLATEGREY}}\},}
+\DoxyCodeLine{00329\ \ \ \ \ \{\textcolor{stringliteral}{"{}snow"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_aae812f9d0fcd92f09b107326e02cef41}{SVG\_SNOW}}\},}
+\DoxyCodeLine{00330\ \ \ \ \ \{\textcolor{stringliteral}{"{}springgreen"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a2d8f165a1e043b6a52c0d80722377359}{SVG\_SPRINGGREEN}}\},}
+\DoxyCodeLine{00331\ \ \ \ \ \{\textcolor{stringliteral}{"{}steelblue"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a7012fa2ceff9577ca7ecb14fa8574d03}{SVG\_STEELBLUE}}\},}
+\DoxyCodeLine{00332\ \ \ \ \ \{\textcolor{stringliteral}{"{}tan"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a8ffe35ff4cd812320ded71592b99d1b4}{SVG\_TAN}}\},}
+\DoxyCodeLine{00333\ \ \ \ \ \{\textcolor{stringliteral}{"{}teal"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a7a5b1a074b81a686e57d82ecb52c649a}{SVG\_TEAL}}\},}
+\DoxyCodeLine{00334\ \ \ \ \ \{\textcolor{stringliteral}{"{}thistle"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a1e5d4f0a22db3f79d036e92324d2ff02}{SVG\_THISTLE}}\},}
+\DoxyCodeLine{00335\ \ \ \ \ \{\textcolor{stringliteral}{"{}tomato"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a9aa323487537b3c2a4f4fe8d8f5620c7}{SVG\_TOMATO}}\},}
+\DoxyCodeLine{00336\ \ \ \ \ \{\textcolor{stringliteral}{"{}turquoise"{}},\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ae3d3e18ae2cce6fcb086cd7ba520e64a}{SVG\_TURQUOISE}}\},}
+\DoxyCodeLine{00337\ \ \ \ \ \{\textcolor{stringliteral}{"{}violet"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_ada31aedcba32b7457faf76169f7d0f3e}{SVG\_VIOLET}}\},}
+\DoxyCodeLine{00338\ \ \ \ \ \{\textcolor{stringliteral}{"{}wheat"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a58e568ad2114ed0184853e85def4ff06}{SVG\_WHEAT}}\},}
+\DoxyCodeLine{00339\ \ \ \ \ \{\textcolor{stringliteral}{"{}white"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a10d513298dfee81c77ba298170e355fa}{SVG\_WHITE}}\},}
+\DoxyCodeLine{00340\ \ \ \ \ \{\textcolor{stringliteral}{"{}whitesmoke"{}},\ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_abf95637d925a6fc2ced116af24a0b149}{SVG\_WHITESMOKE}}\},}
+\DoxyCodeLine{00341\ \ \ \ \ \{\textcolor{stringliteral}{"{}yellow"{}},\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_add120467b64d5d288618f34d21aa066a}{SVG\_YELLOW}}\},}
+\DoxyCodeLine{00342\ \ \ \ \ \{\textcolor{stringliteral}{"{}yellowgreen"{}},\ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_s_v_g_color_8h_a5ab3f8682ba15a3b276ba5b42fcf67e5}{SVG\_YELLOWGREEN}}\}}
+\DoxyCodeLine{00343\ \};}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//SVG\_RENDERING\_COLOR\_H}}
+
+\end{DoxyCode}

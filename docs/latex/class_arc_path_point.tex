@@ -1,0 +1,273 @@
+\doxysection{Arc\+Path\+Point Class Reference}
+\hypertarget{class_arc_path_point}{}\label{class_arc_path_point}\index{ArcPathPoint@{ArcPathPoint}}
+
+
+{\ttfamily \#include $<$Arc\+Path\+Point.\+h$>$}
+
+
+
+Inheritance diagram for Arc\+Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_arc_path_point__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Arc\+Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_arc_path_point__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_arc_path_point_a97bb195a5e5d86d473c2f0948210f8c1}{Arc\+Path\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for arc-\/type point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arc_path_point_a10e7475d44f0b8a54531717b4f54e523}{Arc\+Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arc_path_point_a4fb4bf2d3f5b5d9f006d111176f5e643}{Arc\+Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&radii, float x\+Rotation, bool large\+Arc\+Flag, bool sweep\+Flag)
+\begin{DoxyCompactList}\small\item\em Full-\/\+Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arc_path_point_ad84581dc4a61afd7597a296e7bd348a2}{Arc\+Path\+Point}} (const \mbox{\hyperlink{class_arc_path_point}{Arc\+Path\+Point}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arc_path_point_a6ebca11669f22a2fbda4fcd4f3341206}{set\+Radii}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&radii)
+\begin{DoxyCompactList}\small\item\em Setter method to set new radii. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_arc_path_point_a7657b6d54a5aff6149d91bf940a2fb72}{get\+Radii}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the radii. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arc_path_point_ac1506ae9c692a43acd245d9e6cb42d98}{set\+XRotation}} (float x\+Rotation)
+\begin{DoxyCompactList}\small\item\em Setter method to set new x axis rotation. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_arc_path_point_abde19b9776a0fda2c3b5b9a3a65326ba}{get\+XRotation}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the x axis rotation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arc_path_point_a2c1f10d1708281e25947478c65be394c}{set\+Large\+Arc\+Flag}} (bool large\+Arc\+Flag)
+\begin{DoxyCompactList}\small\item\em Setter method to set new large-\/arc-\/flag. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_arc_path_point_a2484bdfb5e400f717645369100b0908a}{get\+Large\+Arc\+Flag}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the large-\/arc-\/flag. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arc_path_point_a365214d348b3ec0e7c9ecb0f7626a442}{set\+Sweep\+Flag}} (bool sweep\+Flag)
+\begin{DoxyCompactList}\small\item\em Setter method to set new sweep flag. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_arc_path_point_a4a11f8b567e263e506f969d91fcf5072}{get\+Sweep\+Flag}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the sweep flag. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_arc_path_point_ab0b27d23cdd9d597d0ad58937b3b8d58}{output}} () const override
+\begin{DoxyCompactList}\small\item\em Print information of arc-\/type point. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_arc_path_point_ae02fb80067e9164d4bfe832a0ee2d917}{get\+Point\+Type}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_path_point}{Path\+Point}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_path_point_a430ccd20bd3aca66d02e5762ada584cc}{Path\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_adec70fb52709080a88c30e6e8bdcc477}{Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_a9d6b2fc85a6d4fa58028e2804885a9ee}{Path\+Point}} (const \mbox{\hyperlink{class_path_point}{Path\+Point}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_path_point_addd1fd6015e07dc3c870b5e957164f48}{\texorpdfstring{$\sim$}{\string~}\+Path\+Point}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor to ensure proper de-\/allocation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_aa315aab9d80a0f10522463784fdfc5a8}{set\+CMD}} (char cmd)
+\begin{DoxyCompactList}\small\item\em Setter method to set new command. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{class_path_point_ac906f98b19ae981caea327dfc52d07cd}{get\+CMD}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_a9722fc352a5c8c3d7fc8b5d5f920edd7}{set\+Pos}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Setter method to set new position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_path_point_a0b1b1a16255972408a3909c35cab7020}{get\+Pos}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_ab6341ca4219cc5de2e96479a2a532a9f}{operator Vector2\+D$<$ float $>$}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_arc_path_point_a97bb195a5e5d86d473c2f0948210f8c1}\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{ArcPathPoint()}{ArcPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a97bb195a5e5d86d473c2f0948210f8c1} 
+Arc\+Path\+Point\+::\+Arc\+Path\+Point (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor for arc-\/type point. 
+
+\Hypertarget{class_arc_path_point_a10e7475d44f0b8a54531717b4f54e523}\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{ArcPathPoint()}{ArcPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a10e7475d44f0b8a54531717b4f54e523} 
+Arc\+Path\+Point\+::\+Arc\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor. 
+
+\Hypertarget{class_arc_path_point_a4fb4bf2d3f5b5d9f006d111176f5e643}\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{ArcPathPoint()}{ArcPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a4fb4bf2d3f5b5d9f006d111176f5e643} 
+Arc\+Path\+Point\+::\+Arc\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{radii}{, }\item[{float}]{x\+Rotation}{, }\item[{bool}]{large\+Arc\+Flag}{, }\item[{bool}]{sweep\+Flag}{}\end{DoxyParamCaption})}
+
+
+
+Full-\/\+Parameterized constructor. 
+
+\Hypertarget{class_arc_path_point_ad84581dc4a61afd7597a296e7bd348a2}\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\index{ArcPathPoint@{ArcPathPoint}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{ArcPathPoint()}{ArcPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily \label{class_arc_path_point_ad84581dc4a61afd7597a296e7bd348a2} 
+Arc\+Path\+Point\+::\+Arc\+Path\+Point (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_arc_path_point}{Arc\+Path\+Point}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & \doxylink{class_arc_path_point}{Arc\+Path\+Point} object to copy from \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_arc_path_point_a2484bdfb5e400f717645369100b0908a}\index{ArcPathPoint@{ArcPathPoint}!getLargeArcFlag@{getLargeArcFlag}}
+\index{getLargeArcFlag@{getLargeArcFlag}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{getLargeArcFlag()}{getLargeArcFlag()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a2484bdfb5e400f717645369100b0908a} 
+bool Arc\+Path\+Point\+::get\+Large\+Arc\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the large-\/arc-\/flag. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_arc_path_point_ae02fb80067e9164d4bfe832a0ee2d917}\index{ArcPathPoint@{ArcPathPoint}!getPointType@{getPointType}}
+\index{getPointType@{getPointType}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{getPointType()}{getPointType()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_ae02fb80067e9164d4bfe832a0ee2d917} 
+std\+::string Arc\+Path\+Point\+::get\+Point\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_path_point_a9cb63da5ee698e07e003a09ee75743e1}{Path\+Point}}.
+
+\Hypertarget{class_arc_path_point_a7657b6d54a5aff6149d91bf940a2fb72}\index{ArcPathPoint@{ArcPathPoint}!getRadii@{getRadii}}
+\index{getRadii@{getRadii}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{getRadii()}{getRadii()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a7657b6d54a5aff6149d91bf940a2fb72} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Arc\+Path\+Point\+::get\+Radii (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the radii. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_arc_path_point_a4a11f8b567e263e506f969d91fcf5072}\index{ArcPathPoint@{ArcPathPoint}!getSweepFlag@{getSweepFlag}}
+\index{getSweepFlag@{getSweepFlag}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{getSweepFlag()}{getSweepFlag()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a4a11f8b567e263e506f969d91fcf5072} 
+bool Arc\+Path\+Point\+::get\+Sweep\+Flag (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the sweep flag. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_arc_path_point_abde19b9776a0fda2c3b5b9a3a65326ba}\index{ArcPathPoint@{ArcPathPoint}!getXRotation@{getXRotation}}
+\index{getXRotation@{getXRotation}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{getXRotation()}{getXRotation()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_abde19b9776a0fda2c3b5b9a3a65326ba} 
+float Arc\+Path\+Point\+::get\+XRotation (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the x axis rotation. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_arc_path_point_ab0b27d23cdd9d597d0ad58937b3b8d58}\index{ArcPathPoint@{ArcPathPoint}!output@{output}}
+\index{output@{output}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_ab0b27d23cdd9d597d0ad58937b3b8d58} 
+void Arc\+Path\+Point\+::output (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print information of arc-\/type point. 
+
+\begin{DoxyNote}{Note}
+This function overrides from \doxylink{class_path_point}{Path\+Point} class 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{class_path_point_a208812c4db9c5d721ccf9810e982ff6d}{Path\+Point}}.
+
+\Hypertarget{class_arc_path_point_a2c1f10d1708281e25947478c65be394c}\index{ArcPathPoint@{ArcPathPoint}!setLargeArcFlag@{setLargeArcFlag}}
+\index{setLargeArcFlag@{setLargeArcFlag}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{setLargeArcFlag()}{setLargeArcFlag()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a2c1f10d1708281e25947478c65be394c} 
+void Arc\+Path\+Point\+::set\+Large\+Arc\+Flag (\begin{DoxyParamCaption}\item[{bool}]{large\+Arc\+Flag}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new large-\/arc-\/flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em large\+Arc\+Flag} & new large-\/arc-\/flag \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_arc_path_point_a6ebca11669f22a2fbda4fcd4f3341206}\index{ArcPathPoint@{ArcPathPoint}!setRadii@{setRadii}}
+\index{setRadii@{setRadii}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{setRadii()}{setRadii()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a6ebca11669f22a2fbda4fcd4f3341206} 
+void Arc\+Path\+Point\+::set\+Radii (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{radii}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new radii. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em radii} & new radii \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_arc_path_point_a365214d348b3ec0e7c9ecb0f7626a442}\index{ArcPathPoint@{ArcPathPoint}!setSweepFlag@{setSweepFlag}}
+\index{setSweepFlag@{setSweepFlag}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{setSweepFlag()}{setSweepFlag()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_a365214d348b3ec0e7c9ecb0f7626a442} 
+void Arc\+Path\+Point\+::set\+Sweep\+Flag (\begin{DoxyParamCaption}\item[{bool}]{sweep\+Flag}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new sweep flag. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sweep\+Flag} & new sweep flag \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_arc_path_point_ac1506ae9c692a43acd245d9e6cb42d98}\index{ArcPathPoint@{ArcPathPoint}!setXRotation@{setXRotation}}
+\index{setXRotation@{setXRotation}!ArcPathPoint@{ArcPathPoint}}
+\doxysubsubsection{\texorpdfstring{setXRotation()}{setXRotation()}}
+{\footnotesize\ttfamily \label{class_arc_path_point_ac1506ae9c692a43acd245d9e6cb42d98} 
+void Arc\+Path\+Point\+::set\+XRotation (\begin{DoxyParamCaption}\item[{float}]{x\+Rotation}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new x axis rotation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Rotation} & new x axis rotation \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_arc_path_point_8h}{Arc\+Path\+Point.\+h}}\end{DoxyCompactItemize}

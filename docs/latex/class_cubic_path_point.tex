@@ -1,0 +1,193 @@
+\doxysection{Cubic\+Path\+Point Class Reference}
+\hypertarget{class_cubic_path_point}{}\label{class_cubic_path_point}\index{CubicPathPoint@{CubicPathPoint}}
+
+
+{\ttfamily \#include $<$Cubic\+Path\+Point.\+h$>$}
+
+
+
+Inheritance diagram for Cubic\+Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_cubic_path_point__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Cubic\+Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_cubic_path_point__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cubic_path_point_a54ed04d288662bb980348446a63ed260}{Cubic\+Path\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor for cubic-\/bezier-\/curve point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cubic_path_point_acd88255b09a0a7a38b73023e8e13f2e0}{Cubic\+Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cubic_path_point_a6a4b976facfedaf824aaea94399d4f5b}{Cubic\+Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&cen)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor with just one control point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cubic_path_point_a62369bbb28d7b09a5848397f8716ae2c}{Cubic\+Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&cen1, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&cen2)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor with two control points. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_cubic_path_point_ad01a5435d4bbf57c085c41e9571d7406}{Cubic\+Path\+Point}} (const \mbox{\hyperlink{class_cubic_path_point}{Cubic\+Path\+Point}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cubic_path_point_a23a237fc399589c9eea87d77533d4b03}{set\+Cen}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&cen, int id)
+\begin{DoxyCompactList}\small\item\em Setter method to set new control point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_cubic_path_point_a083dbf4be4c8f65923840e92e3f7e341}{get\+Cen}} (int id) const
+\begin{DoxyCompactList}\small\item\em Getter method to get the control point. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_cubic_path_point_a5b608bf58aaa8018997a7b4aafdb8e9a}{output}} () const override
+\begin{DoxyCompactList}\small\item\em Print information of cubic-\/bezier-\/curve point. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_cubic_path_point_aaa85109674e8452a08b05e7127af6972}{get\+Point\+Type}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_path_point}{Path\+Point}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_path_point_a430ccd20bd3aca66d02e5762ada584cc}{Path\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_adec70fb52709080a88c30e6e8bdcc477}{Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_a9d6b2fc85a6d4fa58028e2804885a9ee}{Path\+Point}} (const \mbox{\hyperlink{class_path_point}{Path\+Point}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_path_point_addd1fd6015e07dc3c870b5e957164f48}{\texorpdfstring{$\sim$}{\string~}\+Path\+Point}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor to ensure proper de-\/allocation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_aa315aab9d80a0f10522463784fdfc5a8}{set\+CMD}} (char cmd)
+\begin{DoxyCompactList}\small\item\em Setter method to set new command. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{class_path_point_ac906f98b19ae981caea327dfc52d07cd}{get\+CMD}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_a9722fc352a5c8c3d7fc8b5d5f920edd7}{set\+Pos}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Setter method to set new position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_path_point_a0b1b1a16255972408a3909c35cab7020}{get\+Pos}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_ab6341ca4219cc5de2e96479a2a532a9f}{operator Vector2\+D$<$ float $>$}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_cubic_path_point_a54ed04d288662bb980348446a63ed260}\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{CubicPathPoint()}{CubicPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a54ed04d288662bb980348446a63ed260} 
+Cubic\+Path\+Point\+::\+Cubic\+Path\+Point (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor for cubic-\/bezier-\/curve point. 
+
+\Hypertarget{class_cubic_path_point_acd88255b09a0a7a38b73023e8e13f2e0}\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{CubicPathPoint()}{CubicPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_acd88255b09a0a7a38b73023e8e13f2e0} 
+Cubic\+Path\+Point\+::\+Cubic\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor. 
+
+\Hypertarget{class_cubic_path_point_a6a4b976facfedaf824aaea94399d4f5b}\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{CubicPathPoint()}{CubicPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a6a4b976facfedaf824aaea94399d4f5b} 
+Cubic\+Path\+Point\+::\+Cubic\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{cen}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor with just one control point. 
+
+\Hypertarget{class_cubic_path_point_a62369bbb28d7b09a5848397f8716ae2c}\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{CubicPathPoint()}{CubicPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a62369bbb28d7b09a5848397f8716ae2c} 
+Cubic\+Path\+Point\+::\+Cubic\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{cen1}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{cen2}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor with two control points. 
+
+\Hypertarget{class_cubic_path_point_ad01a5435d4bbf57c085c41e9571d7406}\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\index{CubicPathPoint@{CubicPathPoint}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{CubicPathPoint()}{CubicPathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_ad01a5435d4bbf57c085c41e9571d7406} 
+Cubic\+Path\+Point\+::\+Cubic\+Path\+Point (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_cubic_path_point}{Cubic\+Path\+Point}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & \doxylink{class_cubic_path_point}{Cubic\+Path\+Point} object to copy from \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cubic_path_point_a083dbf4be4c8f65923840e92e3f7e341}\index{CubicPathPoint@{CubicPathPoint}!getCen@{getCen}}
+\index{getCen@{getCen}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{getCen()}{getCen()}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a083dbf4be4c8f65923840e92e3f7e341} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Cubic\+Path\+Point\+::get\+Cen (\begin{DoxyParamCaption}\item[{int}]{id}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the control point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em id} & tells which control point to get \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_cubic_path_point_aaa85109674e8452a08b05e7127af6972}\index{CubicPathPoint@{CubicPathPoint}!getPointType@{getPointType}}
+\index{getPointType@{getPointType}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{getPointType()}{getPointType()}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_aaa85109674e8452a08b05e7127af6972} 
+std\+::string Cubic\+Path\+Point\+::get\+Point\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_path_point_a9cb63da5ee698e07e003a09ee75743e1}{Path\+Point}}.
+
+\Hypertarget{class_cubic_path_point_a5b608bf58aaa8018997a7b4aafdb8e9a}\index{CubicPathPoint@{CubicPathPoint}!output@{output}}
+\index{output@{output}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a5b608bf58aaa8018997a7b4aafdb8e9a} 
+void Cubic\+Path\+Point\+::output (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Print information of cubic-\/bezier-\/curve point. 
+
+\begin{DoxyNote}{Note}
+This function overrides from \doxylink{class_path_point}{Path\+Point} 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{class_path_point_a208812c4db9c5d721ccf9810e982ff6d}{Path\+Point}}.
+
+\Hypertarget{class_cubic_path_point_a23a237fc399589c9eea87d77533d4b03}\index{CubicPathPoint@{CubicPathPoint}!setCen@{setCen}}
+\index{setCen@{setCen}!CubicPathPoint@{CubicPathPoint}}
+\doxysubsubsection{\texorpdfstring{setCen()}{setCen()}}
+{\footnotesize\ttfamily \label{class_cubic_path_point_a23a237fc399589c9eea87d77533d4b03} 
+void Cubic\+Path\+Point\+::set\+Cen (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{cen}{, }\item[{int}]{id}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new control point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cen} & new control point \\
+\hline
+{\em id} & tells which control point to set \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_cubic_path_point_8h}{Cubic\+Path\+Point.\+h}}\end{DoxyCompactItemize}

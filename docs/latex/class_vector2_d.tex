@@ -1,0 +1,463 @@
+\doxysection{Vector2D\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{class_vector2_d}{}\label{class_vector2_d}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+
+
+\doxylink{class_vector2_d}{Vector2D} is a class explicitly presenting a 2d vector @attributes\+: same-\/type x and y attributes (public)  
+
+
+
+
+{\ttfamily \#include $<$Vector2\+D.\+h$>$}
+
+
+
+Collaboration diagram for Vector2D\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>}\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=210pt]{class_vector2_d__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vector2_d_a96580267fed7cd6686cbbf8e11048023}{Vector2D}} ()
+\begin{DoxyCompactList}\small\item\em default constructor x and y default is 0 \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_ac3b2da737ea3e226031e137ccd5125bb}{Vector2D}} (T \mbox{\hyperlink{class_vector2_d_a65e391ec61c185092a02cf6301d0fff7}{x}}, T \mbox{\hyperlink{class_vector2_d_a6a91fccbbd37162d28fa54aeeb88f9d2}{y}})
+\begin{DoxyCompactList}\small\item\em parameterized constructor \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_a0144b1f75fd934a21716fe7121516a1c}{Vector2D}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em copy constructor to copy content (deep copy) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d_a01e91e36707c725c36d5b4bd15df2795}{operator+}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em TODO\+: Arithmetic (assignment) operators\+: +, +=, -\/, -\/=, \texorpdfstring{$\ast$}{*} (number), \texorpdfstring{$\ast$}{*}= (number), / (number), /= (number) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d_a04a3a27726451e14515aa7b0bd083e45}{operator+=}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator += for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d_a66d04861592cc156fefade4e80fabeb5}{operator-\/}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator -\/ for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d_a086312b2c13161f0aa6a1fa4770a1b99}{operator-\/=}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator -\/= for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d_a158a70779bde6ac9f79dd9aa6bb78380}{operator\texorpdfstring{$\ast$}{*}}} (const T \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator \texorpdfstring{$\ast$}{*} for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d_afce6e44cd84afd2be8f5c36fd94741cc}{operator\texorpdfstring{$\ast$}{*}=}} (const T \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator \texorpdfstring{$\ast$}{*}= for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d_adfa2e5ba2c01c52135b97e5889b08ae6}{operator/}} (const T \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator / for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}} \& \mbox{\hyperlink{class_vector2_d_aaf61f3b14d0449cc2dd387a8572b69d2}{operator/=}} (const T \&other)
+\begin{DoxyCompactList}\small\item\em Arithmetic operator /= for vector2D class. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_vector2_d_a33ee7dfc3a4dd04e178ed3277a8c7b1d}{operator==}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other) const
+\begin{DoxyCompactList}\small\item\em TODO\+: relational operator\+: ==, !=. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_vector2_d_a5bd3831e608e70e546693aa8967dd033}{operator!=}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other) const
+\begin{DoxyCompactList}\small\item\em Relational operator != for vector2D class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d_aa9eff7abaf486a7ebe5d5bb2c9ffacf5}{operator=}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&other)
+\begin{DoxyCompactList}\small\item\em Assignment (equal) operator. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_a997d0482cc14fb80c68f637dabe8b7d7}{operator Gdiplus\+::\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/cast the class to Gdiplus\+::\+Point. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_a176404b8fd12ad8d173304f96683ccd9}{operator Gdiplus\+::\+PointF}} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/cast the class to Gdiplus\+::\+PointF. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_a9356c97c24cda5364731317c57296b5f}{operator Gdiplus\+::\+Size}} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/cast the class to Gdiplus\+::\+Size. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_afd10fc6afd6380c494bb6133344f7c72}{operator Gdiplus\+::\+SizeF}} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/cast the class to Gdiplus\+::\+SizeF. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d_a33dd9f6621c7cae4b90717492d1adf8d}{operator POINT}} ()
+\begin{DoxyCompactList}\small\item\em Auto-\/cast the class to POINTS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T \mbox{\hyperlink{class_vector2_d_a65e391ec61c185092a02cf6301d0fff7}{x}}
+\begin{DoxyCompactList}\small\item\em Attributes of vector2D class. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{class_vector2_d_a6a91fccbbd37162d28fa54aeeb88f9d2}{y}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class Vector2\+D$<$ T $>$}
+\doxylink{class_vector2_d}{Vector2D} is a class explicitly presenting a 2d vector @attributes\+: same-\/type x and y attributes (public) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_vector2_d_a96580267fed7cd6686cbbf8e11048023}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!Vector2D@{Vector2D}}
+\index{Vector2D@{Vector2D}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vector2D()}{Vector2D()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{class_vector2_d_a96580267fed7cd6686cbbf8e11048023} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\mbox{\hyperlink{class_vector2_d}{\+::\+Vector2D}} (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+default constructor x and y default is 0 
+
+\Hypertarget{class_vector2_d_ac3b2da737ea3e226031e137ccd5125bb}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!Vector2D@{Vector2D}}
+\index{Vector2D@{Vector2D}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vector2D()}{Vector2D()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{class_vector2_d_ac3b2da737ea3e226031e137ccd5125bb} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\mbox{\hyperlink{class_vector2_d}{\+::\+Vector2D}} (\begin{DoxyParamCaption}\item[{T}]{x}{, }\item[{T}]{y}{}\end{DoxyParamCaption})}
+
+
+
+parameterized constructor 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+x} & passed x cord, \+\_\+y\+: passed y cord \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_vector2_d_a0144b1f75fd934a21716fe7121516a1c}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!Vector2D@{Vector2D}}
+\index{Vector2D@{Vector2D}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vector2D()}{Vector2D()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{class_vector2_d_a0144b1f75fd934a21716fe7121516a1c} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\mbox{\hyperlink{class_vector2_d}{\+::\+Vector2D}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+copy constructor to copy content (deep copy) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class object \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_vector2_d_a997d0482cc14fb80c68f637dabe8b7d7}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator Gdiplus::Point@{operator Gdiplus::Point}}
+\index{operator Gdiplus::Point@{operator Gdiplus::Point}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator Gdiplus::Point()}{operator Gdiplus::Point()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a997d0482cc14fb80c68f637dabe8b7d7} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator Gdiplus\+::\+Point (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Auto-\/cast the class to Gdiplus\+::\+Point. 
+
+\Hypertarget{class_vector2_d_a176404b8fd12ad8d173304f96683ccd9}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator Gdiplus::PointF@{operator Gdiplus::PointF}}
+\index{operator Gdiplus::PointF@{operator Gdiplus::PointF}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator Gdiplus::PointF()}{operator Gdiplus::PointF()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a176404b8fd12ad8d173304f96683ccd9} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator Gdiplus\+::\+PointF (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Auto-\/cast the class to Gdiplus\+::\+PointF. 
+
+\Hypertarget{class_vector2_d_a9356c97c24cda5364731317c57296b5f}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator Gdiplus::Size@{operator Gdiplus::Size}}
+\index{operator Gdiplus::Size@{operator Gdiplus::Size}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator Gdiplus::Size()}{operator Gdiplus::Size()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a9356c97c24cda5364731317c57296b5f} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator Gdiplus\+::\+Size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Auto-\/cast the class to Gdiplus\+::\+Size. 
+
+\Hypertarget{class_vector2_d_afd10fc6afd6380c494bb6133344f7c72}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator Gdiplus::SizeF@{operator Gdiplus::SizeF}}
+\index{operator Gdiplus::SizeF@{operator Gdiplus::SizeF}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator Gdiplus::SizeF()}{operator Gdiplus::SizeF()}}
+{\footnotesize\ttfamily \label{class_vector2_d_afd10fc6afd6380c494bb6133344f7c72} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator Gdiplus\+::\+SizeF (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Auto-\/cast the class to Gdiplus\+::\+SizeF. 
+
+\Hypertarget{class_vector2_d_a33dd9f6621c7cae4b90717492d1adf8d}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator POINT@{operator POINT}}
+\index{operator POINT@{operator POINT}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator POINT()}{operator POINT()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a33dd9f6621c7cae4b90717492d1adf8d} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator POINT (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Auto-\/cast the class to POINTS. 
+
+\Hypertarget{class_vector2_d_a5bd3831e608e70e546693aa8967dd033}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a5bd3831e608e70e546693aa8967dd033} 
+template$<$typename T $>$ \\
+bool \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+
+Relational operator != for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & a same-\/class object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_a158a70779bde6ac9f79dd9aa6bb78380}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}}
+\index{operator\texorpdfstring{$\ast$}{*}@{operator\texorpdfstring{$\ast$}{*}}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}()}{operator*()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a158a70779bde6ac9f79dd9aa6bb78380} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator\texorpdfstring{$\ast$}{*} (\begin{DoxyParamCaption}\item[{const T \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator \texorpdfstring{$\ast$}{*} for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & number of type T \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector2D 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_afce6e44cd84afd2be8f5c36fd94741cc}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator\texorpdfstring{$\ast$}{*}=@{operator\texorpdfstring{$\ast$}{*}=}}
+\index{operator\texorpdfstring{$\ast$}{*}=@{operator\texorpdfstring{$\ast$}{*}=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator\texorpdfstring{$\ast$}{*}=()}{operator*=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_afce6e44cd84afd2be8f5c36fd94741cc} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator\texorpdfstring{$\ast$}{*}= (\begin{DoxyParamCaption}\item[{const T \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator \texorpdfstring{$\ast$}{*}= for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & number of type T \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_a01e91e36707c725c36d5b4bd15df2795}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a01e91e36707c725c36d5b4bd15df2795} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+TODO\+: Arithmetic (assignment) operators\+: +, +=, -\/, -\/=, \texorpdfstring{$\ast$}{*} (number), \texorpdfstring{$\ast$}{*}= (number), / (number), /= (number) 
+
+Arithmetic operator + for vector2D class.
+
+Arithmetic operator + for vector2D class 
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class vector2D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector2D
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class vector2D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector2D 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_a04a3a27726451e14515aa7b0bd083e45}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a04a3a27726451e14515aa7b0bd083e45} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator += for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class vector2D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_a66d04861592cc156fefade4e80fabeb5}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a66d04861592cc156fefade4e80fabeb5} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator -\/ for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class vector2D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector2D 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_a086312b2c13161f0aa6a1fa4770a1b99}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a086312b2c13161f0aa6a1fa4770a1b99} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator -\/= for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & same-\/class vector2D \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_adfa2e5ba2c01c52135b97e5889b08ae6}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator/@{operator/}}
+\index{operator/@{operator/}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator/()}{operator/()}}
+{\footnotesize\ttfamily \label{class_vector2_d_adfa2e5ba2c01c52135b97e5889b08ae6} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator/ (\begin{DoxyParamCaption}\item[{const T \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator / for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & number of type T \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+new vector2D 
+\end{DoxyReturn}
+\Hypertarget{class_vector2_d_aaf61f3b14d0449cc2dd387a8572b69d2}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator/=()}{operator/=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_aaf61f3b14d0449cc2dd387a8572b69d2} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator/= (\begin{DoxyParamCaption}\item[{const T \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Arithmetic operator /= for vector2D class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & number \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & number of type T \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+reference to this 
+\end{DoxyReturn}
+\texorpdfstring{$<$}{<}-\/ avoid divide by zero\Hypertarget{class_vector2_d_aa9eff7abaf486a7ebe5d5bb2c9ffacf5}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{class_vector2_d_aa9eff7abaf486a7ebe5d5bb2c9ffacf5} 
+template$<$typename T $>$ \\
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \& \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Assignment (equal) operator. 
+
+\begin{DoxyNote}{Note}
+Remember to check self-\/assignment case 
+\end{DoxyNote}
+\Hypertarget{class_vector2_d_a33ee7dfc3a4dd04e178ed3277a8c7b1d}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \label{class_vector2_d_a33ee7dfc3a4dd04e178ed3277a8c7b1d} 
+template$<$typename T $>$ \\
+bool \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$ \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+
+TODO\+: relational operator\+: ==, !=. 
+
+Relational operator ==, != for vector2D class.
+
+Relational operator == for vector2D class 
+\begin{DoxyParams}{Parameters}
+{\em other} & a same-\/class object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em other} & a same-\/class object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_vector2_d_a65e391ec61c185092a02cf6301d0fff7}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!x@{x}}
+\index{x@{x}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily \label{class_vector2_d_a65e391ec61c185092a02cf6301d0fff7} 
+template$<$typename T $>$ \\
+T \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::x}
+
+
+
+Attributes of vector2D class. 
+
+\begin{DoxyNote}{Note}
+Both has same type T 
+\end{DoxyNote}
+\Hypertarget{class_vector2_d_a6a91fccbbd37162d28fa54aeeb88f9d2}\index{Vector2D$<$ T $>$@{Vector2D$<$ T $>$}!y@{y}}
+\index{y@{y}!Vector2D$<$ T $>$@{Vector2D$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily \label{class_vector2_d_a6a91fccbbd37162d28fa54aeeb88f9d2} 
+template$<$typename T $>$ \\
+T \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ T $>$\+::y}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_vector2_d_8h}{Vector2\+D.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,218 @@
+\doxysection{Path\+Point Class Reference}
+\hypertarget{class_path_point}{}\label{class_path_point}\index{PathPoint@{PathPoint}}
+
+
+A general \doxylink{class_path_point}{Path\+Point} class to represent all type of points in path.  
+
+
+
+
+{\ttfamily \#include $<$Path\+Point.\+h$>$}
+
+
+
+Inheritance diagram for Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_path_point__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Path\+Point\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{class_path_point__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_path_point_a430ccd20bd3aca66d02e5762ada584cc}{Path\+Point}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_adec70fb52709080a88c30e6e8bdcc477}{Path\+Point}} (char cmd, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_path_point_a9d6b2fc85a6d4fa58028e2804885a9ee}{Path\+Point}} (const \mbox{\hyperlink{class_path_point}{Path\+Point}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{class_path_point_addd1fd6015e07dc3c870b5e957164f48}{\texorpdfstring{$\sim$}{\string~}\+Path\+Point}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor to ensure proper de-\/allocation. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_aa315aab9d80a0f10522463784fdfc5a8}{set\+CMD}} (char cmd)
+\begin{DoxyCompactList}\small\item\em Setter method to set new command. \end{DoxyCompactList}\item 
+char \mbox{\hyperlink{class_path_point_ac906f98b19ae981caea327dfc52d07cd}{get\+CMD}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the command. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_path_point_a9722fc352a5c8c3d7fc8b5d5f920edd7}{set\+Pos}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&pos)
+\begin{DoxyCompactList}\small\item\em Setter method to set new position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_path_point_a0b1b1a16255972408a3909c35cab7020}{get\+Pos}} () const
+\begin{DoxyCompactList}\small\item\em Getter method to get the position. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_path_point_a208812c4db9c5d721ccf9810e982ff6d}{output}} () const
+\begin{DoxyCompactList}\small\item\em Print information of point. \end{DoxyCompactList}\item 
+virtual std\+::string \mbox{\hyperlink{class_path_point_a9cb63da5ee698e07e003a09ee75743e1}{get\+Point\+Type}} () const
+\item 
+\mbox{\hyperlink{class_path_point_ab6341ca4219cc5de2e96479a2a532a9f}{operator Vector2\+D$<$ float $>$}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A general \doxylink{class_path_point}{Path\+Point} class to represent all type of points in path. 
+
+\begin{DoxyNote}{Note}
+This is a superclass 
+
+All types of points in svg path has a command and a position 
+\end{DoxyNote}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_path_point_a430ccd20bd3aca66d02e5762ada584cc}\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{PathPoint()}{PathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{class_path_point_a430ccd20bd3aca66d02e5762ada584cc} 
+Path\+Point\+::\+Path\+Point (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+\Hypertarget{class_path_point_adec70fb52709080a88c30e6e8bdcc477}\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{PathPoint()}{PathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{class_path_point_adec70fb52709080a88c30e6e8bdcc477} 
+Path\+Point\+::\+Path\+Point (\begin{DoxyParamCaption}\item[{char}]{cmd}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & new command \\
+\hline
+{\em pos} & new position \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_path_point_a9d6b2fc85a6d4fa58028e2804885a9ee}\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\index{PathPoint@{PathPoint}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{PathPoint()}{PathPoint()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{class_path_point_a9d6b2fc85a6d4fa58028e2804885a9ee} 
+Path\+Point\+::\+Path\+Point (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_path_point}{Path\+Point}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & \doxylink{class_path_point}{Path\+Point} object to copy from \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_path_point_addd1fd6015e07dc3c870b5e957164f48}\index{PathPoint@{PathPoint}!````~PathPoint@{\texorpdfstring{$\sim$}{\string~}PathPoint}}
+\index{````~PathPoint@{\texorpdfstring{$\sim$}{\string~}PathPoint}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}PathPoint()}{\string~PathPoint()}}
+{\footnotesize\ttfamily \label{class_path_point_addd1fd6015e07dc3c870b5e957164f48} 
+virtual Path\+Point\+::\texorpdfstring{$\sim$}{\string~}\+Path\+Point (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+
+
+Virtual destructor to ensure proper de-\/allocation. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_path_point_ac906f98b19ae981caea327dfc52d07cd}\index{PathPoint@{PathPoint}!getCMD@{getCMD}}
+\index{getCMD@{getCMD}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{getCMD()}{getCMD()}}
+{\footnotesize\ttfamily \label{class_path_point_ac906f98b19ae981caea327dfc52d07cd} 
+char Path\+Point\+::get\+CMD (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the command. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_path_point_a9cb63da5ee698e07e003a09ee75743e1}\index{PathPoint@{PathPoint}!getPointType@{getPointType}}
+\index{getPointType@{getPointType}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{getPointType()}{getPointType()}}
+{\footnotesize\ttfamily \label{class_path_point_a9cb63da5ee698e07e003a09ee75743e1} 
+virtual std\+::string Path\+Point\+::get\+Point\+Type (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_arc_path_point_ae02fb80067e9164d4bfe832a0ee2d917}{Arc\+Path\+Point}}, \mbox{\hyperlink{class_cubic_path_point_aaa85109674e8452a08b05e7127af6972}{Cubic\+Path\+Point}}, \mbox{\hyperlink{class_norm_path_point_aa9895c86bd480e590829c2b438885298}{Norm\+Path\+Point}}, and \mbox{\hyperlink{class_quad_path_point_a60d9f6f2caf5f616a4dcd33fe0da456e}{Quad\+Path\+Point}}.
+
+\Hypertarget{class_path_point_a0b1b1a16255972408a3909c35cab7020}\index{PathPoint@{PathPoint}!getPos@{getPos}}
+\index{getPos@{getPos}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{getPos()}{getPos()}}
+{\footnotesize\ttfamily \label{class_path_point_a0b1b1a16255972408a3909c35cab7020} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ Path\+Point\+::get\+Pos (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Getter method to get the position. 
+
+\begin{DoxyNote}{Note}
+This method doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_path_point_ab6341ca4219cc5de2e96479a2a532a9f}\index{PathPoint@{PathPoint}!operator Vector2D$<$ float $>$@{operator Vector2D$<$ float $>$}}
+\index{operator Vector2D$<$ float $>$@{operator Vector2D$<$ float $>$}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{operator Vector2D$<$ float $>$()}{operator Vector2D< float >()}}
+{\footnotesize\ttfamily \label{class_path_point_ab6341ca4219cc5de2e96479a2a532a9f} 
+Path\+Point\+::operator \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_path_point_a208812c4db9c5d721ccf9810e982ff6d}\index{PathPoint@{PathPoint}!output@{output}}
+\index{output@{output}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \label{class_path_point_a208812c4db9c5d721ccf9810e982ff6d} 
+virtual void Path\+Point\+::output (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print information of point. 
+
+\begin{DoxyNote}{Note}
+This function can be overrided to print different types of points 
+\end{DoxyNote}
+
+
+Reimplemented in \mbox{\hyperlink{class_arc_path_point_ab0b27d23cdd9d597d0ad58937b3b8d58}{Arc\+Path\+Point}}, \mbox{\hyperlink{class_cubic_path_point_a5b608bf58aaa8018997a7b4aafdb8e9a}{Cubic\+Path\+Point}}, \mbox{\hyperlink{class_norm_path_point_ab0e1ba27e4f24c72540f34c22fee684d}{Norm\+Path\+Point}}, and \mbox{\hyperlink{class_quad_path_point_a313c7359c31cd7a97b1723a2d49a5c7f}{Quad\+Path\+Point}}.
+
+\Hypertarget{class_path_point_aa315aab9d80a0f10522463784fdfc5a8}\index{PathPoint@{PathPoint}!setCMD@{setCMD}}
+\index{setCMD@{setCMD}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{setCMD()}{setCMD()}}
+{\footnotesize\ttfamily \label{class_path_point_aa315aab9d80a0f10522463784fdfc5a8} 
+void Path\+Point\+::set\+CMD (\begin{DoxyParamCaption}\item[{char}]{cmd}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cmd} & new command \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_path_point_a9722fc352a5c8c3d7fc8b5d5f920edd7}\index{PathPoint@{PathPoint}!setPos@{setPos}}
+\index{setPos@{setPos}!PathPoint@{PathPoint}}
+\doxysubsubsection{\texorpdfstring{setPos()}{setPos()}}
+{\footnotesize\ttfamily \label{class_path_point_a9722fc352a5c8c3d7fc8b5d5f920edd7} 
+void Path\+Point\+::set\+Pos (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{pos}{}\end{DoxyParamCaption})}
+
+
+
+Setter method to set new position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pos} & new position \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_path_point_8h}{Path\+Point.\+h}}\end{DoxyCompactItemize}

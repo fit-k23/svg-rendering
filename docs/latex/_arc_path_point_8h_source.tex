@@ -1,0 +1,35 @@
+\doxysection{Arc\+Path\+Point.\+h}
+\hypertarget{_arc_path_point_8h_source}{}\label{_arc_path_point_8h_source}\mbox{\hyperlink{_arc_path_point_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SVG\_RENDERING\_ARCPATHPOINT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SVG\_RENDERING\_ARCPATHPOINT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_path_point_8h}{PathPoint.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_arc_path_point}{ArcPathPoint}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_path_point}{PathPoint}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ radii;\ \ \ \textcolor{comment}{//\ <-\/-\/\ radii\ of\ the\ ellipse}}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{float}\ xRotation;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ <-\/-\/\ rotation\ (in\ degree)\ of\ the\ arc\ relative\ to\ the\ x-\/axis}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{bool}\ largeArcFlag;\ \ \ \ \ \ \textcolor{comment}{//\ <-\/-\/\ decide\ whether\ <\ 180\ degree\ (small\ arc)\ or\ >\ 180\ degree\ (large\ arc)}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{bool}\ sweepFlag;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ <-\/-\/\ clockwise\ (1)\ or\ counterclockwise\ (0)}}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{class_arc_path_point_a97bb195a5e5d86d473c2f0948210f8c1}{ArcPathPoint}}();}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_arc_path_point_a10e7475d44f0b8a54531717b4f54e523}{ArcPathPoint}}(\textcolor{keywordtype}{char}\ cmd,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\&\ pos);}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_arc_path_point_a4fb4bf2d3f5b5d9f006d111176f5e643}{ArcPathPoint}}(\textcolor{keywordtype}{char}\ cmd,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\&\ pos,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii,\ \textcolor{keywordtype}{float}\ xRotation,\ \textcolor{keywordtype}{bool}\ largeArcFlag,\ \textcolor{keywordtype}{bool}\ sweepFlag);}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{class_arc_path_point_ad84581dc4a61afd7597a296e7bd348a2}{ArcPathPoint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_arc_path_point}{ArcPathPoint}}\&\ other);}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_arc_path_point_a6ebca11669f22a2fbda4fcd4f3341206}{setRadii}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \&radii);}
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{class_vector2_d}{Vector2D<float>}}\ \mbox{\hyperlink{class_arc_path_point_a7657b6d54a5aff6149d91bf940a2fb72}{getRadii}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_arc_path_point_ac1506ae9c692a43acd245d9e6cb42d98}{setXRotation}}(\textcolor{keywordtype}{float}\ xRotation);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_arc_path_point_abde19b9776a0fda2c3b5b9a3a65326ba}{getXRotation}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_arc_path_point_a2c1f10d1708281e25947478c65be394c}{setLargeArcFlag}}(\textcolor{keywordtype}{bool}\ largeArcFlag);}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_arc_path_point_a2484bdfb5e400f717645369100b0908a}{getLargeArcFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_arc_path_point_a365214d348b3ec0e7c9ecb0f7626a442}{setSweepFlag}}(\textcolor{keywordtype}{bool}\ sweepFlag);}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_arc_path_point_a4a11f8b567e263e506f969d91fcf5072}{getSweepFlag}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_arc_path_point_ab0b27d23cdd9d597d0ad58937b3b8d58}{output}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ std::string\ \mbox{\hyperlink{class_arc_path_point_ae02fb80067e9164d4bfe832a0ee2d917}{getPointType}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00071\ \};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#endif\ }}
+
+\end{DoxyCode}

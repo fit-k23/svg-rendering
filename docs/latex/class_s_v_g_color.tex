@@ -1,0 +1,154 @@
+\doxysection{SVGColor Class Reference}
+\hypertarget{class_s_v_g_color}{}\label{class_s_v_g_color}\index{SVGColor@{SVGColor}}
+
+
+{\ttfamily \#include $<$SVGColor.\+h$>$}
+
+
+
+Collaboration diagram for SVGColor\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{class_s_v_g_color__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_v_g_color_a5c02749a4332f911c10f77c4c650f8fc}{SVGColor}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_color_af191fa2283fde81991c2b649eba906ec}{SVGColor}} (unsigned char \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}}, unsigned char \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}}, unsigned char \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}}, unsigned char \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}=255)
+\item 
+\mbox{\hyperlink{class_s_v_g_color_afee89ec09c9f75a5016fbd0560df1f17}{SVGColor}} (int \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}}, int \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}}, int \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}}, int \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}=255)
+\item 
+\mbox{\hyperlink{class_s_v_g_color_ac1c833457a5e5b3ecd19ed693c27bbf3}{SVGColor}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&other)
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \& \mbox{\hyperlink{class_s_v_g_color_a673f5e63fc814ff85ff78250fee976a5}{operator=}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&other)
+\item 
+\mbox{\hyperlink{class_s_v_g_color_a5e05c823e574f90e104f471fecfe66cb}{SVGColor}} (std\+::string param)
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_s_v_g_color_a1119b45cf9b1c9f7da07c9813b7ff032}{from\+HSL}} (int h, int s, int l, int \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}=255)
+\item 
+\mbox{\hyperlink{class_s_v_g_color_a892362193a96f7f3b8688bc5ffa5aa82}{operator Gdiplus\+::\+Color}} () const
+\item 
+void \mbox{\hyperlink{class_s_v_g_color_a64d15f02538fa77d55882b1a6501da48}{output}} () const
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_s_v_g_color_a57dce5274a9b3094b899dfefb81d8c1e}{alpha}} (unsigned char \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned char \mbox{\hyperlink{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}{r}}
+\item 
+unsigned char \mbox{\hyperlink{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}{g}}
+\item 
+unsigned char \mbox{\hyperlink{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}{b}}
+\item 
+unsigned char \mbox{\hyperlink{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}{a}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_v_g_color_a5c02749a4332f911c10f77c4c650f8fc}\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{SVGColor()}{SVGColor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a5c02749a4332f911c10f77c4c650f8fc} 
+SVGColor\+::\+SVGColor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+\begin{DoxyNote}{Note}
+set all to zero -\/\texorpdfstring{$>$}{>} black 
+\end{DoxyNote}
+\Hypertarget{class_s_v_g_color_af191fa2283fde81991c2b649eba906ec}\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{SVGColor()}{SVGColor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_af191fa2283fde81991c2b649eba906ec} 
+SVGColor\+::\+SVGColor (\begin{DoxyParamCaption}\item[{unsigned char}]{r}{, }\item[{unsigned char}]{g}{, }\item[{unsigned char}]{b}{, }\item[{unsigned char}]{a}{ = {\ttfamily 255}}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_afee89ec09c9f75a5016fbd0560df1f17}\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{SVGColor()}{SVGColor()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_afee89ec09c9f75a5016fbd0560df1f17} 
+SVGColor\+::\+SVGColor (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{g}{, }\item[{int}]{b}{, }\item[{int}]{a}{ = {\ttfamily 255}}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_ac1c833457a5e5b3ecd19ed693c27bbf3}\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{SVGColor()}{SVGColor()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_ac1c833457a5e5b3ecd19ed693c27bbf3} 
+SVGColor\+::\+SVGColor (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{other}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_a5e05c823e574f90e104f471fecfe66cb}\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\index{SVGColor@{SVGColor}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{SVGColor()}{SVGColor()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a5e05c823e574f90e104f471fecfe66cb} 
+SVGColor\+::\+SVGColor (\begin{DoxyParamCaption}\item[{std\+::string}]{param}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_v_g_color_a57dce5274a9b3094b899dfefb81d8c1e}\index{SVGColor@{SVGColor}!alpha@{alpha}}
+\index{alpha@{alpha}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{alpha()}{alpha()}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a57dce5274a9b3094b899dfefb81d8c1e} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} SVGColor\+::alpha (\begin{DoxyParamCaption}\item[{unsigned char}]{a}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_a1119b45cf9b1c9f7da07c9813b7ff032}\index{SVGColor@{SVGColor}!fromHSL@{fromHSL}}
+\index{fromHSL@{fromHSL}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{fromHSL()}{fromHSL()}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a1119b45cf9b1c9f7da07c9813b7ff032} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} SVGColor\+::from\+HSL (\begin{DoxyParamCaption}\item[{int}]{h}{, }\item[{int}]{s}{, }\item[{int}]{l}{, }\item[{int}]{a}{ = {\ttfamily 255}}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_a892362193a96f7f3b8688bc5ffa5aa82}\index{SVGColor@{SVGColor}!operator Gdiplus::Color@{operator Gdiplus::Color}}
+\index{operator Gdiplus::Color@{operator Gdiplus::Color}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{operator Gdiplus::Color()}{operator Gdiplus::Color()}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a892362193a96f7f3b8688bc5ffa5aa82} 
+SVGColor\+::operator Gdiplus\+::\+Color (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+\Hypertarget{class_s_v_g_color_a673f5e63fc814ff85ff78250fee976a5}\index{SVGColor@{SVGColor}!operator=@{operator=}}
+\index{operator=@{operator=}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a673f5e63fc814ff85ff78250fee976a5} 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \& SVGColor\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{other}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_s_v_g_color_a64d15f02538fa77d55882b1a6501da48}\index{SVGColor@{SVGColor}!output@{output}}
+\index{output@{output}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{output()}{output()}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a64d15f02538fa77d55882b1a6501da48} 
+void SVGColor\+::output (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2}\index{SVGColor@{SVGColor}!a@{a}}
+\index{a@{a}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a7d4e20b6431a653968ef016af0de15a2} 
+unsigned char SVGColor\+::a}
+
+\Hypertarget{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c}\index{SVGColor@{SVGColor}!b@{b}}
+\index{b@{b}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a21697222ecde1af52ab27dc418f8301c} 
+unsigned char SVGColor\+::b}
+
+\Hypertarget{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd}\index{SVGColor@{SVGColor}!g@{g}}
+\index{g@{g}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{g}{g}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_a310dadb67a7143e1bd82d6be91180efd} 
+unsigned char SVGColor\+::g}
+
+\Hypertarget{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d}\index{SVGColor@{SVGColor}!r@{r}}
+\index{r@{r}!SVGColor@{SVGColor}}
+\doxysubsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily \label{class_s_v_g_color_ae717424ce7eb53ea1c0820c043a6d44d} 
+unsigned char SVGColor\+::r}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_s_v_g_color_8h}{SVGColor.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,273 @@
+\doxysection{SVGLine Class Reference}
+\hypertarget{class_s_v_g_line}{}\label{class_s_v_g_line}\index{SVGLine@{SVGLine}}
+
+
+{\ttfamily \#include $<$Line.\+h$>$}
+
+
+
+Inheritance diagram for SVGLine\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_s_v_g_line__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for SVGLine\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_s_v_g_line__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_s_v_g_line_a6671d5593ff69aeb717e39e763d3df0d}{SVGLine}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_line_ab4ebe5b90fc9458df47f3efb4f396d29}{SVGLine}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}, float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}}, const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&end\+Position)
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_line_ab7a7598b71444e6e68fed65d10340485}{SVGLine}} (const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{Element\+Type}} \mbox{\hyperlink{class_s_v_g_line_ade8ed71963b963a0198e40ffe139a1c1}{get\+Type\+Name}} () override
+\begin{DoxyCompactList}\small\item\em get type \doxylink{class_s_v_g_line}{SVGLine} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_v_g_line_a1ad10025e22ff796660e3774e5a64c0e}{dbg}} () override
+\begin{DoxyCompactList}\small\item\em print information of svgline \end{DoxyCompactList}\item 
+std\+::pair$<$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$, \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ $>$ \mbox{\hyperlink{class_s_v_g_line_a464f4f27acaaf0b76ecb5cce9be585ce}{get\+Bounding\+Box}} () const override
+\begin{DoxyCompactList}\small\item\em Get bounding box of svgline. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_s_v_g_line_ada919ae7d6ebfbd0c2c8fd8fbd3dc0e0}{set\+End\+Position}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&end\+Position)
+\begin{DoxyCompactList}\small\item\em set end position of svgline \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_s_v_g_line_a81a5670d22e33aa8542a16c10ec5bed5}{get\+End\+Position}} () const
+\begin{DoxyCompactList}\small\item\em get end position of a svgline \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_s_v_g_line_ad78418a19c61faab69126494b37db2b0}{get\+Slope}} () const
+\begin{DoxyCompactList}\small\item\em Get slope coefficient of the svgline. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_s_v_g_line_a30781eb3d73a6afe5c836163106babd4}{is\+Intersect}} (const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&other) const
+\begin{DoxyCompactList}\small\item\em Check if two lines intersect each other. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_s_v_g_line_a205de30ee02a5f0d99e9b48bb1483bbd}{get\+Intersected}} (const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&other) const
+\begin{DoxyCompactList}\small\item\em Get intersected point. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_element}{Element}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_element_aa153979c5d46fff8e2b9ee8b48dd863f}{\texorpdfstring{$\sim$}{\string~}\+Element}} ()=default
+\begin{DoxyCompactList}\small\item\em Virtual destructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_ab124043237f73d55948aa444f0530011}{set\+Position}} (float x, float y)
+\begin{DoxyCompactList}\small\item\em Set position of an svg element. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a1b88431855854e04ea08c0e9570c287b}{set\+Position}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}})
+\begin{DoxyCompactList}\small\item\em set position of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_element_a8af03db2a7cf2629431bf0b68a9faec0}{get\+Position}} () const
+\begin{DoxyCompactList}\small\item\em get position of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a969ec036a048835ddeb31b3b5a98b7f8}{set\+Fill\+Color}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&color)
+\begin{DoxyCompactList}\small\item\em set fill color of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a453f0043f1ea111edf681766860aeaeb}{get\+Fill\+Color}} () const
+\begin{DoxyCompactList}\small\item\em get fill color of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a663e575e141948db494114ffc336568d}{set\+Stroke\+Color}} (const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&color)
+\begin{DoxyCompactList}\small\item\em set stroke color of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a8f8d31e08a805662bf3e5cba6c3768c3}{get\+Stroke\+Color}} () const
+\begin{DoxyCompactList}\small\item\em get stroke color of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a8875e5b1193fbb2efb9ba7c51f9129bd}{set\+Stroke\+Width}} (float width)
+\begin{DoxyCompactList}\small\item\em set stroke width of an svg element \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_element_ac18c12f18471b1e13a444006afd13615}{get\+Stroke\+Width}} () const
+\begin{DoxyCompactList}\small\item\em get stroke width of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_accabfbfa9a44e105f689ff7aed360ca0}{add\+Transformation}} (const std\+::string \&s)
+\begin{DoxyCompactList}\small\item\em add a transformation ~\newline
+ \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_aab1cd2e2210d2e75aa693f87ef3efd36}{set\+Transformation}} (const std\+::vector$<$ std\+::string $>$ \&transformations)
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_element_ab66c2df89446a8c52521be29d14bb56a}{get\+Transformation}} () const
+\begin{DoxyCompactList}\small\item\em get all current transformations \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a169755b74f356800d2e4c4f9d26ceaaa}{set\+Gradient}} (\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*}grad)
+\begin{DoxyCompactList}\small\item\em set gradient of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_a925ff44ea7182b98ab73ffa8951f49e3}{get\+Gradient}} () const
+\begin{DoxyCompactList}\small\item\em get gradient of an svg element \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_element_a583f3f8aefba05a7b24af2bd2a21df31}{set\+Parent}} (\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3}{parent}})
+\begin{DoxyCompactList}\small\item\em set parent node of an svg element \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_ae31c5e0f4cbfce3db2681209b9c06421}{get\+Parent}} () const
+\begin{DoxyCompactList}\small\item\em get parent node of an svg element \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_element}{Element}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_element_ab0d0e20be9a36ae676202db753faeec9}{Element}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element_ab1d271deb39cb7c11e05657fc784fff4}{Element}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}, float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}})
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_element_a5f90089cfd974067fa6456a385d00ed7}{Element}} (const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&\mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}, const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&\mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}, float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}}, const std\+::vector$<$ std\+::string $>$ \&\mbox{\hyperlink{class_element_aa9a2eee7ed5f75abd17acf836d08487a}{transformation}})
+\begin{DoxyCompactList}\small\item\em Parameterized constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_element}{Element}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \mbox{\hyperlink{class_element_a4e934e814cbe16037f99931fd2f4df6d}{position}}
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_a97777f59534526eb045f8ca375ad3459}{fill\+Color}}
+\item 
+\mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \mbox{\hyperlink{class_element_afa04c2a678b1de16acebb06c8051ec06}{stroke\+Color}}
+\item 
+float \mbox{\hyperlink{class_element_abe79234d091dbd6d9a95139c3b5fae94}{stroke\+Width}}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_element_aa9a2eee7ed5f75abd17acf836d08487a}{transformation}}
+\item 
+\mbox{\hyperlink{class_gradient}{Gradient}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_aa5fae142034d5d9cd60b8a3ca09b71ef}{gradient}} \{\}
+\item 
+\mbox{\hyperlink{class_element}{Element}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_element_ae9b2bd00c9ba7a16c9981142c9e41fe3}{parent}} \{\}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_v_g_line_a6671d5593ff69aeb717e39e763d3df0d}\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{SVGLine()}{SVGLine()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a6671d5593ff69aeb717e39e763d3df0d} 
+SVGLine\+::\+SVGLine (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+\Hypertarget{class_s_v_g_line_ab4ebe5b90fc9458df47f3efb4f396d29}\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{SVGLine()}{SVGLine()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_ab4ebe5b90fc9458df47f3efb4f396d29} 
+SVGLine\+::\+SVGLine (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{position}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{fill\+Color}{, }\item[{const \mbox{\hyperlink{class_s_v_g_color}{SVGColor}} \&}]{stroke\+Color}{, }\item[{float}]{stroke\+Width}{, }\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{end\+Position}{}\end{DoxyParamCaption})}
+
+
+
+Parameterized constructor. 
+
+\Hypertarget{class_s_v_g_line_ab7a7598b71444e6e68fed65d10340485}\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\index{SVGLine@{SVGLine}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{SVGLine()}{SVGLine()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_ab7a7598b71444e6e68fed65d10340485} 
+SVGLine\+::\+SVGLine (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&}]{other}{}\end{DoxyParamCaption})}
+
+
+
+Copy constructor. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_v_g_line_a1ad10025e22ff796660e3774e5a64c0e}\index{SVGLine@{SVGLine}!dbg@{dbg}}
+\index{dbg@{dbg}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{dbg()}{dbg()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a1ad10025e22ff796660e3774e5a64c0e} 
+void SVGLine\+::dbg (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+print information of svgline 
+
+
+
+Reimplemented from \mbox{\hyperlink{class_element_a6c8d660348fe1564d09372bc37c51d5d}{Element}}.
+
+\Hypertarget{class_s_v_g_line_a464f4f27acaaf0b76ecb5cce9be585ce}\index{SVGLine@{SVGLine}!getBoundingBox@{getBoundingBox}}
+\index{getBoundingBox@{getBoundingBox}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{getBoundingBox()}{getBoundingBox()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a464f4f27acaaf0b76ecb5cce9be585ce} 
+std\+::pair$<$ \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$, \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ $>$ SVGLine\+::get\+Bounding\+Box (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get bounding box of svgline. 
+
+\begin{DoxyReturn}{Returns}
+pair of top-\/left and bottom-\/right coordinate 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function doesn\textquotesingle{}t change any attributes 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{class_element_ae37416ec8b3f04a999fddd85d3d4e02e}{Element}}.
+
+\Hypertarget{class_s_v_g_line_a81a5670d22e33aa8542a16c10ec5bed5}\index{SVGLine@{SVGLine}!getEndPosition@{getEndPosition}}
+\index{getEndPosition@{getEndPosition}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{getEndPosition()}{getEndPosition()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a81a5670d22e33aa8542a16c10ec5bed5} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ SVGLine\+::get\+End\+Position (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+get end position of a svgline 
+
+\begin{DoxyNote}{Note}
+This function does not change any attributes 
+\end{DoxyNote}
+\Hypertarget{class_s_v_g_line_a205de30ee02a5f0d99e9b48bb1483bbd}\index{SVGLine@{SVGLine}!getIntersected@{getIntersected}}
+\index{getIntersected@{getIntersected}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{getIntersected()}{getIntersected()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a205de30ee02a5f0d99e9b48bb1483bbd} 
+\mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ SVGLine\+::get\+Intersected (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+
+Get intersected point. 
+
+\begin{DoxyReturn}{Returns}
+intersected point 
+\end{DoxyReturn}
+\Hypertarget{class_s_v_g_line_ad78418a19c61faab69126494b37db2b0}\index{SVGLine@{SVGLine}!getSlope@{getSlope}}
+\index{getSlope@{getSlope}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{getSlope()}{getSlope()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_ad78418a19c61faab69126494b37db2b0} 
+float SVGLine\+::get\+Slope (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Get slope coefficient of the svgline. 
+
+\begin{DoxyReturn}{Returns}
+slope 
+\end{DoxyReturn}
+\Hypertarget{class_s_v_g_line_ade8ed71963b963a0198e40ffe139a1c1}\index{SVGLine@{SVGLine}!getTypeName@{getTypeName}}
+\index{getTypeName@{getTypeName}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{getTypeName()}{getTypeName()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_ade8ed71963b963a0198e40ffe139a1c1} 
+\mbox{\hyperlink{_element_type_8h_ad7afcc952bb55f93fa58aecd583be074}{Element\+Type}} SVGLine\+::get\+Type\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+get type \doxylink{class_s_v_g_line}{SVGLine} 
+
+\begin{DoxyReturn}{Returns}
+Element\+Type\+::\+SVGLine 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This function is override 
+\end{DoxyNote}
+
+
+Implements \mbox{\hyperlink{class_element_ae5ffda31e2cdca73f6b5a69eef056634}{Element}}.
+
+\Hypertarget{class_s_v_g_line_a30781eb3d73a6afe5c836163106babd4}\index{SVGLine@{SVGLine}!isIntersect@{isIntersect}}
+\index{isIntersect@{isIntersect}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{isIntersect()}{isIntersect()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_a30781eb3d73a6afe5c836163106babd4} 
+bool SVGLine\+::is\+Intersect (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_s_v_g_line}{SVGLine}} \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+
+Check if two lines intersect each other. 
+
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\Hypertarget{class_s_v_g_line_ada919ae7d6ebfbd0c2c8fd8fbd3dc0e0}\index{SVGLine@{SVGLine}!setEndPosition@{setEndPosition}}
+\index{setEndPosition@{setEndPosition}!SVGLine@{SVGLine}}
+\doxysubsubsection{\texorpdfstring{setEndPosition()}{setEndPosition()}}
+{\footnotesize\ttfamily \label{class_s_v_g_line_ada919ae7d6ebfbd0c2c8fd8fbd3dc0e0} 
+void SVGLine\+::set\+End\+Position (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_vector2_d}{Vector2D}}$<$ float $>$ \&}]{end\+Position}{}\end{DoxyParamCaption})}
+
+
+
+set end position of svgline 
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{_line_8h}{Line.\+h}}\end{DoxyCompactItemize}

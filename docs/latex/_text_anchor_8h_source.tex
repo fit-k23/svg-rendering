@@ -1,0 +1,47 @@
+\doxysection{Text\+Anchor.\+h}
+\hypertarget{_text_anchor_8h_source}{}\label{_text_anchor_8h_source}\mbox{\hyperlink{_text_anchor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SVG\_RENDERING\_TEXT\_ANCHOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SVG\_RENDERING\_TEXT\_ANCHOR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5}{TextAnchor}}\ :\ \textcolor{keywordtype}{int}\{}
+\DoxyCodeLine{00005\ \ \ \ \ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab078ffd28db767c502ac367053f6e0ac}{START}}\ =\ 0,}
+\DoxyCodeLine{00006\ \ \ \ \ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5a43eedd8685eb86592022f8da962e3474}{MIDDLE}},}
+\DoxyCodeLine{00007\ \ \ \ \ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab1a326c06d88bf042f73d70f50197905}{END}},}
+\DoxyCodeLine{00008\ \};}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\#include\ <gdiplus/gdiplusenums.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_text_anchor_helper}{TextAnchorHelper}}\ final\{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5}{TextAnchor}}\ \mbox{\hyperlink{class_text_anchor_helper_a8cee03f0b99567be905f88753b363a63}{fromName}}(\textcolor{keyword}{const}\ std::string\ \&s)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\ ==\ \textcolor{stringliteral}{"{}middle"{}})\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5a43eedd8685eb86592022f8da962e3474}{TextAnchor::MIDDLE}};}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (s\ ==\ \textcolor{stringliteral}{"{}end"{}})\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab1a326c06d88bf042f73d70f50197905}{TextAnchor::END}};}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab078ffd28db767c502ac367053f6e0ac}{TextAnchor::START}};\ \textcolor{comment}{//\ default\ is\ start}}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_text_anchor_helper_a46224c617ab885c2c12683bb25104bea}{getName}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5}{TextAnchor}}\ \&tA)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (tA)\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5a43eedd8685eb86592022f8da962e3474}{TextAnchor::MIDDLE}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}middle"{}};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab1a326c06d88bf042f73d70f50197905}{TextAnchor::END}}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}end"{}};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}start"{}};\ \textcolor{comment}{//\ Default\ is\ TextAnchor::START}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{static}\ Gdiplus::StringAlignment\ \mbox{\hyperlink{class_text_anchor_helper_abb404177539fa13ef37747ab499cff6e}{getStringAlignment}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5}{TextAnchor}}\ \&tA)\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (tA)\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ TODO:\ check\ if\ the\ return\ is\ correctly\ chosen}}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5a43eedd8685eb86592022f8da962e3474}{TextAnchor::MIDDLE}}:\ \textcolor{keywordflow}{return}\ Gdiplus::StringAlignmentCenter;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \mbox{\hyperlink{_text_anchor_8h_a2f221a666a2a9fa72dfec15b425e89b5ab1a326c06d88bf042f73d70f50197905}{TextAnchor::END}}:\ \textcolor{keywordflow}{return}\ Gdiplus::StringAlignmentFar;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:\ \textcolor{keywordflow}{return}\ Gdiplus::StringAlignmentNear;\ \textcolor{comment}{//\ default\ is\ TextAnchor::START}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//SVG\_RENDERING\_TEXT\_ANCHOR\_H}}
+
+\end{DoxyCode}

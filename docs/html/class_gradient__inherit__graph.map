@@ -1,0 +1,7 @@
+<map id="Gradient" name="Gradient">
+<area shape="rect" id="Node000001" title=" " alt="" coords="76,5,192,373"/>
+<area shape="rect" id="Node000002" href="$class_linear_gradient.html" title=" " alt="" coords="5,464,121,661"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,389,84,465,79,464,94,388"/>
+<area shape="rect" id="Node000003" href="$class_radial_gradient.html" title=" " alt="" coords="146,421,264,704"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,388,181,421,175,422,169,389"/>
+</map>
