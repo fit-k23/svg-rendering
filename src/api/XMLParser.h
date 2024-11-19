@@ -145,6 +145,11 @@ private:
 	*/
 	void parseGradients(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransforms);
 
+	/*
+	* @brief Parse gradient stops attributes
+	*/
+	std::vector<Stop> parseStops(rapidxml::xml_node<> *pNode);
+
 	/**
 	 * @brief Get the float value of specific attribute
 	 * @param node current xml node

@@ -13,3 +13,10 @@ float Stop::getOffset() const { return offset; }
 void Stop::setStopColor(const SVGColor& stopColor) { this->stopColor = stopColor; }
 
 SVGColor Stop::getStopColor() const { return stopColor; }
+
+void Stop::output() const {
+	std::cout << "Offset: " << offset << '\n';
+	std::cout << "Stop-color: "; 
+	stopColor.output();
+	std::cout << '\n';
+}

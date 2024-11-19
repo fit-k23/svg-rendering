@@ -4,6 +4,19 @@ Gradient::Gradient() : id(""), transforms({}) {}
 
 Gradient::Gradient(const std::string& id, const std::vector<std::string>& transforms, const std::string& units) : id(id), transforms(transforms), units(units) {}
 
+void Gradient::dbg() const {
+	std::cout << "[DEBUG " << getType() << "Gradient]\n";
+	std::cout << "ID = " << id << '\n';
+	std::cout << "Transforms: ";
+	for (int i = 0; i < (int)transforms.size(); ++i) std::cout << transforms[i] << " ";
+	std::cout << '\n';
+	std::cout << "Units: " << units << '\n';
+	std::cout << "Stops: ";
+	for (int i = 0; i < (int)stops.size(); ++i)
+		stops[i].output();
+	std::cout << '\n';
+}
+
 void Gradient::setID(const std::string& id) { this->id = id; }
 
 std::string Gradient::getID() const { return id; }

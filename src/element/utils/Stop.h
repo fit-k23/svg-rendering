@@ -33,6 +33,8 @@ public:
 	void setStopColor(const SVGColor& stopColor);
 
 	SVGColor getStopColor() const;
+
+	void output() const;
 };
 
 #endif // SVG_RENDERING_STOP_H

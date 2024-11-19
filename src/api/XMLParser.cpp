@@ -13,6 +13,7 @@ XMLParser::~XMLParser() {
 	for (auto &e : shapes) delete e;
 	for (auto &gradient : grads)
 		delete gradient.second;
+	std::cout << "Deleting shapes and gradients pointers\n";
 }
 
 void XMLParser::traverseXML(const std::string &fileName) {
@@ -115,7 +116,8 @@ void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<st
 		if (!passTransforms.empty()) propagateTransform(transforms, passTransforms);
 		// parse gradient units
 		std::string units = parseStringAttr(pChild, "gradientUnits");
-		// TODO: parse stops
+		// parse stops
+		std::vector<Stop> stops = parseStops(pChild);
 
 		if (nodeName == "linearGradient") {
 			gradient = new LinearGradient();
@@ -135,10 +137,27 @@ void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<st
 			gradient = new RadialGradient(id, transforms, units, Vector2D<float>(cx, cy), r, Vector2D<float>(fx, fy));
 		}
 
+		if (gradient != nullptr) {
+			gradient->setStops(stops);
+			gradient->dbg();
+		}
+
 		if (grads.find(id) == grads.end())
 			grads[id] = gradient;
 		pChild = pChild->next_sibling();
 	}
+}
+
+std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
+	std::vector<Stop> stops = {};
+	rapidxml::xml_node<> *pChild = pNode->first_node();
+	while (pChild != nullptr) {
+		float offset = parseFloatAttr(pChild, "offset");
+		SVGColor stopColor = parseColor(pChild, "stop-color");
+		stops.push_back(Stop(offset, stopColor));
+		pChild = pChild->next_sibling();
+	}
+	return stops;
 }
 
 Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode, const std::vector<std::string> &passTransform) {
@@ -416,21 +435,26 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, const std::s
 SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
+	// If has opacity, then don't take parent's color
 	bool hasOpaque = false;
 	rapidxml::xml_attribute<>* pOpa = pNode->first_attribute((attrName + "-opacity").c_str());
 	hasOpaque |= (pOpa != nullptr);
 	pOpa = pNode->first_attribute("opacity");
 	hasOpaque |= (pOpa != nullptr);
-	float opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
+
+	float opaque;
+	if (attrName == "stop-color")
+		opaque = parseFloatAttr(pNode, "stop-opacity");
+	else
+		opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
 		rapidxml::xml_node<>* pPar = pNode->parent();
 		// In case there is a parent node, recursively return the color of parent node
 		// This works because only parent node of basic shape in this project is <g> tag which has color attributes
 		if (pPar != nullptr) {
 			SVGColor parColor = parseColor(pPar, attrName);
-			if (hasOpaque) {
+			if (hasOpaque) 
 				parColor.a = (unsigned char)(255.0f * opaque);
-			}
 			return parColor;
 		}
 		// If no attribute with attrName specified, default color is black
