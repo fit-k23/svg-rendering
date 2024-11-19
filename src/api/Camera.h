@@ -14,7 +14,7 @@ public:
 	static void zoomOut(float amount = 0.05f);
 	static void rotateClockWise(float degree = 1.0f);
 	static void rotateCounterClockWise(float degree = 1.0f);
-
+	static void reset();
 };
 
 #endif //SVG_RENDERING_CAMERA_H

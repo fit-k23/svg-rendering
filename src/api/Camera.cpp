@@ -6,6 +6,12 @@ float Camera::rotation = 0.0f;
 float Camera::zoom = 1.0f;
 bool Camera::isDragging = false;
 
+void Camera::reset() {
+	Camera::startPosition = {};
+	Camera::rotation = 0.0f;
+	Camera::zoom = 1.0f;
+}
+
 void Camera::zoomIn(float amount) {
 	Camera::zoom += amount;
 	if (Camera::zoom > 10.0f) {
@@ -14,8 +20,6 @@ void Camera::zoomIn(float amount) {
 	if (amount < 0 && Camera::zoom <= 0.0f) {
 		Camera::zoom = -amount;
 	}
-//	Camera::startPosition.x *= Camera::zoom;
-//	Camera::startPosition.y *= Camera::zoom;
 }
 
 void Camera::zoomOut(float amount) {
