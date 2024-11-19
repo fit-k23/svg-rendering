@@ -4,16 +4,11 @@
 #include <vector>
 #include <string>
 
-#define APPLICATION_CLASS_NAME "GDIPLUS_BUTTON"
-#define APPLICATION_TITLE_NAME "GDIPLUS_BUTTON"
+#define APPLICATION_CLASS_NAME "GDI_BG_TEST"
+#define APPLICATION_TITLE_NAME "GDI_BG_TEST"
 
 using namespace Gdiplus;
 
-// Global variables
-HINSTANCE hInstance;
-HWND hwndMain;
-GdiplusStartupInput gdiPlusStartupInput;
-ULONG_PTR gdiPlusToken;
 
 // Button structure
 struct Button {
@@ -50,13 +45,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 
 	switch (msg) {
 		case WM_CREATE: {
-			RECT rect;
-			::GetWindowRect(hwnd, &rect);
-			screenWidth = rect.right - rect.left;
-			screenHeight = rect.bottom - rect.top;
-			::GetClientRect(hwnd, &rect);
-			::SetWindowPos(hwnd, HWND_TOP, 0, 0, 2 * screenWidth - rect.right + rect.left, 2 * screenHeight - rect.bottom + rect.top, SWP_NOMOVE);
-
 			for (int i = 0; i < 10; ++i) {
 				int top = i * (button_height + button_padding) + button_padding + offset_button_y;
 				buttons.push_back({i, button_padding, top, L"Button " + std::to_wstring(i)});
@@ -68,36 +56,14 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 //		case WM_SIZING: {
 			RECT rect;
 			::GetClientRect(hwnd, &rect);
-			std::cout << "Client (" << rect.right - rect.left << "," << rect.bottom - rect.top << ")\n";
 
+			std::cout << "Resizing from (" << screenWidth << "," << screenHeight << ") to (";
 			screenWidth = rect.right - rect.left;
 			screenHeight = rect.bottom - rect.top;
-
-			::GetWindowRect(hwnd, &rect);
-			std::cout << "Window (" << rect.right - rect.left << "," << rect.bottom - rect.top << ")\n";
-			std::cout << "Cur:   (" << screenWidth << "," << screenHeight << ")\n\n";
 			button_width = screenWidth / 4 - 2 * button_padding;
 			forceDisableMenu = screenWidth < 400;
+			std::cout << screenWidth << "," << screenHeight << ")\n";
 			InvalidateRect(hwnd, nullptr, false);
-			break;
-		}
-		case WM_MOUSEMOVE: {
-			POINT pt = {LOWORD(lp), HIWORD(lp)};
-			RECT r;
-			r.left = screenWidth * 0.85;
-			r.right = screenWidth;
-			r.top = 0;
-			r.bottom = screenHeight;
-			if (PtInRect(&r, pt)) {
-				openMenu = true;
-			} else {
-				openMenu = false;
-			}
-		}
-		case WM_TIMER: {
-			switch (wp) {
-
-			}
 			break;
 		}
 		case WM_LBUTTONDOWN: {
@@ -121,6 +87,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 				if (dx * dx + dy * dy <= circle_r * circle_r) {
 					openMenu = true;
 					InvalidateRect(hwnd, NULL, TRUE);  // Force a redraw
+
 				}
 			}
 			break;
@@ -148,7 +115,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			graphic.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 			graphic.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
 			graphic.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-
 			// Create a font for drawing the button text
 
 			if (!forceDisableMenu && openMenu) {
@@ -178,10 +144,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			} else {
 				SolidBrush buttonBrush(Color(255, 200, 200, 200));
 				graphic.FillEllipse(&brush, circle_x - circle_r, circle_y - circle_r, 2 * circle_r, 2 * circle_r);
-
-				auto brusha = SolidBrush(Color(255, 100, 255, 0));
-				int r = 100;
-				graphic.FillEllipse(&brusha, screenWidth - r, screenHeight - r, 2 * r, 2 * r);
 			}
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
@@ -208,14 +170,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 				openMenu = !openMenu;
 				InvalidateRect(hwnd, nullptr, TRUE);
 			}
-//			else {
-//				system(tmp.c_str());
-//			}
 			return 0;
 		}
 		case WM_DESTROY: {
-			// Clean up GDI+
-			GdiplusShutdown(gdiPlusToken);
 			PostQuitMessage(0);
 			break;
 		}
@@ -261,3 +218,4 @@ int main() {
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return static_cast<int>(msg.wParam); // Return the message's result
 }
+
