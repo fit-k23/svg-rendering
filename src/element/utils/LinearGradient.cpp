@@ -17,6 +17,12 @@ LinearGradient::LinearGradient(const std::string& id, const std::vector<std::str
 
 std::string LinearGradient::getType() const { return "linear"; }
 
+void LinearGradient::dbg() const {
+	Gradient::dbg();
+	std::cout << "x1, y1 = " << pos[0].x << ", " << pos[0].y << '\n';
+	std::cout << "x2, y2 = " << pos[1].x << ", " << pos[1].y << '\n';
+}
+
 void LinearGradient::setPos(int id, const Vector2D<float> &newPos) { pos[id] = newPos; }
 
 Vector2D<float> LinearGradient::getPos(int id) const { return pos[id]; }

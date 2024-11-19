@@ -16,6 +16,12 @@ RadialGradient::RadialGradient(const std::string& id, const std::vector<std::str
 
 std::string RadialGradient::getType() const { return "radial"; }
 
+void RadialGradient::dbg() const {
+	Gradient::dbg();
+	std::cout << "cx, cy = " << pos.x << ", " << pos.y << '\n';
+	std::cout << "r = " << radius << '\n' << " fx, fy = " << focal.x << ", " << focal.y << '\n';
+}
+
 void RadialGradient::setPos(const Vector2D<float>& pos) { this->pos = pos; }
 
 Vector2D<float> RadialGradient::getPos() const { return pos; }

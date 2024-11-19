@@ -22,6 +22,8 @@ public:
 
 	virtual std::string getType() const = 0;
 
+	virtual void dbg() const;
+
 	void setID(const std::string& id);
 
 	std::string getID() const;

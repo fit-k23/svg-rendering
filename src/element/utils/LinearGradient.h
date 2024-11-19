@@ -17,6 +17,8 @@ public:
 
 	std::string getType() const override;
 
+	void dbg() const override;
+
 	void setPos(int id, const Vector2D<float> &newPos);
 
 	Vector2D<float> getPos(int id) const;
