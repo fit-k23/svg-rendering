@@ -47,7 +47,7 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
+//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
@@ -68,24 +68,27 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 //	std::cout << "ViewBox width = " << vBox.width << '\n';
 //	std::cout << "ViewBox height = " << vBox.height << '\n';
 
-	if (vBox.width != -1) {
-		float scaleX = vPort.x / vBox.width;
-		float scaleY = vPort.y / vBox.height;
-
-//		if (scaleX < scaleY) scaleY = scaleX;
-//		else scaleX = scaleY;
-		float translateX = vPort.x - (vBox.minX * scaleX);
-		float translateY = vPort.y - (vBox.minY * scaleY);
-
-//		std::cout << "Scale X = " << scaleX << '\n';
-//		std::cout << "Scale Y = " << scaleY << '\n';
-//		std::cout << "Translate X = " << translateX << '\n';
-//		std::cout << "Translate Y = " << translateY << '\n';
-//		std::cout << "\n";
-
+//	if (vBox.width != -1) {
+//		graphics.SetClip(Gdiplus::Rect(vBox.minX, vBox.minY, vBox.width, vBox.height));
+//		float scaleX = vPort.x / vBox.width;
+//		float scaleY = vPort.y / vBox.height;
+//
+////		if (scaleX < scaleY) scaleY = scaleX;
+////		else scaleX = scaleY;
+//		float translateX = vPort.x - (vBox.minX * scaleX);
+//		float translateY = vPort.y - (vBox.minY * scaleY);
+//
+////		std::cout << "Scale X = " << scaleX << '\n';
+////		std::cout << "Scale Y = " << scaleY << '\n';
+////		std::cout << "Translate X = " << translateX << '\n';
+////		std::cout << "Translate Y = " << translateY << '\n';
+//
 //		graphics.TranslateTransform(translateX, translateY);
-		graphics.ScaleTransform(scaleX, scaleY);
-	}
+//		graphics.ScaleTransform(scaleX, scaleY);
+//	}
+//	std::cout << "\n";
+//	Gdiplus::Region region;
+//	graphics.GetClip(&region);
 
 	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
 	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
@@ -93,9 +96,11 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	graphics.RotateTransform(Camera::rotation);
 	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 
+//	graphics.SetClip(&region);
+
 	if (render == nullptr)
 		render = Renderer::getInstance();
-	
+
 	render->setViewPort(vPort);
 	render->setShapes(parser->getShapes());
 	render->setScreenSize({ 2 * centerX, 2 * centerY });
@@ -141,7 +146,7 @@ int main() {
 	// delete XMLparser and Renderer pointer
 	delete parser;
 	delete render;
-	std::cout << "Deleteing instance of XMLParser and Renderer\n";
+	std::cout << "Deleting instance of XMLParser and Renderer\n";
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 	return static_cast<int>(msg.wParam); // Return the message's result
 }
@@ -235,14 +240,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				DragQueryFileW(hDrop, 0, &filePath[0], filePath.size());
 				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
 				svgFile = std::string(filePath.begin(), filePath.end());
+				Camera::reset();
 				InvalidateRect(hWnd, nullptr, false);
 			}
 			DragFinish(hDrop);
 			return 0;
 		}
 		case WM_KEYDOWN: {
-			switch (static_cast<char>(wParam)) {
+//			std::cout << wParam << "\n";
+			switch (static_cast<int>(wParam)) {
 				case 'R': {
+					Camera::reset();
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
@@ -266,15 +274,40 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					InvalidateRect(hWnd, nullptr, false);
 					break;
 				}
+				case 'H': {
+					MessageBox(nullptr, "Press R to reload.\nPress W/S to zoom in/out.\nPress A/D to rotate.", "SVG SHORTCUT", MB_OK);
+					break;
+				}
+				case VK_UP: {
+					Camera::startPosition.y -= 10;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case VK_DOWN: {
+					Camera::startPosition.y += 10;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case VK_LEFT: {
+					std::cout  << "Here\n";
+					Camera::startPosition.x -= 10;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
+				case VK_RIGHT: {
+					Camera::startPosition.x += 10;
+					InvalidateRect(hWnd, nullptr, false);
+					break;
+				}
 				default: {
-
 				}
 			}
 			return 0;
 		}
-		case WM_DESTROY:
+		case WM_DESTROY: {
 			PostQuitMessage(0);
 			return 0;
+		}
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
