@@ -9,6 +9,11 @@
 #include <objidl.h>
 #include <gdiplus.h>
 
+/**
+ * @brief Supports reading SVG color and return Gdiplus::Color type
+ * @note Can extract rgb, hex, percentage.
+ */
+
 class SVGColor{
 public:
 	unsigned char r, g, b, a;

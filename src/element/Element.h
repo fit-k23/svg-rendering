@@ -12,10 +12,10 @@
 #include "utils/SVGColor.h"
 
 /**
-* @brief Element is an abstract class for all svg elements (nodes)
-* @attributes contains most of SVG attributes and a pointer to its parent node
-* Since it's abstract, the destructor must be virtual to avoid any undefined behaviors
-**/
+ * @brief Element is an abstract class for all svg elements (nodes)
+ * @note It contains most of SVG attributes and a reference to Gradient class (applying bridge design pattern)
+ * @note Must have the virtual destructor to avoid any undefined behaviors
+ */
 class Element{
 protected:
 	Vector2D<float> position;
@@ -25,149 +25,149 @@ protected:
 	std::vector<std::string> transformation;
 	Gradient *gradient{};
 	Element *parent{};
-
+	
 	/**
-	* @brief Default constructor
-	*/
+	 * @brief Default constructor.
+	 */
 	Element();
 
 	/**
-	* @brief Parameterized constructor
-	*/
+	 * @brief Constructor without transformations
+	 */
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
 
 	/**
-	* @brief Parameterized constructor
-	*/
+	 * @brief Constructor wiith transformations
+	 */
 	Element(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<std::string> &transformation);
 
 public:
 	/**
-	* @brief Virtual destructor
-	*/
+	 * @brief Virtual destructor
+	 */
 	virtual ~Element() = default;
 
 	/**
-	* @brief Get TypeName of an svg element
-	* @brief This function is abstract and must be implemented by subclasses (derived classes)
-	* @param no
-	* @return the type (ElementType type)
-	*/
+	 * @brief Get name of an svg element
+	 * @return ElementType 
+	 * @note This function is pure virtual and must be implemented by subclasses
+	 */
 	virtual ElementType getTypeName() = 0;
 
 	/**
-	* @brief Print all data of an svg element
-	* @note For debugging
-	*/
+	 * @brief Print all data of an svg element
+	 * @note For debugging purpose
+	 */
 	virtual void dbg();
 
 	/*
-	* @brief Get bounding box of an svg element
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get bounding box of an svg element
+	 * @note This function doesn't change any attributes
+	 */
 	virtual std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const;
 
 	/**
-	* @brief Set position of an svg element
-	* @param x and y coordinates (float)
-	*/
+	 * @brief Set position of an svg element
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 */
 	void setPosition(float x, float y);
 
 	/**
-	* @brief set position of an svg element
-	* @param position new vector2D position
-	*/
+	 * @brief Set position of an svg element
+	 * @param position new position of type Vector2D
+	 */
 	void setPosition(const Vector2D<float> &position);
 
 	/**
-	* @brief get position of an svg element
-	* @return a vector2D
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get position of an svg element
+	 * @return Vector2D
+	 * @note This function doesn't change any attributes
+	 */
 	Vector2D<float> getPosition() const;
 
 	/**
-	* @brief set fill color of an svg element
-	* @param a passed-by-referenced SVGColor object
-	*/
+	 * @brief Set fill color of an svg element
+	 * @param color new fill color
+	 */
 	void setFillColor(const SVGColor &color);
 
 	/**
-	* @brief get fill color of an svg element
-	* @return an SVGColor object
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get fill color of an svg element
+	 * @return SVGColor
+	 * @note This function doesn't change any attributes
+	 */
 	SVGColor getFillColor() const;
 
 	/**
-	* @brief set stroke color of an svg element
-	* @param a passed-by-referenced SVGColor object
-	*/
+	 * @brief Set stroke color of an svg element
+	 * @param color new stroke color
+	 */
 	void setStrokeColor(const SVGColor &color);
 
 	/**
-	* @brief get stroke color of an svg element
-	* @return a SVGColor object
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get stroke color of an svg element
+	 * @return SVGColor
+	 * @note This function doesn't change any attributes
+	 */
 	SVGColor getStrokeColor() const;
 
 	/**
-	* @brief set stroke width of an svg element
-	* @param a float variable
-	*/
+	 * @brief Set stroke width of an svg element
+	 * @param width new width
+	 */
 	void setStrokeWidth(float width);
 
 	/**
-	* @brief get stroke width of an svg element
-	* @return float
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get stroke width of an svg element
+	 * @return float
+	 * @note This function doesn't change any attributes
+	 */
 	float getStrokeWidth() const;
 
 	/**
-	 * @brief add a transformation  
-	 * @param s a transformation string
+	 * @brief Add a transformation  
+	 * @param s new transformation
 	 */
 	void addTransformation(const std::string &s);
 
-	/*
-	* @brief Set transformation
-	* @param transformations new transformation for svg element
-	*/
+	/** 
+	 * @brief Set transformations
+	 * @param transformations new set of transformations for svg element
+	 */
 	void setTransformation(const std::vector<std::string> &transformations);
 
 	/**
-	 * @brief get all current transformations
-	 * @return transformation
-	* @note This function doesn't change any attributes
+	 * @brief Get all current transformations
+	 * @return vector<string>
+	 * @note This function doesn't change any attributes
 	 */
 	std::vector<std::string> getTransformation() const;
 
 	/**
-	* @brief set gradient of an svg element
-	* @param a pointer to an abstract Gradient object
-	*/
+	 * @brief Set gradient of an svg element
+	 * @param grad pointer to a concrete-Gradient object
+	 */
 	void setGradient(Gradient *grad);
 
 	/**
-	* @brief get gradient of an svg element
-	* @param a pointer to a Gradient object
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get gradient of an svg element
+	 * @return a pointer to a concrete-Gradient object
+	 * @note This function doesn't change any attributes
+	 */
 	Gradient *getGradient() const;
 
 	/**
-	* @brief set parent node of an svg element
-	* @param a pointer to a same-class object (parent)
-	*/
+	 * @brief Set parent node of an svg element
+	 * @param parent a pointer to a concrete-Element object
+	 */
 	void setParent(Element *parent);
 
 	/**
-	* @brief get parent node of an svg element
-	* @return a pointer to a same-class object (parent)
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get parent node of an svg element
+	 * @return a pointer to a concrete-Element object
+	 * @note This function doesn't change any attributes
+	 */
 	Element *getParent() const;
 };
 
