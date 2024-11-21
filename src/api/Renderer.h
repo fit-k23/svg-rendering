@@ -10,7 +10,6 @@ class Renderer{
 private:
 	Vector2D<float> screenSize;
 	Vector2D<float> viewPort;
-	std::vector<Element *> shapes;
 	static Renderer *instance;
 public:
 	/*
@@ -24,7 +23,7 @@ public:
 	Renderer(const Renderer &other) = delete;
 	
 	/** @brief Traverse and draw all elements */
-	void draw(Gdiplus::Graphics& graphics);
+	void draw(Gdiplus::Graphics& graphics, Element *par);
 
 	/*
 	* @brief Set new screen size
@@ -70,13 +69,8 @@ private:
 	 * @brief Parameterized constructor
 	 * @param vector of pointers to Element abstract type
 	*/
-	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes);
-	Renderer(const Vector2D<float> &viewPort, const std::vector<Element *> &shapes, const Vector2D<float> &screenSize);
-
-	/*
-	* @brief Add new shape
-	*/
-	void addShape(Element* shape);
+	Renderer(const Vector2D<float> &viewPort);
+	Renderer(const Vector2D<float> &viewPort, const Vector2D<float> &screenSize);
 
 	/*
 	* @brief Apply transformation to gdiplus graphics path

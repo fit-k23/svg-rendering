@@ -2,6 +2,8 @@
 
 Group::Group() : attrs({}), elements({}) {}
 
+Group::Group(const groupAttr& attrs) : attrs(attrs) {}
+
 Group::~Group() {
 	for (auto &element: elements) 
 		delete element;
@@ -11,12 +13,11 @@ Group::~Group() {
 ElementType Group::getTypeName() { return ElementType::Group; }
 
 void Group::dbg() {
-	// TODO: cout data here
+	Element::dbg();
 }
 
 void Group::addElement(Element *element) { 
 	elements.push_back(element);
-	element->setParent(this);
 }
 
 std::vector<Element*> Group::getElements() const { return elements; }

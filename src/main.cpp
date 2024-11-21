@@ -26,7 +26,7 @@ void ProjectDeInit() {
 	ParserManager::free();
 }
 
-std::string svgFile = "asset/chrome-logo.svg";
+std::string svgFile = "asset/sample1.svg";
 std::string preFile = "";
 XMLParser *parser = nullptr;
 Renderer *render = nullptr;
@@ -39,13 +39,15 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 		if (preFile != "")
 			std::cout << "Changing from " << preFile << " to " << fileName << '\n';
 		preFile = fileName;
-		parser->traverseXML(fileName);
+		parser->traverseXML(fileName, nullptr, nullptr);
+
+		Element* svg = parser->getRoot();
 	}
 
-//	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
+	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
 
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+	//graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 //	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHint::TextRenderingHintAntiAlias);
 	graphics.SetTextContrast(100);
@@ -97,10 +99,10 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 		render = Renderer::getInstance();
 	
 	render->setViewPort(vPort);
-	render->setShapes(parser->getShapes());
+	//render->setShapes(parser->getShapes());
 	render->setScreenSize({ 2 * centerX, 2 * centerY });
 
-	render->draw(graphics);
+	render->draw(graphics, parser->getRoot());
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

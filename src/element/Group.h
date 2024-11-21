@@ -22,6 +22,11 @@ public:
 	 */
 	Group();
 
+	/**
+	 * @brief Constructor with attributes.
+	 */
+	Group(const groupAttr& attrs);
+
 	/** @brief Destructor */
 	~Group();
 

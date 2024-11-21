@@ -24,7 +24,7 @@ private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
-	std::vector<Element *> shapes;
+	Element *svg;
 	std::map<std::string, Gradient*> grads;
 	static XMLParser *instance;
 public:
@@ -48,7 +48,9 @@ public:
 	 * @brief Traverse through each nodes and attributes of SVG
 	 * @note Handling and drawing in here
 	*/
-	void traverseXML(const std::string& fileName);
+	void traverseXML(const std::string& fileName, rapidxml::xml_node<>* pNode, Element *nearGrp);
+
+	Element* getRoot() { return svg; }
 
 	/**
 	 * @brief Get viewport information
