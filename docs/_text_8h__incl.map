@@ -1,9 +1,0 @@
-<map id="Text.h" name="Text.h">
-<area shape="rect" id="Node000001" title=" " alt="" coords="163,5,220,32"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,98,107"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,35,91,75,88,70,166,30"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="122,80,261,107"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,33,194,64,189,64,189,33"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="285,80,338,107"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="214,30,279,69,276,74,211,35"/>
-</map>
