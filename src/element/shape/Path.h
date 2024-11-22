@@ -3,7 +3,7 @@
 
 #include "../Element.h"
 #include "../utils/FillRule.h"
-#include "PathPoint.h"
+#include "path/PathPoint.h"
 
 /**
  * @brief Class that represents path in svg

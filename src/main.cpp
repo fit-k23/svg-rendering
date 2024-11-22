@@ -10,14 +10,18 @@
 #include "api/parser/ParserManager.h"
 #include "api/parser/ParserHInit.h"
 
-#define APPLICATION_CLASS_NAME "SVGRendering-Group11"
-#define APPLICATION_TITLE_NAME "SVG Renderer"
+#define APPLICATION_CLASS_NAME "SVGRendering"
+#define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11"
 
 void ProjectInit() {
-	ParserManager::registerParser("svg", new SVGParser);
-	ParserManager::registerParser("float", new FloatParser);
-	ParserManager::registerParser("color", new ColorParser);
-	ParserManager::registerParser("string", new StringParser);
+//	ParserManager::registerParser("svg", new SVGParser);
+//	ParserManager::registerParser("float", new FloatParser);
+//	ParserManager::registerParser("color", new ColorParser);
+//	ParserManager::registerParser("string", new StringParser);
+
+	FileManager::addFile(L"asset/bmw_racoon.svg");
+	FileManager::setCurrent(0);
+	XMLParser::getInstance()->traverseXML("asset/bmw_racoon.svg", nullptr, nullptr);
 }
 
 void ProjectDeInit() {
@@ -27,20 +31,9 @@ void ProjectDeInit() {
 	std::cout << "Deleting instance of XMLParser and Renderer\n";
 }
 
-std::string svgFile = "asset/bmw_racoon.svg";
-std::string preFile = "";
-XMLParser *parser = nullptr;
-
-void ProjectDraw(HDC hdc, const std::string &fileName) {
+void ProjectDraw(HDC hdc) {
 	Gdiplus::Graphics graphics(hdc);
-	if (parser == nullptr) parser = XMLParser::getInstance();
-
-	if (preFile != fileName) {
-		if (!preFile.empty())
-			std::cout << "Changing from " << preFile << " to " << fileName << '\n';
-		preFile = fileName;
-		parser->traverseXML(fileName, nullptr, nullptr);
-	}
+	XMLParser *parser = XMLParser::getInstance();
 
 //	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
@@ -129,18 +122,12 @@ int main() {
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 	UpdateWindow(hwnd);
 
-	while (true) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			if(msg.message == WM_QUIT)
-				break;
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
+	while (GetMessage(&msg, nullptr, 0, 0)) {
+		if(msg.message == WM_QUIT)
+			break;
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
-//	while (GetMessage(&msg, nullptr, 0, 0)) {
-//		TranslateMessage(&msg);
-//		DispatchMessage(&msg);
-//	}
 
 	ProjectDeInit();
 	Gdiplus::GdiplusShutdown(gdiplusToken);
@@ -165,7 +152,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			RECT rect;
 			::GetClientRect(hwnd, &rect);
 			Camera::screenSize = {rect.right - rect.left, rect.bottom - rect.top};
-//			std::printf("%d : % d\n", Camera::screenSize.x, Camera::screenSize.y);
 			break;
 		}
 		case WM_PAINT: {
@@ -180,15 +166,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			HBITMAP hbmMem = CreateCompatibleBitmap(hdc, width, height);
 
 			HGDIOBJ hOld = SelectObject(hdcMem, hbmMem);
-//			SetBkColor(hdcMem, RGB(255, 255, 255));
 
 			HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
 			FillRect(hdcMem, &rect, hBrush);
 
-			// Draw into hdcMem here
-//			ProjectDraw(hdcMem, "asset/text_anchor.svg");
-			ProjectDraw(hdcMem, svgFile);
-			// Transfer the off-screen DC to the screen
+			ProjectDraw(hdcMem);
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hOld);
@@ -203,13 +185,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			return 1;
 		}
 		case WM_MOUSEWHEEL: {
-			int delta = GET_WHEEL_DELTA_WPARAM(wParam);
-
-			if (delta > 0) {
-				Camera::zoomIn();
-			} else {
-				Camera::zoomOut();
-			}
+			GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? Camera::zoomIn() : Camera::zoomOut();
 			InvalidateRect(hwnd, nullptr, false);
 			break;
 		}
@@ -246,7 +222,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				std::wstring filePath(256, L'\0');
 				DragQueryFileW(hDrop, 0, &filePath[0], filePath.size());
 				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
-				svgFile = std::string(filePath.begin(), filePath.end());
+
+				std::wcout << "Changing from " << FileManager::getFilePath(FileManager::getCurrent()) << " to " << filePath << '\n';
+
+				std::string tmpFilePath(filePath.begin(), filePath.end());
+				XMLParser::getInstance()->traverseXML(tmpFilePath, nullptr, nullptr);
+				FileManager::addFile(filePath);
+				FileManager::setCurrent(FileManager::getCurrent() + 1);
 				Camera::reset();
 				InvalidateRect(hwnd, nullptr, false);
 			}
@@ -254,10 +236,15 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			return 0;
 		}
 		case WM_KEYDOWN: {
-			switch (static_cast<int>(wParam)) {
+			int wp = static_cast<int>(wParam);
+			switch (wp) {
 				case 'R': {
 					Camera::reset();
 					InvalidateRect(hwnd, nullptr, false);
+					break;
+				}
+				case 'C': {
+					FileManager::clearFiles();
 					break;
 				}
 				case 'W': {
@@ -306,6 +293,18 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				default: {
+					if (wp >= '0' && wp <= '9') {
+						std::cout << "Chose " << wp << "\n";
+						std::wstring filePath = FileManager::getFilePath(wp - '0');
+						if (!filePath.empty()) {
+							std::wcout << "Changing from " << FileManager::getFilePath(FileManager::getCurrent()) << " to " << filePath << '\n';
+							FileManager::setCurrent(wp - '0');
+							std::string tmpFilePath(filePath.begin(), filePath.end());
+							XMLParser::getInstance()->traverseXML(tmpFilePath, nullptr, nullptr);
+							Camera::reset();
+							InvalidateRect(hwnd, nullptr, false);
+						}
+					}
 				}
 			}
 			return 0;

@@ -4,11 +4,7 @@ Renderer *Renderer::instance = new Renderer();
 
 Renderer::Renderer() : viewPort{Vector2D<float>()} {}
 
-Renderer* Renderer::getInstance() {
-	if (instance == nullptr) 
-		instance = new Renderer();
-	return instance;
-}
+Renderer* Renderer::getInstance() { return instance == nullptr ? instance = new Renderer() : instance; }
 
 void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 	if (par == nullptr) {
@@ -120,27 +116,26 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
-	Gdiplus::GraphicsPath *path = new Gdiplus::GraphicsPath();
+	Gdiplus::GraphicsPath path;
 
 	// Draw a color-filled Rectangle with normal corners
 	if (radii.x == 0 && radii.y == 0) {
-		path->AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
+		path.AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
 	} else { // <--- Rounded corner
 		// Top-left corner
-		path->AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0);
+		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0);
 		// Top-right corner
-		path->AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0);
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0);
 		// Bottom-left corner
-		path->AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0);
+		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0);
 		// Bottom-right corner
-		path->AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0);
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0);
 		// Close to form the final shape
-		path->CloseFigure();
+		path.CloseFigure();
 	}
 
-	graphics.FillPath(&brush, path);
-	graphics.DrawPath(&pen, path);
-	delete path;
+	graphics.FillPath(&brush, &path);
+	graphics.DrawPath(&pen, &path);
 }
 
 void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {

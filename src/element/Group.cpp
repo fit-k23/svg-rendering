@@ -20,12 +20,7 @@ void Group::dbg() {
 	std::cout << '\n';
 }
 
-void Group::addElement(Element *element) { 
-	elements.push_back(element);
-}
-
-std::vector<Element*> Group::getElements() const { return elements; }
-
-void Group::addAttr(const std::string& attr, const std::string& value) { attrs.emplace_back( attr, value ); }
-
+void Group::addElement(Element *element) { elements.push_back(element); }
+std::vector<Element *> Group::getElements() const { return elements; }
+void Group::addAttr(const std::string &attr, const std::string &value) { attrs.emplace_back( attr, value ); }
 GroupAttr Group::getAttr() const { return attrs; }

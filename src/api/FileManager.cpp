@@ -1,6 +1,7 @@
 #include "FileManager.h"
 
 std::vector<std::wstring> FileManager::filePaths;
+int FileManager::current = (int) filePaths.size() - 1;
 
 bool FileManager::addFile(const std::wstring &filePath) {
 	if (filePath.empty() || !isFileExist(filePath)) return false;
@@ -23,7 +24,7 @@ bool FileManager::removeFile(const std::wstring &filePath) {
 }
 
 bool FileManager::removeFile(size_t idx) {
-	if (idx == filePaths.size()) return false;
+	if (idx >= filePaths.size()) return false;
 	filePaths.erase(filePaths.begin() + idx); // NOLINT(*-narrowing-conversions)
 	return true;
 }
@@ -42,7 +43,7 @@ std::wstring FileManager::getFileName(const std::wstring &filePath) {
 }
 
 std::wstring FileManager::getFilePath(size_t idx) {
-	if (idx == filePaths.size()) return L"";
+	if (idx >= filePaths.size()) return L"";
 	return filePaths.at(idx);
 }
 
@@ -53,4 +54,18 @@ std::vector<std::wstring> FileManager::getFileNameList() {
 		r.push_back(FileManager::getFileName(file));
 	}
 	return r;
+}
+
+int FileManager::getCurrent() { return current; }
+
+void FileManager::setCurrent(int idx) {
+	if (idx < 0 || idx >= filePaths.size()) {
+		return;
+	}
+	current = idx;
+}
+
+void FileManager::clearFiles() {
+	filePaths.clear();
+	current = -1;
 }

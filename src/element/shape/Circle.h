@@ -7,7 +7,7 @@
 /**
  * @brief Class that represents circle in svg
  * @note Circle class is inherited from Ellipse class
- */
+*/
 
 class SVGCircle : public SVGEllipse{
 public:
@@ -36,6 +36,5 @@ public:
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 };
-
 
 #endif //SVG_RENDERING_CIRCLE_H

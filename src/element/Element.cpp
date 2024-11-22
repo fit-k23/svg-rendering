@@ -77,14 +77,6 @@ Gradient *Element::getGradient() const {
 	return this->gradient;
 }
 
-void Element::setParent(Element *_parent) {
-	this->parent = _parent;
-}
-
-Element *Element::getParent() const {
-	return this->parent;
-}
-
 void Element::dbg() {
 	std::cout << "[DEBUG ";
 	switch (getTypeName()) {

@@ -38,9 +38,7 @@ class Renderer final{
 public:
 	/** @brief Get the singleton instance of Renderer */
 	static Renderer *getInstance();
-
 	Renderer(const Renderer &other) = delete;
-
 	/** @brief Traverse and draw all elements */
 	void draw(Gdiplus::Graphics &graphics, Element *par);
 

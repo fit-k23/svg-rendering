@@ -11,7 +11,7 @@
 /**
  * @brief Group is a composite class that is implemented using composite design pattern.
  * @note A group object can contain several shapes or other groups
- */
+*/
 
 class Group : public Element{
 private:
@@ -28,7 +28,7 @@ public:
 	Group(const GroupAttr &attrs);
 
 	/** @brief Destructor.to delete allocated memories of Element */
-	~Group();
+	~Group() override;
 
 	/** @brief Get type name of Group */
 	ElementType getTypeName() override;

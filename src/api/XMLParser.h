@@ -19,21 +19,19 @@
  * @note Every xml file has only one root node
 */
 
-class XMLParser{
-private:
+class XMLParser final {
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
-	Element *svg;
-	std::map<std::string, Gradient*> grads;
+	Group *svg;
+	std::map<std::string, Gradient *> grads;
 	static XMLParser *instance;
 public:
 	/**
 	 * @brief Get instance of XMLParser (apply singleton design pattern)
 	 * @return current instance of XMLParser
-	 * @note This function is static
 	*/
-	static XMLParser* getInstance();
+	static XMLParser *getInstance();
 
 	/** @brief Delete copy constructor to ensure the singleton design pattern */
 	XMLParser(const XMLParser &other) = delete;
@@ -47,29 +45,26 @@ public:
 	/**
 	 * @brief Traverse through each nodes and attributes of SVG
 	 * @param pNode the current pointer to current node of XML
-	 * @param nearGrp the nearest group that has affected to current node
+	 * @param group the nearest group that has affected to current node
 	 * @note Note that the root node (<svg>) is also considered a group
 	 * @note Therefore, nearGrp is only nullptr only with root node
 	*/
-	void traverseXML(const std::string& fileName, rapidxml::xml_node<>* pNode, Element *nearGrp);
+	void traverseXML(const std::string& fileName, rapidxml::xml_node<>* pNode, Group *group);
 
 	/**
 	 * @brief Get the root element (Group type).
-	 * @return Element * the pointer to svg root
-	 * @note This function doesn't change any attributes
+	 * @return Group * the pointer to svg root
 	*/
-	Element* getRoot() const;
+	Group* getRoot() const;
 
 	/**
 	 * @brief Get view box object
-	 * @note This function doesn't change any attributes
 	*/
 	Vector2D<float> getViewPort() const;
 	/**
 	 * @brief Get view box object
 	 * @return ViewBox type
-	 * @note This function doesn't change any attributes
-	 */
+	*/
 	ViewBox getViewBox() const;
 private:
 	/** @brief Default constructor */
