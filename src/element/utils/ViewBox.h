@@ -3,11 +3,11 @@
 
 /**
  * @brief Structure for a view box
- * @param minX minimum x coordinate
- * @param minY minimum y coordinate 
- * @param width minimum width
- * @param height minimum height.
- */
+ * @param minX Minimum x coordinate
+ * @param minY Minimum y coordinate
+ * @param width Viewbox width
+ * @param height Viewbox height.
+*/
 struct ViewBox{
 	float minX;
 	float minY;
