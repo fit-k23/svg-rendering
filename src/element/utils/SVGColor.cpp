@@ -1,5 +1,154 @@
 #include "SVGColor.h"
-#include <sstream>
+
+const static std::map<std::string, SVGColor> LABELED_COLOR = {
+	{"aliceblue",            SVG_ALICEBLUE},
+	{"antiquewhite",         SVG_ANTIQUEWHITE},
+	{"aqua",                 SVG_AQUA},
+	{"aquamarine",           SVG_AQUAMARINE},
+	{"azure",                SVG_AZURE},
+	{"beige",                SVG_BEIGE},
+	{"bisque",               SVG_BISQUE},
+	{"black",                SVG_BLACK},
+	{"blanchedalmond",       SVG_BLANCHEDALMOND},
+	{"blue",                 SVG_BLUE},
+	{"blueviolet",           SVG_BLUEVIOLET},
+	{"brown",                SVG_BROWN},
+	{"burlywood",            SVG_BURLYWOOD},
+	{"cadetblue",            SVG_CADETBLUE},
+	{"chartreuse",           SVG_CHARTREUSE},
+	{"chocolate",            SVG_CHOCOLATE},
+	{"coral",                SVG_CORAL},
+	{"cornflowerblue",       SVG_CORNFLOWERBLUE},
+	{"cornsilk",             SVG_CORNSILK},
+	{"crimson",              SVG_CRIMSON},
+	{"cyan",                 SVG_CYAN},
+	{"darkblue",             SVG_DARKBLUE},
+	{"darkcyan",             SVG_DARKCYAN},
+	{"darkgoldenrod",        SVG_DARKGOLDENROD},
+	{"darkgray",             SVG_DARKGRAY},
+	{"darkgreen",            SVG_DARKGREEN},
+	{"darkgrey",             SVG_DARKGREY},
+	{"darkkhaki",            SVG_DARKKHAKI},
+	{"darkmagenta",          SVG_DARKMAGENTA},
+	{"darkolivegreen",       SVG_DARKOLIVEGREEN},
+	{"darkorange",           SVG_DARKORANGE},
+	{"darkorchid",           SVG_DARKORCHID},
+	{"darkred",              SVG_DARKRED},
+	{"darksalmon",           SVG_DARKSALMON},
+	{"darkseagreen",         SVG_DARKSEAGREEN},
+	{"darkslateblue",        SVG_DARKSLATEBLUE},
+	{"darkslategray",        SVG_DARKSLATEGRAY},
+	{"darkslategrey",        SVG_DARKSLATEGREY},
+	{"darkturquoise",        SVG_DARKTURQUOISE},
+	{"darkviolet",           SVG_DARKVIOLET},
+	{"deeppink",             SVG_DEEPPINK},
+	{"deepskyblue",          SVG_DEEPSKYBLUE},
+	{"dimgray",              SVG_DIMGRAY},
+	{"dimgrey",              SVG_DIMGREY},
+	{"dodgerblue",           SVG_DODGERBLUE},
+	{"firebrick",            SVG_FIREBRICK},
+	{"floralwhite",          SVG_FLORALWHITE},
+	{"forestgreen",          SVG_FORESTGREEN},
+	{"fuchsia",              SVG_FUCHSIA},
+	{"gainsboro",            SVG_GAINSBORO},
+	{"ghostwhite",           SVG_GHOSTWHITE},
+	{"gold",                 SVG_GOLD},
+	{"goldenrod",            SVG_GOLDENROD},
+	{"gray",                 SVG_GRAY},
+	{"grey",                 SVG_GREY},
+	{"green",                SVG_GREEN},
+	{"greenyellow",          SVG_GREENYELLOW},
+	{"honeydew",             SVG_HONEYDEW},
+	{"hotpink",              SVG_HOTPINK},
+	{"indianred",            SVG_INDIANRED},
+	{"indigo",               SVG_INDIGO},
+	{"ivory",                SVG_IVORY},
+	{"khaki",                SVG_KHAKI},
+	{"lavender",             SVG_LAVENDER},
+	{"lavenderblush",        SVG_LAVENDERBLUSH},
+	{"lawngreen",            SVG_LAWNGREEN},
+	{"lemonchiffon",         SVG_LEMONCHIFFON},
+	{"lightblue",            SVG_LIGHTBLUE},
+	{"lightcoral",           SVG_LIGHTCORAL},
+	{"lightcyan",            SVG_LIGHTCYAN},
+	{"lightgoldenrodyellow", SVG_LIGHTGOLDENRODYELLOW},
+	{"lightgray",            SVG_LIGHTGRAY},
+	{"lightgreen",           SVG_LIGHTGREEN},
+	{"lightgrey",            SVG_LIGHTGREY},
+	{"lightpink",            SVG_LIGHTPINK},
+	{"lightsalmon",          SVG_LIGHTSALMON},
+	{"lightseagreen",        SVG_LIGHTSEAGREEN},
+	{"lightskyblue",         SVG_LIGHTSKYBLUE},
+	{"lightslategray",       SVG_LIGHTSLATEGRAY},
+	{"lightslategrey",       SVG_LIGHTSLATEGREY},
+	{"lightsteelblue",       SVG_LIGHTSTEELBLUE},
+	{"lightyellow",          SVG_LIGHTYELLOW},
+	{"lime",                 SVG_LIME},
+	{"limegreen",            SVG_LIMEGREEN},
+	{"linen",                SVG_LINEN},
+	{"magenta",              SVG_MAGENTA},
+	{"maroon",               SVG_MAROON},
+	{"mediumaquamarine",     SVG_MEDIUMAQUAMARINE},
+	{"mediumblue",           SVG_MEDIUMBLUE},
+	{"mediumorchid",         SVG_MEDIUMORCHID},
+	{"mediumpurple",         SVG_MEDIUMPURPLE},
+	{"mediumseagreen",       SVG_MEDIUMSEAGREEN},
+	{"mediumslateblue",      SVG_MEDIUMSLATEBLUE},
+	{"mediumspringgreen",    SVG_MEDIUMSPRINGGREEN},
+	{"mediumturquoise",      SVG_MEDIUMTURQUOISE},
+	{"mediumvioletred",      SVG_MEDIUMVIOLETRED},
+	{"midnightblue",         SVG_MIDNIGHTBLUE},
+	{"mintcream",            SVG_MINTCREAM},
+	{"mistyrose",            SVG_MISTYROSE},
+	{"moccasin",             SVG_MOCCASIN},
+	{"navajowhite",          SVG_NAVAJOWHITE},
+	{"navy",                 SVG_NAVY},
+	{"oldlace",              SVG_OLDLACE},
+	{"olive",                SVG_OLIVE},
+	{"olivedrab",            SVG_OLIVEDRAB},
+	{"orange",               SVG_ORANGE},
+	{"orangered",            SVG_ORANGERED},
+	{"orchid",               SVG_ORCHID},
+	{"palegoldenrod",        SVG_PALEGOLDENROD},
+	{"palegreen",            SVG_PALEGREEN},
+	{"paleturquoise",        SVG_PALETURQUOISE},
+	{"palevioletred",        SVG_PALEVIOLETRED},
+	{"papayawhip",           SVG_PAPAYAWHIP},
+	{"peachpuff",            SVG_PEACHPUFF},
+	{"peru",                 SVG_PERU},
+	{"pink",                 SVG_PINK},
+	{"plum",                 SVG_PLUM},
+	{"powderblue",           SVG_POWDERBLUE},
+	{"purple",               SVG_PURPLE},
+	{"red",                  SVG_RED},
+	{"rosybrown",            SVG_ROSYBROWN},
+	{"royalblue",            SVG_ROYALBLUE},
+	{"saddlebrown",          SVG_SADDLEBROWN},
+	{"salmon",               SVG_SALMON},
+	{"sandybrown",           SVG_SANDYBROWN},
+	{"seagreen",             SVG_SEAGREEN},
+	{"seashell",             SVG_SEASHELL},
+	{"sienna",               SVG_SIENNA},
+	{"silver",               SVG_SILVER},
+	{"skyblue",              SVG_SKYBLUE},
+	{"slateblue",            SVG_SLATEBLUE},
+	{"slategray",            SVG_SLATEGRAY},
+	{"slategrey",            SVG_SLATEGREY},
+	{"snow",                 SVG_SNOW},
+	{"springgreen",          SVG_SPRINGGREEN},
+	{"steelblue",            SVG_STEELBLUE},
+	{"tan",                  SVG_TAN},
+	{"teal",                 SVG_TEAL},
+	{"thistle",              SVG_THISTLE},
+	{"tomato",               SVG_TOMATO},
+	{"turquoise",            SVG_TURQUOISE},
+	{"violet",               SVG_VIOLET},
+	{"wheat",                SVG_WHEAT},
+	{"white",                SVG_WHITE},
+	{"whitesmoke",           SVG_WHITESMOKE},
+	{"yellow",               SVG_YELLOW},
+	{"yellowgreen",          SVG_YELLOWGREEN}
+};
 
 SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 
@@ -58,11 +207,11 @@ SVGColor::SVGColor(std::string param) {
 			float R, G, B;
 			buffer >> R >> G >> B;
 			r = (unsigned char) R;
-			if (isPercent[0]) r = (255.0f * (R / 100.0f));
+			if (isPercent[0]) r = (unsigned char) (255.0f * (R / 100.0f));
 			g = (unsigned char) G;
-			if (isPercent[1]) g = (255.0f * (G / 100.0f));
+			if (isPercent[1]) g = (unsigned char) (255.0f * (G / 100.0f));
 			b = (unsigned char) B;
-			if (isPercent[2]) b = (255.0f * (B / 100.0f));
+			if (isPercent[2]) b = (unsigned char) (255.0f * (B / 100.0f));
 		} else {
 			//Assuming the string input is color name
 			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
@@ -84,18 +233,18 @@ SVGColor::operator Gdiplus::Color() const {
 	return Gdiplus::Color{a, r, g, b};
 }
 
-SVGColor::SVGColor(const SVGColor &other) : r(other.r), g(other.g), b(other.b), a(other.a) {}
+SVGColor::SVGColor(const SVGColor &other) = default;
 
-SVGColor SVGColor::alpha(unsigned char _a) {
-	return SVGColor(r, g, b, _a);
+SVGColor SVGColor::alpha(unsigned char _a) const {
+	return {r, g, b, _a};
 }
 
-SVGColor SVGColor::fromHSL(int h, int s, int l, int a) {
+SVGColor SVGColor::fromHSL(int h, int s, int l, int _a) {
 	float _r{}, _g{}, _b{};
 
-	float c = (1.0f - fabsf(2.0f * l - 1.0f)) * s; // Chroma
+	float c = (1.0f - fabsf(2.0f * (float) l - 1.0f)) * (float) s; // Chroma
 	float x = c * (1.0f - fabsf(fmodf(static_cast<float> (h) / 60.0f, 2) - 1.0f));
-	float m = l - c / 2.0f;
+	float m = (float) l - c / 2.0f;
 
 	if (h >= 0 && h < 60) {
 		_r = c;
@@ -117,7 +266,7 @@ SVGColor SVGColor::fromHSL(int h, int s, int l, int a) {
 		_b = x;
 	}
 
-	return {static_cast<unsigned char>((_r + m) * 255), static_cast<unsigned char>((_g + m) * 255), static_cast<unsigned char>((_b + m) * 255), static_cast<unsigned char>(a),};
+	return {static_cast<unsigned char>((_r + m) * 255), static_cast<unsigned char>((_g + m) * 255), static_cast<unsigned char>((_b + m) * 255), static_cast<unsigned char>(_a),};
 }
 
 void SVGColor::output() const {

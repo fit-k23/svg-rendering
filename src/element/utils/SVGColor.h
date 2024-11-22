@@ -2,9 +2,10 @@
 #define SVG_RENDERING_COLOR_H
 
 #include <iostream>
-#include <map>
 #include <string>
 #include <cmath>
+#include <sstream>
+#include <map>
 
 #include <objidl.h>
 #include <gdiplus.h>
@@ -12,16 +13,12 @@
 /**
  * @brief Supports reading SVG color and return Gdiplus::Color type
  * @note Can extract rgb, hex, percentage.
- */
-
+*/
 class SVGColor{
 public:
 	unsigned char r, g, b, a;
 
-	/**
-     * @brief Default constructor
-     * @note set all to zero -> black
-     */
+	/** @brief Default constructor (transparent/none) */
 	SVGColor(); // r,g,b = 0 -> black, a = 0 -> none
 	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
 
@@ -32,13 +29,13 @@ public:
 	SVGColor &operator=(const SVGColor &other);
 
 	explicit SVGColor(std::string param);
-	SVGColor fromHSL(int h, int s, int l, int a = 255);
+	static SVGColor fromHSL(int h, int s, int l, int a = 255);
 
 	operator Gdiplus::Color() const;
 
 	void output() const;
 
-	SVGColor alpha(unsigned char a);
+	SVGColor alpha(unsigned char a) const;
 
 	// Parameterized constructor
 	// @param: fill the string format
@@ -48,6 +45,7 @@ public:
 };
 
 #define SVG_BLANK SVGColor(0, 0, 0, 0)
+#define SVG_NONE SVGColor(0, 0, 0, 0)
 
 #define SVG_ALICEBLUE SVGColor(240, 248, 255)
 #define SVG_ANTIQUEWHITE SVGColor(250, 235, 215)
@@ -196,155 +194,5 @@ public:
 #define SVG_WHITESMOKE SVGColor(245, 245, 245)
 #define SVG_YELLOW SVGColor(255, 255, 0)
 #define SVG_YELLOWGREEN SVGColor(154, 205, 50)
-
-const static std::map<std::string, SVGColor> LABELED_COLOR = {
-	{"aliceblue",            SVG_ALICEBLUE},
-	{"antiquewhite",         SVG_ANTIQUEWHITE},
-	{"aqua",                 SVG_AQUA},
-	{"aquamarine",           SVG_AQUAMARINE},
-	{"azure",                SVG_AZURE},
-	{"beige",                SVG_BEIGE},
-	{"bisque",               SVG_BISQUE},
-	{"black",                SVG_BLACK},
-	{"blanchedalmond",       SVG_BLANCHEDALMOND},
-	{"blue",                 SVG_BLUE},
-	{"blueviolet",           SVG_BLUEVIOLET},
-	{"brown",                SVG_BROWN},
-	{"burlywood",            SVG_BURLYWOOD},
-	{"cadetblue",            SVG_CADETBLUE},
-	{"chartreuse",           SVG_CHARTREUSE},
-	{"chocolate",            SVG_CHOCOLATE},
-	{"coral",                SVG_CORAL},
-	{"cornflowerblue",       SVG_CORNFLOWERBLUE},
-	{"cornsilk",             SVG_CORNSILK},
-	{"crimson",              SVG_CRIMSON},
-	{"cyan",                 SVG_CYAN},
-	{"darkblue",             SVG_DARKBLUE},
-	{"darkcyan",             SVG_DARKCYAN},
-	{"darkgoldenrod",        SVG_DARKGOLDENROD},
-	{"darkgray",             SVG_DARKGRAY},
-	{"darkgreen",            SVG_DARKGREEN},
-	{"darkgrey",             SVG_DARKGREY},
-	{"darkkhaki",            SVG_DARKKHAKI},
-	{"darkmagenta",          SVG_DARKMAGENTA},
-	{"darkolivegreen",       SVG_DARKOLIVEGREEN},
-	{"darkorange",           SVG_DARKORANGE},
-	{"darkorchid",           SVG_DARKORCHID},
-	{"darkred",              SVG_DARKRED},
-	{"darksalmon",           SVG_DARKSALMON},
-	{"darkseagreen",         SVG_DARKSEAGREEN},
-	{"darkslateblue",        SVG_DARKSLATEBLUE},
-	{"darkslategray",        SVG_DARKSLATEGRAY},
-	{"darkslategrey",        SVG_DARKSLATEGREY},
-	{"darkturquoise",        SVG_DARKTURQUOISE},
-	{"darkviolet",           SVG_DARKVIOLET},
-	{"deeppink",             SVG_DEEPPINK},
-	{"deepskyblue",          SVG_DEEPSKYBLUE},
-	{"dimgray",              SVG_DIMGRAY},
-	{"dimgrey",              SVG_DIMGREY},
-	{"dodgerblue",           SVG_DODGERBLUE},
-	{"firebrick",            SVG_FIREBRICK},
-	{"floralwhite",          SVG_FLORALWHITE},
-	{"forestgreen",          SVG_FORESTGREEN},
-	{"fuchsia",              SVG_FUCHSIA},
-	{"gainsboro",            SVG_GAINSBORO},
-	{"ghostwhite",           SVG_GHOSTWHITE},
-	{"gold",                 SVG_GOLD},
-	{"goldenrod",            SVG_GOLDENROD},
-	{"gray",                 SVG_GRAY},
-	{"grey",                 SVG_GREY},
-	{"green",                SVG_GREEN},
-	{"greenyellow",          SVG_GREENYELLOW},
-	{"honeydew",             SVG_HONEYDEW},
-	{"hotpink",              SVG_HOTPINK},
-	{"indianred",            SVG_INDIANRED},
-	{"indigo",               SVG_INDIGO},
-	{"ivory",                SVG_IVORY},
-	{"khaki",                SVG_KHAKI},
-	{"lavender",             SVG_LAVENDER},
-	{"lavenderblush",        SVG_LAVENDERBLUSH},
-	{"lawngreen",            SVG_LAWNGREEN},
-	{"lemonchiffon",         SVG_LEMONCHIFFON},
-	{"lightblue",            SVG_LIGHTBLUE},
-	{"lightcoral",           SVG_LIGHTCORAL},
-	{"lightcyan",            SVG_LIGHTCYAN},
-	{"lightgoldenrodyellow", SVG_LIGHTGOLDENRODYELLOW},
-	{"lightgray",            SVG_LIGHTGRAY},
-	{"lightgreen",           SVG_LIGHTGREEN},
-	{"lightgrey",            SVG_LIGHTGREY},
-	{"lightpink",            SVG_LIGHTPINK},
-	{"lightsalmon",          SVG_LIGHTSALMON},
-	{"lightseagreen",        SVG_LIGHTSEAGREEN},
-	{"lightskyblue",         SVG_LIGHTSKYBLUE},
-	{"lightslategray",       SVG_LIGHTSLATEGRAY},
-	{"lightslategrey",       SVG_LIGHTSLATEGREY},
-	{"lightsteelblue",       SVG_LIGHTSTEELBLUE},
-	{"lightyellow",          SVG_LIGHTYELLOW},
-	{"lime",                 SVG_LIME},
-	{"limegreen",            SVG_LIMEGREEN},
-	{"linen",                SVG_LINEN},
-	{"magenta",              SVG_MAGENTA},
-	{"maroon",               SVG_MAROON},
-	{"mediumaquamarine",     SVG_MEDIUMAQUAMARINE},
-	{"mediumblue",           SVG_MEDIUMBLUE},
-	{"mediumorchid",         SVG_MEDIUMORCHID},
-	{"mediumpurple",         SVG_MEDIUMPURPLE},
-	{"mediumseagreen",       SVG_MEDIUMSEAGREEN},
-	{"mediumslateblue",      SVG_MEDIUMSLATEBLUE},
-	{"mediumspringgreen",    SVG_MEDIUMSPRINGGREEN},
-	{"mediumturquoise",      SVG_MEDIUMTURQUOISE},
-	{"mediumvioletred",      SVG_MEDIUMVIOLETRED},
-	{"midnightblue",         SVG_MIDNIGHTBLUE},
-	{"mintcream",            SVG_MINTCREAM},
-	{"mistyrose",            SVG_MISTYROSE},
-	{"moccasin",             SVG_MOCCASIN},
-	{"navajowhite",          SVG_NAVAJOWHITE},
-	{"navy",                 SVG_NAVY},
-	{"oldlace",              SVG_OLDLACE},
-	{"olive",                SVG_OLIVE},
-	{"olivedrab",            SVG_OLIVEDRAB},
-	{"orange",               SVG_ORANGE},
-	{"orangered",            SVG_ORANGERED},
-	{"orchid",               SVG_ORCHID},
-	{"palegoldenrod",        SVG_PALEGOLDENROD},
-	{"palegreen",            SVG_PALEGREEN},
-	{"paleturquoise",        SVG_PALETURQUOISE},
-	{"palevioletred",        SVG_PALEVIOLETRED},
-	{"papayawhip",           SVG_PAPAYAWHIP},
-	{"peachpuff",            SVG_PEACHPUFF},
-	{"peru",                 SVG_PERU},
-	{"pink",                 SVG_PINK},
-	{"plum",                 SVG_PLUM},
-	{"powderblue",           SVG_POWDERBLUE},
-	{"purple",               SVG_PURPLE},
-	{"red",                  SVG_RED},
-	{"rosybrown",            SVG_ROSYBROWN},
-	{"royalblue",            SVG_ROYALBLUE},
-	{"saddlebrown",          SVG_SADDLEBROWN},
-	{"salmon",               SVG_SALMON},
-	{"sandybrown",           SVG_SANDYBROWN},
-	{"seagreen",             SVG_SEAGREEN},
-	{"seashell",             SVG_SEASHELL},
-	{"sienna",               SVG_SIENNA},
-	{"silver",               SVG_SILVER},
-	{"skyblue",              SVG_SKYBLUE},
-	{"slateblue",            SVG_SLATEBLUE},
-	{"slategray",            SVG_SLATEGRAY},
-	{"slategrey",            SVG_SLATEGREY},
-	{"snow",                 SVG_SNOW},
-	{"springgreen",          SVG_SPRINGGREEN},
-	{"steelblue",            SVG_STEELBLUE},
-	{"tan",                  SVG_TAN},
-	{"teal",                 SVG_TEAL},
-	{"thistle",              SVG_THISTLE},
-	{"tomato",               SVG_TOMATO},
-	{"turquoise",            SVG_TURQUOISE},
-	{"violet",               SVG_VIOLET},
-	{"wheat",                SVG_WHEAT},
-	{"white",                SVG_WHITE},
-	{"whitesmoke",           SVG_WHITESMOKE},
-	{"yellow",               SVG_YELLOW},
-	{"yellowgreen",          SVG_YELLOWGREEN}
-};
 
 #endif //SVG_RENDERING_COLOR_H
