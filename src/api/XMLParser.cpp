@@ -168,7 +168,8 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	while (pChild != nullptr) {
 		float offset = parseFloatAttr(pChild, "offset");
-		SVGColor stopColor = parseColor(pChild, "stop-color", std::string());
+		std::string id;
+		SVGColor stopColor = parseColor(pChild, "stop-color", id);
 		stops.emplace_back(offset, stopColor);
 		pChild = pChild->next_sibling();
 	}
