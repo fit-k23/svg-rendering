@@ -130,6 +130,8 @@ public:
 	operator Gdiplus::SizeF();
 	/** @brief Auto-cast the class to POINTS */
 	operator POINT();
+	operator Vector2D<int>();
+	operator Vector2D<float>();
 };
 
 /**
@@ -281,6 +283,16 @@ Vector2D<T>::operator Gdiplus::Size() {
 template<typename T>
 Vector2D<T>::operator Gdiplus::SizeF() {
 	return Gdiplus::SizeF{static_cast<float>(x), static_cast<float>(y)};
+}
+
+template<typename T>
+Vector2D<T>::operator Vector2D<int>() {
+	return Vector2D<int>{static_cast<int>(x), static_cast<int>(y)};
+}
+
+template<typename T>
+Vector2D<T>::operator Vector2D<float>() {
+	return Vector2D<float>{static_cast<float>(x), static_cast<float>(y)};
 }
 
 /**
