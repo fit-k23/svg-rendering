@@ -1,11 +1,8 @@
 #include "Renderer.h"
 
-Renderer *Renderer::instance = nullptr;
+Renderer *Renderer::instance = new Renderer();
 
-Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>()} {}
-
-Renderer::Renderer(const Vector2D<float> &_viewPort) : viewPort(_viewPort), screenSize{_viewPort} {}
-Renderer::Renderer(const Vector2D<float>& _viewPort, const Vector2D<float>& _screenSize) : viewPort(_viewPort), screenSize(_screenSize) {}
+Renderer::Renderer() : viewPort{Vector2D<float>()} {}
 
 Renderer* Renderer::getInstance() {
 	if (instance == nullptr) 
@@ -27,7 +24,6 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 		graphics.GetTransform(&orgMatrix);
 		// apply current transformation for current shape
 		applyTransformation(graphics, shape->getTransformation());
-		//shape->dbg();
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -58,13 +54,11 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 				break;
 			}
 			case ElementType::Path: {
-				//shape->dbg();
 				drawPath(graphics, static_cast<SVGPath *>(shape));
 				break;
 			}
 			case ElementType::Group: {
-				//shape->dbg();
-				draw(graphics, dynamic_cast<Element*>(shape));
+				draw(graphics, dynamic_cast<Element *>(shape));
 				break;
 			}
 			default:
@@ -75,15 +69,10 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 	}
 }
 
-void Renderer::setScreenSize(const Vector2D<float>& screenSize) { this->screenSize = screenSize; }
-
-Vector2D<float> Renderer::getScreenSize() const { return screenSize; }
-
-void Renderer::setViewPort(const Vector2D<float>& viewPort) { this->viewPort = viewPort; }
-
+void Renderer::setViewPort(const Vector2D<float> &_viewPort) { viewPort = _viewPort; }
 Vector2D<float> Renderer::getViewPort() const { return viewPort; }
 
-void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string>& transformations) {
+void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations) {
 	// Matrix in gdiplus is the transpose of matrix in svg
 	std::stringstream buffer;
 	std::string cmd;
@@ -96,8 +85,7 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 			buffer >> a >> b >> c >> d >> e >> f;
 			Gdiplus::Matrix matrix(a, b, c, d, e, f);
 			graphics.MultiplyTransform(&matrix);
-		}
-		else if (cmd == "translate") {
+		} else if (cmd == "translate") {
 			float dx = 0, dy = 0;
 			buffer >> dx;
 			if (!(buffer >> dy)) dy = 0;
@@ -135,9 +123,9 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	Gdiplus::GraphicsPath *path = new Gdiplus::GraphicsPath();
 
 	// Draw a color-filled Rectangle with normal corners
-	if (radii.x == 0 && radii.y == 0) 
+	if (radii.x == 0 && radii.y == 0) {
 		path->AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
-	else { /// <--- Rounded corner
+	} else { // <--- Rounded corner
 		// Top-left corner
 		path->AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0);
 		// Top-right corner
@@ -168,13 +156,12 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
-	Gdiplus::GraphicsPath *path = new Gdiplus::GraphicsPath();
-	
-	path->AddEllipse(position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
+	Gdiplus::GraphicsPath path;
 
-	graphics.FillPath(&brush, path);
-	graphics.DrawPath(&pen, path);
-	delete path;
+	path.AddEllipse(position.x - radius.x, position.y - radius.y, radius.x * 2.0f, radius.y * 2.0f);
+
+	graphics.FillPath(&brush, &path);
+	graphics.DrawPath(&pen, &path);
 }
 
 void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
@@ -312,7 +299,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 
 	PathPoint* pre = nullptr;
 	for (auto &point : points) {
-		char ins = tolower(point->getCMD());
+		char ins = (char) tolower(point->getCMD());
 		Vector2D<float> pos = point->getPos();
 		if (ins == 'm') { // Move-to command
 			bool startPath = true;
