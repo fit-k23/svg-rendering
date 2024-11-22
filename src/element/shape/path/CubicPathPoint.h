@@ -15,11 +15,11 @@ public:
 	/** @brief Default constructor for cubic-bezier-curve point */
 	CubicPathPoint();
 	/** @brief Parameterized constructor */
-	CubicPathPoint(char cmd, const Vector2D<float>& pos);
+	CubicPathPoint(char cmd, const Vector2D<float> &pos);
 	/** @brief Parameterized constructor with just one control point */
-	CubicPathPoint(char cmd, const Vector2D<float>& pos, const Vector2D<float>& cen);
+	CubicPathPoint(char cmd, const Vector2D<float> &pos, const Vector2D<float> &cen);
 	/** @brief Parameterized constructor with two control points */
-	CubicPathPoint(char cmd, const Vector2D<float>& pos, const Vector2D<float>& cen1, const Vector2D<float>& cen2);
+	CubicPathPoint(char cmd, const Vector2D<float> &pos, const Vector2D<float> &cen1, const Vector2D<float> &cen2);
 	/**
 	 * @brief Copy constructor
 	 * @param other CubicPathPoint object to copy from

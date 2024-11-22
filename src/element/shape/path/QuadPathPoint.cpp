@@ -1,7 +1,6 @@
 #include "QuadPathPoint.h"
 
 QuadPathPoint::QuadPathPoint() : PathPoint(), cen{} {}
-QuadPathPoint::QuadPathPoint(char _cmd, const Vector2D<float> &_pos) : PathPoint(_cmd, _pos), cen{} {}
 QuadPathPoint::QuadPathPoint(char _cmd, const Vector2D<float> &_pos, const Vector2D<float> &_cen) : PathPoint(_cmd, _pos), cen(_cen) {}
 QuadPathPoint::QuadPathPoint(const QuadPathPoint &other) = default;
 void QuadPathPoint::setCen(const Vector2D<float> &_cen) { cen = _cen; }
