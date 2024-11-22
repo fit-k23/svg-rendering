@@ -11,7 +11,7 @@ void Gradient::dbg() const {
 	for (const auto &transform : transforms) std::cout << transform << " ";
 	std::cout << '\n';
 	std::cout << "Units: " << units << '\n';
-	std::cout << "Stops: ";
+	std::cout << "Stops: \n";
 	for (const auto &stop : stops)
 		stop.output();
 	std::cout << '\n';

@@ -27,7 +27,7 @@ void ProjectDeInit() {
 	std::cout << "Deleting instance of XMLParser and Renderer\n";
 }
 
-std::string svgFile = "asset/bmw_racoon.svg";
+std::string svgFile = "asset/gradient_test.svg";
 std::string preFile = "";
 XMLParser *parser = nullptr;
 
