@@ -8,8 +8,8 @@
 #include <string>
 
 /**
- * @brief A general PathPoint class to represent all type of points in path
- * @note This is a superclass
+ * @brief A PathPoint class to represent all type of points in path
+ * @note This is an abstract class
  * @note All types of points in svg path has a command and a position
 */
 

@@ -3,6 +3,11 @@
 
 #include "PathPoint.h"
 
+/**
+ * @brief Class that represents the arc drawing in path
+ * @note This class inherits from PathPoint class
+ */
+
 class ArcPathPoint : public PathPoint {
 private:
 	Vector2D<float> radii;	// <-- radii of the ellipse

@@ -3,6 +3,11 @@
 
 #include "PathPoint.h"
 
+/**
+ * @brief Class that represents a point in Cubic Bezier Curve in svg path
+ * @note This class inherits from PathPoint class
+ */
+
 class CubicPathPoint : public PathPoint {
 private:
 	Vector2D<float> cen[2]; // <-- 2 control points of cubic bezier curve

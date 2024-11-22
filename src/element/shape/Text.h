@@ -6,12 +6,13 @@
 #include <string>
 
 /**
- * @brief Text Class
- * @note All text object has a text-anchor (default to start)
- * @note dx, dy (shift along Ox, Oy coordinates) is default to be zero
+ * @brief Class that represents Text object in svg
+ * @param textAncho All text object has a text-anchor (default to start)
+ * @param dx shift along Ox (default to be 0)
+ * @param dy shift along Oy (default to be 0)
  * @note dx, dy will be added to position so there are no attributes dx, dy
  * @note rotation is set to 0 by default (no rotation)
- * @note font size default to be 1
+ * @note font size is default to be 1
 */
 
 class SVGText : public Element{

@@ -3,6 +3,12 @@
 
 #include "PathPoint.h"
 
+/**
+ * @brief Class that represents the move-to, line-to command in svg path
+ * @note We define our own protocol that those are normal points in svg path
+ * @note This class inherits from PathPoint class
+ */
+
 class NormPathPoint : public PathPoint {
 public:
 	NormPathPoint(); 

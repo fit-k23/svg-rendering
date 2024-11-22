@@ -6,9 +6,11 @@
 #include <vector>
 
 /**
- * @brief Polyline class
- * @note position is the first point of the polygon (first point of the first line)
+ * @brief Class that represents polyline in svg
+ * @param position the first point of the polyline
+ * @note This class inherits from Element class
 */
+
 class SVGPolyline : public Element{
 protected:
 	std::vector<Vector2D<float>> points;

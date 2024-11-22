@@ -4,6 +4,11 @@
 #include "Ellipse.h"
 #include "../utils/SVGColor.h"
 
+/**
+ * @brief Class that represents circle in svg
+ * @note Circle class is inherited from Ellipse class
+ */
+
 class SVGCircle : public SVGEllipse{
 public:
 	/**
