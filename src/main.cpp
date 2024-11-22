@@ -26,7 +26,7 @@ void ProjectDeInit() {
 	ParserManager::free();
 }
 
-std::string svgFile = "asset/tiger.svg";
+std::string svgFile = "asset/bmw_racoon.svg";
 std::string preFile = "";
 XMLParser *parser = nullptr;
 Renderer *render = nullptr;
@@ -125,7 +125,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 800, nullptr, nullptr, hInstance, nullptr);
+	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 700, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
 	ShowWindow(hWnd, SW_SHOWNORMAL);
