@@ -1,7 +1,7 @@
 #ifndef SVG_RENDERING_PATHPOINT_H
 #define SVG_RENDERING_PATHPOINT_H
 
-#include "../utils/Vector2D.h"
+#include "../../utils/Vector2D.h"
 #include <vector>
 #include <algorithm>
 #include <cmath>
