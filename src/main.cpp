@@ -26,7 +26,7 @@ void ProjectDeInit() {
 	ParserManager::free();
 }
 
-std::string svgFile = "asset/sample1.svg";
+std::string svgFile = "asset/tiger.svg";
 std::string preFile = "";
 XMLParser *parser = nullptr;
 Renderer *render = nullptr;

@@ -58,11 +58,12 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 				break;
 			}
 			case ElementType::Path: {
-				drawPath(graphics, static_cast<SVGPath *>(shape));
 				//shape->dbg();
+				drawPath(graphics, static_cast<SVGPath *>(shape));
 				break;
 			}
 			case ElementType::Group: {
+				//shape->dbg();
 				draw(graphics, dynamic_cast<Element*>(shape));
 				break;
 			}

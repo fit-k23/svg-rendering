@@ -53,7 +53,7 @@ void XMLParser::traverseXML(const std::string& fileName, rapidxml::xml_node<>* p
 	if (nearGrp != nullptr) {
 		if (Group* grp = dynamic_cast<Group*>(nearGrp)) {
 			for (auto& attr : grp->getAttr()) {
-				std::string attrName = attr.second;
+				std::string attrName = attr.first;
 				// <g> in this project only has stroke, fill, opacity, and transform attributes
 				if (attrName.find("stroke") == std::string::npos && attrName.find("fill") == std::string::npos && attrName.find("opacity") == std::string::npos && attrName.find("transform") == std::string::npos) continue;
 				bool has = false;
@@ -61,14 +61,17 @@ void XMLParser::traverseXML(const std::string& fileName, rapidxml::xml_node<>* p
 					if (pAttr->name() == attrName) {
 						has = true;
 						if (pAttr->name() == "opacity") {
-							std::string newOpacity = std::to_string(std::stof(pAttr->name()) * std::stof(attrName));
+							std::string newOpacity = std::to_string(std::stof(pAttr->name()) * std::stof(attr.second));
 							pAttr->value(doc.allocate_string(newOpacity.c_str()));
 						}
 						break;
 					}
 				}
-				if (!has && attrName != "transform")
-					pNode->append_attribute(doc.allocate_attribute(attr.first.c_str(), attr.second.c_str()));
+				if (!has && attrName != "transform") {
+					char* name = doc.allocate_string(attr.first.c_str());
+					char* value = doc.allocate_string(attr.second.c_str());
+					pNode->append_attribute(doc.allocate_attribute(name, value));
+				}
 			}
 		}
 	}

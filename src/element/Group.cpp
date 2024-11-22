@@ -14,6 +14,10 @@ ElementType Group::getTypeName() { return ElementType::Group; }
 
 void Group::dbg() {
 	Element::dbg();
+	std::cout << "Attributes: ";
+	for (int i = 0; i < (int)attrs.size(); ++i)
+		std::cout << "{" << attrs[i].first << ", " << attrs[i].second << "} ";
+	std::cout << '\n';
 }
 
 void Group::addElement(Element *element) { 
