@@ -5,6 +5,11 @@
 #include "../Element.h"
 #include "../utils/SVGColor.h"
 
+/**
+ * @brief Class that represents rectangle in svg
+ * @note This class inherits from Element class.
+ */
+
 class SVGRect : public Element{
 private:
 	float width;

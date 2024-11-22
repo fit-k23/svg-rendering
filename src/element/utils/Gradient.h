@@ -8,7 +8,7 @@
 #include "Stop.h"
 
 /**
- * @brief Abstract Gradient class for Linear and Radial Gradient to inherit.
+ * @brief Abstract Gradient class for Linear and Radial Gradient
  */
 class Gradient{
 private:

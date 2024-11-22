@@ -6,6 +6,11 @@
 #include "../utils/Gradient.h"
 #include "../utils/Vector2D.h"
 
+/**
+ * @brief Class that represents Ellipse object in svg
+ * @note This class inherits from Element class
+ */
+
 class SVGEllipse : public Element{
 	Vector2D<float> radii;
 

@@ -9,6 +9,11 @@
 #include <iostream>
 #include "../utils/Vector2D.h"
 
+/**
+ * @brief Class that represents Line object in svg
+ * @note This class inherits from Element class
+ */
+
 class SVGLine : public Element{
 private:
 	Vector2D<float> endPosition;

@@ -3,6 +3,11 @@
 
 #include "PathPoint.h"
 
+/**
+ * @brief Class that represents the Quadratic Bezier Curve point in svg path
+ * @note This class inherits from PathPoint class
+ */
+
 class QuadPathPoint : public PathPoint {
 private:
 	Vector2D<float> cen; 

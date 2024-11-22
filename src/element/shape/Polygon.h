@@ -4,9 +4,9 @@
 #include "Polyline.h"
 
 /**
- * @brief Polygon class
- * @note position vector2D in Polygon is the first point of polygon
- * @note lines describe all edges of Polygon
+ * @brief Class that represents polygon in svg
+ * @param position the first point of polygon
+ * @note This class inherits from SVGPolyline class
 */
 class SVGPolygon : public SVGPolyline{
 public:

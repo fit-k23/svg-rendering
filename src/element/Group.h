@@ -11,6 +11,11 @@
 #define groupAttr std::vector<std::pair<std::string, std::string>>
 #endif // GROUP_ATTRIBUTE
 
+/**
+ * @brief Group is a composite class that is implemented using composite design pattern.
+ * @note A group object can contain several shapes or other groups
+ */
+
 class Group : public Element{
 private:
 	groupAttr attrs;
