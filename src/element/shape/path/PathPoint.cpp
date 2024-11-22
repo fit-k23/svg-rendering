@@ -8,7 +8,7 @@ void PathPoint::output() const {
 	std::cout << "Pos: " << pos.x << ", " << pos.y << '\n';
 }
 
-PathPoint::PathPoint(const PathPoint &other) : cmd(other.cmd), pos(other.pos) {}
+PathPoint::PathPoint(const PathPoint &other) = default;
 
 void PathPoint::setCMD(char _cmd) { cmd = _cmd; }
 

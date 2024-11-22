@@ -6,7 +6,7 @@
 /**
  * @brief Class that represents a point in Cubic Bezier Curve in svg path
  * @note This class inherits from PathPoint class
- */
+*/
 
 class CubicPathPoint : public PathPoint {
 private:

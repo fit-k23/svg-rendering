@@ -6,7 +6,7 @@
 /**
  * @brief Class that represents the arc drawing in path
  * @note This class inherits from PathPoint class
- */
+*/
 
 class ArcPathPoint : public PathPoint {
 private:
@@ -31,45 +31,30 @@ public:
 	 * @param radii new radii
 	*/
 	void setRadii(const Vector2D<float> &radii);
-	/**
-	 * @brief Getter method to get the radii
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the radii */
 	Vector2D<float> getRadii() const;
 	/**
 	 * @brief Setter method to set new x axis rotation
 	 * @param xRotation new x axis rotation
 	*/
 	void setXRotation(float xRotation);
-	/**
-	 * @brief Getter method to get the x axis rotation
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the x axis rotation */
 	float getXRotation() const;
 	/**
 	 * @brief Setter method to set new large-arc-flag
 	 * @param largeArcFlag new large-arc-flag
 	*/
 	void setLargeArcFlag(bool largeArcFlag);
-	/**
-	 * @brief Getter method to get the large-arc-flag
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the large-arc-flag */
 	bool getLargeArcFlag() const;
 	/**
 	 * @brief Setter method to set new sweep flag
 	 * @param sweepFlag new sweep flag
 	*/
 	void setSweepFlag(bool sweepFlag);
-	/**
-	 * @brief Getter method to get the sweep flag
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the sweep flag */
 	bool getSweepFlag() const;
-	/**
-	 * @brief Print information of arc-type point
-	 * @note This function overrides from PathPoint class
-	*/
+	/** @brief Print information of arc-type point */
 	void output() const override;
 
 	std::string getPointType() const override;

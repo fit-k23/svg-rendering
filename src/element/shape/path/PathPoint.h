@@ -39,24 +39,18 @@ public:
 	 * @param cmd new command
 	*/
 	void setCMD(char cmd);
-	/**
-	 * @brief Getter method to get the command
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the command */
 	char getCMD() const;
 	/**
 	 * @brief Setter method to set new position
 	 * @param pos new position
 	*/
 	void setPos(const Vector2D<float> &pos);
-	/**
-	 * @brief Getter method to get the position
-	 * @note This method doesn't change any attributes
-	*/
+	/** @brief Getter method to get the position */
 	Vector2D<float> getPos() const;
 	/**
 	 * @brief Print information of point
-	 * @note This function can be overrided to print different types of points
+	 * @note This function can be override to print different types of points
 	*/
 	virtual void output() const;
 

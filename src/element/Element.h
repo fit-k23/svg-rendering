@@ -15,7 +15,7 @@
  * @brief Element is an abstract class for all svg elements (nodes)
  * @note It contains most of SVG attributes and a reference to Gradient class (applying bridge design pattern)
  * @note Must have the virtual destructor to avoid any undefined behaviors
- */
+*/
 class Element{
 protected:
 	Vector2D<float> position;
@@ -91,7 +91,7 @@ public:
 	/**
 	 * @brief Set the current fill gradient of the element
 	 * @param grad Pointer to the allocated Gradient
-	 */
+	*/
 	void setFillGradient(Gradient *grad);
 
 	/** @brief Get the pointer to the current fill gradient of the element */
@@ -104,7 +104,7 @@ public:
 	void setStrokeGradient(Gradient* grad);
 
 	/** @brief Get the pointer to the current stroke gradient of the element */
-	Gradient* getStrokeGradient() const;
+	Gradient *getStrokeGradient() const;
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

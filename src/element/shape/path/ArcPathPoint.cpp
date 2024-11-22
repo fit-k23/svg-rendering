@@ -6,7 +6,7 @@ ArcPathPoint::ArcPathPoint(char _cmd, const Vector2D<float> &_pos) : PathPoint(_
 
 ArcPathPoint::ArcPathPoint(char _cmd, const Vector2D<float> &_pos, const Vector2D<float> &_radii, float _xRotation, bool _largeArcFlag, bool _sweepFlag) : PathPoint(_cmd, _pos), radii(_radii), xRotation(_xRotation), largeArcFlag(_largeArcFlag), sweepFlag(_sweepFlag) {}
 
-ArcPathPoint::ArcPathPoint(const ArcPathPoint &other) : PathPoint(other), radii(other.radii), xRotation(other.xRotation), largeArcFlag(other.largeArcFlag), sweepFlag(other.sweepFlag) {}
+ArcPathPoint::ArcPathPoint(const ArcPathPoint &other) = default;
 
 void ArcPathPoint::setRadii(const Vector2D<float> &_radii) { radii = _radii; }
 
