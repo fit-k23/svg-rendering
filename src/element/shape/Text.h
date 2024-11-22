@@ -7,14 +7,13 @@
 
 /**
  * @brief Class that represents Text object in svg
- * @param textAncho All text object has a text-anchor (default to start)
+ * @param textAnchor All text object has a text-anchor (default to start)
  * @param dx shift along Ox (default to be 0)
  * @param dy shift along Oy (default to be 0)
  * @note dx, dy will be added to position so there are no attributes dx, dy
  * @note rotation is set to 0 by default (no rotation)
  * @note font size is default to be 1
 */
-
 class SVGText : public Element{
 	std::string data; // <-- content of the text
 	TextAnchor textAnchor; // <-- position based on "cursor", default:  TextAnchor::START
@@ -23,10 +22,7 @@ class SVGText : public Element{
 	float offset; // <-- some offset so that raylib draws text more like svg
 	Vector2D<float> dataSize; // <-- width and height of whole text
 public:
-	/** @brief Default constructor */
 	SVGText();
-
-	/** @brief Parameterized constructor */
 	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, TextAnchor textAnchor = TextAnchor::START);
 
 	/** @brief Get type Text */
@@ -38,13 +34,10 @@ public:
 	/**
 	 * @brief Get bounding box of text
 	 * @return pair of top-left and bottom-right coordinate
-	 * @note This function doesn't change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
-	/**
-	 * @brief Return the actual position of the text with inputted text size
-	*/
+	/** @brief Return the actual position of the text with inputted text size */
 	Vector2D<float> getActualPosition(Vector2D<float> size) const;
 
 	/**
@@ -59,7 +52,6 @@ public:
 	/**
 	 * @brief Get data size based on font
 	 * @param font font family
-	 * @note This function doesn't change any attributes
 	*/
 	Vector2D<float> getDataSize() const;
 
@@ -69,10 +61,7 @@ public:
 	*/
 	void setData(const std::string &data);
 
-	/**
-	 * @brief Get data of text
-	 * @note This function doesn't change any attributes
-	*/
+	/** @brief Get data of text */
 	std::string getData() const;
 
 	/**
@@ -81,10 +70,7 @@ public:
 	*/
 	void setTextAnchor(const TextAnchor &textAnchor);
 
-	/**
-	 * @brief Get anchor of text
-	 * @note This function doesn't change any attributes
-	*/
+	/** @brief Get anchor of text */
 	TextAnchor getTextAnchor() const;
 
 	/**
@@ -93,10 +79,7 @@ public:
 	*/
 	void setFontStyle(const std::string &fontStyle);
 
-	/**
-	 * @brief Get font style of text
-	 * @note This function doesn't change any attributes
-	*/
+	/** @brief Get font style of text */
 	std::string getFontStyle() const;
 
 	/**
@@ -105,10 +88,7 @@ public:
 	*/
 	void setFontSize(float fontSize);
 
-	/**
-	 * @brief Get font size of text
-	 * @note This function doesn't change any attributes
-	*/
+	/** @brief Get font size of text */
 	float getFontSize() const;
 };
 

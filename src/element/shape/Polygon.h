@@ -12,7 +12,6 @@ class SVGPolygon : public SVGPolyline{
 public:
 	/** @brief Default constructor */
 	SVGPolygon();
-
 	/** @brief Parameterized constructor */
 	SVGPolygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
 	SVGPolygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule);

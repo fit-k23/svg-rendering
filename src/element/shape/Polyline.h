@@ -10,7 +10,6 @@
  * @param position the first point of the polyline
  * @note This class inherits from Element class
 */
-
 class SVGPolyline : public Element{
 protected:
 	std::vector<Vector2D<float>> points;
@@ -18,9 +17,8 @@ protected:
 public:
 	/** @brief Default constructor */
 	SVGPolyline();
-
 	/** @brief Parameterized constructor */
-	SVGPolyline(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const std::vector<Vector2D<float>> &_points);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
 	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule);
 
 	/** @brief Copy constructor */
@@ -38,8 +36,7 @@ public:
 	 * @note This function doesn't change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
-
-
+	
 	/** @brief Set the vector of lines */
 	void setPoints(const std::vector<Vector2D<float>> &points);
 
@@ -58,10 +55,7 @@ public:
 	*/
 	void setFillRule(const FillRule &fillRule);
 
-	/**
-	 * @brief Get fill rule
-	 * @return fill rule
-	*/
+	/** @brief Get fill rule */
 	FillRule getFillRule() const;
 };
 

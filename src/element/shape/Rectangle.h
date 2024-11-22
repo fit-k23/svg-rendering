@@ -8,8 +8,7 @@
 /**
  * @brief Class that represents rectangle in svg
  * @note This class inherits from Element class.
- */
-
+*/
 class SVGRect : public Element{
 private:
 	float width;
@@ -34,19 +33,14 @@ public:
 	/** @brief Copy constructor */
 	SVGRect(const SVGRect &other);
 
-	/**
-	 * @brief get type of SVGRect
-	 * @return ElementType::SVGRect
-	*/
+	/** @brief get type of SVGRect */
 	ElementType getTypeName() override;
 
-	/**
-	 * @brief print data of SVGRect for debugging
-	*/
+	/** @brief print data of SVGRect for debugging */
 	void dbg() override;
 
 	/**
-	 * @brief Get bounding box of svgrect
+	 * @brief Get bounding box of this rectangle
 	 * @return pair of top-left and bottom-right coordinate
 	 * @note This function doesn't change any attributes
 	*/
@@ -54,15 +48,15 @@ public:
 
 	/**
 	 * @brief set width of the SVGRect
-	 * @param: _width: passed width
+	 * @param: width: passed width
 	*/
-	void setWidth(float _width);
+	void setWidth(float width);
 
 	/**
 	 * @brief set height of the SVGRect
-	 * @param: _height: passed height
+	 * @param: height: passed height
 	*/
-	void setHeight(float _height);
+	void setHeight(float height);
 
 	/**
 	 * @brief get width of the SVGRect

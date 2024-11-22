@@ -110,7 +110,7 @@ void Element::dbg() {
 			std::cout << "TEXT]\n";
 			break;
 		case ElementType::Polyline:
-			std::cout << "Polyline]\n";
+			std::cout << "POLYLINE]\n";
 			break;
 		case ElementType::Polygon:
 			std::cout << "POLYGON]\n";

@@ -6,47 +6,34 @@
 #include "../utils/Gradient.h"
 #include "../utils/Vector2D.h"
 
-/**
- * @brief Class that represents Ellipse object in svg
- * @note This class inherits from Element class
- */
-
+/** @brief Class that represents ellipse shape in svg */
 class SVGEllipse : public Element{
 	Vector2D<float> radii;
-
 public:
-	/** @brief Default Constructor */
 	SVGEllipse();
-
 	/** @brief Full-parameterized constructor of SVGEllipse */
 	SVGEllipse(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const Vector2D<float> &radii);
 
-	/**
-	 * @brief get type of object
-	 * @return ElementType::SVGEllipse
-	*/
+	/** @brief get type of object */
 	ElementType getTypeName() override;
-
 	/** @brief print all data of SVGEllipse */
 	void dbg() override;
 
 	/**
-	 * @brief Get bounding box of SVGEllipse
-	 * @return pair of top-left and bottom-right coordinate
-	 * @note This function doesn't change any attributes
+	 * @brief Get the bounding box of the ellipse
+	 * @return Pair of top-left and bottom-right coordinate
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 	/**
-	 * @brief set radii
-	 * @param radii update radii
+	 * @brief Set the current horizontal and vertical radius of the ellipse to the target size
+	 * @param radii Target radius
 	*/
 	void setRadii(const Vector2D<float> &radii);
 
 	/**
-	 * @brief get radii
-	 * @return radii
-	 * @note This function doesn't change any attributes
+	 * @brief Get the current horizontal and vertical radius of the ellipse
+	 * @return Return the radius of the ellipse
 	*/
 	Vector2D<float> getRadii() const;
 };
