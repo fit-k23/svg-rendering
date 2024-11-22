@@ -15,11 +15,8 @@ protected:
 	std::vector<Vector2D<float>> points;
 	FillRule fillRule;
 public:
-	/** @brief Default constructor */
 	SVGPolyline();
-	/** @brief Parameterized constructor */
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points);
-	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule);
+	SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule = FillRule::NON_ZERO);
 
 	/** @brief Copy constructor */
 	SVGPolyline(const SVGPolyline &other);
@@ -36,7 +33,7 @@ public:
 	 * @note This function doesn't change any attributes
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
-	
+
 	/** @brief Set the vector of lines */
 	void setPoints(const std::vector<Vector2D<float>> &points);
 
