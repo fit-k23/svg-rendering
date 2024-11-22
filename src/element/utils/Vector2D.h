@@ -8,8 +8,10 @@
 #include <gdiplus.h>
 
 /**
- * @brief Vector2D is a class explicitly presenting a 2d vector
- * @attributes: same-type x and y attributes (public)
+ * @brief Vector2D is a class explicitly presenting a 2D vector
+ * @param x the x coordinate of vector
+ * @param y the y coordinate of vector
+ * @note This is a template class
 */
 
 template<typename T>

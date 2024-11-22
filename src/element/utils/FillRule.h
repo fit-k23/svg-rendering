@@ -1,6 +1,10 @@
 #ifndef SVG_RENDERING_FILL_RULE_H
 #define SVG_RENDERING_FILL_RULE_H
 
+/**
+ * @brief Types of fill rule in SVG
+ * @note Default is NON_ZERO
+ */
 enum class FillRule : int{
 	NON_ZERO = 0,
 	EVEN_ODD,
@@ -8,6 +12,10 @@ enum class FillRule : int{
 
 //#include <gdiplus/gdiplusenums.h>
 
+/**
+ * @brief Supports.for Fill Rule extracting and getting
+ * @note This class only has one instance
+ */
 class FillRuleHelper final{
 public:
 	static FillRule fromName(const std::string &s) {

@@ -14,11 +14,11 @@ ElementType SVGPath::getTypeName() { return ElementType::Path; }
 void SVGPath::dbg() {
 	Element::dbg();
 	std::cout << "Fill rule = " << (fillRule == FillRule::NON_ZERO ? "nonzero" : "evenodd") << '\n';
-	std::cout << "Set of points: \n"; 
-	for (auto& point : points) {
-		point->output();
-//		std::cout << '\n';
-	}
+//	std::cout << "Set of points: \n"; 
+//	for (auto& point : points) {
+//		point->output();
+////		std::cout << '\n';
+//	}
 }
 
 std::pair<Vector2D<float>, Vector2D<float>> SVGPath::getBoundingBox() const {

@@ -1,6 +1,10 @@
 #ifndef SVG_RENDERING_TEXT_ANCHOR_H
 #define SVG_RENDERING_TEXT_ANCHOR_H
 
+/**
+ * @brief Types of text anchor in SVG
+ * @note Default is START.
+ */
 enum class TextAnchor : int{
 	START = 0,
 	MIDDLE,
@@ -9,6 +13,10 @@ enum class TextAnchor : int{
 
 //#include <gdiplus/gdiplusenums.h>
 
+/**
+ * @brief Supports.for text anchor extracting and getting
+ * @note This class only has one instance
+ */
 class TextAnchorHelper final{
 public:
 	static TextAnchor fromName(const std::string &s) {

@@ -116,6 +116,9 @@ void Element::dbg() {
 		case ElementType::Path:
 			std::cout << "PATH]\n";
 			break;
+		case ElementType::Group:
+			std::cout << "GROUP]\n";
+			break;
 		default:
 			break;
 	}
@@ -134,6 +137,7 @@ void Element::dbg() {
 	std::cout << "Transformation: "; 
 	for (int i = 0; i < (int)transformation.size(); ++i)
 		std::cout << transformation[i] << '\n';
+	std::cout << '\n';
 }
 
 std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {

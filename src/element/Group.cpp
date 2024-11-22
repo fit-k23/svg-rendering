@@ -1,44 +1,31 @@
 #include "Group.h"
 
-/**
- * @brief Default constructor for Group class
- * @note Initially has no shapes
-*/
-Group::Group() : elements({}) {}
+Group::Group() : attrs({}), elements({}) {}
 
-/** @brief Destructor */
+Group::Group(const groupAttr& attrs) : attrs(attrs) {}
+
 Group::~Group() {
-	for (auto &element: elements) delete element;
+	for (auto &element: elements) 
+		delete element;
+	std::cout << "Deleting allocated elements in group\n";
 }
 
-/**
- * @brief Get type name of Group
- * @return ElementType::Group
-*/
-ElementType Group::getTypeName() {
-	return ElementType::Group;
-}
+ElementType Group::getTypeName() { return ElementType::Group; }
 
-/**
- * @brief Print data of group
- * @note This function does not change the class attributes
-*/
 void Group::dbg() {
-	// TODO: cout data here
+	Element::dbg();
+	std::cout << "Attributes: ";
+	for (int i = 0; i < (int)attrs.size(); ++i)
+		std::cout << "{" << attrs[i].first << ", " << attrs[i].second << "} ";
+	std::cout << '\n';
 }
 
-/**
- * @brief Add an element (shape, g, ...) to current group class
-*/
-void Group::addElement(Element *element) {
+void Group::addElement(Element *element) { 
 	elements.push_back(element);
 }
 
-/**
- * @brief Get all elements of current group class
- * @return elements vector
- * @note This function does not change the class attributes
-*/
-std::vector<Element *> Group::getElements() const {
-	return elements;
-}
+std::vector<Element*> Group::getElements() const { return elements; }
+
+void Group::addAttr(const std::string& attr, const std::string& value) { attrs.push_back({ attr, value }); }
+
+groupAttr Group::getAttr() const { return attrs; }

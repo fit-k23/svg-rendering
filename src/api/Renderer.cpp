@@ -2,14 +2,10 @@
 
 Renderer *Renderer::instance = nullptr;
 
-Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>()} {
-	shapes.clear();
-}
+Renderer::Renderer() : screenSize{}, viewPort{Vector2D<float>()} {}
 
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes) : viewPort(_viewPort), shapes(_shapes), screenSize{_viewPort} {}
-Renderer::Renderer(const Vector2D<float> &_viewPort, const std::vector<Element *> &_shapes, const Vector2D<float> &_screenSize) : viewPort(_viewPort), shapes(_shapes), screenSize(_screenSize) {}
-
-void Renderer::addShape(Element* shape) { shapes.push_back(shape); }
+Renderer::Renderer(const Vector2D<float> &_viewPort) : viewPort(_viewPort), screenSize{_viewPort} {}
+Renderer::Renderer(const Vector2D<float>& _viewPort, const Vector2D<float>& _screenSize) : viewPort(_viewPort), screenSize(_screenSize) {}
 
 Renderer* Renderer::getInstance() {
 	if (instance == nullptr) 
@@ -17,17 +13,21 @@ Renderer* Renderer::getInstance() {
 	return instance;
 }
 
-void Renderer::draw(Gdiplus::Graphics &graphics) {
-	for (auto &shape: shapes) {
+void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
+	if (par == nullptr) {
+		std::cout << "Par in renderer is being nullptr\n";
+		return;
+	}
+	for (auto &shape: dynamic_cast<Group *>(par)->getElements()) {
 		if (shape == nullptr) { // Fail safe, ensuring no nullptr calling
 			continue;
 		}
 		Gdiplus::Matrix orgMatrix;
-		// save an initial original matrix for graphics to later reset it
+		// save current matrix of graphics into orgMatrix to later reset it
 		graphics.GetTransform(&orgMatrix);
 		// apply current transformation for current shape
 		applyTransformation(graphics, shape->getTransformation());
-
+		//shape->dbg();
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -58,8 +58,13 @@ void Renderer::draw(Gdiplus::Graphics &graphics) {
 				break;
 			}
 			case ElementType::Path: {
-				drawPath(graphics, static_cast<SVGPath *>(shape));
 				//shape->dbg();
+				drawPath(graphics, static_cast<SVGPath *>(shape));
+				break;
+			}
+			case ElementType::Group: {
+				//shape->dbg();
+				draw(graphics, dynamic_cast<Element*>(shape));
 				break;
 			}
 			default:
@@ -78,12 +83,8 @@ void Renderer::setViewPort(const Vector2D<float>& viewPort) { this->viewPort = v
 
 Vector2D<float> Renderer::getViewPort() const { return viewPort; }
 
-void Renderer::setShapes(const std::vector<Element*>& shapes) { this->shapes = shapes; }
-
-std::vector<Element*> Renderer::getShapes() const { return shapes; }
-
 void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string>& transformations) {
-	// Matrix in gdiplus is the transpose 
+	// Matrix in gdiplus is the transpose of matrix in svg
 	std::stringstream buffer;
 	std::string cmd;
 	for (const auto &transformation : transformations) {
