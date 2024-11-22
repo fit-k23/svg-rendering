@@ -1,4 +1,3 @@
-#pragma comment (lib, "Gdiplus.lib")
 #include <iostream>
 #include <windows.h>
 
@@ -14,7 +13,6 @@
 #define APPLICATION_CLASS_NAME "SVGRendering-Group11"
 #define APPLICATION_TITLE_NAME "SVG Renderer"
 
-
 void ProjectInit() {
 	ParserManager::registerParser("svg", new SVGParser);
 	ParserManager::registerParser("float", new FloatParser);
@@ -24,28 +22,29 @@ void ProjectInit() {
 
 void ProjectDeInit() {
 	ParserManager::free();
+	delete Renderer::getInstance();
+	delete XMLParser::getInstance();
+	std::cout << "Deleting instance of XMLParser and Renderer\n";
 }
 
 std::string svgFile = "asset/bmw_racoon.svg";
 std::string preFile = "";
 XMLParser *parser = nullptr;
-Renderer *render = nullptr;
 
 void ProjectDraw(HDC hdc, const std::string &fileName) {
 	Gdiplus::Graphics graphics(hdc);
 	if (parser == nullptr) parser = XMLParser::getInstance();
 
 	if (preFile != fileName) {
-		if (preFile != "")
+		if (!preFile.empty())
 			std::cout << "Changing from " << preFile << " to " << fileName << '\n';
 		preFile = fileName;
 		parser->traverseXML(fileName, nullptr, nullptr);
 	}
 
-	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
-
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-	//graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+//	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 //	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
 	graphics.SetTextContrast(100);
@@ -53,12 +52,8 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
-	float centerX = GetSystemMetrics(SM_CXSCREEN) / 2.0f;
-	float centerY = GetSystemMetrics(SM_CYSCREEN) / 2.0f;
-
 	Vector2D<float> vPort = parser->getViewPort();
 	ViewBox vBox = parser->getViewBox();
-
 
 //	std::cout << "Viewport x = " << vPort.x << '\n';
 //	std::cout << "Viewport y = " << vPort.y << '\n';
@@ -98,11 +93,9 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 
 //	graphics.SetClip(&region);
 
-	if (render == nullptr)
-		render = Renderer::getInstance();
+	Renderer *render = Renderer::getInstance();
 
 	render->setViewPort(vPort);
-	render->setScreenSize({ 2 * centerX, 2 * centerY });
 
 	render->draw(graphics, parser->getRoot());
 }
@@ -124,44 +117,61 @@ int main() {
 	wndClass.hInstance = hInstance;
 	wndClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wndClass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
 	wndClass.lpszMenuName = nullptr;
 	wndClass.lpszClassName = TEXT(APPLICATION_CLASS_NAME);
 
 	RegisterClass(&wndClass);
 
-	HWND hWnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 700, nullptr, nullptr, hInstance, nullptr);
+	HWND hwnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 700, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
-	ShowWindow(hWnd, SW_SHOWNORMAL);
-	UpdateWindow(hWnd);
+	ShowWindow(hwnd, SW_SHOWNORMAL);
+	UpdateWindow(hwnd);
 
-	// Main message loop
-	while (GetMessage(&msg, nullptr, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	while (true) {
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			if(msg.message == WM_QUIT)
+				break;
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
+//	while (GetMessage(&msg, nullptr, 0, 0)) {
+//		TranslateMessage(&msg);
+//		DispatchMessage(&msg);
+//	}
 
-	// delete XMLparser and Renderer pointer
-	delete parser;
-	delete render;
-	std::cout << "Deleting instance of XMLParser and Renderer\n";
+	ProjectDeInit();
 	Gdiplus::GdiplusShutdown(gdiplusToken);
-	return static_cast<int>(msg.wParam); // Return the message's result
+	return static_cast<int>(msg.wParam);
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	PAINTSTRUCT ps;
 
 	switch (message) {
 		case WM_CREATE: {
-			DragAcceptFiles(hWnd, true);
+			RECT rect;
+			::GetWindowRect(hwnd, &rect);
+			Camera::screenSize = {rect.right - rect.left, rect.bottom - rect.top};
+			::GetClientRect(hwnd, &rect);
+			::SetWindowPos(hwnd, HWND_TOP, 0, 0, 2 * Camera::screenSize.x - rect.right + rect.left, 2 * Camera::screenSize.y - rect.bottom + rect.top, SWP_NOMOVE);
+
+			DragAcceptFiles(hwnd, true);
+			break;
+		}
+		case WM_SIZE: {
+			RECT rect;
+			::GetClientRect(hwnd, &rect);
+			Camera::screenSize = {rect.right - rect.left, rect.bottom - rect.top};
+//			std::printf("%d : % d\n", Camera::screenSize.x, Camera::screenSize.y);
 			break;
 		}
 		case WM_PAINT: {
-			HDC hdc = BeginPaint(hWnd, &ps);
+			HDC hdc = BeginPaint(hwnd, &ps);
 			RECT rect;
-			::GetClientRect(hWnd, &rect);
+			::GetClientRect(hwnd, &rect);
 
 			int width = rect.right - rect.left;
 			int height = rect.bottom - rect.top;
@@ -186,7 +196,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			DeleteObject(hBrush);
 			DeleteObject(hbmMem);
 			DeleteDC(hdcMem);
-			EndPaint(hWnd, &ps);
+			EndPaint(hwnd, &ps);
 			return 0;
 		}
 		case WM_ERASEBKGND: {
@@ -200,14 +210,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			} else {
 				Camera::zoomOut();
 			}
-			InvalidateRect(hWnd, nullptr, false);
+			InvalidateRect(hwnd, nullptr, false);
 			break;
 		}
 		case WM_LBUTTONDOWN: {
 			Camera::isDragging = true;
 			Camera::mousePosition.x = (float)(short) LOWORD(lParam);
 			Camera::mousePosition.y = (float)(short) HIWORD(lParam);
-			SetCapture(hWnd);
+			SetCapture(hwnd);
 			break;
 		}
 		case WM_LBUTTONUP: {
@@ -216,23 +226,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_MOUSEMOVE: {
-			POINT pt = {(int)(short) LOWORD(lParam), (int)(short) HIWORD(lParam)};
+			Vector2D<float> pt = {(float)(short) LOWORD(lParam), (float)(short) HIWORD(lParam)};
 
 			if (Camera::isDragging && GetCapture() != nullptr) {
 				if (Camera::mousePosition.x != -1.0f) {
 					Vector2D<float> offset = {pt.x - Camera::mousePosition.x, pt.y - Camera::mousePosition.y};
 					Camera::startPosition += offset;
 				}
-				Camera::mousePosition.x = pt.x;
-				Camera::mousePosition.y = pt.y;
-//				std::printf("(%d, %d, %d)\n", lParam, pt.x, pt.y);
-				InvalidateRect(hWnd, nullptr, false);
+				Camera::mousePosition = pt;
+				InvalidateRect(hwnd, nullptr, false);
 			}
 			return 0;
 		}
 		case WM_DROPFILES: {
 			// Get the file path of the dropped file
-			HDROP hDrop = (HDROP) wParam;
+			auto hDrop = (HDROP) wParam;
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
 			if (fileCount > 0) {
 				std::wstring filePath(256, L'\0');
@@ -240,37 +248,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
 				svgFile = std::string(filePath.begin(), filePath.end());
 				Camera::reset();
-				InvalidateRect(hWnd, nullptr, false);
+				InvalidateRect(hwnd, nullptr, false);
 			}
 			DragFinish(hDrop);
 			return 0;
 		}
 		case WM_KEYDOWN: {
-//			std::cout << wParam << "\n";
 			switch (static_cast<int>(wParam)) {
 				case 'R': {
 					Camera::reset();
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'W': {
 					Camera::zoomIn();
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'S': {
 					Camera::zoomOut();
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'A': {
 					Camera::rotateClockWise();
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'D': {
 					Camera::rotateCounterClockWise();
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'H': {
@@ -279,23 +286,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				case VK_UP: {
 					Camera::startPosition.y -= 10;
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case VK_DOWN: {
 					Camera::startPosition.y += 10;
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case VK_LEFT: {
 					std::cout  << "Here\n";
 					Camera::startPosition.x -= 10;
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case VK_RIGHT: {
 					Camera::startPosition.x += 10;
-					InvalidateRect(hWnd, nullptr, false);
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				default: {
@@ -308,7 +315,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			return 0;
 		}
 		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
+			return DefWindowProc(hwnd, message, wParam, lParam);
 	}
 	return 0;
 }
