@@ -5,6 +5,7 @@
 
 class Camera{
 public:
+	static Vector2D<int> screenSize;
 	static Vector2D<float> startPosition;
 	static Vector2D<float> mousePosition;
 	static float rotation;

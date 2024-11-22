@@ -1,5 +1,6 @@
 #include "Camera.h"
 
+Vector2D<int> Camera::screenSize = {1000, 500};
 Vector2D<float> Camera::startPosition = {};
 Vector2D<float> Camera::mousePosition = {-1, -1};
 float Camera::rotation = 0.0f;
