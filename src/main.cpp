@@ -40,8 +40,6 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 			std::cout << "Changing from " << preFile << " to " << fileName << '\n';
 		preFile = fileName;
 		parser->traverseXML(fileName, nullptr, nullptr);
-
-		Element* svg = parser->getRoot();
 	}
 
 	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
@@ -99,7 +97,6 @@ void ProjectDraw(HDC hdc, const std::string &fileName) {
 		render = Renderer::getInstance();
 	
 	render->setViewPort(vPort);
-	//render->setShapes(parser->getShapes());
 	render->setScreenSize({ 2 * centerX, 2 * centerY });
 
 	render->draw(graphics, parser->getRoot());

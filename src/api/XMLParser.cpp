@@ -93,7 +93,7 @@ void XMLParser::traverseXML(const std::string& fileName, rapidxml::xml_node<>* p
 			traverseXML(fileName, pChild, grp);
 	}
 	else {
-		Element* newShape = parseShape(pNode, {});
+		Element* newShape = parseShape(pNode);
 		if (newShape != nullptr) {
 			if (Group* nearGrpCast = dynamic_cast<Group*>(nearGrp)) 
 				nearGrpCast->addElement(newShape);
@@ -101,6 +101,8 @@ void XMLParser::traverseXML(const std::string& fileName, rapidxml::xml_node<>* p
 		}
 	}
 }
+
+Element* XMLParser::getRoot() const { return svg; }
 
 ViewBox XMLParser::parseViewBox(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute("viewBox");
@@ -111,38 +113,7 @@ ViewBox XMLParser::parseViewBox(rapidxml::xml_node<> *pNode) {
 	return v;
 }
 
-void XMLParser::propagateTransform(std::vector<std::string>& transformation, const std::vector<std::string>& passTransform) {
-	std::reverse(transformation.begin(), transformation.end());
-	for (int i = (int)passTransform.size() - 1; i >= 0; --i) transformation.push_back(passTransform[i]);
-	std::reverse(transformation.begin(), transformation.end());
-}
-
-void XMLParser::parseGroup(rapidxml::xml_node<>* pNode, std::vector<Element*>& v, const std::vector<std::string> &passTransform) {
-	// All transformations in <g> applies to its children
-	// Children nodes inherits fill, stroke from <g>
-	std::string transformAttr = parseStringAttr(pNode, "transform");
-	std::vector<std::string> transformation = parseTransformation(transformAttr);
-
-	propagateTransform(transformation, passTransform);
-
-	rapidxml::xml_node<>* pChild = pNode->first_node(); // <-- first child node
-	while (pChild != nullptr) {
-		std::string nodeName = pChild->name();
-		if (nodeName == "defs") {
-			// TODO: recall function parseDefs and parseGradients 
-			parseGradients(pChild, transformation);
-		} else if (nodeName == "g") {
-			// recursively call to handle inside g tag
-			parseGroup(pChild, v, transformation);
-		} else {
-			Element *e = parseShape(pChild, transformation);
-			if (e != nullptr) v.push_back(e);
-		}
-		pChild = pChild->next_sibling();
-	}
-}
-
-Vector2D<float> XMLParser::getViewPort() { return viewPort; }
+Vector2D<float> XMLParser::getViewPort() const { return viewPort; }
 
 void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<std::string>& passTransforms) {
 	rapidxml::xml_node<>* pChild = pNode->first_node();
@@ -157,14 +128,12 @@ void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<st
 		std::string id = parseStringAttr(pChild, "id");
 		// parse gradient transformations
 		std::vector<std::string> transforms = parseTransformation(parseStringAttr(pChild, "gradientTransform"));
-		if (!passTransforms.empty()) propagateTransform(transforms, passTransforms);
 		// parse gradient units
 		std::string units = parseStringAttr(pChild, "gradientUnits");
 		// parse stops
 		std::vector<Stop> stops = parseStops(pChild);
 
 		if (nodeName == "linearGradient") {
-			gradient = new LinearGradient();
 			float x1 = parseFloatAttr(pChild, "x1");
 			float y1 = parseFloatAttr(pChild, "y1");
 			float x2 = parseFloatAttr(pChild, "x2");
@@ -172,7 +141,6 @@ void XMLParser::parseGradients(rapidxml::xml_node<>* pNode, const std::vector<st
 			gradient = new LinearGradient(id, transforms, units, Vector2D<float>(x1, y1), Vector2D<float>(x2, y2));
 		}
 		else if (nodeName == "radialGradient") {
-			gradient = new RadialGradient();
 			float cx = parseFloatAttr(pChild, "cx");
 			float cy = parseFloatAttr(pChild, "cy");
 			float r = parseFloatAttr(pChild, "r");
@@ -204,7 +172,7 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 	return stops;
 }
 
-Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode, const std::vector<std::string> &passTransform) {
+Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
 	SVGColor fillColor = parseColor(pNode, "fill");
 	SVGColor strokeColor = parseColor(pNode, "stroke");
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
@@ -231,9 +199,6 @@ Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode, const std::vector<st
 		ret = new SVGPath(parsePath(pNode, fillColor, strokeColor, strokeWidth));
 		//ret->dbg();
 	}
-	
-	// transfer all parent transformations down
-	propagateTransform(transformation, passTransform);
 
 	if (ret != nullptr) {
 		ret->setTransformation(transformation);
@@ -448,8 +413,6 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 			else if (attrName == "cx" || attrName == "cy" || attrName == "r") return 0.5f;
 			else if (attrName == "fx" || attrName == "fy") return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
 		}
-		rapidxml::xml_node<>* pPar = pNode->parent();
-		if (pPar != nullptr) return parseFloatAttr(pPar, attrName);
 		// stroke-width, fill and stroke opacity default must be 1
 		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos || attrName.find("opacity") != std::string::npos)
 			ret = 1;
@@ -479,28 +442,10 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, const std::s
 SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
-	// If has opacity, then don't take parent's color
-	bool hasOpaque = false;
-	rapidxml::xml_attribute<>* pOpa = pNode->first_attribute((attrName + "-opacity").c_str());
-	hasOpaque |= (pOpa != nullptr);
-	pOpa = pNode->first_attribute("opacity");
-	hasOpaque |= (pOpa != nullptr);
-
 	float opaque;
-	if (attrName == "stop-color")
-		opaque = parseFloatAttr(pNode, "stop-opacity");
-	else
-		opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
+	if (attrName == "stop-color") opaque = parseFloatAttr(pNode, "stop-opacity");
+	else opaque = parseFloatAttr(pNode, attrName + "-opacity") * parseFloatAttr(pNode, "opacity");
 	if (pAttr == nullptr) { // <-- can't find any attribute with name = attrName
-		rapidxml::xml_node<>* pPar = pNode->parent();
-		// In case there is a parent node, recursively return the color of parent node
-		// This works because only parent node of basic shape in this project is <g> tag which has color attributes
-		if (pPar != nullptr) {
-			SVGColor parColor = parseColor(pPar, attrName);
-			if (hasOpaque) 
-				parColor.a = (unsigned char)(255.0f * opaque);
-			return parColor;
-		}
 		// If no attribute with attrName specified, default color is black
 		color = SVG_BLACK;
 		if (attrName == "stroke") { // <-- If stroke is not specifed, then there is no stroke
@@ -550,7 +495,7 @@ std::vector<std::string> XMLParser::parseTransformation(std::string transformati
 
 	for (char &i : transformation)
 		if (i >= 'A' && i <= 'Z')
-			i = tolower(i);
+			i = (char)tolower(i);
 	
 	std::string data;
 	bool start = false;

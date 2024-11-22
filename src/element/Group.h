@@ -27,7 +27,9 @@ public:
 	 */
 	Group(const groupAttr& attrs);
 
-	/** @brief Destructor */
+	/**
+	 * @brief Destructor.to delete allocated memories of Element
+	 */
 	~Group();
 
 	/**
