@@ -2,7 +2,6 @@
 #define SVG_RENDERING_ELEMENT_ID_H
 
 enum class ElementType : int{
-	Unknown = 0,
 	Circle,
 	Ellipse,
 	Group,
