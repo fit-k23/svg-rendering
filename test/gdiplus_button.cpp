@@ -96,7 +96,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 		}
 		case WM_TIMER: {
 			switch (wp) {
-
 			}
 			break;
 		}
@@ -234,7 +233,6 @@ int main() {
 
 	WNDCLASS wndClass;
 	wndClass.style = CS_HREDRAW | CS_VREDRAW;
-//	wndClass.style = 0;
 	wndClass.lpfnWndProc = WndProc;
 	wndClass.cbClsExtra = 0;
 	wndClass.cbWndExtra = 0;
