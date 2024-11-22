@@ -31,6 +31,7 @@ public:
 	 * @param other PathPoint object to copy from
 	*/
 	PathPoint(const PathPoint &other);
+
 	/** @brief Virtual destructor to ensure proper de-allocation */
 	virtual ~PathPoint() = default;
 	/**

@@ -13,14 +13,16 @@ XMLParser::~XMLParser() {
 	for (auto &gradient : grads)
 		delete gradient.second;
 	std::cout << "Deleting gradients pointers\n";
-	delete svg;
+	delete dynamic_cast<Group*>(svg);
+	svg = nullptr;
 	std::cout << "Deleting root\n";
 }
 
 void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *pNode, Element *nearGrp) {
 	if (nearGrp == nullptr) {
 		// In case new file is dragged in
-		delete svg;
+		delete dynamic_cast<Group*>(svg);
+		svg = nullptr;
 		std::ifstream fin(fileName.c_str());
 		if (!fin.is_open()) {
 			std::cout << "Cannot open file " << fileName << '\n';

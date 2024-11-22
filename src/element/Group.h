@@ -28,7 +28,7 @@ public:
 	Group(const GroupAttr &attrs);
 
 	/** @brief Destructor.to delete allocated memories of Element */
-	~Group() override;
+	~Group();
 
 	/** @brief Get type name of Group */
 	ElementType getTypeName() override;
