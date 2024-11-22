@@ -24,8 +24,7 @@ protected:
 	float strokeWidth;
 	std::vector<std::string> transformation;
 	Gradient *fillGradient, *strokeGradient;
-	Element *parent{};
-	
+
 	Element();
 	/** @brief Constructor without transformations */
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
@@ -106,15 +105,6 @@ public:
 
 	/** @brief Get the pointer to the current stroke gradient of the element */
 	Gradient* getStrokeGradient() const;
-
-	/**
-	 * @brief Set parent node of the element
-	 * @param parent Pointer to element's parent
-	*/
-	void setParent(Element *parent);
-
-	/** @brief Get the pointer to the parent of the element */
-	Element *getParent() const;
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

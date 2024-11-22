@@ -8,7 +8,6 @@ Element::Element() {
 	transformation = {};
 	fillGradient = nullptr;
 	strokeGradient = nullptr;
-	parent = nullptr;
 }
 
 Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth) {
