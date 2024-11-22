@@ -23,6 +23,9 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		// In case new file is dragged in
 		delete dynamic_cast<Group*>(svg);
 		svg = nullptr;
+		for (auto& gradient : grads)
+			delete gradient.second;
+		grads.clear();
 		std::ifstream fin(fileName.c_str());
 		if (!fin.is_open()) {
 			std::cout << "Cannot open file " << fileName << '\n';
