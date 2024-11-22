@@ -37,7 +37,7 @@ bool FileManager::isFileExist(const std::wstring &filePath) {
 	return true;
 }
 
-std::wstring FileManager::getBaseName(const std::wstring &filePath) {
+std::wstring FileManager::getFileName(const std::wstring &filePath) {
 	return filePath.substr(filePath.find_last_of(L"/\\") + 1);
 }
 
@@ -46,11 +46,11 @@ std::wstring FileManager::getFilePath(size_t idx) {
 	return filePaths.at(idx);
 }
 
-std::vector<std::wstring> FileManager::getFilePathList() {
+std::vector<std::wstring> FileManager::getFileNameList() {
 	std::vector<std::wstring> r;
 	r.reserve(filePaths.size());
 	for (auto &file : filePaths) {
-		r.push_back(FileManager::getBaseName(file));
+		r.push_back(FileManager::getFileName(file));
 	}
 	return r;
 }
