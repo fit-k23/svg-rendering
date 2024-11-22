@@ -168,7 +168,7 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	while (pChild != nullptr) {
 		float offset = parseFloatAttr(pChild, "offset");
-		SVGColor stopColor = parseColor(pChild, "stop-color");
+		SVGColor stopColor = parseColor(pChild, "stop-color", std::string());
 		stops.emplace_back(offset, stopColor);
 		pChild = pChild->next_sibling();
 	}
@@ -176,8 +176,9 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 }
 
 Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
-	SVGColor fillColor = parseColor(pNode, "fill");
-	SVGColor strokeColor = parseColor(pNode, "stroke");
+	std::string fillGradID, strokeGradID;
+	SVGColor fillColor = parseColor(pNode, "fill", fillGradID);
+	SVGColor strokeColor = parseColor(pNode, "stroke", strokeGradID);
 	float strokeWidth = parseFloatAttr(pNode, "stroke-width");
 	std::string transformAttr = parseStringAttr(pNode, "transform");
 	std::vector<std::string> transformation = parseTransformation(transformAttr);
@@ -204,6 +205,17 @@ Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
 
 	if (ret != nullptr) {
 		ret->setTransformation(transformation);
+		if (!fillGradID.empty()) {
+			if (grads.find(fillGradID) != grads.end())
+				ret->setFillGradient(grads[fillGradID]);
+			else std::cout << "Fill gradient of id " << fillGradID << " not found\n";
+		}
+		if (!strokeGradID.empty()) {
+			if (grads.find(strokeGradID) != grads.end())
+				ret->setStrokeGradient(grads[strokeGradID]);
+			else std::cout << "Stroke gradient of id " << strokeGradID << " not found\n";
+		}
+		ret->dbg();
 	}
 	return ret;
 }
@@ -414,7 +426,7 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 		// Default value for gradient attributes
 		if (nodeName.find("Gradient") != std::string::npos) {
 			if (attrName == "x1" || attrName == "y1" || attrName == "y2") return 0.0f;
-			else if (attrName == "y1") return 1.0f;
+			else if (attrName == "x2") return 1.0f;
 			else if (attrName == "cx" || attrName == "cy" || attrName == "r") return 0.5f;
 			else if (attrName == "fx" || attrName == "fy") return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
 		}
@@ -444,15 +456,9 @@ std::string XMLParser::parseStringAttr(rapidxml::xml_node<> *pNode, const std::s
 	return pAttr->value();
 }
 
-SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &attrName) {
+SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &attrName, std::string &gradID) {
 	SVGColor color;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
-	// If color has opacity, then don't take parent's color
-	bool hasOpaque = false;
-	rapidxml::xml_attribute<>* pOpa = pNode->first_attribute((attrName + "-opacity").c_str());
-	hasOpaque |= (pOpa != nullptr);
-	pOpa = pNode->first_attribute("opacity");
-	hasOpaque |= (pOpa != nullptr);
 
 	float opaque;
 	if (attrName == "stop-color") opaque = parseFloatAttr(pNode, "stop-opacity");
@@ -473,7 +479,9 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &a
 		return SVG_BLANK;
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
-		// TODO: process the case fill or stroke value is a gradient
+		// TODO: Get the id
+		for (int i = 5; i < (int)value.size() - 1; ++i)
+			gradID += value[i];
 	} else {
 		color = SVGColor(value); // <-- get Color in SVGColor class
 		color.a = (unsigned char) (255.0f * opaque);

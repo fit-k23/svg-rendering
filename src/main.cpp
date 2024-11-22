@@ -19,7 +19,7 @@ void ProjectInit() {
 //	ParserManager::registerParser("color", new ColorParser);
 //	ParserManager::registerParser("string", new StringParser);
 
-	FileManager::addFile(L"asset/bmw_racoon.svg");
+	FileManager::addFile(L"asset/gradient_test.svg");
 	FileManager::setCurrent(0);
 	XMLParser::getInstance()->traverseXML("asset/bmw_racoon.svg", nullptr, nullptr);
 }

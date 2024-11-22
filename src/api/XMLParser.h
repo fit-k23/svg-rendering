@@ -163,7 +163,7 @@ private:
 	 * @param attrName attribute's name
 	 * @return SVGColor type
 	 */
-	SVGColor parseColor(rapidxml::xml_node<> *pNode, const std::string& attrName);
+	SVGColor parseColor(rapidxml::xml_node<> *pNode, const std::string& attrName, std::string &gradID);
 	/**
 	 * @brief Parse set of points attributes
 	 * @param pNode current xml node

@@ -23,7 +23,7 @@ protected:
 	SVGColor strokeColor;
 	float strokeWidth;
 	std::vector<std::string> transformation;
-	Gradient *gradient{};
+	Gradient *fillGradient, *strokeGradient;
 	Element *parent{};
 	
 	Element();
@@ -39,6 +39,7 @@ public:
 	 * @note This function is pure virtual and must be implemented by subclasses
 	*/
 	virtual ElementType getTypeName() = 0;
+
 	/**
 	 * @brief Print out all data in the element
 	 * @note For debugging purpose
@@ -89,12 +90,31 @@ public:
 	/** @brief Get the current set of transformations */
 	std::vector<std::string> getTransformation() const;
 	/**
-	 * @brief Set the current gradient of the element
+	 * @brief Set the current fill gradient of the element
+	 * @param grad Pointer to the allocated Gradient
+	 */
+	void setFillGradient(Gradient *grad);
+
+	/** @brief Get the pointer to the current fill gradient of the element */
+	Gradient *getFillGradient() const;
+
+	/**
+	 * @brief Set the current stroke gradient of the element
 	 * @param grad Pointer to the allocated Gradient
 	*/
-	void setGradient(Gradient *grad);
-	/** @brief Get the pointer to the current gradient of the element (default = nullptr) */
-	Gradient *getGradient() const;
+	void setStrokeGradient(Gradient* grad);
+
+	/** @brief Get the pointer to the current stroke gradient of the element */
+	Gradient* getStrokeGradient() const;
+
+	/**
+	 * @brief Set parent node of the element
+	 * @param parent Pointer to element's parent
+	*/
+	void setParent(Element *parent);
+
+	/** @brief Get the pointer to the parent of the element */
+	Element *getParent() const;
 };
 
 #endif //SVG_RENDERING_ELEMENT_H

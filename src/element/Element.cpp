@@ -6,7 +6,8 @@ Element::Element() {
 	strokeColor = SVGColor(0, 0, 0, 0);
 	strokeWidth = 0.0;
 	transformation = {};
-	gradient = nullptr;
+	fillGradient = nullptr;
+	strokeGradient = nullptr;
 	parent = nullptr;
 }
 
@@ -15,10 +16,15 @@ Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, c
 	fillColor = _fillColor;
 	strokeColor = _strokeColor;
 	strokeWidth = _strokeWidth;
+	fillGradient = nullptr;
+	strokeGradient = nullptr;
 }
 
 Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const std::vector<std::string> &_transformation) : Element(_position, _fillColor, _strokeColor, _strokeWidth) {
 	transformation = _transformation;
+	fillGradient = nullptr;
+	strokeGradient = nullptr;
+
 }
 
 void Element::setPosition(float x, float y) {
@@ -69,12 +75,20 @@ std::vector<std::string> Element::getTransformation() const {
 	return this->transformation;
 }
 
-void Element::setGradient(Gradient *grad) {
-	this->gradient = grad;
+void Element::setFillGradient(Gradient *grad) {
+	this->fillGradient = grad;
 }
 
-Gradient *Element::getGradient() const {
-	return this->gradient;
+Gradient *Element::getFillGradient() const {
+	return this->fillGradient;
+}
+
+void Element::setStrokeGradient(Gradient* grad) {
+	this->strokeGradient = grad;
+}
+
+Gradient* Element::getStrokeGradient() const {
+	return this->strokeGradient;
 }
 
 void Element::dbg() {
@@ -122,10 +136,15 @@ void Element::dbg() {
 	std::pair<Vector2D<float>, Vector2D<float>> boundingBox = getBoundingBox();
 	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
 	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
-	std::cout << "Transformation: "; 
+	std::cout << "Transformation: \n"; 
 	for (const auto &trans : transformation)
 		std::cout << trans << '\n';
-	std::cout << '\n';
+	std::cout << "Fill gradients: \n"; 
+	if (fillGradient != nullptr) fillGradient->dbg();
+	else std::cout << "null\n";
+	std::cout << "Stroke gradients: \n";
+	if (strokeGradient != nullptr) strokeGradient->dbg();
+	else std::cout << "null\n";
 }
 
 std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {
