@@ -26,148 +26,81 @@ protected:
 	Gradient *gradient{};
 	Element *parent{};
 	
-	/**
-	 * @brief Default constructor.
-	 */
 	Element();
-
-	/**
-	 * @brief Constructor without transformations
-	 */
+	/** @brief Constructor without transformations */
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
-
-	/**
-	 * @brief Constructor wiith transformations
-	 */
-	Element(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<std::string> &transformation);
-
+	/** @brief Constructor with transformations */
+	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<std::string> &transformation);
 public:
-	/**
-	 * @brief Virtual destructor
-	 */
 	virtual ~Element() = default;
-
 	/**
 	 * @brief Get name of an svg element
 	 * @return ElementType 
 	 * @note This function is pure virtual and must be implemented by subclasses
-	 */
+	*/
 	virtual ElementType getTypeName() = 0;
-
 	/**
-	 * @brief Print all data of an svg element
+	 * @brief Print out all data in the element
 	 * @note For debugging purpose
-	 */
+	*/
 	virtual void dbg();
-
-	/*
-	 * @brief Get bounding box of an svg element
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the bounding box of the element */
 	virtual std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const;
-
-	/**
-	 * @brief Set position of an svg element
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 */
+	/** @brief Set current position of the element with emplace-inputs  */
 	void setPosition(float x, float y);
-
 	/**
-	 * @brief Set position of an svg element
-	 * @param position new position of type Vector2D
-	 */
+	 * @brief Set the current position of the element to target position
+	 * @param position Target position
+	*/
 	void setPosition(const Vector2D<float> &position);
-
-	/**
-	 * @brief Get position of an svg element
-	 * @return Vector2D
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the current position of the element */
 	Vector2D<float> getPosition() const;
-
 	/**
-	 * @brief Set fill color of an svg element
-	 * @param color new fill color
-	 */
+	 * @brief Set current fill color to target color
+	 * @param color Target color
+	*/
 	void setFillColor(const SVGColor &color);
-
-	/**
-	 * @brief Get fill color of an svg element
-	 * @return SVGColor
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the current fill color of the element */
 	SVGColor getFillColor() const;
-
 	/**
-	 * @brief Set stroke color of an svg element
-	 * @param color new stroke color
-	 */
+	 * @brief Set the current stroke color to target color
+	 * @param color Target color
+	*/
 	void setStrokeColor(const SVGColor &color);
-
-	/**
-	 * @brief Get stroke color of an svg element
-	 * @return SVGColor
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the current stroke color of the element */
 	SVGColor getStrokeColor() const;
-
 	/**
-	 * @brief Set stroke width of an svg element
-	 * @param width new width
-	 */
+	 * @brief Set the current stroke width to target width
+	 * @param width Target width
+	*/
 	void setStrokeWidth(float width);
-
-	/**
-	 * @brief Get stroke width of an svg element
-	 * @return float
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the current stroke width of the element */
 	float getStrokeWidth() const;
-
 	/**
-	 * @brief Add a transformation  
-	 * @param s new transformation
-	 */
+	 * @brief Add a transformation to the element
+	 * @param s New transformation (in string format)
+	*/
 	void addTransformation(const std::string &s);
-
 	/** 
-	 * @brief Set transformations
-	 * @param transformations new set of transformations for svg element
-	 */
+	 * @brief Set a new set of transformations to the elements
+	 * @param transformations New set of transformations
+	*/
 	void setTransformation(const std::vector<std::string> &transformations);
-
-	/**
-	 * @brief Get all current transformations
-	 * @return vector<string>
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the current set of transformations */
 	std::vector<std::string> getTransformation() const;
-
 	/**
-	 * @brief Set gradient of an svg element
-	 * @param grad pointer to a concrete-Gradient object
-	 */
+	 * @brief Set the current gradient of the element
+	 * @param grad Pointer to the allocated Gradient
+	*/
 	void setGradient(Gradient *grad);
-
-	/**
-	 * @brief Get gradient of an svg element
-	 * @return a pointer to a concrete-Gradient object
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the pointer to the current gradient of the element (default = nullptr) */
 	Gradient *getGradient() const;
-
 	/**
-	 * @brief Set parent node of an svg element
-	 * @param parent a pointer to a concrete-Element object
-	 */
+	 * @brief Set parent node of the element
+	 * @param parent Pointer to element's parent
+	*/
 	void setParent(Element *parent);
-
-	/**
-	 * @brief Get parent node of an svg element
-	 * @return a pointer to a concrete-Element object
-	 * @note This function doesn't change any attributes
-	 */
+	/** @brief Get the pointer to the parent of the element */
 	Element *getParent() const;
 };
 

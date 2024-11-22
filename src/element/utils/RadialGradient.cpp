@@ -12,26 +12,22 @@ RadialGradient::RadialGradient(const std::string& id, const std::vector<std::str
 	focal = pos; // TODO: maybe change
 }
 
-RadialGradient::RadialGradient(const std::string& id, const std::vector<std::string>& transforms, const std::string &units, const Vector2D<float>& pos, float radius, const Vector2D<float>& focal) : Gradient(id, transforms, units), pos(pos), radius(radius), focal(focal) {}
+RadialGradient::RadialGradient(const std::string& id, const std::vector<std::string> &transforms, const std::string &units, const Vector2D<float> &pos, float radius, const Vector2D<float> &focal) : Gradient(id, transforms, units), pos(pos), radius(radius), focal(focal) {}
 
 std::string RadialGradient::getType() const { return "radial"; }
 
 void RadialGradient::dbg() const {
 	Gradient::dbg();
-	std::cout << "cx, cy = " << pos.x << ", " << pos.y << '\n';
-	std::cout << "r = " << radius << '\n' << " fx, fy = " << focal.x << ", " << focal.y << '\n';
+	std::cout << "Center: {" << pos.x << ", " << pos.y << "}\n"
+				 "Radius: " << radius << "\n"
+				 "Focal: {" << focal.x << ", " << focal.y << "}\n";
 }
 
-void RadialGradient::setPos(const Vector2D<float>& pos) { this->pos = pos; }
-
+void RadialGradient::setPos(const Vector2D<float> &_pos) { pos = _pos; }
+void RadialGradient::setRadius(float _radius) { radius = _radius; }
+void RadialGradient::setFocal(const Vector2D<float> &_focal) { focal = _focal; }
 Vector2D<float> RadialGradient::getPos() const { return pos; }
-
-void RadialGradient::setRadius(float radius) { this->radius = radius; }
-
 float RadialGradient::getRadius() const { return radius; }
-
-void RadialGradient::setFocal(const Vector2D<float>& focal) { this->focal = focal; }
-
 Vector2D<float> RadialGradient::getFocal() const { return focal; }
 
 

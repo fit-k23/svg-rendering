@@ -10,19 +10,15 @@ Element::Element() {
 	parent = nullptr;
 }
 
-Element::Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth) {
-	this->position = position;
-	this->fillColor = fillColor;
-	this->strokeColor = strokeColor;
-	this->strokeWidth = strokeWidth;
+Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth) {
+	position = _position;
+	fillColor = _fillColor;
+	strokeColor = _strokeColor;
+	strokeWidth = _strokeWidth;
 }
 
-Element::Element(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float _strokeWidth, const std::vector<std::string>& transformation) {
-	this->position = position;
-	this->fillColor = fillColor;
-	this->strokeColor = strokeColor;
-	this->strokeWidth = _strokeWidth;
-	this->transformation = transformation;
+Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const std::vector<std::string> &_transformation) : Element(_position, _fillColor, _strokeColor, _strokeWidth) {
+	transformation = _transformation;
 }
 
 void Element::setPosition(float x, float y) {
@@ -135,8 +131,8 @@ void Element::dbg() {
 	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
 	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
 	std::cout << "Transformation: "; 
-	for (int i = 0; i < (int)transformation.size(); ++i)
-		std::cout << transformation[i] << '\n';
+	for (const auto &trans : transformation)
+		std::cout << trans << '\n';
 	std::cout << '\n';
 }
 

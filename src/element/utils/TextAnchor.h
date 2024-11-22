@@ -1,22 +1,14 @@
 #ifndef SVG_RENDERING_TEXT_ANCHOR_H
 #define SVG_RENDERING_TEXT_ANCHOR_H
 
-/**
- * @brief Types of text anchor in SVG
- * @note Default is START.
- */
+/** @brief Types of text anchor in SVG (default = START) */
 enum class TextAnchor : int{
 	START = 0,
 	MIDDLE,
 	END,
 };
 
-//#include <gdiplus/gdiplusenums.h>
-
-/**
- * @brief Supports.for text anchor extracting and getting
- * @note This class only has one instance
- */
+/** @brief Utilizer for dealing with TextAnchor */
 class TextAnchorHelper final{
 public:
 	static TextAnchor fromName(const std::string &s) {
@@ -26,7 +18,7 @@ public:
 		if (s == "end") {
 			return TextAnchor::END;
 		}
-		return TextAnchor::START; // default is start
+		return TextAnchor::START; // default is "start"
 	}
 
 	static std::string getName(const TextAnchor &tA) {
@@ -34,15 +26,6 @@ public:
 			case TextAnchor::MIDDLE: return "middle";
 			case TextAnchor::END: return "end";
 			default: return "start"; // Default is TextAnchor::START
-		}
-	}
-
-	static Gdiplus::StringAlignment getStringAlignment(const TextAnchor &tA) {
-		switch (tA) {
-			// TODO: check if the return is correctly chosen
-			case TextAnchor::MIDDLE: return Gdiplus::StringAlignmentCenter;
-			case TextAnchor::END: return Gdiplus::StringAlignmentFar;
-			default: return Gdiplus::StringAlignmentNear; // default is TextAnchor::START
 		}
 	}
 };

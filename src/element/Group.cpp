@@ -2,7 +2,7 @@
 
 Group::Group() : attrs({}), elements({}) {}
 
-Group::Group(const groupAttr& attrs) : attrs(attrs) {}
+Group::Group(const GroupAttr &_attrs) : attrs(_attrs) {}
 
 Group::~Group() {
 	for (auto &element: elements) 
@@ -15,8 +15,8 @@ ElementType Group::getTypeName() { return ElementType::Group; }
 void Group::dbg() {
 	Element::dbg();
 	std::cout << "Attributes: ";
-	for (int i = 0; i < (int)attrs.size(); ++i)
-		std::cout << "{" << attrs[i].first << ", " << attrs[i].second << "} ";
+	for (auto &attr : attrs)
+		std::cout << "{" << attr.first << ", " << attr.second << "} ";
 	std::cout << '\n';
 }
 
@@ -26,6 +26,6 @@ void Group::addElement(Element *element) {
 
 std::vector<Element*> Group::getElements() const { return elements; }
 
-void Group::addAttr(const std::string& attr, const std::string& value) { attrs.push_back({ attr, value }); }
+void Group::addAttr(const std::string& attr, const std::string& value) { attrs.emplace_back( attr, value ); }
 
-groupAttr Group::getAttr() const { return attrs; }
+GroupAttr Group::getAttr() const { return attrs; }
