@@ -76,16 +76,6 @@ private:
 	*/
 	ViewBox parseViewBox(rapidxml::xml_node<> *pNode);
 	/**
-	 * @brief Propagate transformation from parent to children
-	 * @note Ensure correct order of transformation (parent first, then children)
-	*/
-	void propagateTransform(std::vector<std::string> &transformation, const std::vector<std::string> &passTransforms);
-	/**
-	 * @brief Parse group attributes and apply to its children
-	 * @note This function do
-	*/
-	void parseGroup(rapidxml::xml_node<> *pNode, std::vector<Element*> &v, const std::vector<std::string> &passTransform);
-	/**
 	 * @brief Parse all common attributes of shapes
 	 * @note Avoid reusing the parsing of fill,stroke,strokeWidth,transformation many times
 	 * @return Element* type
@@ -137,7 +127,7 @@ private:
 	 * @brief Parse gradient attributes
 	 * @note All gradients will be stored in grads map
 	 */
-	void parseGradients(rapidxml::xml_node<>* pNode, const std::vector<std::string> &passTransforms);
+	void parseGradients(rapidxml::xml_node<>* pNode);
 	/**
 	 * @brief Parse gradient stops attributes
 	 * @return vector<Stop> contains all stops of gradient

@@ -16,12 +16,12 @@ XMLParser::~XMLParser() {
 
 void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *pNode, Group *group) {
 	if (group == nullptr) {
-		std::cout << "Deleting gradients pointers\n";
+		//std::cout << "Deleting gradients pointers\n";
 		for (auto &gradient : grads) {
 			delete gradient.second;
 		}
 		delete svg;
-		std::cout << "Delete root ta ta ta\n";
+		//std::cout << "Delete root ta ta ta\n";
 		grads.clear();
 		std::ifstream fin(fileName.c_str());
 		if (!fin.is_open()) {
@@ -29,7 +29,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 			svg = nullptr;
 			return;
 		}
-		std::cout << "Reading " << fileName << "\n";
+		//std::cout << "Reading " << fileName << "\n";
 		std::stringstream buffer;
 		buffer << fin.rdbuf(); // <-- push file data to buffer
 		fin.close();
@@ -80,7 +80,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 	// TODO: Process current node
 	std::string nodeName = pNode->name();
 	if (nodeName == "defs") {
-		parseGradients(pNode, {});
+		parseGradients(pNode);
 	} else if (nodeName == "g") {
 		auto *grp = new Group();
 		// Adding attributes to Group class
@@ -117,7 +117,7 @@ ViewBox XMLParser::parseViewBox(rapidxml::xml_node<> *pNode) {
 
 Vector2D<float> XMLParser::getViewPort() const { return viewPort; }
 
-void XMLParser::parseGradients(rapidxml::xml_node<> *pNode, const std::vector<std::string> &passTransforms) {
+void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	if (pChild == nullptr) return;
 
@@ -155,7 +155,7 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode, const std::vector<st
 
 		if (gradient != nullptr) {
 			gradient->setStops(stops);
-			gradient->dbg();
+			//gradient->dbg();
 			grads[id] = gradient;
 		}
 
@@ -216,7 +216,7 @@ Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
 				ret->setStrokeGradient(grads[strokeGradID]);
 			else std::cout << "Stroke gradient of id " << strokeGradID << " not found\n";
 		}
-		ret->dbg();
+		//ret->dbg();
 	}
 	return ret;
 }
