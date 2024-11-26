@@ -8,6 +8,7 @@
 
 /** @brief Singleton instance for managing the rendering of Element */
 class Renderer final{
+private:
 	/** @param viewPort The viewport of svg */
 	Vector2D<float> viewPort;
 	/** @param instance the pointer to current instance of Renderer */
@@ -19,6 +20,12 @@ class Renderer final{
 	 * @param transformation List of transformation in string format
 	*/
 	void applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations);
+	/**
+	 * @brief Get the correct type of brush
+	 * @note Brush class is an abstract base class that defines a Brush object. 
+	 * @note A Brush object is used to paint the interior of graphics shapes, such as rectangles, ellipses, pies, polygons, and paths.
+	 */
+	Gdiplus::Brush* getBrush(const Gdiplus::RectF &rect, Gradient *grad, const SVGColor& color) const;
 	/** @brief Draw a rectangle */
 	void drawRect(Gdiplus::Graphics &graphics, SVGRect *element);
 	/** @brief Draw an ellipse */

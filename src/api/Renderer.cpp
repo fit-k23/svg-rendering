@@ -16,10 +16,8 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 			continue;
 		}
 		Gdiplus::Matrix orgMatrix;
-		// save current matrix of graphics into orgMatrix to later reset it
-		graphics.GetTransform(&orgMatrix);
-		// apply current transformation for current shape
-		applyTransformation(graphics, shape->getTransformation());
+		graphics.GetTransform(&orgMatrix); // <-- save current matrix of graphics into orgMatrix to later reset it
+		applyTransformation(graphics, shape->getTransformation()); // <-- apply current transformation for current shape
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape));
@@ -66,6 +64,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
 }
 
 void Renderer::setViewPort(const Vector2D<float> &_viewPort) { viewPort = _viewPort; }
+
 Vector2D<float> Renderer::getViewPort() const { return viewPort; }
 
 void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations) {
@@ -101,6 +100,22 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 			graphics.RotateTransform(a);
 		}
 	}
+}
+
+Gdiplus::Brush* Renderer::getBrush(const Gdiplus::RectF& rect, Gradient* grad, const SVGColor &color) const {
+	Gdiplus::Brush *brush = nullptr;
+	if (grad == nullptr) brush = new Gdiplus::SolidBrush(color);
+	else {
+		std::vector<Stop> stops = grad->getStops();
+		// TODO: Process linear and radial brush
+		if (grad->getType() == "linear") {
+
+		}
+		else if (grad->getType() == "radial") {
+
+		}
+	}
+	return brush;
 }
 
 void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {

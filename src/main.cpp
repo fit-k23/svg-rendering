@@ -91,6 +91,34 @@ void ProjectDraw(HDC hdc) {
 	render->setViewPort(vPort);
 
 	render->draw(graphics, parser->getRoot());
+
+	/* Testing Linear Gradient */
+	//Gdiplus::Rect rect1(10, 10, 100, 100);
+	//Gdiplus::Rect rect2(10, 120, 100, 100);
+
+	//Gdiplus::LinearGradientBrush b1(rect1, Gdiplus::Color::Red, Gdiplus::Color::Blue, Gdiplus::LinearGradientModeHorizontal);
+	//Gdiplus::LinearGradientBrush b2(rect2, Gdiplus::Color::Red, Gdiplus::Color::Blue, Gdiplus::LinearGradientModeVertical);
+
+	//// Define gradient colors
+	//const int gradientCount = 3;
+	//Gdiplus::Color gradientColors[gradientCount] = {
+	//	Gdiplus::Color(255, 255, 0, 0), // Red
+	//	Gdiplus::Color(0, 0, 0, 0),		// Transparent Black
+	//	Gdiplus::Color(255, 0, 0, 255)  // Blue
+	//};
+
+	//// Define positions (0.0 to 1.0)
+	//Gdiplus::REAL positions[gradientCount] = {
+	//	0.0f,   // Start at 0%
+	//	0.5f,   // Midpoint at 50%
+	//	1.0f    // End at 100%
+	//};
+
+	//b1.SetInterpolationColors(gradientColors, positions, gradientCount);
+	//b2.SetInterpolationColors(gradientColors, positions, gradientCount);
+
+	//graphics.FillRectangle(&b1, rect1);
+	//graphics.FillRectangle(&b2, rect2);
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
