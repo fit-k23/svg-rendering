@@ -7,6 +7,8 @@
 
 class LinearGradient : public Gradient{
 	Vector2D<float> pos[2];
+	// x1, x2, y1, y2
+	// default: 0 1 0 0
 public:
 	LinearGradient();
 	LinearGradient(const std::string &id, const std::vector<std::string> &transforms, const std::string &units);
@@ -30,6 +32,10 @@ public:
 	 * @note This function doesn't change any attributes
 	*/
 	Vector2D<float> getPos(int id) const;
+	float getX1() const;
+	float getX2() const;
+	float getY1() const;
+	float getY2() const;
 };
 
 #endif // SVG_RENDERING_LINEARGRADIENT_H

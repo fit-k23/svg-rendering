@@ -26,3 +26,8 @@ void LinearGradient::dbg() const {
 void LinearGradient::setPos(int id, const Vector2D<float> &newPos) { pos[id] = newPos; }
 
 Vector2D<float> LinearGradient::getPos(int id) const { return pos[id]; }
+
+float LinearGradient::getX1() const { return pos[0].x; }
+float LinearGradient::getX2() const { return pos[1].x; }
+float LinearGradient::getY1() const { return pos[0].y; }
+float LinearGradient::getY2() const { return pos[1].y; }

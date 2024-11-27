@@ -14,7 +14,6 @@
  * @note If two gradient stops have the same offset value, then the latter gradient stop controls the color value at the overlap point
  */
 class Stop {
-private:
 	float offset;
 	SVGColor stopColor;
 public:

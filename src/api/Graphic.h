@@ -15,6 +15,8 @@
 #include "../element/shape/Rectangle.h"
 #include "../element/shape/Text.h"
 #include "../element/utils/Gradient.h"
+#include "../element/utils/LinearGradient.h"
+#include "../element/utils/RadialGradient.h"
 #include "../element/Group.h"
 #include "../element/Element.h"
 #include "../element/utils/SVGColor.h"

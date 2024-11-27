@@ -101,21 +101,27 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	}
 }
 
-Gdiplus::Brush *Renderer::getBrush(const Gdiplus::RectF &rect, Gradient *grad, const SVGColor &color) const {
+Gdiplus::Brush *Renderer::getBrush(const Gdiplus::RectF &rect, Gradient *gradient, const SVGColor &color) const {
 	Gdiplus::Brush *brush = nullptr;
-	if (grad == nullptr) {
+	if (gradient == nullptr) {
 		return new Gdiplus::SolidBrush(color);
 	}
-	std::vector<Stop> stops = grad->getStops();
+	std::vector<Stop> stops = gradient->getStops();
 	// TODO: Process linear and radial brush
-	if (grad->getType() == "linear") {
-	} else if (grad->getType() == "radial") {
-
+	if (gradient->getType() == "linear") {
+		auto linearGradient = static_cast<LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
+		float *position = new float[stops.size()];
+		for (int i = 0; i < stops.size(); ++i) {
+			position[i] = rect.X + stops[i].getOffset() * (linearGradient.getX2()  * rect.Width);
+		}
+	} else if (gradient->getType() == "radial") {
+		auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 	}
 	return brush;
 }
 
 void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
+	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -172,6 +178,7 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 }
 
 void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
+	if (element == nullptr) return;
 	Vector2D<float> radius = element->getRadii();
 	radius.y = radius.x;
 	element->setRadii(radius);
@@ -191,6 +198,7 @@ void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 
 /** @brief Draw polyline */
 void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
+	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
@@ -213,6 +221,7 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
 
 /** @brief Draw a polygon */
 void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
+	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
@@ -290,6 +299,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 
 /** @brief Draw path */
 void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
+	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
