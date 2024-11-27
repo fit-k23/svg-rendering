@@ -11,8 +11,8 @@ class RadialGradient : public Gradient{
 	Vector2D<float> focal;
 public:
 	RadialGradient();
-	RadialGradient(const std::string& id, const std::vector<std::string>& transforms, const std::string &units);
-	RadialGradient(const std::string& id, const std::vector<std::string>& transforms, const std::string &units, const Vector2D<float> &pos, float radius, const Vector2D<float> &focal);
+	RadialGradient(const std::string &id, const std::vector<std::string> &transforms, const std::string &units);
+	RadialGradient(const std::string &id, const std::vector<std::string> &transforms, const std::string &units, const Vector2D<float> &pos, float radius, const Vector2D<float> &focal);
 	std::string getType() const override;
 	void dbg() const override;
 	/**
@@ -26,20 +26,14 @@ public:
 	*/
 	Vector2D<float> getPos() const;
 	/**
-	 * @brief Set new radius
-	 * @param radius new radius
+	 * @brief Set current radius of the radical gradient to target radius
+	 * @param radius Target radius
 	*/
 	void setRadius(float radius);
-	/**
-	 * @brief Get radius
-	 * @return float
-	*/
+	/** @brief Get radius */
 	float getRadius() const;
-	/**
-	 * @brief Get radius
-	 * @return float
-	*/
-	void setFocal(const Vector2D<float>& focal);
+	/** @brief Get radius */
+	void setFocal(const Vector2D<float> &focal);
 	/**
 	 * @brief Get fx and fy
 	 * @return Vector2D that contains fx and fy.

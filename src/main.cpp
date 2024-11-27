@@ -1,6 +1,5 @@
 #include <iostream>
 #include <windows.h>
-#include <crtdbg.h>
 #include <gdiplus.h>
 #include "api/XMLParser.h"
 #include "api/Camera.h"
@@ -124,7 +123,6 @@ void ProjectDraw(HDC hdc) {
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int main() {
-	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF);
 	MSG msg;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;

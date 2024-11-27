@@ -6,60 +6,59 @@ Renderer::Renderer() : viewPort{Vector2D<float>()} {}
 
 Renderer* Renderer::getInstance() { return instance == nullptr ? instance = new Renderer() : instance; }
 
-void Renderer::draw(Gdiplus::Graphics &graphics, Element *par) {
-	if (par == nullptr) {
-		std::cout << "Par in renderer is being nullptr\n";
+void Renderer::draw(Gdiplus::Graphics &graphics, Group *parent) {
+	if (parent == nullptr) {
+		std::cout << "Parent is NULL\n";
 		return;
 	}
-	for (auto &shape: dynamic_cast<Group *>(par)->getElements()) {
-		if (shape == nullptr) { // Fail safe, ensuring no nullptr calling
+	for (auto &shape: parent->getElements()) {
+		if (shape == nullptr) { // Fail-safe, ensuring no nullptr calling
 			continue;
 		}
 		Gdiplus::Matrix orgMatrix;
-		graphics.GetTransform(&orgMatrix); // <-- save current matrix of graphics into orgMatrix to later reset it
+		graphics.GetTransform(&orgMatrix); // <-- save original matrix to later restore it
 		applyTransformation(graphics, shape->getTransformation()); // <-- apply current transformation for current shape
 		switch (shape->getTypeName()) {
 			case ElementType::Rectangle: {
-				drawRect(graphics, static_cast<SVGRect *>(shape));
+				drawRect(graphics, static_cast<SVGRect *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Ellipse: {
-				drawEllipse(graphics, static_cast<SVGEllipse *>(shape));
+				drawEllipse(graphics, static_cast<SVGEllipse *>(shape));  // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Circle: {
-				drawCircle(graphics, static_cast<SVGCircle *>(shape));
+				drawCircle(graphics, static_cast<SVGCircle *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Line: {
-				drawLine(graphics, static_cast<SVGLine *>(shape));
+				drawLine(graphics, static_cast<SVGLine *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Polyline: {
-				drawPolyline(graphics, static_cast<SVGPolyline *>(shape));
+				drawPolyline(graphics, static_cast<SVGPolyline *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Polygon: {
-				drawPolygon(graphics, static_cast<SVGPolygon *>(shape));
+				drawPolygon(graphics, static_cast<SVGPolygon *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Text: {
-				drawText(graphics, static_cast<SVGText *>(shape));
+				drawText(graphics, static_cast<SVGText *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Path: {
-				drawPath(graphics, static_cast<SVGPath *>(shape));
+				drawPath(graphics, static_cast<SVGPath *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
 			case ElementType::Group: {
-				draw(graphics, dynamic_cast<Element *>(shape));
+				draw(graphics, dynamic_cast<Group *>(shape));
 				break;
 			}
 			default:
 				break;
 		}
-		// reset back to original matrix
-		graphics.SetTransform(&orgMatrix);
+		graphics.SetTransform(&orgMatrix); // <-- restore to original matrix
 	}
 }
 
@@ -102,18 +101,16 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	}
 }
 
-Gdiplus::Brush* Renderer::getBrush(const Gdiplus::RectF& rect, Gradient* grad, const SVGColor &color) const {
+Gdiplus::Brush *Renderer::getBrush(const Gdiplus::RectF &rect, Gradient *grad, const SVGColor &color) const {
 	Gdiplus::Brush *brush = nullptr;
-	if (grad == nullptr) brush = new Gdiplus::SolidBrush(color);
-	else {
-		std::vector<Stop> stops = grad->getStops();
-		// TODO: Process linear and radial brush
-		if (grad->getType() == "linear") {
+	if (grad == nullptr) {
+		return new Gdiplus::SolidBrush(color);
+	}
+	std::vector<Stop> stops = grad->getStops();
+	// TODO: Process linear and radial brush
+	if (grad->getType() == "linear") {
+	} else if (grad->getType() == "radial") {
 
-		}
-		else if (grad->getType() == "radial") {
-
-		}
 	}
 	return brush;
 }
@@ -222,7 +219,7 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	std::vector<Vector2D<float>> points = element->getPoints();
 
 	int size = (int) points.size();
-	Gdiplus::Point *pointsArr = new Gdiplus::Point[size];
+	auto pointsArr = new Gdiplus::Point[size];
 
 	for (int i = 0; i < size; ++i)
 		pointsArr[i] = points[i];
@@ -335,7 +332,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 				cur = pos;
 			}
 		} else if (ins == 'a') { // Drawing arc
-			ArcPathPoint *pArc = static_cast<ArcPathPoint *>(point);
+			auto *pArc = static_cast<ArcPathPoint *>(point); // NOLINT(*-pro-type-static-cast-downcast)
 			Vector2D<float> radii = pArc->getRadii();
 			float xRotation = pArc->getXRotation();
 			bool largeArcFlag = pArc->getLargeArcFlag();
@@ -382,7 +379,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			path.AddArc(rect, startAngle, sweepAngle);
 			cur = pos;
 		} else if (ins == 'q' || ins == 't') { // Drawing Quadratic Bezier Curve
-			QuadPathPoint *pQuad = static_cast<QuadPathPoint *>(point);
+			auto *pQuad = static_cast<QuadPathPoint *>(point); // NOLINT(*-pro-type-static-cast-downcast)
 			Vector2D<float> cen = pQuad->getCen();
 			// draw bezier curve by bezier splines:
 			// research: https://groups.google.com/g/microsoft.public.win32.programmer.gdi/c/f46zo9NyIzA 
@@ -390,7 +387,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			path.AddBeziers(curvePoints, 4);
 			cur = pos;
 		} else if (ins == 'c' || ins == 's') { // Drawing Cubic Bezier Curve
-			CubicPathPoint *pCubic = static_cast<CubicPathPoint *>(point);
+			auto *pCubic = static_cast<CubicPathPoint *>(point); // NOLINT(*-pro-type-static-cast-downcast)
 			Vector2D<float> cen1 = pCubic->getCen(0);
 			Vector2D<float> cen2 = pCubic->getCen(1);
 			Gdiplus::PointF curvePoints[4] = {cur, cen1, cen2, pos};
