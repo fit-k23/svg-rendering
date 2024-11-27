@@ -17,3 +17,5 @@ CMakeFiles
 *.swp
 *.ilk
 *.pdb
+.fleet
+.cache

@@ -5,6 +5,10 @@
 ```ps1
 cmake -G .
 ```
+or
+```ps1
+cmake --build $PROJECT_DIR$/cmake-build-debug
+```
 ### 1.2 G++
 Currently not supported...
 ## 2. Dependency
