@@ -35,8 +35,14 @@ public:
 
 	void output() const;
 
-	SVGColor alpha(unsigned char a) const;
+	inline SVGColor alpha(unsigned char a) const;
+	SVGColor alpha(int a) const;
+	SVGColor alpha(float a) const;
+	SVGColor sub(const SVGColor &other) const{
+		return {(unsigned char) (other.r - r), (unsigned char) (other.g - g), (unsigned char) (other.b - b), (unsigned char) a};
+	}
 
+	SVGColor blend(const SVGColor &other) const;
 	// Parameterized constructor
 	// @param: fill the string format
 	// @note: fill can be hex code, color name, rgb(..), rgba(...),

@@ -281,3 +281,13 @@ SVGColor &SVGColor::operator=(const SVGColor &other) {
 	a = other.a;
 	return *this;
 }
+
+SVGColor SVGColor::alpha(float _a) const { return alpha((unsigned char) (_a * 255.f)); }
+
+SVGColor SVGColor::blend(const SVGColor &other) const {
+	return {(other.r + r) / 2, (other.g + g) / 2, (other.b + b) / 2, (other.a + a) / 2};
+}
+
+SVGColor SVGColor::alpha(int _a) const {
+	return alpha(static_cast<unsigned char>(_a));
+}
