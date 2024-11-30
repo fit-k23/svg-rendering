@@ -21,7 +21,7 @@ public:
 	*/
 	void setPos(const Vector2D<float> &pos);
 	/**
-	 * @brief Get cx and cy
+	 * @brief Corresponds to attribute ‘cx’ and 'cy' on the given ‘radialGradient’ element
 	 * @return Vector2D that contains cx and cy.
 	*/
 	Vector2D<float> getPos() const;
@@ -30,12 +30,12 @@ public:
 	 * @param radius Target radius
 	*/
 	void setRadius(float radius);
-	/** @brief Get radius */
+	/** @brief Corresponds to attribute ‘r’ on the given ‘radialGradient’ element */
 	float getRadius() const;
 	/** @brief Get radius */
 	void setFocal(const Vector2D<float> &focal);
 	/**
-	 * @brief Get fx and fy
+	 * @brief Corresponds to attribute ‘fx’ and 'fy' on the given ‘radialGradient’ element.
 	 * @return Vector2D that contains fx and fy.
 	*/
 	Vector2D<float> getFocal() const;
