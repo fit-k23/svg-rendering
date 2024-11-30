@@ -37,12 +37,12 @@ void ProjectDraw(HDC hdc) {
 //	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
 //	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
-	graphics.SetTextContrast(100);
-	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
-	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+//	graphics.SetTextContrast(100);
+//	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
+//	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+//	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
 	Vector2D<float> vPort = parser->getViewPort();
 	ViewBox vBox = parser->getViewBox();
@@ -89,35 +89,94 @@ void ProjectDraw(HDC hdc) {
 
 	render->setViewPort(vPort);
 
-	render->draw(graphics, parser->getRoot());
+//	render->draw(graphics, parser->getRoot());
 
 	/* Testing Linear Gradient */
-	//Gdiplus::Rect rect1(10, 10, 100, 100);
-	//Gdiplus::Rect rect2(10, 120, 100, 100);
+	Gdiplus::Rect rect1(10, 10, 200, 100);
+	Gdiplus::Rect rect2(10, 90, 150, 100);
 
-	//Gdiplus::LinearGradientBrush b1(rect1, Gdiplus::Color::Red, Gdiplus::Color::Blue, Gdiplus::LinearGradientModeHorizontal);
-	//Gdiplus::LinearGradientBrush b2(rect2, Gdiplus::Color::Red, Gdiplus::Color::Blue, Gdiplus::LinearGradientModeVertical);
+	Gdiplus::Rect r1(rect1);
+	Gdiplus::Rect r2(rect2);
+	float x1 = 0.0f;
+	float x2 = 1.0f;
+	float y1 = 0.0f;
+	float y2 = 0.0f;
 
-	//// Define gradient colors
-	//const int gradientCount = 3;
-	//Gdiplus::Color gradientColors[gradientCount] = {
-	//	Gdiplus::Color(255, 255, 0, 0), // Red
-	//	Gdiplus::Color(0, 0, 0, 0),		// Transparent Black
-	//	Gdiplus::Color(255, 0, 0, 255)  // Blue
-	//};
+	float diffX = x2 - x1;
+	float diffY = y2 - y1;
 
-	//// Define positions (0.0 to 1.0)
-	//Gdiplus::REAL positions[gradientCount] = {
-	//	0.0f,   // Start at 0%
-	//	0.5f,   // Midpoint at 50%
-	//	1.0f    // End at 100%
-	//};
+	if (diffX != 0) {
+		r1.X -= x1 * r1.Width;
+		r2.X -= x1 * r2.Width;
+		r1.Width *= diffX;
+		r2.Width *= diffX;
+	}
 
-	//b1.SetInterpolationColors(gradientColors, positions, gradientCount);
-	//b2.SetInterpolationColors(gradientColors, positions, gradientCount);
+	if (diffY != 0) {
+		r1.Y -= y1 * r1.Height;
+		r2.Y -= y1 * r2.Height;
+		r1.Height *= diffY;
+		r2.Height *= diffY;
+	}
 
-	//graphics.FillRectangle(&b1, rect1);
-	//graphics.FillRectangle(&b2, rect2);
+	Gdiplus::LinearGradientBrush b1(r1, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
+	Gdiplus::LinearGradientBrush b2(r2, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
+
+//	const int gradientCount = 8;
+//	Gdiplus::Color gradientColors[gradientCount] = {
+//			SVG_RED,
+//			SVG_RED,
+//			SVG_BLANK.blend(SVG_RED),
+//			SVG_BLANK,
+//			SVG_YELLOW.blend(SVG_BLANK),
+//		SVG_YELLOW,
+//			SVG_BLUE,
+//			SVG_BLUE
+//	};
+//
+//	// Define positions (0.0 to 1.0)
+//	Gdiplus::REAL positions[gradientCount] = {
+//		0.0f,
+//		0.2f,
+//		0.3f,
+//		0.4f,
+//		0.5f,
+//		0.6f,
+//		0.8f,
+//		1.0f
+//	};
+	const int gradientCount = 6;
+	Gdiplus::Color gradientColors[gradientCount] = {
+		SVG_RED,
+		SVG_RED,
+//		SVG_YELLOW.alpha(128),
+		SVG_WHITE,
+		SVG_YELLOW.alpha(0.5f),
+		SVG_BLUE,
+		SVG_BLUE
+	};
+
+	// Define positions (0.0 to 1.0)
+	Gdiplus::REAL positions[gradientCount] = {
+		0.0f,
+		0.2f,
+//		0.3f,
+		0.4f,
+		0.6f,
+		0.8f,
+		1.0f
+	};
+
+	b1.SetGammaCorrection(true);
+	b2.SetGammaCorrection(true);
+	b1.SetInterpolationColors(gradientColors, positions, gradientCount);
+	b2.SetInterpolationColors(gradientColors, positions, gradientCount);
+//
+	graphics.FillRectangle(&b1, rect1);
+	Gdiplus::SolidBrush brush(SVG_LIGHTGRAY);
+	graphics.FillRectangle(&brush, rect1);
+	graphics.FillRectangle(&b1, rect1);
+	graphics.FillRectangle(&b2, rect2);
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
