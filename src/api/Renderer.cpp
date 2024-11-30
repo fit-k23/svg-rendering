@@ -101,19 +101,61 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	}
 }
 
-Gdiplus::Brush *Renderer::getBrush(const Gdiplus::RectF &rect, Gradient *gradient, const SVGColor &color) const {
+Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, const SVGColor &color) const {
 	Gdiplus::Brush *brush = nullptr;
 	if (gradient == nullptr) {
 		return new Gdiplus::SolidBrush(color);
 	}
 	std::vector<Stop> stops = gradient->getStops();
+	if (stops.size() == 1) {
+		return new Gdiplus::SolidBrush(stops.begin()->getStopColor());
+	}
+	std::vector<float > offsets;
+	std::vector<Gdiplus::Color> colors;
+	int stopAmount = 0;
+	if (stops.begin()->getOffset() != 0.0f) {
+		offsets.push_back(0.0);
+		++stopAmount;
+		colors.push_back(stops.begin()->getStopColor());
+	}
+	for (auto &stop : stops) {
+		offsets.push_back(stop.getOffset());
+		colors.push_back(stop.getStopColor());
+	}
+	if (stops.end()->getOffset() != 1.0f) {
+		offsets.push_back(0.0);
+		++stopAmount;
+		colors.push_back(stops.end()->getStopColor());
+	}
 	// TODO: Process linear and radial brush
 	if (gradient->getType() == "linear") {
 		auto linearGradient = static_cast<LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
-		float *position = new float[stops.size()];
-		for (int i = 0; i < stops.size(); ++i) {
-			position[i] = rect.X + stops[i].getOffset() * (linearGradient.getX2()  * rect.Width);
+		if (linearGradient->getPos(0) == linearGradient->getPos(1)) {
+			return new Gdiplus::SolidBrush(stops.end()->getStopColor());
 		}
+
+		float x1 = linearGradient->getX1();
+		float y1 = linearGradient->getY1();
+		float x2 = linearGradient->getX2();
+		float y2 = linearGradient->getY2();
+
+		float diffX = x2 - x1;
+		float diffY = y2 - y1;
+
+		if (diffX != 0) {
+			rect.X -= x1 * rect.Width;
+			rect.Width *= diffX;
+		}
+		if (diffY != 0) {
+			rect.Y -= y1 * rect.Height;
+			rect.Height *= diffY;
+		}
+
+		float angle = atan2(diffY, diffX);
+
+		auto *lBrush = new Gdiplus::LinearGradientBrush(rect, color, color, angle, false);
+		lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
+		return lBrush;
 	} else if (gradient->getType() == "radial") {
 		auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 	}
