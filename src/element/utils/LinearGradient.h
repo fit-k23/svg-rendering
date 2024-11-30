@@ -5,6 +5,13 @@
 #include "Stop.h"
 #include "Vector2D.h"
 
+/*
+Percentages are allowed for ‘x1’, ‘y1’, ‘x2’ and ‘y2’. For gradientUnits="userSpaceOnUse", percentages represent values relative to the current 
+viewport. For gradientUnits="objectBoundingBox", percentages represent values relative to the bounding box for the object.
+
+If ‘x1’ = ‘x2’ and ‘y1’ = ‘y2’, then the area to be painted will be painted as a single color using the color and opacity of the last gradient 
+stop.
+*/
 class LinearGradient : public Gradient{
 	Vector2D<float> pos[2];
 	// x1, x2, y1, y2

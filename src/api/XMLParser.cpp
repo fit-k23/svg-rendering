@@ -133,8 +133,10 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 
 		// parse gradient transformations
 		std::vector<std::string> transforms = parseTransformation(parseStringAttr(pChild, "gradientTransform"));
+
 		// parse gradient units
 		std::string units = parseStringAttr(pChild, "gradientUnits");
+
 		// parse stops
 		std::vector<Stop> stops = parseStops(pChild);
 
@@ -168,8 +170,15 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	while (pChild != nullptr) {
 		float offset = parseFloatAttr(pChild, "offset");
+		if (offset < 0.0f) offset = 0.0f;
+		if (offset > 1.0f) offset = 1.0f;
 		std::string id;
 		SVGColor stopColor = parseColor(pChild, "stop-color", id);
+		if (!stops.empty()) {
+			if (offset < stops.back().getOffset()) {
+				offset = stops.back().getOffset();
+			}
+		}
 		stops.emplace_back(offset, stopColor);
 		pChild = pChild->next_sibling();
 	}
@@ -424,16 +433,25 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
 		std::string nodeName = pNode->name();
-		// Default value for gradient attributes
-		if (nodeName.find("Gradient") != std::string::npos) {
+		if (nodeName.find("Gradient") != std::string::npos) { // <-- Default value for gradient attributes
+			std::string units = parseStringAttr(pNode, "gradientUnits");
 			if (attrName == "x1" || attrName == "y1" || attrName == "y2") return 0.0f;
-			else if (attrName == "x2") return 1.0f;
-			else if (attrName == "cx" || attrName == "cy" || attrName == "r") return 0.5f;
-			else if (attrName == "fx" || attrName == "fy") return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
+			else if (attrName == "x2") return (units[0] == 'o' ? 1.0f : viewPort.x);
+			else if (attrName == "cx" || attrName == "cy" || attrName == "r") {
+				if (units[0] == 'o') return 0.5f;
+				else if (attrName == "cx") return 0.5f * viewPort.x;
+				else if (attrName == "cy") return 0.5f * viewPort.y;
+				// I think it represents the half diagnol of view port when units = userSpaceOnUse ???
+				// Can't find document on this
+				return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f); // r 
+			}
+			else if (attrName == "fx" || attrName == "fy") {
+				return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
+			}
 		}
 		// stroke-width, fill and stroke opacity default must be 1
 		if (attrName.find("stroke") != std::string::npos || attrName.find("fill") != std::string::npos || attrName.find("opacity") != std::string::npos)
-			ret = 1;
+			ret = 1.0f;
 		return ret;
 	}
 	std::string value = pAttr->value();	
@@ -441,8 +459,17 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 	buffer >> ret;
 	// If value is percentage (%)
 	if (value.find('%') != std::string::npos) {
-		//std::cout << value << '\n';
 		ret /= 100.0f;
+		std::string nodeName = pNode->name();
+		if (nodeName.find("Gradient") != std::string::npos) {
+			std::string units = parseStringAttr(pNode, "gradientUnits");
+			if (units[0] == 'u') { // userSpaceOnUse
+				if (attrName == "fx" || attrName == "fy") return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
+				else if (attrName.find("x") != std::string::npos) return viewPort.x * ret;
+				else if (attrName.find("y") != std::string::npos) return viewPort.y * ret;
+				else if (attrName == "r") return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f); // r 
+			}
+		}
 	}
 	return ret;
 }

@@ -20,6 +20,7 @@
 */
 
 class XMLParser final {
+private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
