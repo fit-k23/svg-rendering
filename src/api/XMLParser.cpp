@@ -36,9 +36,12 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		std::string tmpFile = buffer.str();
 		doc.parse<0>(&tmpFile[0]);
 		rapidxml::xml_node<> *pRoot = doc.first_node(); // <-- <svg>
+		std::cout << "Root name: " << pRoot->name() << '\n';
 
 		viewPort.x = parseFloatAttr(pRoot, "width");
 		viewPort.y = parseFloatAttr(pRoot, "height");
+
+		std::cout << "View port: " << viewPort.x << " " << viewPort.y << '\n';
 
 		viewBox = parseViewBox(pRoot);
 
@@ -58,7 +61,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 	for (auto &attr: group->getAttr()) {
 		std::string attrName = attr.first;
 		// <g> in this project only has stroke, fill, opacity, and transform attributes
-		if (attrName.find("stroke") == std::string::npos && attrName.find("fill") == std::string::npos && attrName.find("opacity") == std::string::npos && attrName.find("transform") == std::string::npos) continue;
+		// if (attrName.find("stroke") == std::string::npos && attrName.find("fill") == std::string::npos && attrName.find("opacity") == std::string::npos && attrName.find("transform") == std::string::npos) continue;
 		bool has = false;
 		for (rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(); pAttr != nullptr; pAttr = pAttr->next_attribute()) {
 			if (pAttr->name() == attrName) {
@@ -73,6 +76,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		if (!has && attrName != "transform") {
 			char *name = doc.allocate_string(attr.first.c_str());
 			char *value = doc.allocate_string(attr.second.c_str());
+			// std::cout << "pass name: " << name << " pass value: " << value << '\n';
 			pNode->append_attribute(doc.allocate_attribute(name, value));
 		}
 	}
@@ -92,6 +96,8 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		}
 		// Add group to nearest group parent
 		group->addElement(grp);
+
+		// grp->dbg();
 
 		// Recursively handle the children with new group parent = grp
 		for (rapidxml::xml_node<> *pChild = pNode->first_node(); pChild != nullptr; pChild = pChild->next_sibling())
@@ -331,16 +337,21 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 		
 		if (ins == 'm' || ins == 'l') { // <-- move-to and line command
 			float x, y;
+			int cnt = 0;
 			while (buffer >> x >> y) {
+				++cnt;
 				Vector2D<float> newPos = Vector2D<float>(x, y);
 				if (!isupper(d[i])) newPos += getLastPos(points);
-				char preCmd = (points.empty() ? '.' : points.back()->getCMD());
-				points.push_back(new NormPathPoint(d[i], newPos));
+				char newCmd = d[i];
 				if (ins == 'm') {
 					// The starting point doesn't change unless the path is explicitly restarted with another m or similar command.
-					if (points.size() == 1 || (preCmd != '.' && preCmd != d[i]))
+					if (cnt == 1) {
+						newCmd = d[i];
 						sta = newPos;
+					}
+					else newCmd = (d[i] == 'M' ? 'L' : 'l'); 
 				}
+				points.push_back(new NormPathPoint(newCmd, newPos));
 			}
 		} else if (ins == 'h' || ins == 'v') { // <-- horizontal and vertical line
 			float num;
@@ -458,7 +469,7 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 	std::stringstream buffer(value);
 	buffer >> ret;
 	// If value is percentage (%)
-	if (value.find('%') != std::string::npos) {
+	if (value.find("%") != std::string::npos) {
 		ret /= 100.0f;
 		std::string nodeName = pNode->name();
 		if (nodeName.find("Gradient") != std::string::npos) {
@@ -471,6 +482,8 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 			}
 		}
 	}
+	// If the unit is point (pt)
+	// else if ((attrName == "width" || attrName == "height") && value.find("pt") != std::string::npos) ret *= 1.333333333f;
 	return ret;
 }
 

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+#include <cstring>
 #include <windows.h>
 #include <gdiplus.h>
 #include "api/XMLParser.h"
@@ -12,6 +14,8 @@
 #define APPLICATION_CLASS_NAME "SVGRendering"
 #define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11"
 
+std::string fileName = "asset/TestCases/svg-13.svg";
+
 void ProjectInit() {
 //	ParserManager::registerParser("svg", new SVGParser);
 //	ParserManager::registerParser("float", new FloatParser);
@@ -20,7 +24,7 @@ void ProjectInit() {
 
 	FileManager::addFile(L"asset/gradient_test.svg");
 	FileManager::setCurrent(0);
-	XMLParser::getInstance()->traverseXML("asset/bmw_racoon.svg", nullptr, nullptr);
+	XMLParser::getInstance()->traverseXML(fileName, nullptr, nullptr);
 }
 
 void ProjectDeInit() {
@@ -35,14 +39,14 @@ void ProjectDraw(HDC hdc) {
 	XMLParser *parser = XMLParser::getInstance();
 
 //	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 //	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
-//	graphics.SetTextContrast(100);
-//	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
-//	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-//	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
+	graphics.SetTextContrast(100);
+	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
+	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
 	Vector2D<float> vPort = parser->getViewPort();
 	ViewBox vBox = parser->getViewBox();
@@ -89,38 +93,38 @@ void ProjectDraw(HDC hdc) {
 
 	render->setViewPort(vPort);
 
-//	render->draw(graphics, parser->getRoot());
+	render->draw(graphics, parser->getRoot());
 
 	/* Testing Linear Gradient */
-	Gdiplus::Rect rect1(10, 10, 200, 100);
-	Gdiplus::Rect rect2(10, 90, 150, 100);
+	// Gdiplus::Rect rect1(10, 10, 200, 100);
+	// Gdiplus::Rect rect2(10, 90, 150, 100);
 
-	Gdiplus::Rect r1(rect1);
-	Gdiplus::Rect r2(rect2);
-	float x1 = 0.0f;
-	float x2 = 1.0f;
-	float y1 = 0.0f;
-	float y2 = 0.0f;
+	// Gdiplus::Rect r1(rect1);
+	// Gdiplus::Rect r2(rect2);
+	// float x1 = 0.0f;
+	// float x2 = 1.0f;
+	// float y1 = 0.0f;
+	// float y2 = 0.0f;
 
-	float diffX = x2 - x1;
-	float diffY = y2 - y1;
+	// float diffX = x2 - x1;
+	// float diffY = y2 - y1;
 
-	if (diffX != 0) {
-		r1.X -= x1 * r1.Width;
-		r2.X -= x1 * r2.Width;
-		r1.Width *= diffX;
-		r2.Width *= diffX;
-	}
+	// if (diffX != 0) {
+	// 	r1.X -= x1 * r1.Width;
+	// 	r2.X -= x1 * r2.Width;
+	// 	r1.Width *= diffX;
+	// 	r2.Width *= diffX;
+	// }
 
-	if (diffY != 0) {
-		r1.Y -= y1 * r1.Height;
-		r2.Y -= y1 * r2.Height;
-		r1.Height *= diffY;
-		r2.Height *= diffY;
-	}
+	// if (diffY != 0) {
+	// 	r1.Y -= y1 * r1.Height;
+	// 	r2.Y -= y1 * r2.Height;
+	// 	r1.Height *= diffY;
+	// 	r2.Height *= diffY;
+	// }
 
-	Gdiplus::LinearGradientBrush b1(r1, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
-	Gdiplus::LinearGradientBrush b2(r2, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
+	// Gdiplus::LinearGradientBrush b1(r1, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
+	// Gdiplus::LinearGradientBrush b2(r2, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
 
 //	const int gradientCount = 8;
 //	Gdiplus::Color gradientColors[gradientCount] = {
@@ -145,43 +149,48 @@ void ProjectDraw(HDC hdc) {
 //		0.8f,
 //		1.0f
 //	};
-	const int gradientCount = 6;
-	Gdiplus::Color gradientColors[gradientCount] = {
-		SVG_RED,
-		SVG_RED,
-//		SVG_YELLOW.alpha(128),
-		SVG_WHITE,
-		SVG_YELLOW.alpha(0.5f),
-		SVG_BLUE,
-		SVG_BLUE
-	};
+// 	const int gradientCount = 6;
+// 	Gdiplus::Color gradientColors[gradientCount] = {
+// 		SVG_RED,
+// 		SVG_RED,
+// //		SVG_YELLOW.alpha(128),
+// 		SVG_WHITE,
+// 		SVG_YELLOW.alpha(0.5f),
+// 		SVG_BLUE,
+// 		SVG_BLUE
+// 	};
 
-	// Define positions (0.0 to 1.0)
-	Gdiplus::REAL positions[gradientCount] = {
-		0.0f,
-		0.2f,
-//		0.3f,
-		0.4f,
-		0.6f,
-		0.8f,
-		1.0f
-	};
+// 	// Define positions (0.0 to 1.0)
+// 	Gdiplus::REAL positions[gradientCount] = {
+// 		0.0f,
+// 		0.2f,
+// //		0.3f,
+// 		0.4f,
+// 		0.6f,
+// 		0.8f,
+// 		1.0f
+// 	};
 
-	b1.SetGammaCorrection(true);
-	b2.SetGammaCorrection(true);
-	b1.SetInterpolationColors(gradientColors, positions, gradientCount);
-	b2.SetInterpolationColors(gradientColors, positions, gradientCount);
-//
-	graphics.FillRectangle(&b1, rect1);
-	Gdiplus::SolidBrush brush(SVG_LIGHTGRAY);
-	graphics.FillRectangle(&brush, rect1);
-	graphics.FillRectangle(&b1, rect1);
-	graphics.FillRectangle(&b2, rect2);
+// 	b1.SetGammaCorrection(true);
+// 	b2.SetGammaCorrection(true);
+// 	b1.SetInterpolationColors(gradientColors, positions, gradientCount);
+// 	b2.SetInterpolationColors(gradientColors, positions, gradientCount);
+// //
+// 	graphics.FillRectangle(&b1, rect1);
+// 	Gdiplus::SolidBrush brush(SVG_LIGHTGRAY);
+// 	graphics.FillRectangle(&brush, rect1);
+// 	graphics.FillRectangle(&b1, rect1);
+// 	graphics.FillRectangle(&b2, rect2);
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-int main() {
+int main(int argc, char **argv) {
+	if (argc == 2) {
+		fileName = "";
+		for (int i = 0; i < strlen(argv[1]); ++i)
+			fileName += argv[1][i];
+	}
 	MSG msg;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
@@ -202,7 +211,7 @@ int main() {
 
 	RegisterClass(&wndClass);
 
-	HWND hwnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 700, nullptr, nullptr, hInstance, nullptr);
+	HWND hwnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 4000, 4000, nullptr, nullptr, hInstance, nullptr);
 	ProjectInit();
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);

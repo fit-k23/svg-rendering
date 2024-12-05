@@ -206,6 +206,12 @@ SVGColor::SVGColor(std::string param) {
 			std::stringstream buffer(param);
 			float R, G, B;
 			buffer >> R >> G >> B;
+			if (R < 0.0f) R = 0.0f;
+			if (R > 255.0f) R = 255.0f;
+			if (G < 0.0f) G = 0.0f;
+			if (G > 255.0f) G = 255.0f;
+			if (B < 0.0f) B = 0.0f;
+			if (B > 255.0f) B = 255.0f;
 			r = (unsigned char) R;
 			if (isPercent[0]) r = (unsigned char) (255.0f * (R / 100.0f));
 			g = (unsigned char) G;

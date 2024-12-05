@@ -48,6 +48,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Group *parent) {
 				break;
 			}
 			case ElementType::Path: {
+				// shape->dbg();
 				drawPath(graphics, static_cast<SVGPath *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
@@ -346,7 +347,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 	FillRule fillRule = element->getFillRule();
-	
+
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
 
@@ -374,6 +375,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			if (startPath) {
 				path.StartFigure();
 				sta = pos;
+				// std::cout << "Start a path at point (" << pos.x << ", " << pos.y << ")\n";
 			}
 		} else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point

@@ -2,6 +2,7 @@
 #define SVG_RENDERING_COLOR_H
 
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <cmath>
 #include <sstream>
