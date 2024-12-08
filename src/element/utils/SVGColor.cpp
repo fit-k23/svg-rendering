@@ -220,7 +220,7 @@ SVGColor::SVGColor(std::string param) {
 			if (isPercent[2]) b = (unsigned char) (255.0f * (B / 100.0f));
 		} else {
 			//Assuming the string input is color name
-			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] -= 32;
+			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] += 32;
 			auto it = LABELED_COLOR.find(param);
 			if (it != LABELED_COLOR.end()) {
 				SVGColor lc = it->second;
