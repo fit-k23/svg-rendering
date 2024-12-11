@@ -23,7 +23,8 @@ protected:
 	SVGColor strokeColor;
 	float strokeWidth;
 	std::vector<std::string> transformation;
-	Gradient *fillGradient, *strokeGradient;
+	Gradient *fillGradient;
+	Gradient *strokeGradient;
 
 	Element();
 	/** @brief Constructor without transformations */
