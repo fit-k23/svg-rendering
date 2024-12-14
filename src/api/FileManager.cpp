@@ -1,9 +1,9 @@
 #include "FileManager.h"
 
-std::vector<std::wstring> FileManager::filePaths;
-int FileManager::current = (int) filePaths.size() - 1;
+vector<string> FileManager::filePaths;
+int FileManager::current = 0;
 
-bool FileManager::addFile(const std::wstring &filePath) {
+bool FileManager::addFile(const string &filePath) {
 	if (filePath.empty() || !isFileExist(filePath)) return false;
 	for (auto &file : filePaths) {
 		if (file == filePath) {
@@ -14,8 +14,8 @@ bool FileManager::addFile(const std::wstring &filePath) {
 	return true;
 }
 
-bool FileManager::removeFile(const std::wstring &filePath) {
-	auto it = std::find(filePaths.begin(), filePaths.end(), filePath);
+bool FileManager::removeFile(const string &filePath) {
+	auto it = find(filePaths.begin(), filePaths.end(), filePath);
 	if (it != filePaths.end()) {
 		filePaths.erase(it);
 		return true;
@@ -29,7 +29,7 @@ bool FileManager::removeFile(size_t idx) {
 	return true;
 }
 
-bool FileManager::isFileExist(const std::wstring &filePath) {
+bool FileManager::isFileExist(const string &filePath) {
 	std::ifstream file(filePath.c_str());
 	if (!file.is_open()) {
 		return false;
@@ -38,23 +38,25 @@ bool FileManager::isFileExist(const std::wstring &filePath) {
 	return true;
 }
 
-std::wstring FileManager::getFileName(const std::wstring &filePath) {
-	return filePath.substr(filePath.find_last_of(L"/\\") + 1);
+string FileManager::getFile(const string &filePath) {
+	return filePath.substr(filePath.find_last_of("/\\") + 1);
 }
 
-std::wstring FileManager::getFilePath(size_t idx) {
-	if (idx >= filePaths.size()) return L"";
+string FileManager::getFile(size_t idx) {
+	if (idx >= filePaths.size()) return "";
 	return filePaths.at(idx);
 }
 
-std::vector<std::wstring> FileManager::getFileNameList() {
-	std::vector<std::wstring> r;
+vector<string> FileManager::getFileList() {
+	vector<string> r;
 	r.reserve(filePaths.size());
 	for (auto &file : filePaths) {
-		r.push_back(FileManager::getFileName(file));
+		r.push_back(FileManager::getFile(file));
 	}
 	return r;
 }
+
+string FileManager::getCurrentFile() { return filePaths[current]; }
 
 int FileManager::getCurrent() { return current; }
 
@@ -63,6 +65,7 @@ void FileManager::setCurrent(int idx) {
 		return;
 	}
 	current = idx;
+	XMLParser::getInstance()->traverseXML(filePaths[idx], nullptr, nullptr);
 }
 
 void FileManager::clearFiles() {
