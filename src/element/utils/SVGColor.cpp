@@ -241,7 +241,7 @@ SVGColor::operator Gdiplus::Color() const {
 
 SVGColor::SVGColor(const SVGColor &other) = default;
 
-SVGColor SVGColor::alpha(unsigned char _a) const {
+inline SVGColor SVGColor::alpha(unsigned char _a) const {
 	return {r, g, b, _a};
 }
 
