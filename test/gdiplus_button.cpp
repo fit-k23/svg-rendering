@@ -23,6 +23,11 @@ struct Button {
 	std::wstring text;
 };
 
+enum class MenuFlag : int{
+	FLAG_CLOSE = 0,
+	FLAG_OPEN
+};
+
 // List of buttons
 std::vector<Button> buttons;
 Button *selectedButton = nullptr;
@@ -88,14 +93,22 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 			r.right = screenWidth;
 			r.top = 0;
 			r.bottom = screenHeight;
-			if (PtInRect(&r, pt)) {
-				openMenu = true;
-			} else {
-				openMenu = false;
+			if (!openMenu) {
+				if (PtInRect(&r, pt)) {
+					openMenu = true;
+				} else {
+					openMenu = false;
+				}
 			}
 		}
 		case WM_TIMER: {
-			switch (wp) {
+			switch ((MenuFlag) wp) {
+				case MenuFlag::FLAG_OPEN: {
+					break;
+				}
+				case MenuFlag::FLAG_CLOSE: {
+					break;
+				}
 			}
 			break;
 		}
