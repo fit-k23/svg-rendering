@@ -286,6 +286,8 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 	delete[] pointsArr;
 }
 
+#include "Camera.h"
+
 /** @brief Draw text */
 void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	if (element == nullptr) return;
@@ -298,7 +300,11 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	float strokeWidth = element->getStrokeWidth();
 
 	Gdiplus::FontFamily fontFamily(L"Times New Roman");
-	Gdiplus::Font font(&fontFamily, fontSize, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
+	int fontStyle = Gdiplus::FontStyleRegular;
+	if (element->getFontStyle() == FontStyle::ITALIC) {
+		fontStyle = Gdiplus::FontStyleItalic;
+	}
+	Gdiplus::Font font(&fontFamily, fontSize, fontStyle, Gdiplus::UnitPixel);
 
 	Vector2D<float> position = element->getPosition();
 
@@ -307,33 +313,30 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 	// Measure the text width
 	Gdiplus::RectF layoutRect;
 	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, Gdiplus::StringFormat::GenericTypographic(), &boundingBox);
+//	graphics.MeasureString(wData.c_str(), -1, &font, layoutRect, Gdiplus::StringFormat::GenericDefault(), &boundingBox);
+
 	float textWidth = boundingBox.Width;
-	float x = position.x;
 	if (element->getTextAnchor() == TextAnchor::MIDDLE) {
-		x -= textWidth / 2.0f;
+		position.x -= textWidth / 2.0f;
 	} else if (element->getTextAnchor() == TextAnchor::END) {
-		x -= textWidth;
+		position.x -= textWidth;
 	}
 
 	// TODO: Research to https://learn.microsoft.com/en-us/dotnet/api/system.drawing.fontfamily.getemheight?view=windowsdesktop-8.0
-    //float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0f;
-	float padding = font.GetHeight(graphics.GetDpiY()) / 6.0f + 0.5f;
-	position.y -= boundingBox.Height;
-	position.y += padding; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em, but I don't bother to fix it :l
-	boundingBox.X = x;
-	boundingBox.Y = position.y + padding;
-	boundingBox.Height -= padding * 2.0f;
+	// float padding = fontFamily.GetEmHeight(font.GetStyle()) / font.GetSize() / 6.0f + 1.0f;
+	float bHeight = font.GetHeight(graphics.GetDpiY());
+	float padding = bHeight / 6.0f + 0.5f;
 
-	//Gdiplus::Pen pen({255, 0, 0, 0}, 1);
-	//graphics.DrawEllipse(&pen, boundingBox.X - 1.5f, boundingBox.Y - 1.5f, 3.0f, 3.0f);
-	//pen.SetColor(SVG_BLUE.alpha(200));
-	//graphics.DrawEllipse(&pen, element->getPosition().x - 3.0f, element->getPosition().y - 3.0f, 6.0f, 6.0f);
-	//graphics.DrawRectangle(&pen, boundingBox);
-	//Gdiplus::SolidBrush solidBrush(fillColor);
-	//graphics.DrawString(wData.c_str(), -1, &font, Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic(), &solidBrush);
+	position.y -= bHeight - padding - 1; // GDI+ draw text with padding = 1/6 em on all sides, this however can expand to 1 em, but I don't bother or even know to fix it :l
+	boundingBox.Height = bHeight;
+	boundingBox.X = position.x;
+	boundingBox.Y = position.y;
+
+//	Gdiplus::Pen pen({255, 0, 0, 0}, 1.0 / Camera::zoom);
+//	graphics.DrawRectangle(&pen, boundingBox);
 
 	Gdiplus::GraphicsPath path;
-	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), Gdiplus::PointF(x, position.y), Gdiplus::StringFormat::GenericTypographic());
+	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), (Gdiplus::PointF) position, Gdiplus::StringFormat::GenericTypographic());
 	Gdiplus::SolidBrush brush(fillColor);
 	graphics.FillPath(&brush, &path);
 	Gdiplus::Pen pen2(strokeColor, strokeWidth);
