@@ -11,6 +11,7 @@
 #include "../element/utils/Gradient.h"
 #include "../element/utils/LinearGradient.h"
 #include "../element/utils/RadialGradient.h"
+#include "../utils/StringHelper.h"
 
 /**
  * @brief Parse SVG (XML format) file and handle its nodes, attributes

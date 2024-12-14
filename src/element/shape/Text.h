@@ -3,6 +3,7 @@
 
 #include "../Element.h"
 #include "../utils/TextAnchor.h"
+#include "../utils/FontStyle.h"
 #include <string>
 
 /**
@@ -17,13 +18,11 @@
 class SVGText : public Element{
 	std::string data; // <-- content of the text
 	TextAnchor textAnchor; // <-- position based on "cursor", default:  TextAnchor::START
-	std::string fontStyle; // <-- font style of text
+	FontStyle fontStyle; // <-- font style of text
 	float fontSize; // <-- font size of text
-	float offset; // <-- some offset so that raylib draws text more like svg
-	Vector2D<float> dataSize; // <-- width and height of whole text
 public:
 	SVGText();
-	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, TextAnchor textAnchor = TextAnchor::START);
+	SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, FontStyle fontStyle = FontStyle::NORMAL, TextAnchor textAnchor = TextAnchor::START);
 
 	/** @brief Get type Text */
 	ElementType getTypeName() override;
@@ -36,24 +35,6 @@ public:
 	 * @return pair of top-left and bottom-right coordinate
 	*/
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
-
-	/** @brief Return the actual position of the text with inputted text size */
-	Vector2D<float> getActualPosition(Vector2D<float> size) const;
-
-	/**
-	 * @brief Set data size
-	 * @param dataSize new data size including width and height of text based on font
-	*/
-	void setDataSize(const Vector2D<float> &dataSize);
-
-	/** @brief Set default data size with no font */
-	void setDataSize();
-
-	/**
-	 * @brief Get data size based on font
-	 * @param font font family
-	*/
-	Vector2D<float> getDataSize() const;
 
 	/**
 	 * @brief Set data of text
@@ -75,12 +56,12 @@ public:
 
 	/**
 	 * @brief Set font style
-	 * @param fontStyle new font style for text
+	 * @param TextStyle new font style for text
 	*/
-	void setFontStyle(const std::string &fontStyle);
+	void setFontStyle(const FontStyle &fontStyle);
 
 	/** @brief Get font style of text */
-	std::string getFontStyle() const;
+	FontStyle getFontStyle() const;
 
 	/**
 	 * @brief Set font size
