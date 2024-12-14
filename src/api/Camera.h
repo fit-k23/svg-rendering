@@ -11,6 +11,8 @@ public:
 	static float rotation;
 	static float zoom;
 	static bool isDragging;
+	static bool isPixelMode;
+	static bool isPixelModeOverlay;
 	static void zoomIn(float amount = 0.05f);
 	static void zoomOut(float amount = 0.05f);
 	static void rotateClockWise(float degree = 1.0f);

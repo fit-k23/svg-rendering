@@ -4,11 +4,15 @@ Vector2D<int> Camera::screenSize = {1000, 500};
 Vector2D<float> Camera::startPosition = {};
 Vector2D<float> Camera::mousePosition = {-1, -1};
 float Camera::rotation = 0.0f;
+//float Camera::zoom = 10.0f;
 float Camera::zoom = 1.0f;
 bool Camera::isDragging = false;
+bool Camera::isPixelMode = false;
+bool Camera::isPixelModeOverlay = false;
 
 void Camera::reset() {
 	Camera::startPosition = {};
+	Camera::mousePosition = {-1, -1};
 	Camera::rotation = 0.0f;
 	Camera::zoom = 1.0f;
 }

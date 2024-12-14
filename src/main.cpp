@@ -3,6 +3,7 @@
 #include <cstring>
 #include <windows.h>
 #include <gdiplus.h>
+#include <gdiplus/gdiplus.h>
 #include "api/XMLParser.h"
 #include "api/Camera.h"
 #include "api/Renderer.h"
@@ -12,9 +13,11 @@
 #include "api/parser/ParserHInit.h"
 
 #define APPLICATION_CLASS_NAME "SVGRendering"
-#define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11"
+#define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11 - Press \"H\" for help!"
 
-std::string fileName = "asset/TestCases/svg-13.svg";
+std::string fileName = "asset/svg_07_mod.svg";
+
+Vector2D<float> tmpPos = {};
 
 void ProjectInit() {
 //	ParserManager::registerParser("svg", new SVGParser);
@@ -22,9 +25,8 @@ void ProjectInit() {
 //	ParserManager::registerParser("color", new ColorParser);
 //	ParserManager::registerParser("string", new StringParser);
 
-	FileManager::addFile(L"asset/gradient_test.svg");
+	FileManager::addFile(fileName);
 	FileManager::setCurrent(0);
-	XMLParser::getInstance()->traverseXML(fileName, nullptr, nullptr);
 }
 
 void ProjectDeInit() {
@@ -39,10 +41,10 @@ void ProjectDraw(HDC hdc) {
 	XMLParser *parser = XMLParser::getInstance();
 
 //	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
+//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
@@ -181,6 +183,40 @@ void ProjectDraw(HDC hdc) {
 // 	graphics.FillRectangle(&brush, rect1);
 // 	graphics.FillRectangle(&b1, rect1);
 // 	graphics.FillRectangle(&b2, rect2);
+	if (Camera::isPixelModeOverlay) {
+		Gdiplus::Pen pen({255, 0, 0, 0}, 1 / Camera::zoom);
+
+		Vector2D<int> drawAreaStart = {0, 0};
+		Vector2D<int> drawArea = Camera::screenSize;
+
+		if (Camera::zoom > 5.0) {
+			pen.SetColor(SVG_ORANGE);
+			for (int i = drawAreaStart.x; i < drawArea.x; i += 1) {
+				graphics.DrawLine(&pen, i, 0, i, drawArea.y);
+			}
+			for (int i = drawAreaStart.y; i < drawArea.y; i += 1) {
+				graphics.DrawLine(&pen, 0, i, drawArea.x, i);
+			}
+		} else if (Camera::zoom > 1.5) {
+			pen.SetColor(SVG_BLUE);
+			for (int i = drawAreaStart.x; i < drawArea.x; i += 5) {
+				graphics.DrawLine(&pen, i, 0, i, drawArea.y);
+			}
+			for (int i = drawAreaStart.y; i < drawArea.y; i += 5) {
+				graphics.DrawLine(&pen, 0, i, drawArea.x, i);
+			}
+		}
+		pen.SetColor(SVG_BLACK);
+		for (int i = drawAreaStart.x; i < drawArea.x; i += 10) {
+			Gdiplus::SolidBrush brush(SVG_GRAY);
+			Gdiplus::Font font(L"Arial", 1);
+			graphics.DrawString(std::to_wstring(i).c_str(), -1, &font, {static_cast<Gdiplus::REAL>(i), tmpPos.y}, &brush);
+			graphics.DrawLine(&pen, i, 0, i, drawArea.y);
+		}
+		for (int i = drawAreaStart.y; i < drawArea.y; i += 10) {
+			graphics.DrawLine(&pen, 0, i, drawArea.x, i);
+		}
+	}
 }
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -267,11 +303,61 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			ProjectDraw(hdcMem);
 
+//			{
+//
+//				HDC hdcPopup = CreateCompatibleDC(hdc);
+//				HBITMAP hbmPopup = CreateCompatibleBitmap(hdc, width, height);
+//				HGDIOBJ hOldPopup = SelectObject(hdcPopup, hbmPopup);
+//
+//				{
+//					Gdiplus::Graphics graphics(hdcPopup);
+//
+////					graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+////					graphics.SetTextContrast(100);
+////					graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
+////					graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+////					graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+//
+//					graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
+//					graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
+//					graphics.ScaleTransform(Camera::zoom, Camera::zoom);
+//					graphics.RotateTransform(Camera::rotation);
+//					graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
+//
+//
+//				}
+//
+//				GdiTransparentBlt(
+//					hdcMem,      // Destination HDC (main layer)
+//					0,            // X position on destination
+//					0,            // Y position on destination
+//					width,        // Destination width
+//					height,       // Destination height
+//					hdcPopup,     // Source HDC (popup layer)
+//					0,            // Source X
+//					0,            // Source Y
+//					width,        // Source width
+//					height,       // Source height
+//					0  // The color to be treated as transparent
+//				);
+//
+////				BitBlt(hdcMem, 0, 0, width, height, hdcPopup, 0, 0, SRCPAINT);
+//
+//				SelectObject(hdcPopup, hOldPopup);
+//
+//				DeleteObject(hbmPopup);
+//				DeleteObject(hOldPopup);
+//				DeleteDC(hdcPopup);
+//			}
+
+
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hOld);
 
+
 			DeleteObject(hBrush);
 			DeleteObject(hbmMem);
+			DeleteObject(hOld);
 			DeleteDC(hdcMem);
 			EndPaint(hwnd, &ps);
 			return 0;
@@ -313,16 +399,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			// Get the file path of the dropped file
 			auto hDrop = (HDROP) wParam;
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
-			if (fileCount > 0) {
+			for (unsigned int i = 0; i < fileCount; ++i) {
 				std::wstring filePath(256, L'\0');
-				DragQueryFileW(hDrop, 0, &filePath[0], filePath.size());
+				DragQueryFileW(hDrop, i, &filePath[0], filePath.size());
 				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
-
-				std::wcout << "Changing from " << FileManager::getFilePath(FileManager::getCurrent()) << " to " << filePath << '\n';
-
-				std::string tmpFilePath(filePath.begin(), filePath.end());
-				XMLParser::getInstance()->traverseXML(tmpFilePath, nullptr, nullptr);
-				FileManager::addFile(filePath);
+				FileManager::addFile(std::string(filePath.begin(), filePath.end()));
+			}
+			if (fileCount > 0) {
 				FileManager::setCurrent(FileManager::getCurrent() + 1);
 				Camera::reset();
 				InvalidateRect(hwnd, nullptr, false);
@@ -363,7 +446,17 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				case 'H': {
-					MessageBox(nullptr, "Press R to reload.\nPress W/S to zoom in/out.\nPress A/D to rotate.", "SVG SHORTCUT", MB_OK);
+					MessageBox(nullptr, "Press R to reload.\nPress W/S to zoom in/out.\nPress A/D to rotate.\nUse either mouse drag or arrow keys to navigation.\nPress O to display ruler.\nPress (0-9) to quick select the imported SVGs.\n", "SVG SHORTCUT", MB_OK);
+					break;
+				}
+				case 'P': {
+					Camera::isPixelMode = !Camera::isPixelMode;
+					InvalidateRect(hwnd, nullptr, false);
+					break;
+				}
+				case 'O': {
+					Camera::isPixelModeOverlay = !Camera::isPixelModeOverlay;
+					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case VK_UP: {
@@ -388,13 +481,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				default: {
 					if (wp >= '0' && wp <= '9') {
-						std::cout << "Chose " << wp << "\n";
-						std::wstring filePath = FileManager::getFilePath(wp - '0');
+						std::string filePath = FileManager::getFile(wp - '0');
 						if (!filePath.empty()) {
-							std::wcout << "Changing from " << FileManager::getFilePath(FileManager::getCurrent()) << " to " << filePath << '\n';
 							FileManager::setCurrent(wp - '0');
-							std::string tmpFilePath(filePath.begin(), filePath.end());
-							XMLParser::getInstance()->traverseXML(tmpFilePath, nullptr, nullptr);
 							Camera::reset();
 							InvalidateRect(hwnd, nullptr, false);
 						}
