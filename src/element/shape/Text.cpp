@@ -1,7 +1,6 @@
 #include "Text.h"
 
-SVGText::SVGText() : textAnchor(TextAnchor::START), fontSize(1.0) {}
-
+SVGText::SVGText() : fontStyle{FontStyle::NORMAL}, textAnchor{TextAnchor::START}, fontSize(1.0f) {}
 SVGText::SVGText(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::string &data, float fontSize, FontStyle fontStyle, TextAnchor textAnchor) : Element(position, fillColor, strokeColor, strokeWidth), data(data), textAnchor(textAnchor), fontSize(fontSize), fontStyle{fontStyle} {}
 
 ElementType SVGText::getTypeName() { return ElementType::Text; }
@@ -22,17 +21,10 @@ std::pair<Vector2D<float>, Vector2D<float>> SVGText::getBoundingBox() const {
 }
 
 void SVGText::setData(const std::string &_data) { data = _data; }
-
 std::string SVGText::getData() const { return data; }
-
 void SVGText::setTextAnchor(const TextAnchor &_textAnchor) { textAnchor = _textAnchor; }
-
 TextAnchor SVGText::getTextAnchor() const { return textAnchor; }
-
 void SVGText::setFontStyle(const FontStyle &_fontStyle) { fontStyle = _fontStyle; }
-
 FontStyle SVGText::getFontStyle() const { return fontStyle; }
-
 void SVGText::setFontSize(float _fontSize) { fontSize = _fontSize; }
-
 float SVGText::getFontSize() const { return fontSize; }

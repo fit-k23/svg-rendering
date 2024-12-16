@@ -18,7 +18,7 @@ using std::string;
  * @note Xml document is declared through xml_document data type
  * @note Nodes and attributes are represented by xml_node and xml_attribute
  * @note Every xml file has only one root node
-*/
+ */
 
 class XMLParser final {
 	rapidxml::xml_document<> doc;
@@ -40,7 +40,7 @@ public:
 	~XMLParser();
 
 	/**
-	 * @brief Traverse through each nodes and attributes of SVG
+	 * @brief Traverse through each node and attributes of SVG
 	 * @param pNode the current pointer to current node of XML
 	 * @param group the nearest group that has affected to current node
 	 * @note Note that the root node (<svg>) is also considered a group
@@ -96,7 +96,7 @@ private:
 	/**
 	 * @brief Parse Polyline attributes
 	 * @return Polyline object
-	*/
+	 */
 	SVGPolyline parsePolyline(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Polygon attributes

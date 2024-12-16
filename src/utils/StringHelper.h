@@ -2,9 +2,6 @@
 #define SVG_RENDERING_STRING_HELPER_H
 
 #include <iostream>
-#include <string>
-#include <cstring>
-#include <cctype>
 
 using std::string;
 using std::cout;
@@ -13,9 +10,9 @@ using std::cin;
 namespace StringHelper{
 	/**
 	 * Check if input a 32bit character (utf8) is whitespace!
-	 * @link https://cplusplus.com/reference/cctype/\endlink
+	 * <br><a href="https://cplusplus.com/reference/cctype/">cplusplus.com/reference/cctype</a>
 	 */
-	static bool isUnicodeWhitespace(char32_t ch) {
+	inline bool isUnicodeWhitespace(const char32_t &ch) {
 		return (ch == 0x0009 || // Tab
 				ch == 0x000A || // Line feed
 				ch == 0x000B || // Vertical tab
@@ -32,23 +29,23 @@ namespace StringHelper{
 				ch == 0x3000);  // Ideographic space
 	}
 
-	static inline bool isAnsiUpperAlphabet(char ch) {
+	inline bool isAnsiUpperAlphabet(char ch) {
 		return ch >= 'A' && ch <= 'Z';
 	}
 
-	static inline void toLowerAsciiChar(char &ch) {
+	inline void toLowerAsciiChar(char &ch) {
 		if (isAnsiUpperAlphabet(ch)) {
 			ch += 32;
 		}
 	}
 
-	static inline void toLowerAsciiString(string &s) {
+	inline void toLowerAsciiString(string &s) {
 		for (char &c : s) {
 			toLowerAsciiChar(c);
 		}
 	}
 
-	static inline void pushEncodeUTF8CharIntoToString(string &s, char32_t ch) {
+	inline void pushEncodeUTF8CharIntoToString(string &s, char32_t ch) {
 		if (ch <= 0x7F) { // ASCII
 			s.push_back(static_cast<char>(ch));
 		} else if (ch <= 0x7FF) { // Two-byte UTF-8
@@ -66,7 +63,7 @@ namespace StringHelper{
 		}
 	}
 
-	static string replaceEmptySpacesWithSpace(const string &s) {
+	inline string replaceEmptySpacesWithSpace(const string &s) {
 		string r;
 		r.reserve(s.size());
 		bool wasSpace = false;

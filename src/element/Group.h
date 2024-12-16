@@ -1,27 +1,26 @@
 #ifndef SVG_RENDERING_GROUP_H
 #define SVG_RENDERING_GROUP_H
 
-#include "Element.h"
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Element.h"
 
-#define GroupAttr std::vector<std::pair<std::string, std::string>>
+using std::vector;
+using std::string;
+using std::pair;
+
+#define GroupAttr vector<pair<string, string>>
 
 /**
  * @brief Group is a composite class that is implemented using composite design pattern.
  * @note A group object can contain several shapes or other groups
-*/
+ */
 
-class Group : public Element{
-private:
+class Group final : public Element{
 	GroupAttr attrs;
 	std::vector<Element *> elements;
 public:
-	/**
-	 * @brief Default constructor for Group class
-	 * @note Initially has no shapes
-	*/
 	Group();
 
 	/** @brief Constructor with attributes. */
@@ -39,16 +38,13 @@ public:
 	/**
 	 * @brief Add an svg element (shape, g, ...) to current group class
 	 * @param element A pointer to a concrete-Element object
-	*/
+	 */
 	void addElement(Element *element);
 
 	/** @brief Get all elements of current group class */
 	std::vector<Element *> getElements() const;
 
-	/**
-	 * @brief Add an attribute to group 
-	 * @param element a pointer to a concrete-Element object
-	*/
+	/** @brief Add an attribute to group */
 	void addAttr(const std::string &attr, const std::string &value);
 
 	/** @brief Get all attributes of group */

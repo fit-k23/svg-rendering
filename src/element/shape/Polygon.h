@@ -7,10 +7,10 @@
  * @brief Class that represents polygon in svg
  * @param position the first point of polygon
  * @note This class inherits from SVGPolyline class
-*/
-class SVGPolygon : public SVGPolyline{
+ */
+class SVGPolygon final : public SVGPolyline{
 public:
-	SVGPolygon();
+	SVGPolygon() = default;
 	SVGPolygon(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule = FillRule::NON_ZERO);
 
 	/** @brief Get type Polygon */

@@ -9,8 +9,8 @@
  * @brief Class that represents path in svg
  * @note This class has a vector containing four types of points in svg path
  * @note This class inherits from Element class
-*/
-class SVGPath : public Element{
+ */
+class SVGPath final : public Element{
 	std::vector<PathPoint *> points;
 	FillRule fillRule;
 public:
@@ -20,10 +20,8 @@ public:
 	/**
 	 * @brief Parameterized constructor for path
 	 * @param points new vector of points
-	*/
+	 */
 	SVGPath(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<PathPoint *> &points, FillRule fillRule);
-
-	/** @brief Destructor to delete PathPoint memory. */
 	~SVGPath() override;
 
 	/** @brief Get type path */
@@ -38,24 +36,22 @@ public:
 	/**
 	 * @brief Set points for path
 	 * @param points new set of points for path
-	*/
+	 */
 	void setPoints(const std::vector<PathPoint *> &points); 
 
-	/**
-	 * @brief Get points for path
-	*/
+	/** @brief Get points for path */
 	std::vector<PathPoint *> getPoints() const;
 
 	/**
 	 * @brief Add a point to path
 	 * @param point new point
-	*/
+	 */
 	void addPoint(PathPoint* point);
 
 	/**
 	 * @brief Set fill rule for path
 	 * @param fillRule new fill rule
-	*/
+	 */
 	void setFillRule(FillRule fillRule);
 
 	/** @brief Get fill rule for path */

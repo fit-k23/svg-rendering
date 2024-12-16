@@ -20,35 +20,35 @@ public:
 	/** @brief Default constructor. */
 	Stop();
 	/** @brief Parameterized constructor. */
-	Stop(float offset, const SVGColor& stopColor);
+	Stop(float offset, const SVGColor &stopColor);
 	/** @brief Copy constructor */
-	Stop(const Stop& other);
+	Stop(const Stop &other) = default;
 	/**
 	 * @brief Set the new offset.
 	 * @param offset new offset
-	*/
+	 */
 	void setOffset(float offset);
 	/**
 	 * @brief Get the offset
 	 * @return float
 	 * @note This function doesn't change any attributes.
-	*/
+	 */
 	float getOffset() const;
 	/**
 	 * @brief Set the new stop color.
 	 * @param stopColor new stop color
-	*/
-	void setStopColor(const SVGColor& stopColor);
+	 */
+	void setStopColor(const SVGColor &stopColor);
 	/**
 	 * @brief Get the stop color
 	 * @return SVGColor
 	 * @note This function doesn't change any attributes.
-	*/
+	 */
 	SVGColor getStopColor() const;
 	/**
 	 * @brief Print information of Stop.
 	 * @note This function doesn't change any attributes
-	*/
+	 */
 	void output() const;
 };
 

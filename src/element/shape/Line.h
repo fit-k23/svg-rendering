@@ -5,69 +5,56 @@
 #define NOMINMAX
 #endif
 
-#include "../Element.h"
 #include <iostream>
+#include "../Element.h"
 #include "../utils/Vector2D.h"
 
 /**
  * @brief Class that represents Line object in svg
  * @note This class inherits from Element class
-*/
-class SVGLine : public Element{
-private:
+ */
+class SVGLine final : public Element{
 	Vector2D<float> endPosition;
 public:
 	SVGLine();
-
-	/** @brief Parameterized constructor */
 	SVGLine(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const Vector2D<float> &endPosition);
-
-	/** @brief Copy constructor */
-	SVGLine(const SVGLine &other);
+	SVGLine(const SVGLine &other) = default;
 
 	/**
-	 * @brief get type SVGLine
+	 * @brief get type of the object
 	 * @return ElementType::SVGLine
-	 * @note This function is override
-	*/
+	 */
 	ElementType getTypeName() override;
 
-	/** @brief print information of svgline */
+	/** @brief print information of line */
 	void dbg() override;
 
 	/**
-	* @brief Get bounding box of svgline
-	* @return pair of top-left and bottom-right coordinate
-	* @note This function doesn't change any attributes
-	*/
+	 * @brief Get bounding box of line
+	 * @return pair of top-left and bottom-right coordinate
+	 */
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 
-	/** @brief set end position of svgline */
+	/** @brief set end position of line */
 	void setEndPosition(const Vector2D<float> &endPosition);
 
-	/**
-	 * @brief get end position of a svgline
-	 * @note This function does not change any attributes
-	*/
+	/** @brief get end position of a line */
 	Vector2D<float> getEndPosition() const;
 
 	/**
-	 * @brief Get slope coefficient of the svgline
+	 * @brief Get slope coefficient of the line
 	 * @return slope
-	*/
+	 */
 	float getSlope() const;
 
-	/**
-	 * @brief Check if two lines intersect each other
-	 * @return bool
-	*/
+	/** @brief Check if two lines intersect each other */
 	bool isIntersect(const SVGLine &other) const;
 
 	/**
 	 * @brief Get intersected point
 	 * @return intersected point
-	*/
+	 */
 	Vector2D<float> getIntersected(const SVGLine &other) const;
 };
 

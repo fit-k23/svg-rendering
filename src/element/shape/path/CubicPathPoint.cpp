@@ -1,6 +1,6 @@
 #include "CubicPathPoint.h"
 
-CubicPathPoint::CubicPathPoint() : PathPoint() {
+CubicPathPoint::CubicPathPoint() {
 	for (auto &i : cen)
 		i = Vector2D<float>();
 }
@@ -17,11 +17,6 @@ CubicPathPoint::CubicPathPoint(char _cmd, const Vector2D<float> &_pos, const Vec
 CubicPathPoint::CubicPathPoint(char _cmd, const Vector2D<float> &_pos, const Vector2D<float> &_cen1, const Vector2D<float> &_cen2) : PathPoint(_cmd, _pos) {
 	cen[0] = _cen1;
 	cen[1] = _cen2;
-}
-
-CubicPathPoint::CubicPathPoint(const CubicPathPoint &other) : PathPoint(other) {
-	cen[0] = other.cen[0];
-	cen[1] = other.cen[1];
 }
 
 void CubicPathPoint::setCen(const Vector2D<float> &_cen, int id) { cen[id] = _cen; }

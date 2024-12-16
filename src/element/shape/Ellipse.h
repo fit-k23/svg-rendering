@@ -22,19 +22,19 @@ public:
 	/**
 	 * @brief Get the bounding box of the ellipse
 	 * @return Pair of top-left and bottom-right coordinate
-	*/
+	 */
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 
 	/**
 	 * @brief Set the current horizontal and vertical radius of the ellipse to the target size
 	 * @param radii Target radius
-	*/
+	 */
 	void setRadii(const Vector2D<float> &radii);
 
 	/**
 	 * @brief Get the current horizontal and vertical radius of the ellipse
 	 * @return Return the radius of the ellipse
-	*/
+	 */
 	Vector2D<float> getRadii() const;
 };
 

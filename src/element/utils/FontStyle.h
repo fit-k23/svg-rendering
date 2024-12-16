@@ -2,14 +2,12 @@
 #define SVG_RENDERING_TEXT_STYLE_H
 
 #include <string>
-using std::string;
+#include "../../utils/StringHelper.h"
 
 enum class FontStyle{
 	NORMAL = 0,
 	ITALIC
 };
-
-#include "../../utils/StringHelper.h"
 
 namespace FontStyleHelper{
 	static FontStyle fromName(const std::string &s) {

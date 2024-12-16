@@ -14,33 +14,30 @@
 /**
  * @brief Supports reading SVG color and return Gdiplus::Color type
  * @note Can extract rgb, hex, percentage.
-*/
-class SVGColor{
-public:
+ */
+struct SVGColor{
 	unsigned char r, g, b, a;
 
 	/** @brief Default constructor (transparent/none) */
 	SVGColor(); // r,g,b = 0 -> black, a = 0 -> none
 	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
-
 	SVGColor(int r, int g, int b, int a = 255);
-
-	SVGColor(const SVGColor &other);
+	SVGColor(const SVGColor &other) = default;
 
 	SVGColor &operator=(const SVGColor &other);
 
-	explicit SVGColor(std::string param);
+	SVGColor(std::string param);
 	static SVGColor fromHSL(int h, int s, int l, int a = 255);
 
 	operator Gdiplus::Color() const;
 
 	void output() const;
 
-	inline SVGColor alpha(unsigned char a) const;
+	SVGColor alpha(unsigned char a) const;
 	SVGColor alpha(int a) const;
 	SVGColor alpha(float a) const;
 	SVGColor sub(const SVGColor &other) const{
-		return {(unsigned char) (other.r - r), (unsigned char) (other.g - g), (unsigned char) (other.b - b), (unsigned char) a};
+		return {static_cast<unsigned char>(other.r - r), static_cast<unsigned char>(other.g - g), static_cast<unsigned char>(other.b - b), static_cast<unsigned char>(a)};
 	}
 
 	SVGColor blend(const SVGColor &other) const;

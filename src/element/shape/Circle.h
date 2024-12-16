@@ -7,10 +7,10 @@
 /**
  * @brief Class that represents circle in svg
  * @note Circle class is inherited from Ellipse class
-*/
-class SVGCircle : public SVGEllipse{
+ */
+class SVGCircle final : public SVGEllipse{
 public:
-	SVGCircle() = default; // TODO: change to not default
+	SVGCircle() = default;
 
 	/** @brief Full-parameterized constructor */
 	SVGCircle(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, float radius);
@@ -24,7 +24,7 @@ public:
 	/**
 	 * @brief Get bounding box of the circle
 	 * @return pair of top-left and bottom-right coordinate
-	*/
+	 */
 	std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const override;
 };
 

@@ -151,9 +151,7 @@ const static std::map<std::string, SVGColor> LABELED_COLOR = {
 };
 
 SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
-
 SVGColor::SVGColor(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a) : r(_r), g(_g), b(_b), a(_a) {}
-
 SVGColor::SVGColor(int _r, int _g, int _b, int _a) : r(_r), g(_g), b(_b), a(_a) {}
 
 SVGColor::SVGColor(std::string param) {
@@ -195,8 +193,8 @@ SVGColor::SVGColor(std::string param) {
 	} else {
 		//Assuming the form of string input is rgb(r,g,b)
 		bool isPercent[3] = { false, false, false };
-		int idPercent = 0;
 		if (param[0] == 'r' && (param[1] == 'g' && param[2] == 'b')) {
+			int idPercent = 0;
 			for (char & i : param) {
 				if (i == 'r' || i == 'g' || i == 'b' || i == '(' || i == ')' || i == ',' || i == '%') {
 					if (i == '%') isPercent[idPercent++] = true;
@@ -212,12 +210,12 @@ SVGColor::SVGColor(std::string param) {
 			if (G > 255.0f) G = 255.0f;
 			if (B < 0.0f) B = 0.0f;
 			if (B > 255.0f) B = 255.0f;
-			r = (unsigned char) R;
-			if (isPercent[0]) r = (unsigned char) (255.0f * (R / 100.0f));
-			g = (unsigned char) G;
-			if (isPercent[1]) g = (unsigned char) (255.0f * (G / 100.0f));
-			b = (unsigned char) B;
-			if (isPercent[2]) b = (unsigned char) (255.0f * (B / 100.0f));
+			r = static_cast<unsigned char>(R);
+			if (isPercent[0]) r = static_cast<unsigned char>(255.0f * (R / 100.0f));
+			g = static_cast<unsigned char>(G);
+			if (isPercent[1]) g = static_cast<unsigned char>(255.0f * (G / 100.0f));
+			b = static_cast<unsigned char>(B);
+			if (isPercent[2]) b = static_cast<unsigned char>(255.0f * (B / 100.0f));
 		} else {
 			//Assuming the string input is color name
 			for (int i = 0; param[i]; i++) if (param[i] <= 'Z' && param[i] >= 'A') param[i] += 32;
@@ -239,8 +237,6 @@ SVGColor::operator Gdiplus::Color() const {
 	return Gdiplus::Color{a, r, g, b};
 }
 
-SVGColor::SVGColor(const SVGColor &other) = default;
-
 inline SVGColor SVGColor::alpha(unsigned char _a) const {
 	return {r, g, b, _a};
 }
@@ -248,9 +244,9 @@ inline SVGColor SVGColor::alpha(unsigned char _a) const {
 SVGColor SVGColor::fromHSL(int h, int s, int l, int _a) {
 	float _r{}, _g{}, _b{};
 
-	float c = (1.0f - fabsf(2.0f * (float) l - 1.0f)) * (float) s; // Chroma
+	float c = (1.0f - fabsf(2.0f * static_cast<float>(l) - 1.0f)) * static_cast<float>(s); // Chroma
 	float x = c * (1.0f - fabsf(fmodf(static_cast<float> (h) / 60.0f, 2) - 1.0f));
-	float m = (float) l - c / 2.0f;
+	float m = static_cast<float>(l) - c / 2.0f;
 
 	if (h >= 0 && h < 60) {
 		_r = c;
@@ -276,7 +272,7 @@ SVGColor SVGColor::fromHSL(int h, int s, int l, int _a) {
 }
 
 void SVGColor::output() const {
-	std::cout << "{" << (int) r << " " << (int) g << " " << (int) b << " " << (int) a << "}";
+	std::cout << "{" << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " " << static_cast<int>(a) << "}";
 }
 
 SVGColor &SVGColor::operator=(const SVGColor &other) {
@@ -288,7 +284,7 @@ SVGColor &SVGColor::operator=(const SVGColor &other) {
 	return *this;
 }
 
-SVGColor SVGColor::alpha(float _a) const { return alpha((unsigned char) (_a * 255.f)); }
+SVGColor SVGColor::alpha(float _a) const { return alpha(static_cast<unsigned char>(_a * 255.f)); }
 
 SVGColor SVGColor::blend(const SVGColor &other) const {
 	return {(other.r + r) / 2, (other.g + g) / 2, (other.b + b) / 2, (other.a + a) / 2};

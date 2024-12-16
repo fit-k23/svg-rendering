@@ -11,18 +11,22 @@
 #include "utils/Gradient.h"
 #include "utils/SVGColor.h"
 
+using std::vector;
+using std::string;
+using std::pair;
+
 /**
  * @brief Element is an abstract class for all svg elements (nodes)
  * @note It contains most of SVG attributes and a reference to Gradient class (applying bridge design pattern)
  * @note Must have the virtual destructor to avoid any undefined behaviors
-*/
+ */
 class Element{
 protected:
 	Vector2D<float> position;
 	SVGColor fillColor;
 	SVGColor strokeColor;
 	float strokeWidth;
-	std::vector<std::string> transformation;
+	vector<string> transformation;
 	Gradient *fillGradient;
 	Gradient *strokeGradient;
 
@@ -30,7 +34,7 @@ protected:
 	/** @brief Constructor without transformations */
 	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth);
 	/** @brief Constructor with transformations */
-	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<std::string> &transformation);
+	Element(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const vector<string> &transformation);
 public:
 	virtual ~Element() = default;
 	/**
@@ -46,7 +50,7 @@ public:
 	*/
 	virtual void dbg();
 	/** @brief Get the bounding box of the element */
-	virtual std::pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const;
+	virtual pair<Vector2D<float>, Vector2D<float>> getBoundingBox() const;
 	/** @brief Set current position of the element with emplace-inputs  */
 	void setPosition(float x, float y);
 	/**
@@ -81,14 +85,14 @@ public:
 	 * @brief Add a transformation to the element
 	 * @param s New transformation (in string format)
 	*/
-	void addTransformation(const std::string &s);
+	void addTransformation(const string &s);
 	/** 
 	 * @brief Set a new set of transformations to the elements
 	 * @param transformations New set of transformations
 	*/
-	void setTransformation(const std::vector<std::string> &transformations);
+	void setTransformation(const vector<string> &transformations);
 	/** @brief Get the current set of transformations */
-	std::vector<std::string> getTransformation() const;
+	vector<string> getTransformation() const;
 	/**
 	 * @brief Set the current fill gradient of the element
 	 * @param grad Pointer to the allocated Gradient

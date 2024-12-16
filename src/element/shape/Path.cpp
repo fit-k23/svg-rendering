@@ -1,8 +1,7 @@
 #include "Path.h"
 
-SVGPath::SVGPath() : Element(), points({}), fillRule(FillRule::NON_ZERO) {}
-
-SVGPath::SVGPath(const Vector2D<float>& position, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth, const std::vector<PathPoint *>& points, FillRule fillRule) : Element(position, fillColor, strokeColor, strokeWidth), points(points), fillRule(fillRule) {}
+SVGPath::SVGPath() : points({}), fillRule(FillRule::NON_ZERO) {}
+SVGPath::SVGPath(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<PathPoint *> &points, FillRule fillRule) : Element(position, fillColor, strokeColor, strokeWidth), points(points), fillRule(fillRule) {}
 
 SVGPath::~SVGPath() {
 	for (auto &point : points)

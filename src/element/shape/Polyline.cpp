@@ -1,8 +1,7 @@
 #include "Polyline.h"
 
-SVGPolyline::SVGPolyline() : Element(), points{}, fillRule(FillRule::NON_ZERO) {}
+SVGPolyline::SVGPolyline() : fillRule(FillRule::NON_ZERO) {}
 SVGPolyline::SVGPolyline(const Vector2D<float> &position, const SVGColor &fillColor, const SVGColor &strokeColor, float strokeWidth, const std::vector<Vector2D<float>> &points, FillRule fillRule) : Element(position, fillColor, strokeColor, strokeWidth), points(points), fillRule(fillRule) {}
-SVGPolyline::SVGPolyline(const SVGPolyline &other) = default;
 
 ElementType SVGPolyline::getTypeName() { return ElementType::Polyline; }
 

@@ -1,6 +1,6 @@
 #include "Ellipse.h"
 
-SVGEllipse::SVGEllipse() : Element(), radii() {}
+SVGEllipse::SVGEllipse() {}
 
 SVGEllipse::SVGEllipse(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float strokeWidth, const Vector2D<float> &_radii) : Element(_position, _fillColor, _strokeColor, strokeWidth), radii(_radii) {}
 

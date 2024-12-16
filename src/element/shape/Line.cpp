@@ -1,10 +1,7 @@
 #include "Line.h"
 
-SVGLine::SVGLine() : Element(), endPosition(Vector2D<float>()) {}
+SVGLine::SVGLine() : endPosition(Vector2D<float>()) {}
 SVGLine::SVGLine(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const Vector2D<float> &_endPosition) : Element(_position, _fillColor, _strokeColor, _strokeWidth), endPosition(_endPosition) {}
-SVGLine::SVGLine(const SVGLine &other) : Element(other) {
-	endPosition = other.endPosition;
-}
 
 ElementType SVGLine::getTypeName() {
 	return ElementType::Line;
@@ -26,7 +23,7 @@ void SVGLine::setEndPosition(const Vector2D<float> &endPosition) { this->endPosi
 Vector2D<float> SVGLine::getEndPosition() const { return this->endPosition; }
 
 float SVGLine::getSlope() const {
-	return (float) fabs(endPosition.y - position.y) / (float) fabs(endPosition.x - position.x);
+	return fabs(endPosition.y - position.y) / fabs(endPosition.x - position.x);
 }
 
 bool SVGLine::isIntersect(const SVGLine &other) const {
@@ -38,7 +35,7 @@ Vector2D<float> SVGLine::getIntersected(const SVGLine &other) const {
 	float a1 = getSlope(), a2 = other.getSlope();
 	float b1 = position.y - a1 * position.x;
 	float b2 = other.position.y - a2 * other.position.x;
-	float intersectX = (float) (b2 - b1) / (float) (a1 - a2);
+	float intersectX = (b2 - b1) / (a1 - a2);
 	float intersectY = a1 * intersectX + b1;
 	return {intersectX, intersectY};
 }

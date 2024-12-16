@@ -4,49 +4,52 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Vector2D.h"
 #include "Stop.h"
+#include "Vector2D.h"
+
+using std::string;
+using std::vector;
 
 /** @brief Abstract Gradient class for Linear and Radial Gradient to inherit. */
 class Gradient{
-	std::string id;
-	std::vector<std::string> transforms;
-	std::vector<Stop> stops;
-	std::string units;
+	string id;
+	vector<string> transforms;
+	vector<Stop> stops;
+	string units;
 public:
 	Gradient();
-	Gradient(const std::string &id, const std::vector<std::string> &transforms, const std::string &units);
+	Gradient(const string &id, const vector<string> &transforms, const string &units);
 	virtual ~Gradient() = default;
 	/**
 	 * @brief Get type of gradient
 	 * @note This is a pure virtual function and must be implemented by subclasses
 	 * @note This function doesn't change any attributes
-	*/
-	virtual std::string getType() const = 0;
+	 */
+	virtual string getType() const = 0;
 	virtual void dbg() const;
-	void setID(const std::string& id);
-	std::string getID() const;
-	void setTransforms(const std::vector<std::string> &transforms);
-	void addTransform(const std::string &transform);
+	void setID(const string &id);
+	string getID() const;
+	void setTransforms(const vector<string> &transforms);
+	void addTransform(const string &transform);
 	/**
 	 * @brief Get the gradient transformations
 	 * @return vector<string>
 	 * @note This function doesn't change any attributes.
-	*/
-	std::vector<std::string> getTransforms() const;
+	 */
+	vector<string> getTransforms() const;
 
 	/** @brief Set new set of stops for gradients */
-	void setStops(const std::vector<Stop> &stops);
+	void setStops(const vector<Stop> &stops);
 	void addStop(const Stop &stop);
-	std::vector<Stop> getStops() const;
-	void setUnits(const std::string &units);
+	vector<Stop> getStops() const;
+	void setUnits(const string &units);
 
 	/**
 	 * @brief Get the gradient units
 	 * @return string
 	 * @note This function doesn't change any attributes.
-	*/
-	std::string getUnits() const;
+	 */
+	string getUnits() const;
 };
 
 #endif //GRADIENT_H

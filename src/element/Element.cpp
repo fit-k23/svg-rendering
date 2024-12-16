@@ -19,7 +19,7 @@ Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, c
 	strokeGradient = nullptr;
 }
 
-Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const std::vector<std::string> &_transformation) : Element(_position, _fillColor, _strokeColor, _strokeWidth) {
+Element::Element(const Vector2D<float> &_position, const SVGColor &_fillColor, const SVGColor &_strokeColor, float _strokeWidth, const vector<string> &_transformation) : Element(_position, _fillColor, _strokeColor, _strokeWidth) {
 	transformation = _transformation;
 	fillGradient = nullptr;
 	strokeGradient = nullptr;
@@ -64,13 +64,13 @@ float Element::getStrokeWidth() const {
 	return this->strokeWidth;
 }
 
-void Element::addTransformation(const std::string &s) {
+void Element::addTransformation(const string &s) {
 	this->transformation.push_back(s);
 }
 
-void Element::setTransformation(const std::vector<std::string> &transformations) { this->transformation = transformations; }
+void Element::setTransformation(const vector<string> &transformations) { this->transformation = transformations; }
 
-std::vector<std::string> Element::getTransformation() const {
+vector<string> Element::getTransformation() const {
 	return this->transformation;
 }
 
@@ -132,9 +132,9 @@ void Element::dbg() {
 	std::cout << '\n';
 	std::cout << "Stroke width: " << getStrokeWidth() << '\n';
 	std::cout << "Bounding box: ";
-	std::pair<Vector2D<float>, Vector2D<float>> boundingBox = getBoundingBox();
-	std::cout << "top-left(" << boundingBox.first.x << ", " << boundingBox.first.y << ") ";
-	std::cout << "bottom-right(" << boundingBox.second.x << ", " << boundingBox.second.y << ")\n";
+	auto [tl, bt] = getBoundingBox();
+	std::cout << "top-left(" << tl.x << ", " << tl.y << ") ";
+	std::cout << "bottom-right(" << bt.x << ", " << bt.y << ")\n";
 	std::cout << "Transformation: \n"; 
 	for (const auto &trans : transformation)
 		std::cout << trans << '\n';
@@ -146,6 +146,6 @@ void Element::dbg() {
 	else std::cout << "null\n";
 }
 
-std::pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {
+pair<Vector2D<float>, Vector2D<float>> Element::getBoundingBox() const {
 	return {Vector2D<float>(), Vector2D<float>()};
 }

@@ -1,7 +1,7 @@
 #include "FileManager.h"
 
 vector<string> FileManager::filePaths;
-int FileManager::current = 0;
+size_t FileManager::current = 0;
 
 bool FileManager::addFile(const string &filePath) {
 	if (filePath.empty() || !isFileExist(filePath)) return false;
@@ -58,10 +58,10 @@ vector<string> FileManager::getFileList() {
 
 string FileManager::getCurrentFile() { return filePaths[current]; }
 
-int FileManager::getCurrent() { return current; }
+size_t FileManager::getCurrent() { return current; }
 
-void FileManager::setCurrent(int idx) {
-	if (idx < 0 || idx >= filePaths.size()) {
+void FileManager::setCurrent(size_t idx) {
+	if (idx >= filePaths.size()) {
 		return;
 	}
 	current = idx;

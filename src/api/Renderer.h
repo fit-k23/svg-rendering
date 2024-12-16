@@ -7,7 +7,6 @@
 
 /** @brief Singleton instance for managing the rendering of Element */
 class Renderer final{
-private:
 	/** @param viewPort The viewport of svg */
 	Vector2D<float> viewPort;
 	/** @param instance the pointer to current instance of Renderer */
@@ -17,7 +16,7 @@ private:
 	/**
 	 * @brief Apply transformation to gdiplus graphics
 	 * @param transformations List of transformation in string format
-	*/
+	 */
 	static void applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations);
 	/**
 	 * @brief Get the correct type of brush
@@ -51,13 +50,13 @@ public:
 	/**
 	 * @brief Set current viewport to input viewport
 	 * @param viewPort New viewport
-	*/
+	 */
 	void setViewPort(const Vector2D<float> &viewPort);
 
 	/**
 	 * @brief Get the view port
 	 * @note This function doesn't change any attributes
-	*/	
+	 */
 	Vector2D<float> getViewPort() const;
 };
 
