@@ -4,14 +4,14 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <fstream>
 #include "Graphic.h"
 #include "../../lib/rapidxml/rapidxml.hpp"
-#include "../element/utils/Gradient.h"
-#include "../element/utils/LinearGradient.h"
-#include "../element/utils/RadialGradient.h"
 #include "../utils/StringHelper.h"
+
+using std::vector;
+using std::map;
+using std::string;
 
 /**
  * @brief Parse SVG (XML format) file and handle its nodes, attributes
@@ -21,27 +21,22 @@
 */
 
 class XMLParser final {
-private:
 	rapidxml::xml_document<> doc;
 	Vector2D<float> viewPort;
 	ViewBox viewBox{};
 	Group *svg;
-	std::map<std::string, Gradient *> grads;
+	map<string, Gradient *> grads;
 	static XMLParser *instance;
+	XMLParser();
 public:
 	/**
 	 * @brief Get instance of XMLParser (apply singleton design pattern)
 	 * @return current instance of XMLParser
-	*/
+	 */
 	static XMLParser *getInstance();
 
 	/** @brief Delete copy constructor to ensure the singleton design pattern */
 	XMLParser(const XMLParser &other) = delete;
-
-	/**
-	 * @brief Destructor of XMLParser
-	 * @note Delete allocated memory of map gradients and root
-	*/
 	~XMLParser();
 
 	/**
@@ -50,125 +45,120 @@ public:
 	 * @param group the nearest group that has affected to current node
 	 * @note Note that the root node (<svg>) is also considered a group
 	 * @note Therefore, nearGrp is only nullptr only with root node
-	*/
-	void traverseXML(const std::string& fileName, rapidxml::xml_node<>* pNode, Group *group);
+	 */
+	void traverseXML(const string& fileName, rapidxml::xml_node<> *pNode, Group *group);
 
 	/**
 	 * @brief Get the root element (Group type).
 	 * @return Group * the pointer to svg root
-	*/
+	 */
 	Group* getRoot() const;
 
-	/**
-	 * @brief Get view box object
-	*/
+	/** @brief Get view box object */
 	Vector2D<float> getViewPort() const;
 	/**
 	 * @brief Get view box object
 	 * @return ViewBox type
-	*/
+	 */
 	ViewBox getViewBox() const;
 private:
-	/** @brief Default constructor */
-	XMLParser();
-
 	/**
 	 * @brief Parse view box information
 	 * @return a view box
-	*/
-	ViewBox parseViewBox(rapidxml::xml_node<> *pNode);
+	 */
+	static ViewBox parseViewBox(rapidxml::xml_node<> *pNode);
 	/**
 	 * @brief Parse all common attributes of shapes
 	 * @note Avoid reusing the parsing of fill,stroke,strokeWidth,transformation many times
 	 * @return Element* type
-	*/
-	Element *parseShape(rapidxml::xml_node<>* pNode);
+	 */
+	Element *parseShape(rapidxml::xml_node<> *pNode);
 	/**
 	 * @brief Parse rectangle attributes
 	 * @return Rectangle object
-	*/
+	 */
 	SVGRect parseRect(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Ellipse attributes
 	 * @return Ellipse object
-	*/
-	SVGEllipse parseEllipse(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	 */
+	SVGEllipse parseEllipse(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Circle attributes
 	 * @return Circle object
-	*/
-	SVGCircle parseCircle(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	 */
+	SVGCircle parseCircle(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Line attributes
 	 * @return Line object
-	*/
-	SVGLine parseLine(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	 */
+	SVGLine parseLine(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Polyline attributes
 	 * @return Polyline object
 	*/
-	SVGPolyline parsePolyline(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	SVGPolyline parsePolyline(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Polygon attributes
 	 * @return Polygon object
-	*/
-	SVGPolygon parsePolygon(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	 */
+	SVGPolygon parsePolygon(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 	/**
 	 * @brief Parse Text attributes
 	 * @return Text object
 	 */
-	SVGText parseText(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	SVGText parseText(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse Path attributes
 	 * @return Path object.
 	 */
-	SVGPath parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
+	SVGPath parsePath(rapidxml::xml_node<> *pNode, const SVGColor& fillColor, const SVGColor& strokeColor, float strokeWidth);
 
 	/**
 	 * @brief Parse gradient attributes
 	 * @note All gradients will be stored in grads map
 	 */
-	void parseGradients(rapidxml::xml_node<>* pNode);
+	void parseGradients(rapidxml::xml_node<> *pNode);
 	/**
 	 * @brief Parse gradient stops attributes
 	 * @return vector<Stop> contains all stops of gradient
 	 */
-	std::vector<Stop> parseStops(rapidxml::xml_node<> *pNode);
+	vector<Stop> parseStops(rapidxml::xml_node<> *pNode);
 	/**
 	 * @brief Get the float value of specific attribute
 	 * @param pNode current xml node
 	 * @param attrName attribute's name
 	 * @return float
 	 */
-	float parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
+	float parseFloatAttr(rapidxml::xml_node<> *pNode, const string& attrName);
 	/**
 	 * @brief Get the insight value of specific attribute
 	 * @param pNode current xml node
 	 * @param attrName attribute's name
 	 * @return string type
 	 */
-	std::string parseStringAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
+	string parseStringAttr(rapidxml::xml_node<> *pNode, const string& attrName);
 	/**
 	 * @brief Parse color attributes
 	 * @param pNode current xml node
 	 * @param attrName attribute's name
 	 * @return SVGColor type
 	 */
-	SVGColor parseColor(rapidxml::xml_node<> *pNode, const std::string& attrName, std::string &gradID);
+	SVGColor parseColor(rapidxml::xml_node<> *pNode, const string& attrName, string &gradID);
 	/**
 	 * @brief Parse set of points attributes
 	 * @param pNode current xml node
 	 * @param attrName attribute's name
 	 * @return vector<Vector2D<float>> set of points
 	 */
-	std::vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, const std::string& attrName);
+	vector<Vector2D<float>> parsePointsAttr(rapidxml::xml_node<> *pNode, const string& attrName);
 	/**
 	 * @brief Parse transformation and add to vector
 	 * @param transformation the transformation attributes
 	 * @return vector<string> set of transformations.
 	 */
-	std::vector<std::string> parseTransformation(std::string transformation);
+	vector<string> parseTransformation(string transformation);
 };
 
 #endif // SVG_RENDERING_XML_PARSER_H_

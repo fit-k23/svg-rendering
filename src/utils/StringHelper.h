@@ -13,7 +13,7 @@ using std::cin;
 namespace StringHelper{
 	/**
 	 * Check if input a 32bit character (utf8) is whitespace!
-	 * @link https://cplusplus.com/reference/cctype/
+	 * @link https://cplusplus.com/reference/cctype/\endlink
 	 */
 	static bool isUnicodeWhitespace(char32_t ch) {
 		return (ch == 0x0009 || // Tab

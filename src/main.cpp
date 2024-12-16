@@ -50,6 +50,7 @@ void ProjectDraw(HDC hdc) {
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
 
+
 	Vector2D<float> vPort = parser->getViewPort();
 	ViewBox vBox = parser->getViewBox();
 

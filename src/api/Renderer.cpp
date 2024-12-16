@@ -6,7 +6,7 @@ Renderer::Renderer() : viewPort{Vector2D<float>()} {}
 
 Renderer* Renderer::getInstance() { return instance == nullptr ? instance = new Renderer() : instance; }
 
-void Renderer::draw(Gdiplus::Graphics &graphics, Group *parent) {
+void Renderer::draw(Gdiplus::Graphics &graphics, const Group *parent) {
 	if (parent == nullptr) {
 		std::cout << "Parent is NULL\n";
 		return;
@@ -48,7 +48,6 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Group *parent) {
 				break;
 			}
 			case ElementType::Path: {
-				// shape->dbg();
 				drawPath(graphics, static_cast<SVGPath *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
 			}
@@ -64,7 +63,6 @@ void Renderer::draw(Gdiplus::Graphics &graphics, Group *parent) {
 }
 
 void Renderer::setViewPort(const Vector2D<float> &_viewPort) { viewPort = _viewPort; }
-
 Vector2D<float> Renderer::getViewPort() const { return viewPort; }
 
 void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations) {
@@ -102,15 +100,15 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	}
 }
 
-Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, const SVGColor &color) const {
+Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, const SVGColor &color) {
 	Gdiplus::Brush *brush = nullptr;
-	if (gradient == nullptr) {
+	if (gradient == nullptr)
 		return new Gdiplus::SolidBrush(color);
-	}
-	std::vector<Stop> stops = gradient->getStops();
-	if (stops.size() == 1) {
+
+	const std::vector<Stop> stops = gradient->getStops();
+	if (stops.size() == 1)
 		return new Gdiplus::SolidBrush(stops.begin()->getStopColor());
-	}
+
 	std::vector<float > offsets;
 	std::vector<Gdiplus::Color> colors;
 	int stopAmount = 0;
@@ -157,13 +155,14 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, cons
 		auto *lBrush = new Gdiplus::LinearGradientBrush(rect, color, color, angle, false);
 		lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
 		return lBrush;
-	} else if (gradient->getType() == "radial") {
+	}
+	if (gradient->getType() == "radial") {
 		auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 	}
 	return brush;
 }
 
-void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
+void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	SVGColor fillColor = element->getFillColor();
@@ -183,23 +182,18 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, SVGRect *element) {
 	if (radii.x == 0 && radii.y == 0) {
 		path.AddRectangle(Gdiplus::RectF(position.x, position.y, width, height));
 	} else { // <--- Rounded corner
-		// Top-left corner
-		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0);
-		// Top-right corner
-		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0);
-		// Bottom-left corner
-		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0);
-		// Bottom-right corner
-		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0);
-		// Close to form the final shape
-		path.CloseFigure();
+		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0); // top-left
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0); // top-right
+		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0); // bot-left
+		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0); // bot-right
+		path.CloseFigure(); // close to form a closed loop
 	}
 
 	graphics.FillPath(&brush, &path);
 	graphics.DrawPath(&pen, &path);
 }
 
-void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
+void Renderer::drawEllipse(Gdiplus::Graphics &graphics, const SVGEllipse *element) {
 	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	Vector2D<float> radius = element->getRadii();
@@ -207,9 +201,7 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	
-	std::vector<std::string> transformations = element->getTransformation();
-	
+
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
 	Gdiplus::GraphicsPath path;
@@ -220,15 +212,9 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, SVGEllipse *element) {
 	graphics.DrawPath(&pen, &path);
 }
 
-void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) {
-	if (element == nullptr) return;
-	Vector2D<float> radius = element->getRadii();
-	radius.y = radius.x;
-	element->setRadii(radius);
-	drawEllipse(graphics, element);
-}
+void Renderer::drawCircle(Gdiplus::Graphics &graphics, SVGCircle *element) { drawEllipse(graphics, element); }
 
-void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
+void Renderer::drawLine(Gdiplus::Graphics &graphics, const SVGLine *element) {
 	if (element == nullptr) return;
 	Vector2D<float> position = element->getPosition();
 	Vector2D<float> endPosition = element->getEndPosition();
@@ -240,7 +226,7 @@ void Renderer::drawLine(Gdiplus::Graphics &graphics, SVGLine *element) {
 }
 
 /** @brief Draw polyline */
-void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
+void Renderer::drawPolyline(Gdiplus::Graphics &graphics, const SVGPolyline *element) {
 	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -254,8 +240,8 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
 	// Draw multiple offset lines to create a filled effect (default: winding mode)
 	Gdiplus::GraphicsPath path(FillRuleHelper::getGdiplusFillMode(element->getFillRule()));
 	path.StartFigure();
-	int last = (int) points.size() - 1;
-	for (int i = 0; i < last; ++i) {
+	const size_t last = points.size() - 1;
+	for (size_t i = 0; i < last; ++i) {
 		path.AddLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
 	}
 	graphics.FillPath(&brush, &path);
@@ -263,14 +249,14 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, SVGPolyline *element) {
 }
 
 /** @brief Draw a polygon */
-void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
+void Renderer::drawPolygon(Gdiplus::Graphics &graphics, const SVGPolygon *element) {
 	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
 	std::vector<Vector2D<float>> points = element->getPoints();
 
-	int size = (int) points.size();
+	int size = static_cast<int>(points.size());
 	auto pointsArr = new Gdiplus::Point[size];
 
 	for (int i = 0; i < size; ++i)
@@ -289,7 +275,7 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, SVGPolygon *element) {
 #include "Camera.h"
 
 /** @brief Draw text */
-void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
+void Renderer::drawText(Gdiplus::Graphics &graphics, const SVGText *element) {
 	if (element == nullptr) return;
 	std::string data = element->getData();
 	std::wstring wData(data.begin(), data.end());
@@ -336,7 +322,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 //	graphics.DrawRectangle(&pen, boundingBox);
 
 	Gdiplus::GraphicsPath path;
-	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), (Gdiplus::PointF) position, Gdiplus::StringFormat::GenericTypographic());
+	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), static_cast<Gdiplus::PointF>(position), Gdiplus::StringFormat::GenericTypographic());
 	Gdiplus::SolidBrush brush(fillColor);
 	graphics.FillPath(&brush, &path);
 	Gdiplus::Pen pen2(strokeColor, strokeWidth);
@@ -344,7 +330,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, SVGText *element) {
 }
 
 /** @brief Draw path */
-void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
+void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 	if (element == nullptr) return;
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
@@ -356,13 +342,13 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 
 	std::vector<PathPoint *> points = element->getPoints();
 
-	Vector2D<float> sta;
+	Vector2D<float> start;
 	Vector2D<float> cur;
 	Gdiplus::GraphicsPath path(fillRule == FillRule::NON_ZERO ? Gdiplus::FillModeWinding : Gdiplus::FillModeAlternate);
 
-	PathPoint* pre = nullptr;
-	for (auto &point : points) {
-		char ins = (char) tolower(point->getCMD());
+	const PathPoint *pre = nullptr;
+	for (const auto &point : points) {
+		const char ins = static_cast<char>(tolower(point->getCMD()));
 		Vector2D<float> pos = point->getPos();
 		if (ins == 'm') { // Move-to command
 			bool startPath = true;
@@ -377,13 +363,13 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, SVGPath *element) {
 			// Starting point of a path
 			if (startPath) {
 				path.StartFigure();
-				sta = pos;
+				start = pos;
 				// std::cout << "Start a path at point (" << pos.x << ", " << pos.y << ")\n";
 			}
 		} else if (ins == 'l' || ins == 'h' || ins == 'v' || ins == 'z') {
 			if (ins == 'z') { // <-- Close the path by drawing a line from current point to start point
 				path.CloseFigure();
-				cur = sta;
+				cur = start;
 			} else {
 				path.AddLine(cur.x, cur.y, pos.x, pos.y); // <-- Add a line from previous point to current point
 				cur = pos;
