@@ -1,115 +1,198 @@
 #include <windows.h>
 #include <gdiplus.h>
 #include <iostream>
+#include <vector>
 
 using namespace Gdiplus;
 
 // Global GDI+ token
 ULONG_PTR gdiPlusToken;
 
-// Gradient colors
-Color startColor(255, 255, 0, 0); // Red
-Color endColor(255, 0, 0, 255); // Blue
+// Define a ColorStop structure to hold each color and its position
+struct ColorStop{
+    float position; // 0.0 to 1.0
+    Color color;
+};
 
-// Function to calculate the gradient color based on position (interpolation)
-Color InterpolateColor(Color startColor, Color endColor, float t) {
-	int r = (int)(startColor.GetR() + (endColor.GetR() - startColor.GetR()) * t);
-	int g = (int)(startColor.GetG() + (endColor.GetG() - startColor.GetG()) * t);
-	int b = (int)(startColor.GetB() + (endColor.GetB() - startColor.GetB()) * t);
-	int a = (int)(startColor.GetA() + (endColor.GetA() - startColor.GetA()) * t);
-
-	return Color(a, r, g, b);
+// Function to interpolate between two colors based on a factor t (0.0 to 1.0)
+Color InterpolateColor(const Color &color1, const Color &color2, float t) {
+    int r = (int)(color1.GetR() + (color2.GetR() - color1.GetR()) * t);
+    int g = (int)(color1.GetG() + (color2.GetG() - color1.GetG()) * t);
+    int b = (int)(color1.GetB() + (color2.GetB() - color1.GetB()) * t);
+    int a = (int)(color1.GetA() + (color2.GetA() - color1.GetA()) * t);
+    return Color(a, r, g, b);
 }
+
+// Function to create the custom gradient bitmap based on color stops
+Bitmap *CreateCustomGradientBitmap(RectF rect, const std::vector<ColorStop> &stops, float angle = 0.0f) {
+    if (angle < 0.0f) {
+        angle = 360.0f + angle;
+    }
+    Bitmap *gradientBitmap = new Bitmap(rect.Width + rect.X, 1);
+    Graphics graphics(gradientBitmap);
+
+    int centerX = rect.X + rect.Width / 2;
+    int centerY = rect.Y + rect.Height / 2;
+
+    graphics.TranslateTransform(centerX, centerY);
+    graphics.RotateTransform(angle);
+    graphics.TranslateTransform(-centerX, -centerY);
+
+    SolidBrush solidBrush(Color(0,0,0,0));
+
+    float newWidth = abs(rect.Width * cos(angle / 180.0 * M_PI)) + abs(sin(angle / 180.0 * M_PI));
+    rect.X += (rect.Width - newWidth) / 2;
+    rect.Width = newWidth;
+
+    for (int x = 0; x < rect.Width; x++) {
+        float t = (float) x / (rect.Width - 1);
+
+        ColorStop startStop = stops[0];
+        ColorStop endStop = stops[0];
+
+        for (size_t i = 1; i < stops.size(); i++) {
+            if (stops[i].position > t) {
+                endStop = stops[i];
+                startStop = stops[i - 1];
+                break;
+            }
+        }
+
+        float factor = (t - startStop.position) / (endStop.position - startStop.position);
+        Color gradientColor = InterpolateColor(startStop.color, endStop.color, factor);
+        solidBrush.SetColor(gradientColor);
+
+		graphics.FillRectangle(&solidBrush, (float) x + rect.X, 0.0f, 1.0f, 1.0f);
+
+    }
+
+    return gradientBitmap;
+}
+
+// Global variable to track the rotation angle
+float rotationAngle = 0.0f;
 
 // Window procedure to handle messages
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	switch (uMsg) {
-	case WM_PAINT: {
-		// Prepare graphics context
-		PAINTSTRUCT ps;
-		HDC hdc = BeginPaint(hwnd, &ps);
-		Graphics graphics(hdc);
+    switch (uMsg) {
+    case WM_PAINT: {
+        // Prepare graphics context
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hwnd, &ps);
 
-		// Get the window size
-		RECT rect;
-		GetClientRect(hwnd, &rect);
-		int width = rect.right - rect.left;
-		int height = rect.bottom - rect.top;
+        // Get the window size
+        RECT rect;
+        GetClientRect(hwnd, &rect);
+        int width = rect.right - rect.left;
+        int height = rect.bottom - rect.top;
 
-		// Manually create a custom gradient by interpolating colors
-		for (int y = 0; y < height; y++) {
-			// Interpolation factor (t) based on vertical position
-			float t = (float) y / (float)(height - 1);
+        HDC hdcMem = CreateCompatibleDC(hdc);
+        HBITMAP hBitmap = CreateCompatibleBitmap(hdc, width, height);
+        SelectObject(hdcMem, hBitmap);
 
-			// Calculate the gradient color for the current line
-			Color lineColor = InterpolateColor(startColor, endColor, t);
+        HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
+        FillRect(hdcMem, &rect, hBrush);
 
-			// Create a solid brush with the interpolated color
-			SolidBrush solidBrush(lineColor);
+        Graphics graphics(hdcMem);
 
-			// Draw a horizontal line (single pixel wide) at position 'y'
-			graphics.FillRectangle(&solidBrush, 0, y, width, 1);
-		}
+        std::vector<ColorStop> stops = {
+            {0.0f, Color(255, 255, 0, 0)}, // Red
+            {0.25f, Color(255, 255, 0, 0)}, // Red
+            {0.5f, Color(0, 0, 0, 0)}, // Transparent Black
+            {1.0f, Color(255, 0, 0, 255)} // Blue
+        };
 
-		EndPaint(hwnd, &ps);
-	}
-	break;
+        Gdiplus::RectF rectF = {100, 50, 500, 1};
+        Bitmap *gradientBitmap = CreateCustomGradientBitmap(rectF, stops, rotationAngle);
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		return 0;
+        TextureBrush textureBrush(gradientBitmap, WrapModeTile, 0, 0, 500 + 100, 1);
 
-	default:
-		return DefWindowProc(hwnd, uMsg, wParam, lParam);
-	}
-	return 0;
+        Pen pen(Color(255, 0, 255, 255), 10);
+        graphics.DrawRectangle(&pen, 100, 50, 500, 250);
+
+        graphics.FillRectangle(&textureBrush, 100, 50, 500, 250);
+
+        // Clean up
+        delete gradientBitmap;
+
+        BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
+        DeleteDC(hdcMem);
+        DeleteObject(hBitmap);
+
+        EndPaint(hwnd, &ps);
+        break;
+    }
+    case WM_ERASEBKGND: {
+        return 0;
+    }
+    case WM_KEYDOWN: {
+        // Check if W or S is pressed and adjust the rotation angle
+        if (wParam == 'W') {
+            rotationAngle += 2.0f; // Rotate clockwise
+        }
+        if (wParam == 'S') {
+            rotationAngle -= 2.0f; // Rotate counterclockwise
+        }
+        // Redraw the window to reflect the updated rotation
+        InvalidateRect(hwnd, nullptr, TRUE);
+        return 0;
+    }
+
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+
+    default:
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+    return 0;
 }
 
 // Entry point of the application
 int main() {
-	// Initialize GDI+
-	GdiplusStartupInput gdiPlusStartupInput;
-	GdiplusStartup(&gdiPlusToken, &gdiPlusStartupInput, NULL);
+    // Initialize GDI+
+    GdiplusStartupInput gdiPlusStartupInput;
+    GdiplusStartup(&gdiPlusToken, &gdiPlusStartupInput, nullptr);
 
-	// Define window class
-	WNDCLASS wc = {0};
-	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = GetModuleHandle(NULL);
-	wc.lpszClassName = "Custom Gradient Window";
+    // Define window class
+    WNDCLASS wc = {0};
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = GetModuleHandle(nullptr);
+    wc.lpszClassName = "Custom Gradient Window"; // Use ANSI class name
 
-	if (!RegisterClass(&wc)) {
-		MessageBox(NULL, "Window Registration Failed!", "Error", MB_ICONERROR);
-		return 1;
-	}
+    if (!RegisterClass(&wc)) {
+        MessageBox(nullptr, "Window Registration Failed!", "Error", MB_ICONERROR);
+        return 1;
+    }
 
-	// Create window
-	HWND hwnd = CreateWindowEx(
-		0,
-		"Custom Gradient Window",
-		"Custom Gradient Example",
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 600, 600,
-		NULL, NULL, wc.hInstance, NULL
-	);
+    // Create window
+    HWND hwnd = CreateWindowEx(
+        0,
+        "Custom Gradient Window", // Use ANSI window title
+        "Custom Gradient Example", // Use ANSI window title
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT, 1200, 900,
+        nullptr, nullptr, wc.hInstance, nullptr
+    );
 
-	if (!hwnd) {
-		MessageBox(NULL, "Window Creation Failed!", "Error", MB_ICONERROR);
-		return 1;
-	}
+    if (!hwnd) {
+        MessageBox(nullptr, "Window Creation Failed!", "Error", MB_ICONERROR);
+        return 1;
+    }
 
-	// Show the window
-	ShowWindow(hwnd, SW_SHOWNORMAL);
-	UpdateWindow(hwnd);
+    // Show the window
+    ShowWindow(hwnd, SW_SHOWNORMAL);
+    UpdateWindow(hwnd);
 
-	// Main message loop
-	MSG msg;
-	while (GetMessage(&msg, NULL, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
+    // Main message loop
+    MSG msg;
+    while (GetMessage(&msg, nullptr, 0, 0)) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
 
-	// Shutdown GDI+
-	GdiplusShutdown(gdiPlusToken);
+    // Shutdown GDI+
+    GdiplusShutdown(gdiPlusToken);
 
-	return 0;
+    return 0;
 }

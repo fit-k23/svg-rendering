@@ -5,16 +5,13 @@
 
 using namespace Gdiplus;
 
-// Global GDI+ token
 ULONG_PTR gdiPlusToken;
 
-// Define a ColorStop structure to hold each color and its position
 struct ColorStop{
     float position; // 0.0 to 1.0
     Color color;
 };
 
-// Function to interpolate between two colors based on a factor t (0.0 to 1.0)
 Color InterpolateColor(const Color &color1, const Color &color2, float t) {
     int r = (int)(color1.GetR() + (color2.GetR() - color1.GetR()) * t);
     int g = (int)(color1.GetG() + (color2.GetG() - color1.GetG()) * t);
@@ -23,13 +20,7 @@ Color InterpolateColor(const Color &color1, const Color &color2, float t) {
     return Color(a, r, g, b);
 }
 
-// Function to create the custom gradient bitmap based on color stops
-Bitmap *CreateCustomGradientBitmap(RectF rect, const std::vector<ColorStop>& stops, float angle = 0.0f) {
-//    angle = 63.43494882292201f;
-//    angle = 90.0f;
-    if (angle < 0.0f) {
-        angle = 360.0f + angle;
-    }
+Bitmap *CreateCustomGradientBitmap(RectF rect, const std::vector<ColorStop> &stops, float angle = 0.0f) {
     Bitmap* gradientBitmap = new Bitmap(rect.Width + rect.X, rect.Height + rect.Y);
     Graphics graphics(gradientBitmap);
 
@@ -46,28 +37,32 @@ Bitmap *CreateCustomGradientBitmap(RectF rect, const std::vector<ColorStop>& sto
     rect.X += (rect.Width - newWidth) / 2;
     rect.Width = newWidth;
 
-    // Loop through each pixel and determine its color based on the gradient
-    for (int x = 0; x < rect.Width; x++) {
-        // Calculate the interpolation factor (t) based on the vertical position
-        float t = (float)x / (rect.Width - 1);
+	int cur = 1;
+    int oldCur = 0;
 
-        // Find the two color stops that this position is between
-        ColorStop startStop = stops[0];
-        ColorStop endStop = stops[0];
+    for (int x = 0; x < rect.Width; ++x) {
+        float t = (float) x / (rect.Width - 1);
 
-        for (size_t i = 1; i < stops.size(); i++) {
-            if (stops[i].position > t) {
-                endStop = stops[i];
-                startStop = stops[i - 1];
-                break;
-            }
-        }
+		Color curColor = stops[cur].color;
+		Color oldColor = stops[oldCur].color;
 
-        // Interpolate between the two color stops
-        float factor = (t - startStop.position) / (endStop.position - startStop.position);
-        Color gradientColor = InterpolateColor(startStop.color, endStop.color, factor);
+		if (curColor.GetValue() == oldColor.GetValue()) {
+			float diff = stops[cur].position - stops[oldCur].position;
+			solidBrush.SetColor(curColor);
+			graphics.FillRectangle(&solidBrush, x + rect.X, rect.Y - rect.Width / 2, rect.Width * diff + 1.0f,  rect.Y + rect.Height + rect.Width);
+			x += rect.Width * diff;
+			oldCur = cur;
+			++cur;
+			continue;
+		}
+
+		if (t > stops[cur].position) {
+			oldCur = cur;
+			++cur;
+		}
+    	float factor = (t - stops[oldCur].position) / (stops[cur].position - stops[oldCur].position);
+		Color gradientColor = InterpolateColor(stops[oldCur].color, stops[cur].color, factor);
         solidBrush.SetColor(gradientColor);
-        // Set the color for the current row (1-pixel wide)
         graphics.FillRectangle(&solidBrush, x + rect.X, rect.Y - rect.Width / 2, 1.0f,  rect.Y + rect.Height + rect.Width);
     }
 
@@ -100,7 +95,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
         Graphics graphics(hdcMem);
 
-        // Define the color stops (simulating an SVG-like gradient)
         std::vector<ColorStop> stops = {
             {0.0f, Color(255, 255, 0, 0)}, // Red
             {0.25f, Color(255, 255, 0, 0)}, // Red
@@ -108,21 +102,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             {1.0f, Color(255, 0, 0, 255)} // Blue
         };
 
-        // Create the custom gradient bitmap (brush)
         Gdiplus::RectF rectF = {100, 50, 500, 250};
         Bitmap *gradientBitmap = CreateCustomGradientBitmap(rectF, stops, rotationAngle);
 
-        // Use the bitmap as a texture brush
         TextureBrush textureBrush(gradientBitmap);
 
-        Gdiplus::Pen pen(Color(255, 0, 255, 255), 10);
+        Pen pen(Color(255, 0, 255, 255), 10);
         graphics.DrawRectangle(&pen, 100, 50, 500, 250);
-        // Create an ellipse and fill it with the custom gradient
-
-//        SolidBrush solidBrush(Color(255, 0, 0, 255));
-//        graphics.TranslateTransform
-//        graphics.RotateTransform(rotationAngle);
-//        graphics.FillRectangle(&solidBrush, 100, 50, 500, 500);
 
         graphics.FillRectangle(&textureBrush, 100, 50, 500, 250);
 
