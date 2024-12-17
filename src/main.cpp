@@ -14,8 +14,10 @@
 
 #define APPLICATION_CLASS_NAME "SVGRendering"
 #define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11 - Press \"H\" for help!"
+#define BACKGROUND_COLOR RGB(255, 255, 255)
+// #define BACKGROUND_COLOR RGB(30, 31, 34)
 
-std::string fileName = "asset/svg_07_mod.svg";
+std::string fileName = "asset/gradient_rect.svg";
 
 Vector2D<float> tmpPos = {};
 
@@ -40,150 +42,15 @@ void ProjectDraw(HDC hdc) {
 	Gdiplus::Graphics graphics(hdc);
 	XMLParser *parser = XMLParser::getInstance();
 
-//	graphics.SetClip(Gdiplus::RectF{100, 30, 700, 400});
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-//	graphics.SetSmoothingMode(Gdiplus::SmoothingModeHighQuality);
-//	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-	graphics.SetTextContrast(100);
-	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
-	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-
-
 	Vector2D<float> vPort = parser->getViewPort();
 	ViewBox vBox = parser->getViewBox();
-
-//	std::cout << "Viewport x = " << vPort.x << '\n';
-//	std::cout << "Viewport y = " << vPort.y << '\n';
-//
-//	std::cout << "ViewBox minX = " << vBox.minX << '\n';
-//	std::cout << "ViewBox minY = " << vBox.minY << '\n';
-//	std::cout << "ViewBox width = " << vBox.width << '\n';
-//	std::cout << "ViewBox height = " << vBox.height << '\n';
-
-//	if (vBox.width != -1) {
-//		graphics.SetClip(Gdiplus::Rect(vBox.minX, vBox.minY, vBox.width, vBox.height));
-//		float scaleX = vPort.x / vBox.width;
-//		float scaleY = vPort.y / vBox.height;
-//
-////		if (scaleX < scaleY) scaleY = scaleX;
-////		else scaleX = scaleY;
-//		float translateX = vPort.x - (vBox.minX * scaleX);
-//		float translateY = vPort.y - (vBox.minY * scaleY);
-//
-////		std::cout << "Scale X = " << scaleX << '\n';
-////		std::cout << "Scale Y = " << scaleY << '\n';
-////		std::cout << "Translate X = " << translateX << '\n';
-////		std::cout << "Translate Y = " << translateY << '\n';
-//
-//		graphics.TranslateTransform(translateX, translateY);
-//		graphics.ScaleTransform(scaleX, scaleY);
-//	}
-//	std::cout << "\n";
-//	Gdiplus::Region region;
-//	graphics.GetClip(&region);
-
-	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
-	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
-	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
-	graphics.RotateTransform(Camera::rotation);
-	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
-
-//	graphics.SetClip(&region);
-
 	Renderer *render = Renderer::getInstance();
-
 	render->setViewPort(vPort);
 
+	Renderer::configGraphic(graphics);
+	Renderer::configCamera(graphics);
+
 	render->draw(graphics, parser->getRoot());
-
-	/* Testing Linear Gradient */
-	// Gdiplus::Rect rect1(10, 10, 200, 100);
-	// Gdiplus::Rect rect2(10, 90, 150, 100);
-
-	// Gdiplus::Rect r1(rect1);
-	// Gdiplus::Rect r2(rect2);
-	// float x1 = 0.0f;
-	// float x2 = 1.0f;
-	// float y1 = 0.0f;
-	// float y2 = 0.0f;
-
-	// float diffX = x2 - x1;
-	// float diffY = y2 - y1;
-
-	// if (diffX != 0) {
-	// 	r1.X -= x1 * r1.Width;
-	// 	r2.X -= x1 * r2.Width;
-	// 	r1.Width *= diffX;
-	// 	r2.Width *= diffX;
-	// }
-
-	// if (diffY != 0) {
-	// 	r1.Y -= y1 * r1.Height;
-	// 	r2.Y -= y1 * r2.Height;
-	// 	r1.Height *= diffY;
-	// 	r2.Height *= diffY;
-	// }
-
-	// Gdiplus::LinearGradientBrush b1(r1, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
-	// Gdiplus::LinearGradientBrush b2(r2, SVG_RED, SVG_BLUE, Gdiplus::LinearGradientModeHorizontal);
-
-//	const int gradientCount = 8;
-//	Gdiplus::Color gradientColors[gradientCount] = {
-//			SVG_RED,
-//			SVG_RED,
-//			SVG_BLANK.blend(SVG_RED),
-//			SVG_BLANK,
-//			SVG_YELLOW.blend(SVG_BLANK),
-//		SVG_YELLOW,
-//			SVG_BLUE,
-//			SVG_BLUE
-//	};
-//
-//	// Define positions (0.0 to 1.0)
-//	Gdiplus::REAL positions[gradientCount] = {
-//		0.0f,
-//		0.2f,
-//		0.3f,
-//		0.4f,
-//		0.5f,
-//		0.6f,
-//		0.8f,
-//		1.0f
-//	};
-// 	const int gradientCount = 6;
-// 	Gdiplus::Color gradientColors[gradientCount] = {
-// 		SVG_RED,
-// 		SVG_RED,
-// //		SVG_YELLOW.alpha(128),
-// 		SVG_WHITE,
-// 		SVG_YELLOW.alpha(0.5f),
-// 		SVG_BLUE,
-// 		SVG_BLUE
-// 	};
-
-// 	// Define positions (0.0 to 1.0)
-// 	Gdiplus::REAL positions[gradientCount] = {
-// 		0.0f,
-// 		0.2f,
-// //		0.3f,
-// 		0.4f,
-// 		0.6f,
-// 		0.8f,
-// 		1.0f
-// 	};
-
-// 	b1.SetGammaCorrection(true);
-// 	b2.SetGammaCorrection(true);
-// 	b1.SetInterpolationColors(gradientColors, positions, gradientCount);
-// 	b2.SetInterpolationColors(gradientColors, positions, gradientCount);
-// //
-// 	graphics.FillRectangle(&b1, rect1);
-// 	Gdiplus::SolidBrush brush(SVG_LIGHTGRAY);
-// 	graphics.FillRectangle(&brush, rect1);
-// 	graphics.FillRectangle(&b1, rect1);
-// 	graphics.FillRectangle(&b2, rect2);
 	if (Camera::isPixelModeOverlay) {
 		Gdiplus::Pen pen({255, 0, 0, 0}, 1 / Camera::zoom);
 
@@ -242,7 +109,7 @@ int main(int argc, char **argv) {
 	wndClass.hInstance = hInstance;
 	wndClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wndClass.hbrBackground = (HBRUSH) GetStockObject(WHITE_BRUSH);
+	wndClass.hbrBackground = static_cast<HBRUSH>(GetStockObject(WHITE_BRUSH));
 	wndClass.lpszMenuName = nullptr;
 	wndClass.lpszClassName = TEXT(APPLICATION_CLASS_NAME);
 
@@ -273,7 +140,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case WM_CREATE: {
 			RECT rect;
 			::GetWindowRect(hwnd, &rect);
-			Camera::screenSize = {rect.right - rect.left, rect.bottom - rect.top};
+			Camera::screenSize = {static_cast<int>(rect.right - rect.left), static_cast<int>(rect.bottom - rect.top)};
 			::GetClientRect(hwnd, &rect);
 			::SetWindowPos(hwnd, HWND_TOP, 0, 0, 2 * Camera::screenSize.x - rect.right + rect.left, 2 * Camera::screenSize.y - rect.bottom + rect.top, SWP_NOMOVE);
 
@@ -283,7 +150,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		case WM_SIZE: {
 			RECT rect;
 			::GetClientRect(hwnd, &rect);
-			Camera::screenSize = {rect.right - rect.left, rect.bottom - rect.top};
+			Camera::screenSize = {static_cast<int>(rect.right - rect.left), static_cast<int>(rect.bottom - rect.top)};
 			break;
 		}
 		case WM_PAINT: {
@@ -299,7 +166,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			HGDIOBJ hOld = SelectObject(hdcMem, hbmMem);
 
-			HBRUSH hBrush = CreateSolidBrush(RGB(255, 255, 255));
+			HBRUSH hBrush = CreateSolidBrush(BACKGROUND_COLOR);
 			FillRect(hdcMem, &rect, hBrush);
 
 			ProjectDraw(hdcMem);
@@ -373,8 +240,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_LBUTTONDOWN: {
 			Camera::isDragging = true;
-			Camera::mousePosition.x = (float)(short) LOWORD(lParam);
-			Camera::mousePosition.y = (float)(short) HIWORD(lParam);
+			Camera::mousePosition.x = static_cast<float>(static_cast<short>(LOWORD(lParam)));
+			Camera::mousePosition.y = static_cast<float>(static_cast<short>(HIWORD(lParam)));
 			SetCapture(hwnd);
 			break;
 		}
@@ -384,7 +251,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_MOUSEMOVE: {
-			Vector2D<float> pt = {(float)(short) LOWORD(lParam), (float)(short) HIWORD(lParam)};
+			Vector2D<float> pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};
 
 			if (Camera::isDragging && GetCapture() != nullptr) {
 				if (Camera::mousePosition.x != -1.0f) {
@@ -398,7 +265,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_DROPFILES: {
 			// Get the file path of the dropped file
-			auto hDrop = (HDROP) wParam;
+			auto hDrop = reinterpret_cast<HDROP>(wParam);
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
 			for (unsigned int i = 0; i < fileCount; ++i) {
 				std::wstring filePath(256, L'\0');
