@@ -3,8 +3,58 @@
 
 #include <string>
 #include "../Element.h"
-#include "../utils/TextAnchor.h"
-#include "../utils/FontStyle.h"
+#include "../../utils/StringHelper.h"
+
+enum class FontStyle{
+	NORMAL = 0,
+	ITALIC
+};
+
+namespace FontStyleHelper{
+	static FontStyle fromName(const std::string &s) {
+		string r = s;
+		StringHelper::toLowerAsciiString(r);
+		if (r == "italic") {
+			return FontStyle::ITALIC;
+		}
+		return FontStyle::NORMAL; // default is "NORMAL"
+	}
+
+	static std::string getName(const FontStyle &tA) {
+		switch (tA) {
+		case FontStyle::ITALIC: return "italic";
+		default: return "normal"; // Default is TextStyle::NORMAL
+		}
+	}
+}
+
+/** @brief Types of text anchor in SVG (default = START) */
+enum class TextAnchor : int{
+	START = 0,
+	MIDDLE,
+	END,
+};
+
+/** @brief Utilizer for dealing with TextAnchor */
+namespace TextAnchorHelper{
+	static TextAnchor fromName(const string &s) {
+		if (s == "middle") {
+			return TextAnchor::MIDDLE;
+		}
+		if (s == "end") {
+			return TextAnchor::END;
+		}
+		return TextAnchor::START; // default is "start"
+	}
+
+	static string getName(const TextAnchor &tA) {
+		switch (tA) {
+		case TextAnchor::MIDDLE: return "middle";
+		case TextAnchor::END: return "end";
+		default: return "start"; // Default is TextAnchor::START
+		}
+	}
+}
 
 /**
  * @brief Class that represents Text object in svg
