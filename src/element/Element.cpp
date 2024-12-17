@@ -91,38 +91,8 @@ Gradient* Element::getStrokeGradient() const {
 }
 
 void Element::dbg() {
-	std::cout << "[DEBUG ";
-	switch (getTypeName()) {
-		case ElementType::Rectangle:
-			std::cout << "RECT]\n";
-			break;
-		case ElementType::Ellipse:
-			std::cout << "ELLIPSE]\n";
-			break;
-		case ElementType::Circle:
-			std::cout << "CIRCLE]\n";
-			break;
-		case ElementType::Line:
-			std::cout << "LINE]\n";
-			break;
-		case ElementType::Text:
-			std::cout << "TEXT]\n";
-			break;
-		case ElementType::Polyline:
-			std::cout << "POLYLINE]\n";
-			break;
-		case ElementType::Polygon:
-			std::cout << "POLYGON]\n";
-			break;
-		case ElementType::Path:
-			std::cout << "PATH]\n";
-			break;
-		case ElementType::Group:
-			std::cout << "GROUP]\n";
-			break;
-		default:
-			break;
-	}
+	std::cout << "-= [DEBUG] =-\n";
+	std::cout << "Element type: " << ElementTypeHelper::getElementTypeName(getTypeName()) << '\n';
 	std::cout << "Position: (" << getPosition().x << ", " << getPosition().y << ")\n";
 	std::cout << "Fill color: ";
 	getFillColor().output();
@@ -133,8 +103,8 @@ void Element::dbg() {
 	std::cout << "Stroke width: " << getStrokeWidth() << '\n';
 	std::cout << "Bounding box: ";
 	auto [tl, bt] = getBoundingBox();
-	std::cout << "top-left(" << tl.x << ", " << tl.y << ") ";
-	std::cout << "bottom-right(" << bt.x << ", " << bt.y << ")\n";
+	std::cout << " + top-left(" << tl.x << ", " << tl.y << ") ";
+	std::cout << " + bottom-right(" << bt.x << ", " << bt.y << ")\n";
 	std::cout << "Transformation: \n"; 
 	for (const auto &trans : transformation)
 		std::cout << trans << '\n';
