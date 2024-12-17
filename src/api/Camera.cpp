@@ -7,40 +7,38 @@ float Camera::rotation = 0.0f;
 //float Camera::zoom = 10.0f;
 float Camera::zoom = 1.0f;
 bool Camera::isDragging = false;
-bool Camera::isPixelMode = false;
-bool Camera::isPixelModeOverlay = false;
 
 void Camera::reset() {
-	Camera::startPosition = {};
-	Camera::mousePosition = {-1, -1};
-	Camera::rotation = 0.0f;
-	Camera::zoom = 1.0f;
+	startPosition = {};
+	mousePosition = {-1, -1};
+	rotation = 0.0f;
+	zoom = 1.0f;
 }
 
 void Camera::zoomIn(float amount) {
-	Camera::zoom += amount;
-	if (Camera::zoom > 10.0f) {
-		Camera::zoom = 10.0f;
+	zoom += amount;
+	if (zoom > 10.0f) {
+		zoom = 10.0f;
 	}
-	if (amount < 0 && Camera::zoom <= 0.0f) {
-		Camera::zoom = -amount;
+	if (amount < 0 && zoom <= 0.0f) {
+		zoom = -amount;
 	}
 }
 
 void Camera::zoomOut(float amount) {
-	Camera::zoomIn(-amount);
+	zoomIn(-amount);
 }
 
 void Camera::rotateClockWise(float degree) {
-	Camera::rotation += degree;
-	if (Camera::rotation > 360.0f) {
-		Camera::rotation -= 360.0f;
+	rotation += degree;
+	if (rotation > 360.0f) {
+		rotation -= 360.0f;
 	}
-	if (Camera::rotation < 0.0f) {
-		Camera::rotation += 360.0f;
+	if (rotation < 0.0f) {
+		rotation += 360.0f;
 	}
 }
 
 void Camera::rotateCounterClockWise(float degree) {
-	Camera::rotateClockWise(-degree);
+	rotateClockWise(-degree);
 }

@@ -48,9 +48,9 @@ public:
 	/** @brief Get a list of file's name */
 	static vector<string> getFileList();
 	/** @brief Set current file idx to target idx */
-	static void setCurrent(size_t idx);
+	static bool setCurrentIdx(size_t idx, bool forceReload = false);
 	/** @brief Get current file idx */
-	static size_t getCurrent();
+	static size_t getCurrentIdx();
 	/** @brief Get current file path */
 	static string getCurrentFile();
 };

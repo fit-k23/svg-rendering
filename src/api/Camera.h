@@ -3,16 +3,13 @@
 
 #include "../element/utils/Vector2D.h"
 
-class Camera{
-public:
+struct Camera{
 	static Vector2D<int> screenSize;
 	static Vector2D<float> startPosition;
 	static Vector2D<float> mousePosition;
 	static float rotation;
 	static float zoom;
 	static bool isDragging;
-	static bool isPixelMode;
-	static bool isPixelModeOverlay;
 	/** @brief Camera zoom in (default = 0.05) */
 	static void zoomIn(float amount = 0.05f);
 	/** @brief Camera zoom out (default = 0.05) */

@@ -7,11 +7,6 @@
 #include "TParser.h"
 #include "../../../src/element/Element.h"
 
-/**
- * @brief This class only has one instance
- * @note Apply singleton design pattern
-*/
-
 class ParserManager {
 	static std::map<std::string, IParser *> parsers; // <-- store type of parser with corresponding node name
 	static rapidxml::xml_document<> doc;
@@ -36,16 +31,14 @@ public:
 	/** @brief Get the proper parser with given name and return type */
 	template<typename T>
 	static TParser<T> *getParser(const std::string &name) {
-		auto it = parsers.find(name);
-		if (it != parsers.end()) {
+		if (auto it = parsers.find(name); it != parsers.end()) {
 			return dynamic_cast<TParser<T> *>(it->second);
 		}
 		return nullptr;
 	}
 
 	static IParser *getParser(const std::string &name) {
-		auto it = parsers.find(name);
-		if (it != parsers.end()) {
+		if (auto it = parsers.find(name); it != parsers.end()) {
 			return it->second;
 		}
 		return nullptr;

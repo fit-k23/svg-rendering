@@ -25,7 +25,7 @@ bool FileManager::removeFile(const string &filePath) {
 
 bool FileManager::removeFile(size_t idx) {
 	if (idx >= filePaths.size()) return false;
-	filePaths.erase(filePaths.begin() + idx); // NOLINT(*-narrowing-conversions)
+	filePaths.erase(filePaths.begin() + idx);
 	return true;
 }
 
@@ -51,21 +51,21 @@ vector<string> FileManager::getFileList() {
 	vector<string> r;
 	r.reserve(filePaths.size());
 	for (auto &file : filePaths) {
-		r.push_back(FileManager::getFile(file));
+		r.push_back(getFile(file));
 	}
 	return r;
 }
 
 string FileManager::getCurrentFile() { return filePaths[current]; }
 
-size_t FileManager::getCurrent() { return current; }
+size_t FileManager::getCurrentIdx() { return current; }
 
-void FileManager::setCurrent(size_t idx) {
-	if (idx >= filePaths.size()) {
-		return;
-	}
+bool FileManager::setCurrentIdx(size_t idx, bool forceReload) {
+	if (idx >= filePaths.size() || (idx == current && !forceReload))
+		return false;
 	current = idx;
 	XMLParser::getInstance()->traverseXML(filePaths[idx], nullptr, nullptr);
+	return true;
 }
 
 void FileManager::clearFiles() {
