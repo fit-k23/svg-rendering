@@ -5,14 +5,17 @@
 #include "Graphic.h"
 #include <gdiplus.h>
 #include "Camera.h"
+#include "../utils/sRGBLinearGradientBrush.h"
 
 using std::string;
 using std::vector;
 
+#ifndef RAD2DEG
 #ifndef M_PI_F
 #define M_PI_F 3.1415927f
 #endif
 #define RAD2DEG(angle) ((angle) / M_PI_F * 180.0f + ((angle) > 0 ? 0 : 360.0f))
+#endif
 
 /** @brief Singleton instance for managing the rendering of Element */
 class Renderer final{
@@ -52,88 +55,10 @@ class Renderer final{
 	/** @brief Draw path */
 	static void drawPath(Gdiplus::Graphics &graphics, const SVGPath *element);
 public:
-	static void configGraphic(Gdiplus::Graphics &graphics) {
-		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
-		graphics.SetTextContrast(100);
-		graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
-		graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-		graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
-	}
+	static void configGraphic(Gdiplus::Graphics &graphics);
+	static void configCamera(Gdiplus::Graphics &graphics);
 
-	static void configCamera(Gdiplus::Graphics &graphics) {
-		graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
-		graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
-		graphics.ScaleTransform(Camera::zoom, Camera::zoom);
-		graphics.RotateTransform(Camera::rotation);
-		graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
-	}
-
-	static Gdiplus::Brush *getGradientBrush(Gdiplus::RectF boundingBox, const Gradient *gradient) {
-		if (gradient == nullptr) {
-			return nullptr;
-		}
-
-		auto *gradientBitmap = new Gdiplus::Bitmap(static_cast<int>(boundingBox.Width + boundingBox.X), static_cast<int>(boundingBox.Height + boundingBox.Y));
-		Gdiplus::Graphics graphics(gradientBitmap);
-
-		float globalHeight = boundingBox.Height + boundingBox.Y;
-		int width = static_cast<int>(boundingBox.Width);
-
-		const vector<Stop> stops = gradient->getStops();
-		if (stops.size() == 1)
-			return new Gdiplus::SolidBrush(stops.begin()->getStopColor());
-
-		vector<float> offsets;
-		vector<Gdiplus::Color> colors;
-		int stopAmount = 0;
-
-		if (stops.front().getOffset() != 0.0f) {
-			offsets.push_back(0.0f);
-			++stopAmount;
-			colors.push_back(stops.begin()->getStopColor());
-		}
-		for (auto &stop : stops) {
-			offsets.push_back(stop.getOffset());
-			++stopAmount;
-			colors.push_back(stop.getStopColor());
-		}
-		if (stops.back().getOffset() != 1.0f) {
-			offsets.push_back(1.0f);
-			++stopAmount;
-			colors.push_back(stops.back().getStopColor());
-		}
-		// TODO: Process linear and radial brush
-		if (gradient->getType() == GradientType::Linear) {
-			auto linearGradient = static_cast<const LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
-			if (linearGradient->getPos(0) == linearGradient->getPos(1)) {
-				return new Gdiplus::SolidBrush(stops.back().getStopColor());
-			}
-
-			float x1 = linearGradient->getX1();
-			float y1 = linearGradient->getY1();
-			float x2 = linearGradient->getX2();
-			float y2 = linearGradient->getY2();
-
-			float diffX = x2 - x1;
-			float diffY = y2 - y1;
-
-			if (diffX != 0) {
-				boundingBox.X -= x1 * boundingBox.Width;
-				boundingBox.Width *= diffX;
-			}
-			if (diffY != 0) {
-				boundingBox.Y -= y1 * boundingBox.Height;
-				boundingBox.Height *= diffY;
-			}
-
-			float angle = atan2f(diffY, diffX); // rad
-
-			auto *lBrush = new Gdiplus::LinearGradientBrush(boundingBox, SVG_BLANK, SVG_BLANK, RAD2DEG(angle), false);
-			lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
-			return lBrush;
-		}
-		return nullptr;
-	}
+	static sRGBLinearGradientBrush *getGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient, float angle = 0.0f);
 
 	/** @brief Get the singleton instance of Renderer */
 	static Renderer *getInstance();

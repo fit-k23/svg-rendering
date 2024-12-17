@@ -294,9 +294,9 @@ SVGColor SVGColor::alpha(int _a) const {
 }
 
 SVGColor SVGColor::interpol(const SVGColor &other, float t) const {
-	unsigned char r = this->r - (other.r - this->r) * t; // NOLINT(*-narrowing-conversions)
-	unsigned char g = this->g - (other.g - this->g) * t; // NOLINT(*-narrowing-conversions)
-	unsigned char b = this->b - (other.b - this->b) * t; // NOLINT(*-narrowing-conversions)
-	unsigned char a = this->a - (other.a - this->a) * t; // NOLINT(*-narrowing-conversions)
-	return {r, g, b, a};
+	unsigned char _r = r + (other.r - r) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char _g = g + (other.g - g) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char _b = b + (other.b - b) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char _a = a + (other.a - a) * t; // NOLINT(*-narrowing-conversions)
+	return {_r, _g, _b, _a};
 }

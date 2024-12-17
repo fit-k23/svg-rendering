@@ -143,6 +143,8 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 		float x2 = linearGradient->getX2();
 		float y2 = linearGradient->getY2();
 
+		return getGradientBrush(boundingBox, static_cast<const LinearGradient *>(gradient), 0);
+
 		float diffX = x2 - x1;
 		float diffY = y2 - y1;
 
@@ -451,4 +453,24 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 
 	graphics.FillPath(&brush, &path);
 	graphics.DrawPath(&pen, &path);
+}
+
+void Renderer::configGraphic(Gdiplus::Graphics &graphics) {
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetTextContrast(100);
+	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
+	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
+	graphics.SetInterpolationMode(Gdiplus::InterpolationModeHighQuality);
+}
+
+void Renderer::configCamera(Gdiplus::Graphics &graphics) {
+	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
+	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
+	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
+	graphics.RotateTransform(Camera::rotation);
+	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
+}
+
+sRGBLinearGradientBrush *Renderer::getGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient, float angle) {
+	return new sRGBLinearGradientBrush(sRGBLinearGradientBrushHelper::createBitmap(boundingBox, gradient, angle));
 }
