@@ -4,10 +4,12 @@ Gradient::Gradient() : transforms({}) {}
 Gradient::Gradient(const string &_id, const vector<string> &_transforms, const string &_units) : id(_id), transforms(_transforms), units(_units) {}
 
 void Gradient::dbg() const {
-	std::cout << "[DEBUG " << getType() << "Gradient]\n";
+	std::cout << "[DEBUG GRADIENT]\n";
+	std::cout << "Type: " << GradientTypeHelper::getGradientTypeName(getType()) << "\n";
 	std::cout << "ID = " << id << '\n';
 	std::cout << "Transforms: ";
-	for (const auto &transform : transforms) std::cout << transform << " ";
+	for (const auto &transform : transforms)
+		std::cout << transform << " ";
 	std::cout << '\n';
 	std::cout << "Units: " << units << '\n';
 	std::cout << "Stops: \n";

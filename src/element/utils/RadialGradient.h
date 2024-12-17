@@ -1,5 +1,5 @@
-#ifndef SVG_RENDERING_RADIALGRADIENT_H
-#define SVG_RENDERING_RADIALGRADIENT_H
+#ifndef SVG_RENDERING_RADIAL_GRADIENT_H
+#define SVG_RENDERING_RADIAL_GRADIENT_H
 
 #include "Gradient.h"
 #include "Stop.h"
@@ -16,7 +16,9 @@ public:
 	RadialGradient();
 	RadialGradient(const string &id, const vector<string> &transforms, const string &units);
 	RadialGradient(const string &id, const vector<string> &transforms, const string &units, const Vector2D<float> &pos, float radius, const Vector2D<float> &focal);
-	string getType() const override;
+
+	GradientType getType() const override { return GradientType::Radial; };
+
 	void dbg() const override;
 	/**
 	 * @brief Set new cx and cy
@@ -44,4 +46,4 @@ public:
 	Vector2D<float> getFocal() const;
 };
 
-#endif // SVG_RENDERING_RADIALGRADIENT_H
+#endif

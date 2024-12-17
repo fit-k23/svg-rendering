@@ -1,14 +1,36 @@
-#ifndef GRADIENT_H
-#define GRADIENT_H
+#ifndef SVG_RENDERING_GRADIENT_H
+#define SVG_RENDERING_GRADIENT_H
 
 #include <iostream>
 #include <string>
 #include <vector>
+
 #include "Stop.h"
 #include "Vector2D.h"
 
 using std::string;
 using std::vector;
+
+enum class GradientType{
+	Linear = 0,
+	Radial,
+};
+
+namespace GradientTypeHelper {
+	static string getGradientTypeName(GradientType type) {
+		if (type == GradientType::Radial) {
+			return "radial";
+		}
+		return "linear";
+	}
+
+	static GradientType getGradientTypeFromString(const string& type) {
+		if (type == "radial") {
+			return GradientType::Radial;
+		}
+		return GradientType::Linear;
+	}
+}
 
 /** @brief Abstract Gradient class for Linear and Radial Gradient to inherit. */
 class Gradient{
@@ -25,7 +47,7 @@ public:
 	 * @note This is a pure virtual function and must be implemented by subclasses
 	 * @note This function doesn't change any attributes
 	 */
-	virtual string getType() const = 0;
+	virtual GradientType getType() const = 0;
 	virtual void dbg() const;
 	void setID(const string &id);
 	string getID() const;
@@ -52,4 +74,4 @@ public:
 	string getUnits() const;
 };
 
-#endif //GRADIENT_H
+#endif

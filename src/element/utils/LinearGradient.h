@@ -1,8 +1,7 @@
-#ifndef SVG_RENDERING_LINEARGRADIENT_H
-#define SVG_RENDERING_LINEARGRADIENT_H
+#ifndef SVG_RENDERING_LINEAR_GRADIENT_H
+#define SVG_RENDERING_LINEAR_GRADIENT_H
 
 #include "Gradient.h"
-#include "Stop.h"
 #include "Vector2D.h"
 
 using std::string;
@@ -25,10 +24,9 @@ public:
 	LinearGradient(const string &id, const vector<string> &transforms, const string &units, const Vector2D<float> &pos1, const Vector2D<float> &pos2);
 	/**
 	 * @brief Get type of gradient
-	 * @return string "linear"
-	 * @note This function overrides from Gradient and doesn't change any attributes
+	 * @return GradientType::Linear
 	 */
-	string getType() const override;
+	GradientType getType() const override { return GradientType::Linear; };
 	void dbg() const override;
 	/**
 	 * @brief Set new x[id] and y[id] with id = [0/1]
@@ -48,4 +46,4 @@ public:
 	float getY2() const;
 };
 
-#endif // SVG_RENDERING_LINEARGRADIENT_H
+#endif

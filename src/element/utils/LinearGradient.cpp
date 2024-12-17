@@ -15,8 +15,6 @@ LinearGradient::LinearGradient(const string &id, const vector<string> &transform
 	pos[1] = _pos2;
 }
 
-string LinearGradient::getType() const { return "linear"; }
-
 void LinearGradient::dbg() const {
 	Gradient::dbg();
 	std::cout << "Point 1 = {" << pos[0].x << ", " << pos[0].y << "}\n"

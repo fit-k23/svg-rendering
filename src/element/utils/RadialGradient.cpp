@@ -14,8 +14,6 @@ RadialGradient::RadialGradient(const string &id, const vector<string> &transform
 
 RadialGradient::RadialGradient(const string &id, const vector<string> &transforms, const string &units, const Vector2D<float> &pos, float radius, const Vector2D<float> &focal) : Gradient(id, transforms, units), pos(pos), radius(radius), focal(focal) {}
 
-string RadialGradient::getType() const { return "radial"; }
-
 void RadialGradient::dbg() const {
 	Gradient::dbg();
 	std::cout << "Center: {" << pos.x << ", " << pos.y << "}\n"
