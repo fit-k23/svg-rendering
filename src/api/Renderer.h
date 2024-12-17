@@ -9,6 +9,11 @@
 using std::string;
 using std::vector;
 
+#ifndef M_PI_F
+#define M_PI_F 3.1415927f
+#endif
+#define RAD2DEG(angle) ((angle) / M_PI_F * 180.0f + ((angle) > 0 ? 0 : 360.0f))
+
 /** @brief Singleton instance for managing the rendering of Element */
 class Renderer final{
 	/** @param viewPort The viewport of svg */
@@ -63,7 +68,7 @@ public:
 		graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 	}
 
-	static Gdiplus::Brush *getGradientBrush(const Gdiplus::RectF boundingBox, const Gradient *gradient) {
+	static Gdiplus::Brush *getGradientBrush(Gdiplus::RectF boundingBox, const Gradient *gradient) {
 		if (gradient == nullptr) {
 			return nullptr;
 		}
@@ -98,8 +103,8 @@ public:
 			colors.push_back(stops.back().getStopColor());
 		}
 		// TODO: Process linear and radial brush
-		if (gradient->getType() == "linear") {
-			auto linearGradient = static_cast<LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
+		if (gradient->getType() == GradientType::Linear) {
+			auto linearGradient = static_cast<const LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 			if (linearGradient->getPos(0) == linearGradient->getPos(1)) {
 				return new Gdiplus::SolidBrush(stops.back().getStopColor());
 			}
@@ -127,7 +132,6 @@ public:
 			lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
 			return lBrush;
 		}
-
 		return nullptr;
 	}
 

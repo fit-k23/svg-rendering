@@ -104,13 +104,7 @@ Gdiplus::SolidBrush *Renderer::getBrush(const SVGColor &color) {
 	return new Gdiplus::SolidBrush(color);
 }
 
-#ifndef M_PI_F
-#define M_PI_F 3.1415927f
-#endif
-#define RAD2DEG(angle) ((angle) / M_PI_F * 180.0f + ((angle) > 0 ? 0 : 360.0f))
-
 Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradient, const SVGColor &color) {
-	Gdiplus::Brush *brush = nullptr;
 	if (gradient == nullptr)
 		return new Gdiplus::SolidBrush(color);
 
@@ -138,7 +132,7 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 		colors.push_back(stops.back().getStopColor());
 	}
 	// TODO: Process linear and radial brush
-	if (gradient->getType() == "linear") {
+	if (gradient->getType() == GradientType::Linear) {
 		auto linearGradient = static_cast<LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 		if (linearGradient->getPos(0) == linearGradient->getPos(1)) {
 			return new Gdiplus::SolidBrush(stops.back().getStopColor());
@@ -167,10 +161,8 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 		lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
 		return lBrush;
 	}
-	if (gradient->getType() == "radial") {
-		auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
-	}
-	return brush;
+	auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
+	return nullptr;
 }
 
 void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
