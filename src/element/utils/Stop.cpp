@@ -1,6 +1,6 @@
 #include "Stop.h"
 
-Stop::Stop() : offset(0.0f), stopColor(SVGColor()) {}
+Stop::Stop() : offset(0.0f), stopColor({}) {}
 Stop::Stop(float offset, const SVGColor &stopColor) : offset(offset), stopColor(stopColor) {}
 
 void Stop::setOffset(float _offset) { offset = _offset; }

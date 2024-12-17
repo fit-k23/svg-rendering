@@ -16,10 +16,9 @@
  * @note Can extract rgb, hex, percentage.
  */
 struct SVGColor{
-	unsigned char r, g, b, a;
+	unsigned char r = 0, g = 0, b = 0, a = 0;
 
-	/** @brief Default constructor (transparent/none) */
-	SVGColor(); // r,g,b = 0 -> black, a = 0 -> none
+	SVGColor() = default; // r,g,b = 0 -> black, a = 0 -> none
 	SVGColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 255);
 	SVGColor(int r, int g, int b, int a = 255);
 	SVGColor(const SVGColor &other) = default;
@@ -36,11 +35,10 @@ struct SVGColor{
 	SVGColor alpha(unsigned char a) const;
 	SVGColor alpha(int a) const;
 	SVGColor alpha(float a) const;
-	SVGColor sub(const SVGColor &other) const{
-		return {static_cast<unsigned char>(other.r - r), static_cast<unsigned char>(other.g - g), static_cast<unsigned char>(other.b - b), static_cast<unsigned char>(a)};
-	}
 
 	SVGColor blend(const SVGColor &other) const;
+	SVGColor interpol(const SVGColor &other, float t) const;
+
 	// Parameterized constructor
 	// @param: fill the string format
 	// @note: fill can be hex code, color name, rgb(..), rgba(...),

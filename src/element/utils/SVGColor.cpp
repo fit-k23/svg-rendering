@@ -150,7 +150,6 @@ const static std::map<std::string, SVGColor> LABELED_COLOR = {
 	{"yellowgreen",          SVG_YELLOWGREEN}
 };
 
-SVGColor::SVGColor() : r(0), g(0), b(0), a(0) {}
 SVGColor::SVGColor(unsigned char _r, unsigned char _g, unsigned char _b, unsigned char _a) : r(_r), g(_g), b(_b), a(_a) {}
 SVGColor::SVGColor(int _r, int _g, int _b, int _a) : r(_r), g(_g), b(_b), a(_a) {}
 
@@ -292,4 +291,12 @@ SVGColor SVGColor::blend(const SVGColor &other) const {
 
 SVGColor SVGColor::alpha(int _a) const {
 	return alpha(static_cast<unsigned char>(_a));
+}
+
+SVGColor SVGColor::interpol(const SVGColor &other, float t) const {
+	unsigned char r = this->r - (other.r - this->r) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char g = this->g - (other.g - this->g) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char b = this->b - (other.b - this->b) * t; // NOLINT(*-narrowing-conversions)
+	unsigned char a = this->a - (other.a - this->a) * t; // NOLINT(*-narrowing-conversions)
+	return {r, g, b, a};
 }
