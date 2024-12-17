@@ -65,10 +65,10 @@ void Renderer::draw(Gdiplus::Graphics &graphics, const Group *parent) {
 void Renderer::setViewPort(const Vector2D<float> &_viewPort) { viewPort = _viewPort; }
 Vector2D<float> Renderer::getViewPort() const { return viewPort; }
 
-void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vector<std::string> &transformations) {
+void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const vector<string> &transformations) {
 	// Matrix in gdiplus is the transpose of matrix in svg
 	std::stringstream buffer;
-	std::string cmd;
+	string cmd;
 	for (const auto &transformation : transformations) {
 		buffer.clear();
 		buffer.str(transformation);
@@ -100,37 +100,48 @@ void Renderer::applyTransformation(Gdiplus::Graphics &graphics, const std::vecto
 	}
 }
 
-Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, const SVGColor &color) {
+Gdiplus::SolidBrush *Renderer::getBrush(const SVGColor &color) {
+	return new Gdiplus::SolidBrush(color);
+}
+
+#ifndef M_PI_F
+#define M_PI_F 3.1415927f
+#endif
+#define RAD2DEG(angle) ((angle) / M_PI_F * 180.0f + ((angle) > 0 ? 0 : 360.0f))
+
+Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradient, const SVGColor &color) {
 	Gdiplus::Brush *brush = nullptr;
 	if (gradient == nullptr)
 		return new Gdiplus::SolidBrush(color);
 
-	const std::vector<Stop> stops = gradient->getStops();
+	const vector<Stop> stops = gradient->getStops();
 	if (stops.size() == 1)
 		return new Gdiplus::SolidBrush(stops.begin()->getStopColor());
 
-	std::vector<float > offsets;
-	std::vector<Gdiplus::Color> colors;
+	vector<float> offsets;
+	vector<Gdiplus::Color> colors;
 	int stopAmount = 0;
-	if (stops.begin()->getOffset() != 0.0f) {
-		offsets.push_back(0.0);
+
+	if (stops.front().getOffset() != 0.0f) {
+		offsets.push_back(0.0f);
 		++stopAmount;
 		colors.push_back(stops.begin()->getStopColor());
 	}
 	for (auto &stop : stops) {
 		offsets.push_back(stop.getOffset());
+		++stopAmount;
 		colors.push_back(stop.getStopColor());
 	}
-	if (stops.end()->getOffset() != 1.0f) {
-		offsets.push_back(0.0);
+	if (stops.back().getOffset() != 1.0f) {
+		offsets.push_back(1.0f);
 		++stopAmount;
-		colors.push_back(stops.end()->getStopColor());
+		colors.push_back(stops.back().getStopColor());
 	}
 	// TODO: Process linear and radial brush
 	if (gradient->getType() == "linear") {
 		auto linearGradient = static_cast<LinearGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 		if (linearGradient->getPos(0) == linearGradient->getPos(1)) {
-			return new Gdiplus::SolidBrush(stops.end()->getStopColor());
+			return new Gdiplus::SolidBrush(stops.back().getStopColor());
 		}
 
 		float x1 = linearGradient->getX1();
@@ -142,17 +153,17 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF rect, Gradient *gradient, cons
 		float diffY = y2 - y1;
 
 		if (diffX != 0) {
-			rect.X -= x1 * rect.Width;
-			rect.Width *= diffX;
+			boundingBox.X -= x1 * boundingBox.Width;
+			boundingBox.Width *= diffX;
 		}
 		if (diffY != 0) {
-			rect.Y -= y1 * rect.Height;
-			rect.Height *= diffY;
+			boundingBox.Y -= y1 * boundingBox.Height;
+			boundingBox.Height *= diffY;
 		}
 
-		float angle = atan2(diffY, diffX);
+		float angle = atan2f(diffY, diffX); // rad
 
-		auto *lBrush = new Gdiplus::LinearGradientBrush(rect, color, color, angle, false);
+		auto *lBrush = new Gdiplus::LinearGradientBrush(boundingBox, SVG_BLANK, SVG_BLANK, RAD2DEG(angle), false);
 		lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
 		return lBrush;
 	}
@@ -168,14 +179,21 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	std::vector<std::string> transformations = element->getTransformation();
+	vector<string> transformations = element->getTransformation();
 	
 	float width = element->getWidth();
 	float height = element->getHeight();
 	Vector2D<float> radii = element->getRadii();
 
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
-	Gdiplus::SolidBrush brush(fillColor);
+	Gdiplus::RectF rect;
+	pair<Vector2D<float>, Vector2D<float>> boundingBox = element->getBoundingBox();
+	rect.X = position.x;
+	rect.Y = position.y;
+	rect.Width = width;
+	rect.Height = height;
+
+	Gdiplus::Brush *brush = getBrush(rect, element->getFillGradient(), element->getFillColor());
 	Gdiplus::GraphicsPath path;
 
 	// Draw a color-filled Rectangle with normal corners
@@ -184,12 +202,13 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 	} else { // <--- Rounded corner
 		path.AddArc(position.x, position.y, radii.x * 2.0f, radii.y * 2.0f, 180.0, 90.0); // top-left
 		path.AddArc(position.x + width - radii.x * 2.0f, position.y, radii.x * 2.0f, radii.y * 2.0f, 270.0, 90.0); // top-right
-		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0); // bot-left
 		path.AddArc(position.x + width - radii.x * 2.0f, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 0.0, 90.0); // bot-right
+		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0); // bot-left
 		path.CloseFigure(); // close to form a closed loop
 	}
 
-	graphics.FillPath(&brush, &path);
+	graphics.FillPath(brush, &path);
+	delete brush;
 	graphics.DrawPath(&pen, &path);
 }
 
@@ -231,7 +250,7 @@ void Renderer::drawPolyline(Gdiplus::Graphics &graphics, const SVGPolyline *elem
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	std::vector<Vector2D<float>> points = element->getPoints();
+	vector<Vector2D<float>> points = element->getPoints();
 
 	Gdiplus::SolidBrush brush(fillColor);
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
@@ -254,7 +273,7 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, const SVGPolygon *elemen
 	SVGColor fillColor = element->getFillColor();
 	SVGColor strokeColor = element->getStrokeColor();
 	float strokeWidth = element->getStrokeWidth();
-	std::vector<Vector2D<float>> points = element->getPoints();
+	vector<Vector2D<float>> points = element->getPoints();
 
 	int size = static_cast<int>(points.size());
 	auto pointsArr = new Gdiplus::Point[size];
@@ -264,9 +283,7 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, const SVGPolygon *elemen
 
 	Gdiplus::SolidBrush brush(fillColor);
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
-	// Fill the polygon
 	graphics.FillPolygon(&brush, pointsArr, size, FillRuleHelper::getGdiplusFillMode(element->getFillRule()));
-	// Draw stroke
 	graphics.DrawPolygon(&pen, pointsArr, size);
 
 	delete[] pointsArr;
@@ -277,7 +294,7 @@ void Renderer::drawPolygon(Gdiplus::Graphics &graphics, const SVGPolygon *elemen
 /** @brief Draw text */
 void Renderer::drawText(Gdiplus::Graphics &graphics, const SVGText *element) {
 	if (element == nullptr) return;
-	std::string data = element->getData();
+	string data = element->getData();
 	std::wstring wData(data.begin(), data.end());
 
 	float fontSize = element->getFontSize();
@@ -340,7 +357,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 	Gdiplus::Pen pen(strokeColor, strokeWidth);
 	Gdiplus::SolidBrush brush(fillColor);
 
-	std::vector<PathPoint *> points = element->getPoints();
+	vector<PathPoint *> points = element->getPoints();
 
 	Vector2D<float> start;
 	Vector2D<float> cur;
