@@ -8,8 +8,7 @@ enum class FillRule : int{
 };
 
 /** @brief Utilizer for dealing with Fill Rule */
-class FillRuleHelper final{
-public:
+namespace FillRuleHelper{
 	static FillRule fromName(const std::string &s) {
 		if (s == "evenodd") {
 			return FillRule::EVEN_ODD;
