@@ -3,7 +3,7 @@
 #include <cstring>
 #include <windows.h>
 #include <gdiplus.h>
-#include <gdiplus/gdiplus.h>
+// #include <gdiplus/gdiplus.h>
 
 #include "Application.h"
 #include "api/XMLParser.h"

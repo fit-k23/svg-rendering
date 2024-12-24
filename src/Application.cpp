@@ -9,7 +9,7 @@ Application::~Application() {
 }
 
 void Application::initialize() {
-	FileManager::addFile("asset/team_sample/team_sample.svg");
+	FileManager::addFile("asset/chrome-logo.svg");
 	FileManager::setCurrentIdx(0, true);
 
 	Renderer::getInstance();
