@@ -135,21 +135,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			ReleaseCapture();
 			break;
 		}
-		case WM_NCLBUTTONDOWN: {
+		case WM_NCRBUTTONDOWN: {
 			if (wParam == HTCAPTION) {
 				POINT pt;
 				GetCursorPos(&pt);
-				Application::getInstance()->buildFileMenu();
+				Application::buildFileMenu();
 				TrackPopupMenu(Application::fileMenu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
 			}
-			return DefWindowProc(hwnd, message, wParam, lParam);
+			return 0;
 		}
 		case WM_COMMAND: {
 			size_t idx = LOWORD(wParam);
 			if (FileManager::setCurrentIdx(idx)) {
 				InvalidateRect(hwnd, nullptr, false);
 			}
-			break;
+			return 0;
 		}
 		case WM_MOUSEMOVE: {
 			Vector2D<float> pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};

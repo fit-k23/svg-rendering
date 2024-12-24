@@ -19,7 +19,7 @@ public:
 	static void buildFileMenu();
 	inline static HMENU menu;
 	inline static HMENU fileMenu;
-	inline bool static isRulerMode = false;
+	inline static bool isRulerMode = false;
 	static Application *getInstance();
 	void draw(HDC hdc);
 };
