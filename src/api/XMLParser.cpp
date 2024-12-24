@@ -105,6 +105,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 	} else {
 		Element *shape = parseShape(pNode);
 		if (shape != nullptr) {
+			// shape->dbg();
 			group->addElement(shape);
 		}
 	}

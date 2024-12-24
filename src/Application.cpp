@@ -9,7 +9,7 @@ Application::~Application() {
 }
 
 void Application::initialize() {
-	FileManager::addFile("asset/gradient_rect.svg");
+	FileManager::addFile("asset/chrome-logo.svg");
 	FileManager::setCurrentIdx(0, true);
 
 	Renderer::getInstance();

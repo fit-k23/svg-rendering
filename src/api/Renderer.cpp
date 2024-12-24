@@ -19,6 +19,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics, const Group *parent) {
 		graphics.GetTransform(&orgMatrix); // <-- save original matrix to later restore it
 		applyTransformation(graphics, shape->getTransformation()); // <-- apply current transformation for current shape
 		switch (shape->getTypeName()) {
+			shape->dbg();
 			case ElementType::Rectangle: {
 				drawRect(graphics, static_cast<SVGRect *>(shape)); // NOLINT(*-pro-type-static-cast-downcast)
 				break;
@@ -456,7 +457,7 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 }
 
 void Renderer::configGraphic(Gdiplus::Graphics &graphics) {
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
