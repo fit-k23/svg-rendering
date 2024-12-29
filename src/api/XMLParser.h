@@ -46,7 +46,7 @@ public:
 	 * @note Note that the root node (<svg>) is also considered a group
 	 * @note Therefore, nearGrp is only nullptr only with root node
 	 */
-	void traverseXML(const string& fileName, rapidxml::xml_node<> *pNode, Group *group);
+	void traverseXML(const string &fileName, rapidxml::xml_node<> *pNode, Group *group);
 
 	/**
 	 * @brief Get the root element (Group type).

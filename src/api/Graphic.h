@@ -22,5 +22,8 @@
 #include "../element/utils/SVGColor.h"
 #include "../element/utils/ViewBox.h"
 #include "../element/utils/Vector2D.h"
+#include "../utils/sRGBLinearGradientBrush.h"
+#include "../utils/sRGBRadialGradientBrush.h"
+#include "../utils/StringHelper.h"
 
 #endif //SVG_RENDERING_GRAPHIC_H

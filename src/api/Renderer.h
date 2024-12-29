@@ -4,8 +4,8 @@
 #include <vector>
 #include "Graphic.h"
 #include <gdiplus.h>
+#include "../Application.h"
 #include "Camera.h"
-#include "../utils/sRGBLinearGradientBrush.h"
 
 using std::string;
 using std::vector;
@@ -58,7 +58,8 @@ public:
 	static void configGraphic(Gdiplus::Graphics &graphics);
 	static void configCamera(Gdiplus::Graphics &graphics);
 
-	static sRGBLinearGradientBrush *getGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient, float angle = 0.0f);
+	static sRGBLinearGradientBrush *getSRGBLinearGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient, float angle = 0.0f);
+	static sRGBRadialGradientBrush *getSRGBRadialGradientBrush(Gdiplus::RectF boundingBox, const RadialGradient *gradient);
 
 	/** @brief Get the singleton instance of Renderer */
 	static Renderer *getInstance();
