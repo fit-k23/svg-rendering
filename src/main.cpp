@@ -164,7 +164,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 			return 0;
 		}
-		case WM_DROPFILES: {
+	case WM_DROPFILES: {
 			// Get the file path of the dropped file
 			auto hDrop = reinterpret_cast<HDROP>(wParam);
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
@@ -182,7 +182,16 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			DragFinish(hDrop);
 			return 0;
 		}
-		case WM_KEYDOWN: {
+	case WM_SYSCOMMAND: {
+		if (wParam == SC_MAXIMIZE) {
+			Application::isMaximumScreen = true;
+		}
+		if (wParam == SC_RESTORE) {
+			Application::isMaximumScreen = false;
+		}
+		return DefWindowProc(hwnd, message, wParam, lParam);
+	}
+	case WM_KEYDOWN: {
 			int wp = static_cast<int>(wParam);
 			switch (wp) {
 				case 'R': {
@@ -215,12 +224,29 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				case 'H': {
-					MessageBox(nullptr, "Press R to reload.\nPress W/S to zoom in/out.\nPress A/D to rotate.\nUse either mouse drag or arrow keys to navigation.\nPress M to display ruler.\nPress (0-9) to quick select the imported SVGs.\nLeft click at the title bar to get MENU.\n", "SVG SHORTCUT", MB_OK);
+					MessageBox(nullptr, "Press R to reload.\n"
+						"Press W/S to zoom in/out.\n"
+						"Press A/D to rotate.\n"
+						"Use either mouse drag or arrow keys to navigation.\n"
+						"Press M to display ruler.\n"
+						"Press C to clear all imported SVGs\n"
+						"Press (0-9) to quick select the imported SVGs.\n"
+						"Left click at the title bar to get MENU.\n",
+						"SVG SHORTCUT", MB_OK);
 					break;
 				}
 				case 'M': {
 					Application::isRulerMode = !Application::isRulerMode;
 					InvalidateRect(hwnd, nullptr, false);
+					break;
+				}
+				case 'F': {
+					Application::isMaximumScreen = !Application::isMaximumScreen;
+					if (Application::isMaximumScreen) {
+						ShowWindow(hwnd, SW_MAXIMIZE);
+					} else {
+						ShowWindow(hwnd, SW_RESTORE);
+					}
 					break;
 				}
 				case VK_UP: {
@@ -256,7 +282,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 			return 0;
 		}
-		case WM_DESTROY: {
+	case WM_DESTROY: {
 			PostQuitMessage(0);
 			return 0;
 		}

@@ -9,7 +9,8 @@ Application::~Application() {
 }
 
 void Application::initialize() {
-	FileManager::addFile("asset/team_sample/team_sample.svg");
+	FileManager::addFolder("asset/team_sample/");
+	// FileManager::addFile("asset/team_sample/team_sample.svg");
 	FileManager::setCurrentIdx(0, true);
 
 	Renderer::getInstance();
@@ -29,6 +30,7 @@ void Application::buildFileMenu() {
 	vector<string> files = FileManager::getFileList();
 
 	fileMenu = CreatePopupMenu();
+
 	size_t cur = FileManager::getCurrentIdx();
 	for (int i = 0; i < files.size(); i++) {
 		if (cur == i) {
@@ -81,11 +83,14 @@ void Application::draw(HDC hdc) {
 			}
 		}
 		pen.SetColor(SVG_BLACK);
+		Gdiplus::SolidBrush brush(SVG_GRAY);
+		Gdiplus::Font font(L"Arial", 1);
 		for (int i = drawAreaStart.x; i < drawArea.x; i += 10) {
-			Gdiplus::SolidBrush brush(SVG_GRAY);
-			Gdiplus::Font font(L"Arial", 1);
 			graphics.DrawString(std::to_wstring(i).c_str(), -1, &font, {static_cast<Gdiplus::REAL>(i), 0}, &brush);
 			graphics.DrawLine(&pen, i, 0, i, drawArea.y);
+		}
+		for (int i = drawAreaStart.y / 10 * 10; i < drawArea.y; i += 10) {
+			graphics.DrawString(std::to_wstring(i).c_str(), -1, &font, {0, static_cast<Gdiplus::REAL>(i)}, &brush);
 		}
 		for (int i = drawAreaStart.y; i < drawArea.y; i += 10) {
 			graphics.DrawLine(&pen, 0, i, drawArea.x, i);

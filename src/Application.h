@@ -20,6 +20,8 @@ public:
 	inline static HMENU menu;
 	inline static HMENU fileMenu;
 	inline static bool isRulerMode = false;
+	inline static bool doSRGBGradient = true;
+	inline static bool isMaximumScreen = false;
 	static Application *getInstance();
 	void draw(HDC hdc);
 };
