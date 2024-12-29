@@ -14,6 +14,7 @@ class FileManager{
 	static vector<string> filePaths;
 	static size_t current;
 public:
+	static bool addFolder(const string &folderPath);
 	/**
 	 * @brief Add file to file manager
 	 * @param filePath Input filepath, must be wide string!

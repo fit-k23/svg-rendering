@@ -3,6 +3,22 @@
 vector<string> FileManager::filePaths;
 size_t FileManager::current = 0;
 
+#include <filesystem>
+
+bool FileManager::addFolder(const string &folderPath) {
+	if (!std::filesystem::exists(folderPath) || !std::filesystem::is_directory(folderPath)) {
+		return false;
+	}
+
+	for (const auto &entry : std::filesystem::directory_iterator(folderPath)) {
+		if (is_directory(entry)) {
+			continue;
+		}
+		addFile(entry.path().string());
+	}
+	return true;
+}
+
 bool FileManager::addFile(const string &filePath) {
 	if (filePath.empty() || !isFileExist(filePath)) return false;
 	for (auto &file : filePaths) {
