@@ -37,21 +37,16 @@ namespace sRGBLinearGradientBrushHelper{
 
 		vector<Stop> stops = gradient->getStops();
 
-		int stopAmount = 0;
-
 		if (stops.front().getOffset() != 0.0f) {
 			offsets.push_back(0.0f);
-			++stopAmount;
 			colors.push_back(stops.begin()->getStopColor());
 		}
 		for (auto &stop : stops) {
 			offsets.push_back(stop.getOffset());
-			++stopAmount;
 			colors.push_back(stop.getStopColor());
 		}
 		if (stops.back().getOffset() != 1.0f) {
 			offsets.push_back(1.0f);
-			++stopAmount;
 			colors.push_back(stops.back().getStopColor());
 		}
 
@@ -62,13 +57,11 @@ namespace sRGBLinearGradientBrushHelper{
 			float t = static_cast<float>(x) / (rect.Width - 1);
 
 			if (t > offsets[cur]) {
-				oldCur = cur;
-				++cur;
+				oldCur = cur++;
 			}
 
 			float factor = (t - offsets[oldCur]) / (offsets[cur] - offsets[oldCur]);
-			SVGColor gradientColor = colors[oldCur].interpol(colors[cur], factor);
-			solidBrush.SetColor(gradientColor);
+			solidBrush.SetColor(colors[oldCur].interpol(colors[cur], factor));
 			graphics.FillRectangle(&solidBrush, x + rect.X, rect.Y - rect.Width / 2, 1.0f,  rect.Y + rect.Height + rect.Width);
 		}
 
@@ -76,11 +69,11 @@ namespace sRGBLinearGradientBrushHelper{
 	}
 }
 
-class sRGBLinearGradientBrush : public Gdiplus::TextureBrush{
+class sRGBLinearGradientBrush final : public Gdiplus::TextureBrush{
 	Gdiplus::Bitmap *bitmap;
 public:
 	sRGBLinearGradientBrush(Gdiplus::Bitmap *bitmap) : TextureBrush(bitmap), bitmap(bitmap) {}
-	~sRGBLinearGradientBrush() override;
+	~sRGBLinearGradientBrush() override { delete bitmap; }
 };
 
 #endif
