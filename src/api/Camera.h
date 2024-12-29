@@ -4,6 +4,7 @@
 #include "../element/utils/Vector2D.h"
 
 struct Camera{
+	inline static float MAX_ZOOM = 10.0f;
 	static Vector2D<int> screenSize;
 	static Vector2D<float> startPosition;
 	static Vector2D<float> mousePosition;

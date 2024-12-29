@@ -15,15 +15,31 @@ void Camera::reset() {
 	zoom = 1.0f;
 }
 
+// void Camera::zoomIn(float amount) {
+// 	zoom += amount;
+// 	if (zoom > 10.0f) {
+// 		zoom = 10.0f;
+// 	}
+// 	if (amount < 0 && zoom <= 0.0f) {
+// 		zoom = -amount;
+// 	}
+// }
+
 void Camera::zoomIn(float amount) {
-	zoom += amount;
-	if (zoom > 10.0f) {
-		zoom = 10.0f;
-	}
-	if (amount < 0 && zoom <= 0.0f) {
-		zoom = -amount;
-	}
+	startPosition = (startPosition - mousePosition) / zoom;
+	zoom *= std::exp2(amount / 3.0f);
+	startPosition = startPosition * zoom + mousePosition;
 }
+
+// void Camera::linearZoomIn(float amount) {
+	// zoom += amount;
+	// if (zoom > 10.0f) {
+		// zoom = 10.0f;
+	// }
+	// if (amount < 0 && zoom <= 0.0f) {
+		// zoom = -amount;
+	// }
+// }
 
 void Camera::zoomOut(float amount) {
 	zoomIn(-amount);
