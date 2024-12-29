@@ -22,6 +22,7 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int main(int argc, char **argv) {
+	FileManager::EXECUTABLE_PATH = FileHelper::getParentPath(argv[0]);
 	if (argc == 2) {
 		std::string path(argv[1]);
 		FileManager::clearFiles();
@@ -136,23 +137,60 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_NCRBUTTONDOWN: {
+			POINT pt;
+			GetCursorPos(&pt);
 			if (wParam == HTCAPTION) {
-				POINT pt;
-				GetCursorPos(&pt);
-				Application::buildFileMenu();
-				TrackPopupMenu(Application::fileMenu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
+				TrackPopupMenu(Application::menu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
 			}
+			return 0;
+		}
+		case WM_RBUTTONDOWN: {
+			POINT pt;
+			GetCursorPos(&pt);
+			TrackPopupMenu(Application::fileMenu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
 			return 0;
 		}
 		case WM_COMMAND: {
 			size_t idx = LOWORD(wParam);
-			if (FileManager::setCurrentIdx(idx)) {
-				InvalidateRect(hwnd, nullptr, false);
+			if (idx >= MenuBase::fileBase) {
+				switch (idx - MenuBase::fileBase) {
+					case 0: {
+						Application::openImportFileMenu();
+						break;
+					}
+					case 1: {
+						Application::isMaximumScreen = !Application::isMaximumScreen;
+						if (Application::isMaximumScreen) {
+							ShowWindow(hwnd, SW_MAXIMIZE);
+						} else {
+							ShowWindow(hwnd, SW_RESTORE);
+						}
+						Application::buildMenu();
+						break;
+					}
+					case 2: {
+						Application::isViewFullPath = !Application::isViewFullPath;
+						Application::buildMenu();
+						break;
+					}
+					case 3: {
+						Application::isRulerMode = !Application::isRulerMode;
+						InvalidateRect(hwnd, nullptr, false);
+						Application::buildMenu();
+						break;
+					}
+					default: {}
+				}
+			} else {
+				if (FileManager::setCurrentIdx(idx)) {
+					Application::buildMenu();
+					InvalidateRect(hwnd, nullptr, false);
+				}
 			}
 			return 0;
 		}
 		case WM_MOUSEMOVE: {
-			Vector2D<float> pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};
+			Vector2D pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};
 
 			if (Camera::isDragging && GetCapture() != nullptr) {
 				if (Camera::mousePosition.x != -1.0f) {
@@ -177,6 +215,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			if (fileCount > 0) {
 				FileManager::setCurrentIdx(FileManager::getCurrentIdx() + 1);
 				Camera::reset();
+				Application::buildMenu();
 				InvalidateRect(hwnd, nullptr, false);
 			}
 			DragFinish(hDrop);

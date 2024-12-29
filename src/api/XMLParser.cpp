@@ -14,6 +14,8 @@ XMLParser::~XMLParser() {
 	std::cout << "Deleting root\n";
 }
 
+#include <cstring>  // For strerror
+#include <cerrno>   // For errno
 void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *pNode, Group *group) {
 	if (group == nullptr) {
 		//std::cout << "Deleting gradients pointers\n";
@@ -24,9 +26,14 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		grads.clear();
 		std::ifstream fin(fileName.c_str());
 		if (!fin.is_open()) {
-			std::cout << "Cannot open file " << fileName << '\n';
+			cout << "Cannot open file " << fileName << '\n';
+
+			// Print the error message based on errno
+			std::cout << "Error: " << strerror(errno) << '\n';
 			svg = nullptr;
 			return;
+		} else {
+			cout << "Open file " << fileName << '\n';
 		}
 		//std::cout << "Reading " << fileName << "\n";
 		std::stringstream buffer;
@@ -222,10 +229,6 @@ Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
 		if (!fillGradID.empty()) {
 			auto mmmm = grads;
 			if (grads.find(fillGradID) != grads.end()) {
-				if (fillGradID == "RG2") {
-					Gradient *grad = grads[fillGradID];
-					int c = 0;
-				}
 				ret->setFillGradient(grads[fillGradID]);
 			}
 			else cout << "Fill gradient of id " << fillGradID << " not found\n";

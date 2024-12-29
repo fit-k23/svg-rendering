@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 set BASE_DIR=%~dp0
 set GPP_BIN=
-set FLAGS=-std=c++17 -lgdiplus -lgdi32
+set FLAGS=-std=c++17 -lgdiplus -lgdi32 -lcomdlg32
 set SRC_DIR=src
 set SRC_FILES=
 set BUILD_OUTPUT=svg_rendering.exe
