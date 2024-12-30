@@ -24,6 +24,8 @@ struct SVGColor{
 	SVGColor(const SVGColor &other) = default;
 
 	SVGColor &operator=(const SVGColor &other);
+	bool operator==(const SVGColor &other) const;
+	bool operator!=(const SVGColor &other) const;
 
 	SVGColor(std::string param);
 	static SVGColor fromHSL(int h, int s, int l, int a = 255);

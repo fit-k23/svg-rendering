@@ -3,7 +3,7 @@
 RadialGradient::RadialGradient() {
 	pos = Vector2D<float>(0.5f, 0.5f);
 	radius = 0.5f;
-	focal = pos; // TODO: maybe change 
+	focal = pos;
 }
 
 RadialGradient::RadialGradient(const string &id, const vector<string> &transforms, const string &units) : Gradient(id, transforms, units) {

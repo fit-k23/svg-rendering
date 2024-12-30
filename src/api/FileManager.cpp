@@ -19,7 +19,7 @@ bool FileManager::addFolder(const string &folderPath) {
 }
 
 bool FileManager::addFile(const string &filePath) {
-	std::string inFilePath = FileHelper::getRelativePath(filePath, EXECUTABLE_PATH);
+	std::string inFilePath = FileHelper::getRedirectPath(filePath, EXECUTABLE_PATH);
 	if (filePath.empty() || FileHelper::pathIsDirectory(filePath)) return false;
 	for (auto &file : filePaths) {
 		if (file == inFilePath) {

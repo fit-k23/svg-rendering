@@ -49,6 +49,14 @@ namespace FileHelper{
 		return std::filesystem::relative(path1, path2).string();
 	}
 
+	static string getRedirectPath(const string &path1, const string &path2) {
+		string relativePath = getRelativePath(path1, path2);
+		if (relativePath.empty()) {
+			return path1;
+		}
+		return relativePath;
+	}
+
 	inline string getAbsolutePath(const string &filePath) {
 		return std::filesystem::absolute(filePath).string();
 	}

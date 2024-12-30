@@ -5,8 +5,9 @@ Application *Application::getInstance() {
 }
 
 Application::Application() {
-	FileManager::addFolder("asset/TestCases/");
-	FileManager::setCurrentIdx(0, true);
+	FileManager::addFolder("asset/team_sample/");
+	// FileManager::addFile("asset/team_sample/linear_grad.svg");
+	FileManager::setCurrentIdx(6, true);
 
 	Renderer::getInstance();
 	XMLParser::getInstance();
@@ -73,6 +74,7 @@ void Application::buildMenu() {
 	AppendMenu(menu, MF_STRING | (isMaximumScreen ? MF_CHECKED : MF_UNCHECKED), MenuBase::current + 1, "Maximum screen");
 	AppendMenu(menu, MF_STRING | (isViewFullPath ? MF_CHECKED : MF_UNCHECKED), MenuBase::current + 2, "View full paths");
 	AppendMenu(menu, MF_STRING | (isRulerMode ? MF_CHECKED : MF_UNCHECKED), MenuBase::current + 3, "Ruler mode");
+	AppendMenu(menu, MF_STRING | (doSRGBGradient ? MF_CHECKED : MF_UNCHECKED), MenuBase::current + 4, "SRGB Gradient Mode");
 	AppendMenu(menu, MF_STRING | MF_POPUP, reinterpret_cast<UINT_PTR>(fileMenu), "Imported SVGs");
 }
 

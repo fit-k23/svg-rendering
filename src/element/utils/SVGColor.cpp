@@ -283,6 +283,14 @@ SVGColor &SVGColor::operator=(const SVGColor &other) {
 	return *this;
 }
 
+bool SVGColor::operator==(const SVGColor &other) const {
+	return r == other.r && g == other.g && b == other.b && a == other.a;
+}
+
+bool SVGColor::operator!=(const SVGColor &other) const {
+	return !(other == *this);
+}
+
 SVGColor SVGColor::alpha(float _a) const { return alpha(static_cast<unsigned char>(_a * 255.f)); }
 
 SVGColor SVGColor::blend(const SVGColor &other) const {
