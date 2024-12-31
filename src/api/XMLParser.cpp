@@ -120,7 +120,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		}
 	} else {
 		Element *shape = parseShape(pNode);
-		shape->dbg();
+		// shape->dbg();
 		if (shape != nullptr) {
 			group->addElement(shape);
 		}
@@ -153,9 +153,9 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 		// parse ID
 		std::string id = parseStringAttr(pChild, "id");
 
-		if (id == "ornamentRed") {
-			std::cout << "hmm\n";
-		}
+		// if (id == "ornamentRed") {
+		// 	std::cout << "hmm\n";
+		// }
 
 		if (grads.find(id) != grads.end()) {
 			pChild = pChild->next_sibling();
