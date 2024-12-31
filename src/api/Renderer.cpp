@@ -15,6 +15,7 @@ void Renderer::draw(Gdiplus::Graphics &graphics, const Group *parent) {
 		if (shape == nullptr) { // Fail-safe, ensuring no nullptr calling
 			continue;
 		}
+		// shape->dbg();
 		Gdiplus::Matrix orgMatrix;
 		graphics.GetTransform(&orgMatrix); // <-- save original matrix to later restore it
 		applyTransformation(graphics, shape->getTransformation()); // <-- apply current transformation for current shape
@@ -491,8 +492,8 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 }
 
 void Renderer::configGraphic(Gdiplus::Graphics &graphics) {
-	// graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+	// graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
 	graphics.SetTextContrast(100);
 	graphics.SetCompositingMode(Gdiplus::CompositingModeSourceOver);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);

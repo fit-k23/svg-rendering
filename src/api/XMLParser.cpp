@@ -46,15 +46,21 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 
 		viewPort.x = parseFloatAttr(pRoot, "width");
 		viewPort.y = parseFloatAttr(pRoot, "height");
+		viewBox = parseViewBox(pRoot);
+
+		if (viewPort.x == 0 && viewPort.y == 0) {
+			viewPort.x = viewBox.width;
+			viewPort.y = viewBox.height;
+		}
 
 		std::cout << "View port: " << viewPort.x << " " << viewPort.y << '\n';
 
-		viewBox = parseViewBox(pRoot);
-
 		auto *grp = new Group();
 		svg = grp;
-		for (rapidxml::xml_node<> *pChild = pRoot->first_node(); pChild != nullptr; pChild = pChild->next_sibling())
+		for (rapidxml::xml_node<> *pChild = pRoot->first_node(); pChild != nullptr; pChild = pChild->next_sibling()) {
+			// std::cout << "child " << pChild->name() << '\n';
 			traverseXML(fileName, pChild, grp);
+		}
 		return;
 	}
 
@@ -100,13 +106,15 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		// Add group to nearest group parent
 		group->addElement(grp);
 
-		// grp->dbg();
-
 		// Recursively handle the children with new group parent = grp
-		for (rapidxml::xml_node<> *pChild = pNode->first_node(); pChild != nullptr; pChild = pChild->next_sibling())
+		for (rapidxml::xml_node<> *pChild = pNode->first_node(); pChild != nullptr; pChild = pChild->next_sibling()) {
+			// std::cout << "child " << pChild->name() << '\n';
 			traverseXML(fileName, pChild, grp);
+			// std::cout << "ok\n";
+		}
 	} else {
 		Element *shape = parseShape(pNode);
+		shape->dbg();
 		if (shape != nullptr) {
 			group->addElement(shape);
 		}
@@ -130,13 +138,21 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	if (pChild == nullptr) return;
 
+	// std::cout << "hello grad\n";
 	while (pChild != nullptr) {
+		// extractStyle(pChild);
 		Gradient *gradient = nullptr;
 		std::string nodeName = pChild->name();
+		// std::cout << "type of gradient = " << nodeName << '\n';
 		// parse ID
 		std::string id = parseStringAttr(pChild, "id");
 
+		if (id == "ornamentRed") {
+			std::cout << "hmm\n";
+		}
+
 		if (grads.find(id) != grads.end()) {
+			pChild = pChild->next_sibling();
 			continue;
 		}
 
@@ -177,6 +193,7 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 	std::vector<Stop> stops = {};
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	while (pChild != nullptr) {
+		extractStyle(pChild);
 		float offset = parseFloatAttr(pChild, "offset");
 		if (offset < 0.0f) offset = 0.0f;
 		if (offset > 1.0f) offset = 1.0f;
@@ -194,6 +211,7 @@ std::vector<Stop> XMLParser::parseStops(rapidxml::xml_node<> *pNode) {
 }
 
 Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
+	extractStyle(pNode);
 	std::string fillGradID, strokeGradID;
 	SVGColor fillColor = parseColor(pNode, "fill", fillGradID);
 	SVGColor strokeColor = parseColor(pNode, "stroke", strokeGradID);
@@ -442,6 +460,22 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 	return {*points[0], fillColor, strokeColor, strokeWidth, points, fillRule};
 }
 
+void XMLParser::extractStyle(rapidxml::xml_node<> *pNode) {
+	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute("style");
+	if (pAttr == nullptr) return;
+	std::string data = pAttr->value();
+	for (int i = 0; i < (int)data.size(); ++i) 
+		if (data[i] == ':' || data[i] == ';')
+			data[i] = ' ';
+	std::stringstream buffer(data);
+	std::string attrName, attrValue;
+	while (buffer >> attrName >> attrValue) {
+		char *name = doc.allocate_string(attrName.c_str());
+		char *value = doc.allocate_string(attrValue.c_str());
+		pNode->append_attribute(doc.allocate_attribute(name, value));
+	}
+}
+
 float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &attrName) {
 	float ret = 0.0;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
@@ -483,6 +517,10 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 				if (attrName.find("y") != std::string::npos) return viewPort.y * ret;
 				if (attrName == "r") return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f);
 			}
+		}
+		else {
+			if (attrName.find("x") != std::string::npos) ret *= viewPort.x;
+			else if (attrName.find("y") != std::string::npos) ret *= viewPort.y;
 		}
 	}
 	// If the unit is point (pt)

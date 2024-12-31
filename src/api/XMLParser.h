@@ -63,6 +63,11 @@ public:
 	ViewBox getViewBox() const;
 private:
 	/**
+	 * @brief Extract all the attributes in style for easier parsing
+	 * @note Change directly on svg file
+	 */
+	void extractStyle(rapidxml::xml_node<> *pNode);
+	/**
 	 * @brief Parse view box information
 	 * @return a view box
 	 */
