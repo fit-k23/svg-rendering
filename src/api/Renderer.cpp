@@ -604,10 +604,10 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 	Gdiplus::Brush *brush = getBrush(boundingBox, element->getFillGradient(), fillColor);
 	graphics.FillPath(brush, &path);
 	graphics.DrawPath(&pen, &path);
-	{
-		Gdiplus::Pen(SVG_GREEN, 100);
-		graphics.DrawRectangle(&pen, boundingBox);
-	}
+	// {
+		// Gdiplus::Pen(SVG_GREEN, 100);
+		// graphics.DrawRectangle(&pen, boundingBox);
+	// }
 	delete brush;
 }
 

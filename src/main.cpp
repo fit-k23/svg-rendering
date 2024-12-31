@@ -14,7 +14,8 @@
 
 #define APPLICATION_CLASS_NAME "SVGRendering"
 #define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11 - Press \"H\" for help! - "
-#define BACKGROUND_COLOR RGB(255, 255, 255)
+// #define BACKGROUND_COLOR RGB(255, 255, 255)
+#define BACKGROUND_COLOR RGB(240, 240, 240)
 // #define BACKGROUND_COLOR RGB(30, 31, 34)
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -47,6 +48,7 @@ void updateCaption(HWND hwnd, const std::string &suffix = "") {
 }
 
 void updateViewBox() {
+	return;
 	Vector2D vPort = XMLParser::getInstance()->getViewPort();
 	ViewBox vBox = XMLParser::getInstance()->getViewBox();
 	if (vPort.x <= 0 && vPort.y <= 0) {

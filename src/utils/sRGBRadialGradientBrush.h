@@ -20,6 +20,9 @@ namespace sRGBRadialGradientBrushHelper{
 		vector<Stop> stops = gradient->getStops();
 		vector<float> offsets;
 		vector<SVGColor> colors;
+		if (stops.size() == 0) {
+			return bitmap;
+		}
 
 		if (stops.front().getOffset() != 0.0f) {
 			offsets.push_back(0.0f);

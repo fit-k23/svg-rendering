@@ -6,8 +6,9 @@ Application *Application::getInstance() {
 
 Application::Application() {
 	// FileManager::addFolder("asset/");
-	FileManager::addFile("asset/23127043_23127025_23127448_23127384_1.svg");
-	FileManager::addFile("asset/team_sample/linear_grad.svg");
+	FileManager::addFolder("asset/Samples");
+	// FileManager::addFile("asset/23127043_23127025_23127448_23127384_1.svg");
+	// FileManager::addFile("asset/team_sample/linear_grad.svg");
 	FileManager::setCurrentIdx(0, true);
 	// FileManager::addFile("asset/team_sample/linear_grad.svg");
 	// FileManager::setCurrentIdx(0, true);
