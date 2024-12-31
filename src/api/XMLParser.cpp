@@ -66,8 +66,6 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 	// TODO: Propagate fill,stroke,opacity attributes from parent to child
 	for (auto &attr: group->getAttr()) {
 		std::string attrName = attr.first;
-		// <g> in this project only has stroke, fill, opacity, and transform attributes
-		// if (attrName.find("stroke") == std::string::npos && attrName.find("fill") == std::string::npos && attrName.find("opacity") == std::string::npos && attrName.find("transform") == std::string::npos) continue;
 		bool has = false;
 		for (rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(); pAttr != nullptr; pAttr = pAttr->next_attribute()) {
 			if (pAttr->name() == attrName) {
@@ -82,7 +80,6 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		if (!has && attrName != "transform") {
 			char *name = doc.allocate_string(attr.first.c_str());
 			char *value = doc.allocate_string(attr.second.c_str());
-			// std::cout << "pass name: " << name << " pass value: " << value << '\n';
 			pNode->append_attribute(doc.allocate_attribute(name, value));
 		}
 	}
