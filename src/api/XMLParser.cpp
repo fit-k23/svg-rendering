@@ -49,8 +49,8 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		viewBox = parseViewBox(pRoot);
 
 		if (viewPort.x == 0 && viewPort.y == 0) {
-			viewPort.x = viewBox.width;
-			viewPort.y = viewBox.height;
+			viewPort.x = Camera::screenSize.x;
+			viewPort.y = Camera::screenSize.y;
 		}
 
 		std::cout << "View port: " << viewPort.x << " " << viewPort.y << '\n';

@@ -8,6 +8,7 @@
 #include "Graphic.h"
 #include "../../lib/rapidxml/rapidxml.hpp"
 #include "../utils/StringHelper.h"
+#include "Camera.h"
 
 using std::vector;
 using std::map;
