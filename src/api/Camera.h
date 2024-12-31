@@ -1,6 +1,7 @@
 #ifndef SVG_RENDERING_CAMERA_H
 #define SVG_RENDERING_CAMERA_H
 
+#include <cmath>
 #include "../element/utils/Vector2D.h"
 
 struct Camera{

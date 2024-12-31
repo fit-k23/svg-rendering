@@ -36,7 +36,9 @@ namespace sRGBLinearGradientBrushHelper{
 		float newWidth = abs(rect.Width * cos(angle)) + abs(rect.Height * sin(angle));
 		rect.X += (rect.Width - newWidth) / 2;
 
-		float maxBound = std::max(std::max(rect.Width, newWidth), rect.Height);
+		float maxBound = rect.Width;
+		if (newWidth > maxBound) maxBound = newWidth;
+		if (rect.Height > maxBound) maxBound = rect.Height;
 
 		rect.Width = newWidth;
 
