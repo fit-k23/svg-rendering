@@ -104,7 +104,7 @@ Gdiplus::SolidBrush *Renderer::getBrush(const SVGColor &color) {
 	return new Gdiplus::SolidBrush(color);
 }
 
-Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradient, const SVGColor &color, Gdiplus::GraphicsPath *path) {
+Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradient, const SVGColor &color) {
 	if (gradient == nullptr)
 		return new Gdiplus::SolidBrush(color);
 
@@ -168,10 +168,17 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 	if (Application::doSRGBGradient) {
 		return getSRGBRadialGradientBrush(boundingBox, radialGradient);
 	}
-	auto rBrush = new Gdiplus::PathGradientBrush(path);
-	Vector2D size = {boundingBox.Width, boundingBox.Height};
+	Gdiplus::GraphicsPath path;
+	Gdiplus::RectF pBox = boundingBox;
+	// pBox.X = 0;
+	// pBox.Y = 0;
+	path.AddEllipse(pBox);
+
+	auto rBrush = new Gdiplus::PathGradientBrush(&path);
+	Vector2D size = {boundingBox.X + boundingBox.Width, boundingBox.Y + boundingBox.Height};
 	Vector2D<float> focus = radialGradient->getFocal() * size;
 
+	Vector2D pos = {boundingBox.X, boundingBox.Y};
 	rBrush->SetCenterPoint(static_cast<Gdiplus::PointF>(focus));
 	rBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
 	return rBrush;
@@ -201,7 +208,6 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 		pen.SetBrush(strokeBrush);
 	}
 
-	Gdiplus::Brush *fillBrush = getBrush(rect, element->getFillGradient(), element->getFillColor());
 	Gdiplus::GraphicsPath path;
 
 	// Draw a color-filled Rectangle with normal corners
@@ -214,6 +220,7 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 		path.AddArc(position.x, position.y + height - radii.y * 2.0f, radii.x * 2.0f, radii.y * 2.0f, 90.0, 90.0); // bot-left
 		path.CloseFigure(); // close to form a closed loop
 	}
+	Gdiplus::Brush *fillBrush = getBrush(rect, element->getFillGradient(), element->getFillColor());
 
 	graphics.FillPath(fillBrush, &path);
 	delete fillBrush;
@@ -236,9 +243,9 @@ void Renderer::drawEllipse(Gdiplus::Graphics &graphics, const SVGEllipse *elemen
 	rect.Y = position.y - radius.y;
 	rect.Width = 2.0f * radius.x;
 	rect.Height = 2.0f * radius.y;
-	Gdiplus::Brush *brush = getBrush(rect, element->getFillGradient(), fillColor);
 	Gdiplus::GraphicsPath path;
 	path.AddEllipse(rect);
+	Gdiplus::Brush *brush = getBrush(rect, element->getFillGradient(), fillColor);
 	graphics.FillPath(brush, &path);
 	delete brush;
 	graphics.DrawPath(&pen, &path);
@@ -497,6 +504,7 @@ void Renderer::configCamera(Gdiplus::Graphics &graphics) {
 	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
+	// graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 }
 

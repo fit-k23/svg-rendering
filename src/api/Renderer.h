@@ -35,7 +35,7 @@ class Renderer final{
 	 * @note Brush class is an abstract base class that defines a Brush object. 
 	 * @note A Brush object is used to paint the interior of graphics shapes, such as rectangles, ellipses, pies, polygons, and paths.
 	 */
-	static Gdiplus::Brush *getBrush(Gdiplus::RectF boundingBox, Gradient *grad, const SVGColor &color, Gdiplus::GraphicsPath *path = nullptr);
+	static Gdiplus::Brush *getBrush(Gdiplus::RectF boundingBox, Gradient *grad, const SVGColor &color);
 	static Gdiplus::SolidBrush *getBrush(const SVGColor &color);
 
 	/** @brief Draw a rectangle */
