@@ -57,6 +57,13 @@ struct Vector2D{
 		return *this;
 	}
 
+	Vector2D operator+(float amount) { return {x + amount, y + amount}; }
+	Vector2D &operator+=(float amount) {
+		x += amount;
+		y += amount;
+		return *this;
+	}
+
 	Vector2D operator-(float amount) { return {x - amount, y - amount}; }
 	Vector2D &operator-=(float amount) {
 		x -= amount;

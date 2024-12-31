@@ -69,9 +69,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
             HDC hdc = BeginPaint(hwnd, &ps);
 
 			{
-				HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 0));
-            	FillRect(hdc, &ps.rcPaint, hBrush);
-				DeleteObject(hBrush);
+//				HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0));
+//            	FillRect(hdc, &ps.rcPaint, hBrush);
+//				DeleteObject(hBrush);
 			}
             // Create a chessboard bitmap
             HBITMAP hChessboard = CreateChessboardBitmap();

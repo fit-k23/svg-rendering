@@ -62,18 +62,16 @@ namespace sRGBLinearGradientBrushHelper{
 		int oldCur = 0;
 
 		for (int x = 0; x < rect.Width; ++x) {
-			float t = static_cast<float>(x) / (rect.Width);
-
 			if (colors[cur] == colors[oldCur]) {
 				float diffR = offsets[cur] - offsets[oldCur];
 				solidBrush.SetColor(colors[cur]);
 				graphics.FillRectangle(&solidBrush, x + rect.X, rect.Y - maxBound, rect.Width * diffR + 1.0f,  rect.Y + 2 * maxBound);
 				x += rect.Width * diffR;
-				oldCur = cur;
-				++cur;
+				oldCur = cur++;
 				continue;
 			}
 
+			float t = static_cast<float>(x) / (rect.Width);
 			if (t > offsets[cur]) {
 				oldCur = cur++;
 			}
