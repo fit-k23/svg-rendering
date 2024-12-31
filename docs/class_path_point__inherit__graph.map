@@ -1,0 +1,11 @@
+<map id="PathPoint" name="PathPoint">
+<area shape="rect" id="Node000001" title="A PathPoint class to represent all type of points in path." alt="" coords="223,5,360,304"/>
+<area shape="rect" id="Node000002" href="$class_arc_path_point.html" title="Class that represents the arc drawing in path." alt="" coords="5,352,132,699"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,252,180,301,147,353,135,376,130,373,143,351,176,298,212,249"/>
+<area shape="rect" id="Node000003" href="$class_cubic_path_point.html" title="Class that represents a point in Cubic Bezier Curve in svg path." alt="" coords="157,405,280,645"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="262,319,244,406,239,405,257,318"/>
+<area shape="rect" id="Node000004" href="$class_norm_path_point.html" title="Class that represents the move&#45;to, line&#45;to command in svg path." alt="" coords="304,448,425,603"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="326,318,352,448,347,449,321,319"/>
+<area shape="rect" id="Node000005" href="$class_quad_path_point.html" title="Class that represents the Quadratic Bezier Curve point in svg path." alt="" coords="449,427,569,624"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="371,249,407,299,439,351,475,426,471,428,434,353,402,302,367,253"/>
+</map>

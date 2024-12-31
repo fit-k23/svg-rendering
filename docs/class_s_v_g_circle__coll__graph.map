@@ -1,0 +1,15 @@
+<map id="SVGCircle" name="SVGCircle">
+<area shape="rect" id="Node000001" title="Class that represents circle in svg." alt="" coords="241,1181,368,1336"/>
+<area shape="rect" id="Node000002" href="$class_s_v_g_ellipse.html" title="Class that represents ellipse shape in svg." alt="" coords="241,935,368,1132"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,1147,308,1181,302,1181,302,1147"/>
+<area shape="rect" id="Node000003" href="$class_element.html" title="Element is an abstract class for all svg elements (nodes)" alt="" coords="241,539,368,885"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,900,308,935,302,935,302,900"/>
+<area shape="rect" id="Node000004" href="$struct_vector2_d.html" title=" " alt="" coords="5,80,119,384"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="104,383,134,458,181,541,233,617,229,620,177,544,129,460,99,385"/>
+<area shape="rect" id="Node000005" href="$struct_s_v_g_color.html" title="Supports reading SVG color and return Gdiplus::Color type." alt="" coords="143,5,309,459"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="266,458,276,522,271,523,261,459"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="334,197,436,267"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="385,267,373,377,353,515,352,522,346,521,348,514,367,377,379,266"/>
+<area shape="rect" id="Node000007" href="$class_gradient.html" title="Abstract Gradient class for Linear and Radial Gradient to inherit." alt="" coords="460,91,576,373"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="501,374,483,446,457,516,422,577,381,631,377,628,417,574,452,514,478,444,496,373"/>
+</map>
