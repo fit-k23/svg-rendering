@@ -11,8 +11,6 @@
 #include "api/Renderer.h"
 #include "api/Graphic.h"
 #include "api/FileManager.h"
-#include "api/parser/ParserManager.h"
-#include "api/parser/ParserHInit.h"
 
 #define APPLICATION_CLASS_NAME "SVGRendering"
 #define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11 - Press \"H\" for help! - "
@@ -48,6 +46,32 @@ void updateCaption(HWND hwnd, const std::string &suffix = "") {
 	SetWindowText(hwnd, (string(APPLICATION_TITLE_NAME) + " - File: " + FileManager::getCurrentFile() + " - Viewport: {" + std::to_string(XMLParser::getInstance()->getViewPort().x) + ", " + std::to_string(XMLParser::getInstance()->getViewPort().y) + "} - Zoom: " + std::to_string(Camera::zoom) + suffix).c_str());
 }
 
+void updateViewBox() {
+	Vector2D vPort = XMLParser::getInstance()->getViewPort();
+	ViewBox vBox = XMLParser::getInstance()->getViewBox();
+	if (vPort.x <= 0 && vPort.y <= 0) {
+		vPort.x = Camera::screenSize.x;
+		vPort.y = Camera::screenSize.y;
+	}
+
+	float boundPort = std::min(vPort.x, vPort.y);
+
+	// if ((vPort.x != vBox.width || vPort.y != vBox.height) && vBox.width != 0 && vBox.height != 0) {
+	// 	if (vBox.width == -1 && vBox.height == -1) {
+	// 		vBox.width = vPort.x;
+	// 		vBox.height = vPort.y;
+	// 	}
+	// 	float scale_x = vPort.x / vBox.width;
+	// 	float scale_y = vPort.y / vBox.height;
+	// 	scale = std::min(scale_x, scale_y);
+	// }
+	float boundScreen = std::min(Camera::screenSize.x, Camera::screenSize.y);
+	Camera::zoom = boundScreen / boundPort + 0.001;
+	if (Camera::zoom <= 0) {
+		int c = 0;
+	}
+}
+
 int main(int argc, char **argv) {
 	FileManager::EXECUTABLE_PATH = FileHelper::getParentPath(argv[0]);
 	if (!handleArgs(argc, argv)) {
@@ -77,6 +101,7 @@ int main(int argc, char **argv) {
 	HWND hwnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 4000, 4000, nullptr, nullptr, hInstance, nullptr);
 
 	Application::getInstance();
+	updateViewBox();
 	updateCaption(hwnd);
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);
@@ -190,7 +215,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					}
 					case 2: {
 						Application::isViewFullPath = !Application::isViewFullPath;
-						CheckMenuItem(Application::menu, MenuBase::current + 2, MF_STRING | (Application::isViewFullPath ? MF_CHECKED : MF_UNCHECKED));
+						Application::buildMenu();
+						// CheckMenuItem(Application::menu, MenuBase::current + 2, MF_STRING | (Application::isViewFullPath ? MF_CHECKED : MF_UNCHECKED));
 						break;
 					}
 					case 3: {
@@ -211,6 +237,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				if (idx != FileManager::getCurrentIdx()) {
 					CheckMenuItem(Application::fileMenu, FileManager::getCurrentIdx(), MF_STRING | MF_UNCHECKED);
 					if (FileManager::setCurrentIdx(idx)) {
+						updateViewBox();
 						updateCaption(hwnd);
 						CheckMenuItem(Application::fileMenu, FileManager::getCurrentIdx(), MF_STRING | MF_CHECKED);
 						InvalidateRect(hwnd, nullptr, false);
@@ -236,14 +263,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			// Get the file path of the dropped file
 			auto hDrop = reinterpret_cast<HDROP>(wParam);
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
+			bool idkWhatToName = false;
+			size_t choose = FileManager::getCurrentIdx();
 			for (unsigned int i = 0; i < fileCount; ++i) {
 				std::wstring filePath(256, L'\0');
 				DragQueryFileW(hDrop, i, &filePath[0], filePath.size());
 				filePath.resize(wcslen(filePath.c_str())); // Resize to correct length
-				FileManager::addFile(std::string(filePath.begin(), filePath.end()));
+
+				if (FileManager::addFile(std::string(filePath.begin(), filePath.end()))) {
+					if (!idkWhatToName) {
+						idkWhatToName = true;
+						choose = FileManager::getSize() - 1;
+					}
+				}
 			}
 			if (fileCount > 0) {
-				if (FileManager::setCurrentIdx(FileManager::getCurrentIdx() + 1)) {
+				if (FileManager::setCurrentIdx(choose)) {
+					updateViewBox();
 					updateCaption(hwnd);
 				}
 				Camera::reset();
@@ -267,6 +303,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			switch (wp) {
 				case 'R': {
 					Camera::reset();
+					updateViewBox();
 					updateCaption(hwnd);
 					InvalidateRect(hwnd, nullptr, false);
 					break;
@@ -277,6 +314,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				case 'C': {
+					Camera::reset();
 					FileManager::clearFiles();
 					break;
 				}
@@ -304,12 +342,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				case 'H': {
 					MessageBox(nullptr, "Press R to reload.\n"
+						"Press T to reload from disk! (Without changing viewer camera)\n"
 						"Press W/S to zoom in/out.\n"
 						"Press A/D to rotate.\n"
 						"Use either mouse drag or arrow keys to navigation.\n"
 						"Press M to display ruler.\n"
 						"Press C to clear all imported SVGs\n"
-						"Press (0-9) to quick select the imported SVGs.\n"
 						"Left click at the title bar to get MENU.\n",
 						"SVG SHORTCUT", MB_OK);
 					break;
@@ -348,18 +386,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
-				default: {
-					if (wp >= '0' && wp <= '9') {
-						std::string filePath = FileManager::getFile(wp - '0');
-						if (!filePath.empty()) {
-							if (FileManager::setCurrentIdx(wp - '0')) {
-								updateCaption(hwnd);
-							}
-							Camera::reset();
-							InvalidateRect(hwnd, nullptr, false);
-						}
-					}
-				}
+				default: {}
 			}
 			return 0;
 		}

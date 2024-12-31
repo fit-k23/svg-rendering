@@ -52,8 +52,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 			if (viewBox.width != 0 && viewBox.height != 0) {
 				viewPort.x = viewBox.width;
 				viewPort.y = viewBox.height;
-			}
-			else {
+			} else {
 				viewPort.x = Camera::screenSize.x;
 				viewPort.y = Camera::screenSize.y;
 			}
@@ -120,7 +119,7 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 		}
 	} else {
 		Element *shape = parseShape(pNode);
-		shape->dbg();
+		// shape->dbg();
 		if (shape != nullptr) {
 			group->addElement(shape);
 		}
@@ -144,31 +143,18 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_node<> *pChild = pNode->first_node();
 	if (pChild == nullptr) return;
 
-	// std::cout << "hello grad\n";
 	while (pChild != nullptr) {
-		// extractStyle(pChild);
 		Gradient *gradient = nullptr;
 		std::string nodeName = pChild->name();
-		// std::cout << "type of gradient = " << nodeName << '\n';
-		// parse ID
 		std::string id = parseStringAttr(pChild, "id");
-
-		if (id == "ornamentRed") {
-			std::cout << "hmm\n";
-		}
 
 		if (grads.find(id) != grads.end()) {
 			pChild = pChild->next_sibling();
 			continue;
 		}
 
-		// parse gradient transformations
 		std::vector<std::string> transforms = parseTransformation(parseStringAttr(pChild, "gradientTransform"));
-
-		// parse gradient units
 		std::string units = parseStringAttr(pChild, "gradientUnits");
-
-		// parse stops
 		std::vector<Stop> stops = parseStops(pChild);
 
 		if (nodeName == "linearGradient") {
@@ -470,7 +456,7 @@ void XMLParser::extractStyle(rapidxml::xml_node<> *pNode) {
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute("style");
 	if (pAttr == nullptr) return;
 	std::string data = pAttr->value();
-	for (int i = 0; i < (int)data.size(); ++i) 
+	for (int i = 0; i < static_cast<int>(data.size()); ++i)
 		if (data[i] == ':' || data[i] == ';')
 			data[i] = ' ';
 	std::stringstream buffer(data);
@@ -483,7 +469,7 @@ void XMLParser::extractStyle(rapidxml::xml_node<> *pNode) {
 }
 
 float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &attrName) {
-	float ret = 0.0;
+	float ret = 0.0f;
 	rapidxml::xml_attribute<> *pAttr = pNode->first_attribute(attrName.c_str());
 	if (pAttr == nullptr) { // <-- doesn't exist an attribute with name = attrName
 		std::string nodeName = pNode->name();

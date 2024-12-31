@@ -50,6 +50,10 @@ string FileManager::getFile(size_t idx) {
 	return filePaths.at(idx);
 }
 
+size_t FileManager::getSize() {
+	return filePaths.size();
+}
+
 vector<string> FileManager::getFileList(bool viewFull) {
 	if (viewFull) {
 		return filePaths;

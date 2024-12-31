@@ -38,7 +38,8 @@ namespace FileHelper{
 	 * @param filePath Input filepath
 	 */
 	inline string getFileName(const string &filePath) {
-		return filePath.substr(filePath.find_last_of("/\\") + 1);
+		return std::filesystem::path(filePath).filename().string();
+		// return filePath.substr(filePath.find_last_of("\\/") + 1);
 	}
 
 	inline string getParentPath(const string &filePath) {
@@ -89,6 +90,7 @@ public:
 	 * @param idx Index of the file in the vector
 	 */
 	static string getFile(size_t idx);
+	static size_t getSize();
 	/**
 	 * @brief Get a list of file's name
 	 * @param viewFull show file with full path | default: false

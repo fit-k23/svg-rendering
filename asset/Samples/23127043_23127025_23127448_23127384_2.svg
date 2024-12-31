@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	viewBox="0 0 300 300" xml:space="preserve">
     <g transform = "rotate(20),translate(50,35),rotate(-20),scale(0.5)">
@@ -1513,8 +1512,7 @@
         </linearGradient>
     </defs>
     <g stroke="rgb(100,0,0)" stroke-width="1">
-        <text x="15%" y="80%" fill="url(#grad1)" font-size="30" >&lt;"Happy New
-       Year"&gt;</text>
+        <text x="15%" y="80%" fill="url(#grad1)" font-size="30" >&lt;"Happy New Year"&gt;</text>
         <text x="15%" y="90%" fill="url(#grad2)" font-size="30" >&lt;Goodbye Old Year&gt;</text>
     </g>
 </svg>

@@ -25,31 +25,6 @@ Color InterpolateColor(const Color& color1, const Color& color2, float t) {
     BYTE a = static_cast<BYTE>(color1.GetA() + t * (color2.GetA() - color1.GetA()));
     return Color(a, r, g, b);
 }
-
-// Function to handle opacity adjustments
-float InterpolateOpacity(float opacity1, float opacity2, float t) {
-    return opacity1 + t * (opacity2 - opacity1);
-}
-
-// Function to calculate the color for a given t (interpolating between multiple stops)
-Color GetColorAtOffset(const std::vector<Stop>& stops, float t) {
-    // Find the two stops that surround the offset t
-    Stop startStop = stops[0];
-    Stop endStop = stops[0];
-
-    for (size_t i = 0; i < stops.size() - 1; ++i) {
-        if (t >= stops[i].offset && t <= stops[i + 1].offset) {
-            startStop = stops[i];
-            endStop = stops[i + 1];
-            break;
-        }
-    }
-
-    // Normalize t to be between 0 and 1 based on the range between the two surrounding stops
-    float normalizedT = (t - startStop.offset) / (endStop.offset - startStop.offset);
-    return InterpolateColor(startStop.color, endStop.color, normalizedT);
-}
-
 // Gradient properties (global for simplicity)
 PointF innerCenter;
 PointF outerCenter;
@@ -82,14 +57,20 @@ void DrawGradientSegment(Color *pixelData, RectF boundingBox, float startAngle, 
         PointF innerPoint(innerCenter.X + innerRadius * thetaCos, innerCenter.Y + innerRadius * thetaSin);
         PointF outerPoint(outerCenter.X + outerRadius * thetaCos, outerCenter.Y + outerRadius * thetaSin);
 
+		int cur = 1;
+		int oldCur = 0;
 #pragma omp simd
         for (float t = 0; t <= 1.0f; t += 0.001f) {  // Interpolation factor
             int x = innerPoint.X + t * (outerPoint.X - innerPoint.X);
             int y = innerPoint.Y + t * (outerPoint.Y - innerPoint.Y);
 
+			if (t > gradientStops[cur].offset) {
+				oldCur = cur++;
+			}
             // Ensure x, y are within bounds
             if (x >= 0 && x < boundingBox.Width && y >= 0 && y < boundingBox.Height) {
-                Color pixelColor = GetColorAtOffset(gradientStops, t);
+            	float normalizedT = (t - gradientStops[oldCur].offset) / (gradientStops[cur].offset - gradientStops[oldCur].offset);
+                Color pixelColor = InterpolateColor(gradientStops[oldCur].color, gradientStops[cur].color, normalizedT);
 
                 // Set the pixel in the shared buffer
                 int index = (y + boundingBox.Y) * (boundingBox.Width + boundingBox.X) + x + boundingBox.X;
@@ -175,7 +156,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             HDC hdc = BeginPaint(hwnd, &ps);
             HBRUSH brush = CreateSolidBrush(RGB(255, 255, 255));
             FillRect(hdc, &ps.rcPaint, brush);
-			RectF boundingBox(100, 100, 500, 500);
+			RectF boundingBox(100, 100, 800, 500);
             DrawRadialGradient(hdc, boundingBox);  // Draw gradient
             EndPaint(hwnd, &ps);
             return 0;

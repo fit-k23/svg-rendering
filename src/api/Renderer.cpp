@@ -105,6 +105,108 @@ Gdiplus::SolidBrush *Renderer::getBrush(const SVGColor &color) {
 	return new Gdiplus::SolidBrush(color);
 }
 
+void applyTransformToBrush(Gdiplus::TextureBrush *brush, const vector<string> &transformations) {
+	std::stringstream buffer;
+	string cmd;
+	for (const auto &transformation : transformations) {
+		buffer.clear();
+		buffer.str(transformation);
+		buffer >> cmd;
+		if (cmd == "matrix") {
+			float a, b, c, d, e, f;
+			buffer >> a >> b >> c >> d >> e >> f;
+			Gdiplus::Matrix matrix(a, b, c, d, e, f);
+			brush->MultiplyTransform(&matrix);
+		} else if (cmd == "translate") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = 0;
+			brush->TranslateTransform(dx, dy);
+		} else if (cmd == "scale") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = dx;
+			brush->ScaleTransform(dx, dy);
+		} else if (cmd == "rotate") {
+			float a, x = 0, y = 0;
+			buffer >> a;
+			if (!(buffer >> x >> y)) {
+				x = 0;
+				y = 0;
+			}
+			brush->RotateTransform(a);
+		}
+	}
+}
+
+void applyTransformToBrush(Gdiplus::LinearGradientBrush *brush, const vector<string> &transformations) {
+	std::stringstream buffer;
+	string cmd;
+	for (const auto &transformation : transformations) {
+		buffer.clear();
+		buffer.str(transformation);
+		buffer >> cmd;
+		if (cmd == "matrix") {
+			float a, b, c, d, e, f;
+			buffer >> a >> b >> c >> d >> e >> f;
+			Gdiplus::Matrix matrix(a, b, c, d, e, f);
+			brush->MultiplyTransform(&matrix);
+		} else if (cmd == "translate") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = 0;
+			brush->TranslateTransform(dx, dy);
+		} else if (cmd == "scale") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = dx;
+			brush->ScaleTransform(dx, dy);
+		} else if (cmd == "rotate") {
+			float a, x = 0, y = 0;
+			buffer >> a;
+			if (!(buffer >> x >> y)) {
+				x = 0;
+				y = 0;
+			}
+			brush->RotateTranform(a);
+		}
+	}
+}
+
+void applyTransformToBrush(Gdiplus::PathGradientBrush *brush, const vector<string> &transformations) {
+	std::stringstream buffer;
+	string cmd;
+	for (const auto &transformation : transformations) {
+		buffer.clear();
+		buffer.str(transformation);
+		buffer >> cmd;
+		if (cmd == "matrix") {
+			float a, b, c, d, e, f;
+			buffer >> a >> b >> c >> d >> e >> f;
+			Gdiplus::Matrix matrix(a, b, c, d, e, f);
+			brush->MultiplyTransform(&matrix);
+		} else if (cmd == "translate") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = 0;
+			brush->TranslateTransform(dx, dy);
+		} else if (cmd == "scale") {
+			float dx = 0, dy = 0;
+			buffer >> dx;
+			if (!(buffer >> dy)) dy = dx;
+			brush->ScaleTransform(dx, dy);
+		} else if (cmd == "rotate") {
+			float a, x = 0, y = 0;
+			buffer >> a;
+			if (!(buffer >> x >> y)) {
+				x = 0;
+				y = 0;
+			}
+			brush->RotateTransform(a);
+		}
+	}
+}
+
 Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradient, const SVGColor &color) {
 	if (gradient == nullptr)
 		return new Gdiplus::SolidBrush(color);
@@ -142,11 +244,20 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 		}
 
 		if (Application::doSRGBGradient) {
-			return getSRGBLinearGradientBrush(boundingBox, static_cast<const LinearGradient *>(gradient));
+			Gdiplus::TextureBrush *lTextBrush =  getSRGBLinearGradientBrush(boundingBox, static_cast<const LinearGradient *>(gradient));
+			applyTransformToBrush(lTextBrush, gradient->getTransforms());
+			return lTextBrush;
 		}
 
 		Vector2D p1 = linearGradient->getPos(0);
 		Vector2D p2 = linearGradient->getPos(1);
+
+		if (linearGradient->getUnits() == "userSpaceOnUse") {
+			p1.x /= boundingBox.Width;
+			p1.y /= boundingBox.Height;
+			p2.x /= boundingBox.Width;
+			p2.y /= boundingBox.Height;
+		}
 
 		Vector2D diff = p2 - p1;
 
@@ -163,11 +274,14 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 
 		auto *lBrush = new Gdiplus::LinearGradientBrush(boundingBox, SVG_BLANK, SVG_BLANK, RAD2DEG(angle), false);
 		lBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
+		applyTransformToBrush(lBrush, gradient->getTransforms());
 		return lBrush;
 	}
 	auto radialGradient = static_cast<RadialGradient *>(gradient); // NOLINT(*-pro-type-static-cast-downcast)
 	if (Application::doSRGBGradient) {
-		return getSRGBRadialGradientBrush(boundingBox, radialGradient);
+		Gdiplus::TextureBrush *rTextBrush = getSRGBRadialGradientBrush(boundingBox, radialGradient);
+		applyTransformToBrush(rTextBrush, radialGradient->getTransforms());
+		return rTextBrush;
 	}
 	Gdiplus::GraphicsPath path;
 	Gdiplus::RectF pBox = boundingBox;
@@ -182,6 +296,7 @@ Gdiplus::Brush *Renderer::getBrush(Gdiplus::RectF boundingBox, Gradient *gradien
 	Vector2D pos = {boundingBox.X, boundingBox.Y};
 	rBrush->SetCenterPoint(static_cast<Gdiplus::PointF>(focus));
 	rBrush->SetInterpolationColors(colors.data(), offsets.data(), stopAmount);
+	applyTransformToBrush(rBrush, gradient->getTransforms());
 	return rBrush;
 }
 
@@ -224,6 +339,7 @@ void Renderer::drawRect(Gdiplus::Graphics &graphics, const SVGRect *element) {
 	Gdiplus::Brush *fillBrush = getBrush(rect, element->getFillGradient(), element->getFillColor());
 
 	graphics.FillPath(fillBrush, &path);
+	
 	delete fillBrush;
 	if (element->getStrokeGradient() != nullptr) {
 		delete strokeBrush;
@@ -362,7 +478,7 @@ void Renderer::drawText(Gdiplus::Graphics &graphics, const SVGText *element) {
 	boundingBox.Y = position.y;
 
 	Gdiplus::Pen pen({255, 0, 0, 0}, 1.0 / Camera::zoom);
-	graphics.DrawRectangle(&pen, boundingBox);
+	// graphics.DrawRectangle(&pen, boundingBox);
 
 	Gdiplus::GraphicsPath path;
 	path.AddString(wData.c_str(), -1, &fontFamily, font.GetStyle(), font.GetSize(), static_cast<Gdiplus::PointF>(position), Gdiplus::StringFormat::GenericTypographic());
@@ -488,6 +604,10 @@ void Renderer::drawPath(Gdiplus::Graphics &graphics, const SVGPath *element) {
 	Gdiplus::Brush *brush = getBrush(boundingBox, element->getFillGradient(), fillColor);
 	graphics.FillPath(brush, &path);
 	graphics.DrawPath(&pen, &path);
+	{
+		Gdiplus::Pen(SVG_GREEN, 100);
+		graphics.DrawRectangle(&pen, boundingBox);
+	}
 	delete brush;
 }
 
@@ -501,12 +621,34 @@ void Renderer::configGraphic(Gdiplus::Graphics &graphics) {
 }
 
 void Renderer::configCamera(Gdiplus::Graphics &graphics) {
-	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
 	graphics.TranslateTransform(Camera::mousePosition.x, Camera::mousePosition.y);
+	graphics.TranslateTransform(Camera::startPosition.x, Camera::startPosition.y);
+	// graphics.SetClip(Gdiplus::Rect(0, 0, vPort.x, vPort.y));
+	// if ((vPort.x != vBox.width || vPort.y != vBox.height) && vBox.width != 0 && vBox.height != 0) {
+	// 	float scale_x = vPort.x / vBox.width;
+	// 	float scale_y = vPort.y / vBox.height;
+	// 	float scale = std::min(scale_x, scale_y);
+	// 	graphics.ScaleTransform(scale, scale);
+	// 	float offset_x = 0.0f;
+	// 	float offset_y = 0.0f;
+	// 	if (vPort.x > vBox.width) {
+	// 		offset_x = (vPort.x - vBox.width * scale) / 2 / scale;
+	// 	}
+	// 	if (vPort.y > vBox.height) {
+	// 		offset_y = (vPort.y - vBox.height * scale) / 2 / scale;
+	// 	}
+	// 	graphics.TranslateTransform(offset_x, offset_y);
+	// }
+	//
+	// graphics.TranslateTransform(-vBox.minX, -vBox.minX);
+
+	// Gdiplus::Region region;
+	// graphics.GetClip(&region);
 	graphics.ScaleTransform(Camera::zoom, Camera::zoom);
 	graphics.RotateTransform(Camera::rotation);
-	// graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
 	graphics.TranslateTransform(-Camera::mousePosition.x, -Camera::mousePosition.y);
+
+	// graphics.SetClip(&region);
 }
 
 sRGBLinearGradientBrush *Renderer::getSRGBLinearGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient) {

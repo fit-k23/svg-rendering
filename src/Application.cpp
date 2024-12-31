@@ -6,7 +6,8 @@ Application *Application::getInstance() {
 
 Application::Application() {
 	// FileManager::addFolder("asset/");
-	FileManager::addFile("asset/23127284_23127318_23127488_23127361_1.svg");
+	FileManager::addFile("asset/23127043_23127025_23127448_23127384_1.svg");
+	FileManager::addFile("asset/team_sample/linear_grad.svg");
 	FileManager::setCurrentIdx(0, true);
 	// FileManager::addFile("asset/team_sample/linear_grad.svg");
 	// FileManager::setCurrentIdx(0, true);
@@ -55,7 +56,6 @@ void Application::openImportFileMenu() {
 			newFileAdded = FileManager::addFile(std::string(path));
 		}
 		if (newFileAdded) {
-			SetCurrentDirectory(FileManager::EXECUTABLE_PATH.c_str());
 			buildMenu();
 		}
 	} else {
@@ -66,6 +66,7 @@ void Application::openImportFileMenu() {
 			printf("No files selected or dialog was canceled.\n");
 		}
 	}
+	SetCurrentDirectory(FileManager::EXECUTABLE_PATH.c_str());
 }
 
 void Application::buildMenu() {
