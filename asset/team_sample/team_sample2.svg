@@ -1,0 +1,122 @@
+<svg width="920" height="700" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="Gradient1A">
+            <stop stop-color="red" offset="25%" />
+            <stop stop-color="rgb(0, 0, 0)" stop-opacity="0" offset="50%" />
+            <stop stop-color="blue" offset="0.75" />
+        </linearGradient>
+        <linearGradient id="Gradient1B" x1="-0.5" x2="1.5" y1="0" y2="0">
+            <stop stop-color="red" offset="25%" />
+            <stop stop-color="rgb(0, 0, 0)" stop-opacity="0" offset="50%" />
+            <stop stop-color="blue" offset="75%" />
+        </linearGradient>
+        <linearGradient id="Gradient2A">
+            <stop stop-color="red" offset="0.0" />
+        </linearGradient>
+        <linearGradient id="Gradient2B">
+            <stop stop-color="blue" offset="0.5" />
+        </linearGradient>
+        <linearGradient id="Gradient2C">
+            <stop stop-color="red" offset="0.0" stop-opacity="0.5"/>
+            <stop stop-color="green" offset="0.5" stop-opacity="1.0"/>
+            <stop stop-color="blue" offset="1.0" stop-opacity="0.5"/>
+        </linearGradient>
+        <linearGradient id="Gradient2D">
+            <stop stop-color="red" offset="0.0"/>
+            <stop stop-color="yellow" offset="0.5"/>
+            <stop stop-color="red" offset="0.5"/>
+        </linearGradient>
+        <linearGradient id="Gradient3A" x1="0" x2="1" y1="0" y2="0">
+            <stop stop-color="blue" offset="0.0"/>
+            <stop stop-color="green" offset="0.5"/>
+            <stop stop-color="yellow" offset="1.0"/>
+        </linearGradient>
+        <linearGradient id="Gradient3B" x1="0" x2="0" y1="1" y2="0">
+            <stop stop-color="blue" offset="0.0"/>
+            <stop stop-color="green" offset="0.5"/>
+            <stop stop-color="yellow" offset="1.0"/>
+        </linearGradient>
+        <linearGradient id="Gradient3C" x1="1" x2="0" y1="0" y2="0">
+            <stop stop-color="blue" offset="0.0"/>
+            <stop stop-color="green" offset="0.5"/>
+            <stop stop-color="yellow" offset="1.0"/>
+        </linearGradient>
+        <linearGradient id="Gradient3D" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="blue" offset="0.0"/>
+            <stop stop-color="green" offset="0.5"/>
+            <stop stop-color="yellow" offset="1.0"/>
+        </linearGradient>
+    </defs>
+<!-- COL 1 -->
+<!--    <rect x="10" y="10" width="100" height="100" fill="black"/>-->
+<!--    <rect fill="url(#Gradient1A)" x="10" y="10" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect x="10" y="120" width="100" height="100" fill="#FFF"/>-->
+<!--    <rect fill="url(#Gradient1A)" x="10" y="120" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect x="10" y="230" width="100" height="100" fill="rgb(125, 125, 125)"/>-->
+<!--    <rect fill="url(#Gradient1A)" x="10" y="230" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect fill="url(#Gradient1A)" x="10" y="340" rx="15" ry="15" width="100" height="100" />-->
+
+<!-- COL 2 -->
+<!--    <rect x="120" y="10" width="100" height="100" fill="black"/>-->
+<!--    <rect fill="url(#Gradient1B)" x="120" y="10" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect x="120" y="120" width="100" height="100" fill="#FFF"/>-->
+<!--    <rect fill="url(#Gradient1B)" x="120" y="120" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect x="120" y="230" width="100" height="100" fill="rgb(125, 125, 125)"/>-->
+<!--    <rect fill="url(#Gradient1B)" x="120" y="230" rx="15" ry="15" width="100" height="100" />-->
+
+<!--    <rect fill="url(#Gradient1B)" x="120" y="340" rx="15" ry="15" width="100" height="100" />-->
+
+<!-- COL 3 -->
+<!--    <rect fill="url(#Gradient2A)" x="230" y="10" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient2B)" x="230" y="120" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient2C)" x="230" y="230" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient2D)" x="230" y="340" rx="15" ry="15" width="100" height="100" />-->
+<!-- COL 4 -->
+<!--    <rect fill="url(#Gradient3A)" x="340" y="10" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient3B)" x="340" y="120" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient3C)" x="340" y="230" rx="15" ry="15" width="100" height="100" />-->
+<!--    <rect fill="url(#Gradient3D)" x="340" y="340" rx="15" ry="15" width="100" height="100" />-->
+<!-- COL 5 -->
+    <text x="450" y="75" font-size="50" fill="url(#Gradient3A)" stroke-width="0.0">LINEAR GRADIENT</text>
+    <text x="450" y="185" font-size="50" fill="url(#Gradient3B)" stroke-width="0.0">LINEAR GRADIENT</text>
+    <text x="450" y="295" font-size="50" fill="url(#Gradient3C)" stroke-width="0.0">LINEAR GRADIENT</text>
+    <text x="450" y="405" font-size="50" fill="url(#Gradient3D)" stroke-width="0.0">LINEAR GRADIENT</text>
+
+    <defs>
+        <radialGradient id="RG1">
+            <stop offset="10%" stop-color="gold"/>
+            <stop offset="95%" stop-color="red"/>
+        </radialGradient>
+        <radialGradient id="RG2">
+            <stop offset="10%" stop-color="gold"/>
+            <stop offset="95%" stop-color="red" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#00f"/>
+        </radialGradient>
+        <radialGradient id="RG3">
+            <stop offset="10%" stop-color="gold"/>
+            <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="RG4" fx="1.0">
+            <stop offset="0%" stop-color="green"/>
+            <stop offset="100%" stop-color="yellow"/>
+        </radialGradient>
+    </defs>
+
+    <g transform="translate(0, 450) scale(1.21)">
+        <circle cx="50" cy="50" r="40" fill="url('#RG1')"/>
+        <circle cx="140" cy="50" r="40" fill="url('#RG2')"/>
+        <circle cx="230" cy="50" r="40" fill="url('#RG3')"/>
+        <circle cx="320" cy="50" r="40" fill="url('#RG4')"/>
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url('#RG1')" transform="translate(5, 100) scale(3.75)" />
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url('#RG2')" transform="translate(95, 100) scale(3.75)" />
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url('#RG3')" transform="translate(185, 100) scale(3.75)" />
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url('#RG4')" transform="translate(275, 100) scale(3.75)" />
+    </g>
+    <text x="450" y="525" font-size="50" fill="url(#RG2)" stroke-width="0.5" stroke="black" stroke-opacity="0.5">RADIAL GRADIENT</text>
+    <text x="450" y="635" font-size="50" fill="url(#RG4)" stroke-width="3.5" stroke="black" stroke-opacity="0.1">RADIAL GRADIENT</text>
+   </svg>

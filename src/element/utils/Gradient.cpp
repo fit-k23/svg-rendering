@@ -27,4 +27,5 @@ void Gradient::addStop(const Stop &stop) { stops.push_back(stop); }
 string Gradient::getID() const { return id; }
 vector<string> Gradient::getTransforms() const { return transforms; }
 vector<Stop> Gradient::getStops() const { return stops; }
+int Gradient::getStopsSize() const { return stops.size(); }
 string Gradient::getUnits() const { return units; }

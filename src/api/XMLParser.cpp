@@ -14,6 +14,8 @@ XMLParser::~XMLParser() {
 	std::cout << "Deleting root\n";
 }
 
+#include <cstring>  // For strerror
+#include <cerrno>   // For errno
 void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *pNode, Group *group) {
 	if (group == nullptr) {
 		//std::cout << "Deleting gradients pointers\n";
@@ -21,13 +23,17 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 			delete gradient.second;
 		}
 		delete svg;
-		//std::cout << "Delete root ta ta ta\n";
 		grads.clear();
 		std::ifstream fin(fileName.c_str());
 		if (!fin.is_open()) {
-			std::cout << "Cannot open file " << fileName << '\n';
+			cout << "Cannot open file " << fileName << '\n';
+
+			// Print the error message based on errno
+			std::cout << "Error: " << strerror(errno) << '\n';
 			svg = nullptr;
 			return;
+		} else {
+			cout << "Open file " << fileName << '\n';
 		}
 		//std::cout << "Reading " << fileName << "\n";
 		std::stringstream buffer;
@@ -102,7 +108,6 @@ void XMLParser::traverseXML(const std::string &fileName, rapidxml::xml_node<> *p
 	} else {
 		Element *shape = parseShape(pNode);
 		if (shape != nullptr) {
-			// shape->dbg();
 			group->addElement(shape);
 		}
 	}
@@ -161,7 +166,6 @@ void XMLParser::parseGradients(rapidxml::xml_node<> *pNode) {
 
 		if (gradient != nullptr) {
 			gradient->setStops(stops);
-			//gradient->dbg();
 			grads[id] = gradient;
 		}
 
@@ -220,16 +224,17 @@ Element *XMLParser::parseShape(rapidxml::xml_node<> *pNode) {
 	if (ret != nullptr) {
 		ret->setTransformation(transformation);
 		if (!fillGradID.empty()) {
-			if (grads.find(fillGradID) != grads.end())
+			auto mmmm = grads;
+			if (grads.find(fillGradID) != grads.end()) {
 				ret->setFillGradient(grads[fillGradID]);
-			else std::cout << "Fill gradient of id " << fillGradID << " not found\n";
+			}
+			else cout << "Fill gradient of id " << fillGradID << " not found\n";
 		}
 		if (!strokeGradID.empty()) {
 			if (grads.find(strokeGradID) != grads.end())
 				ret->setStrokeGradient(grads[strokeGradID]);
-			else std::cout << "Stroke gradient of id " << strokeGradID << " not found\n";
+			else cout << "Stroke gradient of id " << strokeGradID << " not found\n";
 		}
-		//ret->dbg();
 	}
 	return ret;
 }
@@ -297,7 +302,7 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 	std::string d = parseStringAttr(pNode, "d"); // <-- get string of d attribute
 
 	auto isCmd = [](char c) -> bool {
-		char ch = (char) tolower(c);
+		char ch = static_cast<char>(tolower(c));
 		return ch == 'm' || ch == 'l' || ch == 'h' || ch == 'v' || ch == 'z' || ch == 'c' || ch == 's' || ch == 'q' || ch == 't' || ch == 'a';
 	};
 
@@ -314,10 +319,10 @@ SVGPath XMLParser::parsePath(rapidxml::xml_node<>* pNode, const SVGColor& fillCo
 	Vector2D<float> sta;
 	std::stringstream buffer;
 	std::string data;
-	int size = (int) d.size();
+	int size = static_cast<int>(d.size());
 	for (int i = 0; i < size; ++i) {
 		if (!isCmd(d[i])) continue;
-		char ins = (char) (tolower(d[i]));
+		char ins = static_cast<char>(tolower(d[i]));
 		int nxt = -1;
 		int tmpI = i + 1;
 		data = "";
@@ -445,16 +450,16 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 		if (nodeName.find("Gradient") != std::string::npos) { // <-- Default value for gradient attributes
 			std::string units = parseStringAttr(pNode, "gradientUnits");
 			if (attrName == "x1" || attrName == "y1" || attrName == "y2") return 0.0f;
-			else if (attrName == "x2") return (units[0] == 'o' ? 1.0f : viewPort.x);
-			else if (attrName == "cx" || attrName == "cy" || attrName == "r") {
+			if (attrName == "x2") return (units[0] == 'o' ? 1.0f : viewPort.x);
+			if (attrName == "cx" || attrName == "cy" || attrName == "r") {
 				if (units[0] == 'o') return 0.5f;
 				else if (attrName == "cx") return 0.5f * viewPort.x;
 				else if (attrName == "cy") return 0.5f * viewPort.y;
 				// I think it represents the half diagnol of view port when units = userSpaceOnUse ???
 				// Can't find document on this
-				return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f); // r 
+				return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f); // r
 			}
-			else if (attrName == "fx" || attrName == "fy") {
+			if (attrName == "fx" || attrName == "fy") {
 				return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
 			}
 		}
@@ -474,9 +479,9 @@ float XMLParser::parseFloatAttr(rapidxml::xml_node<> *pNode, const std::string &
 			std::string units = parseStringAttr(pNode, "gradientUnits");
 			if (units[0] == 'u') { // userSpaceOnUse
 				if (attrName == "fx" || attrName == "fy") return (attrName == "fx" ? parseFloatAttr(pNode, "cx") : parseFloatAttr(pNode, "cy"));
-				else if (attrName.find("x") != std::string::npos) return viewPort.x * ret;
-				else if (attrName.find("y") != std::string::npos) return viewPort.y * ret;
-				else if (attrName == "r") return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f); // r 
+				if (attrName.find("x") != std::string::npos) return viewPort.x * ret;
+				if (attrName.find("y") != std::string::npos) return viewPort.y * ret;
+				if (attrName == "r") return 0.5f * (((viewPort.x * viewPort.x) + (viewPort.y * viewPort.y)) * 0.5f);
 			}
 		}
 	}
@@ -509,7 +514,7 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &a
 			color = SVG_BLANK;
 			return color;
 		}
-		color.a = (unsigned char) (255.0f * opaque);
+		color.a = static_cast<unsigned char>(255.0f * opaque);
 		return color;
 	}
 	std::string value = pAttr->value();
@@ -518,12 +523,11 @@ SVGColor XMLParser::parseColor(rapidxml::xml_node<> *pNode, const std::string &a
 		return SVG_BLANK;
 	}
 	if (value.find("url") != std::string::npos) { // <-- belongs to a gradient
-		// TODO: Get the id
-		for (int i = 5; i < (int)value.size() - 1; ++i)
-			gradID += value[i];
+		int sPos = static_cast<int>(value.find('#')) + 1;
+		gradID = value.substr(sPos, value.find_first_of("')", sPos) - sPos);
 	} else {
 		color = SVGColor(value); // <-- get Color in SVGColor class
-		color.a = (unsigned char) (255.0f * opaque);
+		color.a = static_cast<unsigned char>(255.0f * opaque);
 		// TODO: More research required to make sure the input don't make the opaque overflowed or having unexpected behavior.
 	}
 	return color;
@@ -553,7 +557,7 @@ std::vector<std::string> XMLParser::parseTransformation(std::string transformati
 
 	for (char &i : transformation)
 		if (i >= 'A' && i <= 'Z')
-			i = (char) tolower(i);
+			i = static_cast<char>(tolower(i));
 
 	std::string data;
 	bool start = false;

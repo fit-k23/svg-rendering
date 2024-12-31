@@ -21,13 +21,39 @@
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-int main(int argc, char **argv) {
-	if (argc == 2) {
-		std::string path(argv[1]);
-		FileManager::clearFiles();
-		FileManager::addFile(path);
-		FileManager::setCurrentIdx(0);
+bool handleArgs(int argc, char **argv) {
+	if (argc == 1) {
+		cout << "example.exe path/to/file.svg\n"
+				"example.exe path/to/folder\n";
+		return true;
 	}
+	string path;
+	for (int i = 1; i < argc; ++i) {
+		path += argv[i];
+		if (i != argc - 1) {
+			path += " ";
+		}
+	}
+	if (!FileHelper::pathExists(path)) {
+		cout << "File or Folder does not exist!\n";
+		return false;
+	}
+	if (FileHelper::pathIsDirectory(path)) {
+		return FileManager::addFolder(path);
+	}
+	return FileManager::addFile(path);
+}
+
+void updateCaption(HWND hwnd, const std::string &suffix = "") {
+	SetWindowText(hwnd, (string(APPLICATION_TITLE_NAME) + " File: " + FileManager::getCurrentFile() + " ♥ Viewport: {" + std::to_string(XMLParser::getInstance()->getViewPort().x) + ", " + std::to_string(XMLParser::getInstance()->getViewPort().y) + "} ♥ Zoom: " + std::to_string(Camera::zoom) + suffix).c_str());
+}
+
+int main(int argc, char **argv) {
+	FileManager::EXECUTABLE_PATH = FileHelper::getParentPath(argv[0]);
+	if (!handleArgs(argc, argv)) {
+		return 0;
+	}
+	FileManager::setCurrentIdx(0);
 	MSG msg;
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
@@ -51,6 +77,7 @@ int main(int argc, char **argv) {
 	HWND hwnd = CreateWindow(TEXT(APPLICATION_CLASS_NAME), TEXT(APPLICATION_TITLE_NAME), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 4000, 4000, nullptr, nullptr, hInstance, nullptr);
 
 	Application::getInstance();
+	updateCaption(hwnd);
 
 	ShowWindow(hwnd, SW_SHOWNORMAL);
 	UpdateWindow(hwnd);
@@ -67,8 +94,6 @@ int main(int argc, char **argv) {
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
-	PAINTSTRUCT ps;
-
 	switch (message) {
 		case WM_CREATE: {
 			RECT rect;
@@ -87,6 +112,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_PAINT: {
+			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			RECT rect;
 			::GetClientRect(hwnd, &rect);
@@ -101,8 +127,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			HBRUSH hBrush = CreateSolidBrush(BACKGROUND_COLOR);
 			FillRect(hdcMem, &rect, hBrush);
-
-			SetWindowText(hwnd, (string(APPLICATION_TITLE_NAME) + " File: " + FileManager::getCurrentFile()).c_str());
 			Application::getInstance()->draw(hdcMem);
 
 			BitBlt(hdc, 0, 0, width, height, hdcMem, 0, 0, SRCCOPY);
@@ -120,6 +144,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_MOUSEWHEEL: {
 			GET_WHEEL_DELTA_WPARAM(wParam) > 0 ? Camera::zoomIn() : Camera::zoomOut();
+			updateCaption(hwnd);
 			InvalidateRect(hwnd, nullptr, false);
 			break;
 		}
@@ -136,23 +161,66 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			break;
 		}
 		case WM_NCRBUTTONDOWN: {
+			POINT pt;
+			GetCursorPos(&pt);
 			if (wParam == HTCAPTION) {
-				POINT pt;
-				GetCursorPos(&pt);
-				Application::buildFileMenu();
-				TrackPopupMenu(Application::fileMenu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
+				TrackPopupMenu(Application::menu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
 			}
+			return 0;
+		}
+		case WM_RBUTTONDOWN: {
+			POINT pt;
+			GetCursorPos(&pt);
+			TrackPopupMenu(Application::fileMenu, TPM_LEFTALIGN | TPM_TOPALIGN , pt.x, pt.y, 0, hwnd, nullptr);
 			return 0;
 		}
 		case WM_COMMAND: {
 			size_t idx = LOWORD(wParam);
-			if (FileManager::setCurrentIdx(idx)) {
-				InvalidateRect(hwnd, nullptr, false);
+			if (idx >= MenuBase::fileBase) {
+				switch (idx - MenuBase::fileBase) {
+					case 0: {
+						Application::openImportFileMenu();
+						break;
+					}
+					case 1: {
+						Application::isMaximumScreen = !Application::isMaximumScreen;
+						ShowWindow(hwnd, Application::isMaximumScreen ? SW_MAXIMIZE : SW_RESTORE);
+						CheckMenuItem(Application::menu, MenuBase::current + 1, MF_STRING | (Application::isMaximumScreen ? MF_CHECKED : MF_UNCHECKED));
+						break;
+					}
+					case 2: {
+						Application::isViewFullPath = !Application::isViewFullPath;
+						CheckMenuItem(Application::menu, MenuBase::current + 2, MF_STRING | (Application::isViewFullPath ? MF_CHECKED : MF_UNCHECKED));
+						break;
+					}
+					case 3: {
+						Application::isRulerMode = !Application::isRulerMode;
+						InvalidateRect(hwnd, nullptr, false);
+						CheckMenuItem(Application::menu, MenuBase::current + 3, MF_STRING | (Application::isRulerMode ? MF_CHECKED : MF_UNCHECKED));
+						break;
+					}
+					case 4: {
+						Application::doSRGBGradient = !Application::doSRGBGradient;
+						CheckMenuItem(Application::menu, MenuBase::current + 4, MF_STRING | (Application::doSRGBGradient ? MF_CHECKED : MF_UNCHECKED));
+						InvalidateRect(hwnd, nullptr, false);
+						break;
+					}
+					default: {}
+				}
+			} else {
+				if (idx != FileManager::getCurrentIdx()) {
+					CheckMenuItem(Application::fileMenu, FileManager::getCurrentIdx(), MF_STRING | MF_UNCHECKED);
+					if (FileManager::setCurrentIdx(idx)) {
+						updateCaption(hwnd);
+						CheckMenuItem(Application::fileMenu, FileManager::getCurrentIdx(), MF_STRING | MF_CHECKED);
+						InvalidateRect(hwnd, nullptr, false);
+					}
+				}
 			}
 			return 0;
 		}
 		case WM_MOUSEMOVE: {
-			Vector2D<float> pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};
+			Vector2D pt = {static_cast<float>(static_cast<short>(LOWORD(lParam))), static_cast<float>(static_cast<short>(HIWORD(lParam)))};
 
 			if (Camera::isDragging && GetCapture() != nullptr) {
 				if (Camera::mousePosition.x != -1.0f) {
@@ -164,7 +232,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 			return 0;
 		}
-		case WM_DROPFILES: {
+	case WM_DROPFILES: {
 			// Get the file path of the dropped file
 			auto hDrop = reinterpret_cast<HDROP>(wParam);
 			UINT fileCount = DragQueryFile(hDrop, 0xFFFFFFFF, nullptr, 0);
@@ -175,18 +243,36 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				FileManager::addFile(std::string(filePath.begin(), filePath.end()));
 			}
 			if (fileCount > 0) {
-				FileManager::setCurrentIdx(FileManager::getCurrentIdx() + 1);
+				if (FileManager::setCurrentIdx(FileManager::getCurrentIdx() + 1)) {
+					updateCaption(hwnd);
+				}
 				Camera::reset();
+				Application::buildMenu();
 				InvalidateRect(hwnd, nullptr, false);
 			}
 			DragFinish(hDrop);
 			return 0;
 		}
-		case WM_KEYDOWN: {
+	case WM_SYSCOMMAND: {
+		if (wParam == SC_MAXIMIZE) {
+			Application::isMaximumScreen = true;
+		}
+		if (wParam == SC_RESTORE) {
+			Application::isMaximumScreen = false;
+		}
+		return DefWindowProc(hwnd, message, wParam, lParam);
+	}
+	case WM_KEYDOWN: {
 			int wp = static_cast<int>(wParam);
 			switch (wp) {
 				case 'R': {
 					Camera::reset();
+					updateCaption(hwnd);
+					InvalidateRect(hwnd, nullptr, false);
+					break;
+				}
+				case 'T': {
+					FileManager::setCurrentIdx(FileManager::getCurrentIdx(), true);
 					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
@@ -196,11 +282,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 				case 'W': {
 					Camera::zoomIn();
+					updateCaption(hwnd);
 					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
 				case 'S': {
 					Camera::zoomOut();
+					updateCaption(hwnd);
 					InvalidateRect(hwnd, nullptr, false);
 					break;
 				}
@@ -215,12 +303,29 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					break;
 				}
 				case 'H': {
-					MessageBox(nullptr, "Press R to reload.\nPress W/S to zoom in/out.\nPress A/D to rotate.\nUse either mouse drag or arrow keys to navigation.\nPress M to display ruler.\nPress (0-9) to quick select the imported SVGs.\nLeft click at the title bar to get MENU.\n", "SVG SHORTCUT", MB_OK);
+					MessageBox(nullptr, "Press R to reload.\n"
+						"Press W/S to zoom in/out.\n"
+						"Press A/D to rotate.\n"
+						"Use either mouse drag or arrow keys to navigation.\n"
+						"Press M to display ruler.\n"
+						"Press C to clear all imported SVGs\n"
+						"Press (0-9) to quick select the imported SVGs.\n"
+						"Left click at the title bar to get MENU.\n",
+						"SVG SHORTCUT", MB_OK);
 					break;
 				}
 				case 'M': {
 					Application::isRulerMode = !Application::isRulerMode;
 					InvalidateRect(hwnd, nullptr, false);
+					break;
+				}
+				case 'F': {
+					Application::isMaximumScreen = !Application::isMaximumScreen;
+					if (Application::isMaximumScreen) {
+						ShowWindow(hwnd, SW_MAXIMIZE);
+					} else {
+						ShowWindow(hwnd, SW_RESTORE);
+					}
 					break;
 				}
 				case VK_UP: {
@@ -247,7 +352,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 					if (wp >= '0' && wp <= '9') {
 						std::string filePath = FileManager::getFile(wp - '0');
 						if (!filePath.empty()) {
-							FileManager::setCurrentIdx(wp - '0');
+							if (FileManager::setCurrentIdx(wp - '0')) {
+								updateCaption(hwnd);
+							}
 							Camera::reset();
 							InvalidateRect(hwnd, nullptr, false);
 						}
@@ -256,7 +363,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 			return 0;
 		}
-		case WM_DESTROY: {
+	case WM_DESTROY: {
 			PostQuitMessage(0);
 			return 0;
 		}

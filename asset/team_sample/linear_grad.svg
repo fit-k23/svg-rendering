@@ -1,0 +1,11 @@
+<svg width="1200" height="1200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="Gradient3A" x1="0" x2="0" y1="1" y2="0">
+            <stop stop-color="blue" offset="0.0"/>
+            <stop stop-color="green" offset="0.5" stop-opacity="0"/>
+            <stop stop-color="yellow" offset="1.0"/>
+        </linearGradient>
+    </defs>
+    <rect fill="white" x="0" y="0" width="1200" height="1200" />
+    <rect fill="url(#Gradient3A)" x="100" y="100" rx="150" ry="150" width="1000" height="1000" />
+</svg>

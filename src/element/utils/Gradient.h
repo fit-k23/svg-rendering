@@ -16,7 +16,7 @@ enum class GradientType{
 	Radial,
 };
 
-namespace GradientTypeHelper {
+namespace GradientTypeHelper{
 	static string getGradientTypeName(GradientType type) {
 		if (type == GradientType::Radial) {
 			return "radial";
@@ -64,6 +64,7 @@ public:
 	void setStops(const vector<Stop> &stops);
 	void addStop(const Stop &stop);
 	vector<Stop> getStops() const;
+	int getStopsSize() const;
 	void setUnits(const string &units);
 
 	/**

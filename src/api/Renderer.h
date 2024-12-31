@@ -4,8 +4,8 @@
 #include <vector>
 #include "Graphic.h"
 #include <gdiplus.h>
+#include "../Application.h"
 #include "Camera.h"
-#include "../utils/sRGBLinearGradientBrush.h"
 
 using std::string;
 using std::vector;
@@ -35,7 +35,7 @@ class Renderer final{
 	 * @note Brush class is an abstract base class that defines a Brush object. 
 	 * @note A Brush object is used to paint the interior of graphics shapes, such as rectangles, ellipses, pies, polygons, and paths.
 	 */
-	static Gdiplus::Brush *getBrush(Gdiplus::RectF boundingBox, Gradient *grad, const SVGColor &color);
+	static Gdiplus::Brush *getBrush(Gdiplus::RectF boundingBox, Gradient *grad, const SVGColor &color, Gdiplus::GraphicsPath *path = nullptr);
 	static Gdiplus::SolidBrush *getBrush(const SVGColor &color);
 
 	/** @brief Draw a rectangle */
@@ -58,7 +58,8 @@ public:
 	static void configGraphic(Gdiplus::Graphics &graphics);
 	static void configCamera(Gdiplus::Graphics &graphics);
 
-	static sRGBLinearGradientBrush *getGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient, float angle = 0.0f);
+	static sRGBLinearGradientBrush *getSRGBLinearGradientBrush(Gdiplus::RectF boundingBox, const LinearGradient *gradient);
+	static sRGBRadialGradientBrush *getSRGBRadialGradientBrush(Gdiplus::RectF boundingBox, const RadialGradient *gradient);
 
 	/** @brief Get the singleton instance of Renderer */
 	static Renderer *getInstance();
