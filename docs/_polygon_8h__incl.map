@@ -1,0 +1,11 @@
+<map id="Polygon.h" name="Polygon.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="93,5,172,32"/>
+<area shape="rect" id="Node000002" href="$_polyline_8h.html" title=" " alt="" coords="94,80,172,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,33,135,64,130,64,130,33"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,155,63,181"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,109,65,148,62,143,114,105"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="86,155,179,181"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="135,107,135,139,130,139,130,107"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="202,155,319,181"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="156,105,226,144,224,149,154,110"/>
+</map>

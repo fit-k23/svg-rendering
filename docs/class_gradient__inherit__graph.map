@@ -1,0 +1,7 @@
+<map id="Gradient" name="Gradient">
+<area shape="rect" id="Node000001" title="Abstract Gradient class for Linear and Radial Gradient to inherit." alt="" coords="76,5,192,288"/>
+<area shape="rect" id="Node000002" href="$class_linear_gradient.html" title=" " alt="" coords="5,336,121,619"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,303,96,337,91,335,98,302"/>
+<area shape="rect" id="Node000003" href="$class_radial_gradient.html" title=" " alt="" coords="146,336,264,619"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,302,177,335,172,337,165,303"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="Rectangle.h" name="Rectangle.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="139,5,230,32"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,80,98,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,35,89,75,87,70,160,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="122,80,248,107"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,33,188,64,182,64,182,33"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="272,80,404,107"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,30,299,70,296,75,210,35"/>
+</map>
