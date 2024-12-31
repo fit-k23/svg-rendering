@@ -15,7 +15,7 @@
 #include "api/parser/ParserHInit.h"
 
 #define APPLICATION_CLASS_NAME "SVGRendering"
-#define APPLICATION_TITLE_NAME "☰ SVG Renderer - GROUP 11 - Press \"H\" for help! ♥"
+#define APPLICATION_TITLE_NAME "SVG Renderer - GROUP 11 - Press \"H\" for help! - "
 #define BACKGROUND_COLOR RGB(255, 255, 255)
 // #define BACKGROUND_COLOR RGB(30, 31, 34)
 
@@ -45,7 +45,7 @@ bool handleArgs(int argc, char **argv) {
 }
 
 void updateCaption(HWND hwnd, const std::string &suffix = "") {
-	SetWindowText(hwnd, (string(APPLICATION_TITLE_NAME) + " File: " + FileManager::getCurrentFile() + " ♥ Viewport: {" + std::to_string(XMLParser::getInstance()->getViewPort().x) + ", " + std::to_string(XMLParser::getInstance()->getViewPort().y) + "} ♥ Zoom: " + std::to_string(Camera::zoom) + suffix).c_str());
+	SetWindowText(hwnd, (string(APPLICATION_TITLE_NAME) + " - File: " + FileManager::getCurrentFile() + " - Viewport: {" + std::to_string(XMLParser::getInstance()->getViewPort().x) + ", " + std::to_string(XMLParser::getInstance()->getViewPort().y) + "} - Zoom: " + std::to_string(Camera::zoom) + suffix).c_str());
 }
 
 int main(int argc, char **argv) {
